@@ -5,6 +5,7 @@ import io.github.nosequel.data.connection.mongo.MongoConnectionPool
 import io.github.nosequel.data.serializer.type.GsonSerialization
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 
 object Alchemist {
 
@@ -19,6 +20,8 @@ object Alchemist {
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
         RedisPacketManager.load(redisHost)
+
+        RankService.createDefaultRankIfDoesntExist()
 
     }
 }

@@ -1,13 +1,24 @@
 package ltd.matrixstudios.alchemist.redis
 
-import ltd.matrixstudios.alchemist.Alchemist
 import redis.clients.jedis.JedisPubSub
 
 
 class RedisPacketPubSub : JedisPubSub() {
 
     override fun onMessage(channel: String?, message: String?) {
-        val packet = RedisPacketManager.redisGson.fromJson(message!!, RedisPacket::class.java)
+        val packetClass: Class<*>
+
+        val packetMessageSplit = message!!.indexOf("|")
+        val packetClassStr = message.substring(0, packetMessageSplit)
+        val messageJson = message.substring(packetMessageSplit + "|".length)
+
+        packetClass = try {
+            Class.forName(packetClassStr)
+        } catch (ignored: ClassNotFoundException) {
+            return
+        }
+
+        val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
 
         packet.action()
         println("[Packet] Received packet " + packet.packetId)
