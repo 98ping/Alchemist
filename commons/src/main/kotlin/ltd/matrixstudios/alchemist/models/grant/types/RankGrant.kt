@@ -5,11 +5,9 @@ import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
-import ltd.matrixstudios.mongo.annotation.Collection
 import java.util.*
 
 
-@Collection("rankgrants")
 class RankGrant(
     rankId: String,
     addedTo: UUID,
@@ -26,7 +24,6 @@ class RankGrant(
         null,
         null
     ) {
-
 
     var rank: String = rankId
 

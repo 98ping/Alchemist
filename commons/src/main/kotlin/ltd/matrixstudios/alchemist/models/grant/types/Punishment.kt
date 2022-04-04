@@ -5,11 +5,9 @@ import ltd.matrixstudios.alchemist.models.grant.Grantable
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.Actor
-import ltd.matrixstudios.mongo.annotation.Collection
 import java.util.*
 
 
-@Collection("punishments")
 class Punishment(
     punishmentType: String,
     addedTo: UUID,
@@ -27,7 +25,6 @@ class Punishment(
         null,
         null
     ) {
-
 
     var punishmentType: String = punishmentType
     var actor: Actor = actor

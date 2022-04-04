@@ -1,9 +1,9 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
-import ltd.matrixstudios.mongo.annotation.Collection
+import java.util.*
 
-@Collection("ranks")
-data class Rank(
+
+class Rank(
     var id: String,
     var name: String,
     var displayName: String,
@@ -14,6 +14,7 @@ data class Rank(
 
     var prefix: String,
     var color: String,
-    var staff: Boolean
-
-)
+    var staff: Boolean = false,
+    var default: Boolean = false
+) {
+}

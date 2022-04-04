@@ -1,16 +1,22 @@
 package ltd.matrixstudios.alchemist
 
+import io.github.nosequel.data.DataHandler
+import io.github.nosequel.data.connection.mongo.MongoConnectionPool
+import io.github.nosequel.data.serializer.type.GsonSerialization
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-import ltd.matrixstudios.mongo.MongoDataFlow
-import ltd.matrixstudios.mongo.credientials.MongoPoolConnection
 
 object Alchemist {
 
-    lateinit var dataflow: MongoDataFlow
+    lateinit var MongoConnectionPool: MongoConnectionPool
 
-    fun start(poolConnection: MongoPoolConnection, redisHost: String) {
-        dataflow = MongoDataFlow().of().setPool(poolConnection).setDatabase("Alchemist")
+    lateinit var dataHandler: DataHandler
+
+    fun start(mongoConnectionPool: MongoConnectionPool, redisHost: String) {
+        this.MongoConnectionPool = mongoConnectionPool
+
+
+        this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
         RedisPacketManager.load(redisHost)
 

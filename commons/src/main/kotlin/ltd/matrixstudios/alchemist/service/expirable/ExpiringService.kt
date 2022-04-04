@@ -1,9 +1,8 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
-abstract class ExpiringService<T> {
+import java.util.*
 
-    abstract fun getValues() : List<T>
-    abstract fun save(element: T)
+abstract class ExpiringService<T> {
 
     abstract fun clearOutModels()
 

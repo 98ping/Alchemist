@@ -1,18 +1,30 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
+import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import java.util.*
 
 object RankGrantService : ExpiringService<RankGrant>() {
 
-    override fun getValues(): List<RankGrant> {
-        return Alchemist.dataflow.createQuery(RankGrant::class.java).toList()
+    var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(DataStoreType.MONGO)
+
+
+    fun getValues() : Collection<RankGrant> {
+        return handler.retrieveAll()
     }
 
-    override fun save(element: RankGrant) {
-        Alchemist.dataflow.save(element.uuid.toString(), element, RankGrant::class.java)
+    fun save(rankGrant: RankGrant) {
+        handler.store(rankGrant.uuid, rankGrant)
     }
+
+    fun findByTarget(target: UUID) : Collection<RankGrant> {
+        return getValues().filter { it.target == target }
+    }
+
 
     override fun clearOutModels() {
         getValues().forEach {
