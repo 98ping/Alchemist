@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist
 
+import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.mongo.credientials.MongoPoolConnection
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -27,6 +28,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         Alchemist.start(mongoPoolConnection)
+
+        server.pluginManager.registerEvents(ProfileJoinListener(), this)
 
 
 

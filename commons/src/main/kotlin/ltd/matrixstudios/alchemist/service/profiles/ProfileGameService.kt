@@ -15,7 +15,7 @@ object ProfileGameService {
         Alchemist.dataflow.save(element.uuid.toString(), element, GameProfile::class.java)
     }
 
-    fun byId(uuid: UUID): GameProfile {
-        return getValues().first { it.uuid == uuid }
+    fun byId(uuid: UUID): GameProfile? {
+        return getValues().firstOrNull { it.uuid == uuid }
     }
 }

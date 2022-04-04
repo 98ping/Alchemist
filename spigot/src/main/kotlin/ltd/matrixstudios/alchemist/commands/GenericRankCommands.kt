@@ -20,10 +20,55 @@ class GenericRankCommands {
             return
         }
 
-        val rank = Rank(name.lowercase(), name, name, 1, ArrayList(), ArrayList(), "", "&f")
+        val rank = Rank(name.lowercase(), name, name, 1, ArrayList(), ArrayList(), "", "&f", false)
 
         RankService.save(rank)
 
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
+    }
+
+    @Subcommand("module")
+    @CommandPermission("rank.admin")
+    fun module(sender: CommandSender, @Name("rank") name: String, @Name("module")module: String, @Name("argument")arg: String) {
+        if (RankService.byId(name) == null) {
+            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
+            return
+        }
+
+        val rank = RankService.byId(name)!!
+
+        when (module) {
+            "prefix" -> {
+                rank.prefix = arg
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the prefix of &7$name"))
+            }
+
+            "color" -> {
+                rank.color = arg
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the color of &7$name"))
+            }
+
+            "weight" -> {
+                rank.weight = arg.toInt()
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the weight of &7$name"))
+            }
+
+            "staff" -> {
+                rank.staff = arg.toBoolean()
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the staff status of &7$name"))
+            }
+        }
+
+
+
+
     }
 }

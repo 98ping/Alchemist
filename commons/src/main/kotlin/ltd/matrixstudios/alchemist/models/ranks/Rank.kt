@@ -14,5 +14,6 @@ data class Rank(
 
     var prefix: String,
     var color: String,
+    var staff: Boolean
 
 )

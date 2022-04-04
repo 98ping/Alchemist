@@ -13,5 +13,5 @@ abstract class Grantable<T>(
     var removedReason: String?
 ){
 
-    abstract fun getGrantable(): T
+    abstract fun getGrantable(): T?
 }
