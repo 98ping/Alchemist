@@ -6,4 +6,9 @@ enum class PunishmentType(
     var added: String,
     var removed: String,
 ) {
+
+    BLACKLIST("blacklist", "&4", "blacklisted", "unblacklisted"),
+    BAN("ban", "&c", "banned", "unbanned"),
+    MUTE("mute", "&6", "muted", "unmuted"),
+    WARN("warn", "&e", "warned", "unwarned")
 }

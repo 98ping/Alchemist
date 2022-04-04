@@ -15,6 +15,9 @@ allprojects {
 
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.enonic.com/public/' }
+        maven { url "https://oss.sonatype.org/content/groups/public/"}
+        maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+
     }
 }
 subprojects {
