@@ -14,6 +14,6 @@ object RankService {
     }
 
     fun byId(id: String) : Rank? {
-        return getValues().firstOrNull { it.id == id }
+        return getValues().firstOrNull { it.name.equals(id, ignoreCase = true) }
     }
 }

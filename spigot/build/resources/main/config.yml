@@ -5,3 +5,6 @@ mongo:
   username: ""
   password: ""
   authDB: ""
+
+redis:
+  host: "127.0.0.1"

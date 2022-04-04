@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist
 
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.commands.punishments.create.BanCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -36,9 +37,9 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
 
         val commandHandler = PaperCommandManager(this).apply {
-            registerCommand(GenericRankCommands())
-
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
+            registerCommand(GenericRankCommands())
+            registerCommand(BanCommand())
         }
 
 
