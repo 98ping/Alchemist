@@ -9,6 +9,6 @@ data class GameProfile(
     var uuid: UUID,
     var username: String,
     var metadata: JsonObject,
-    var usedIps: List<String>,
+    var usedIps: ArrayList<String>,
 ) {
 }

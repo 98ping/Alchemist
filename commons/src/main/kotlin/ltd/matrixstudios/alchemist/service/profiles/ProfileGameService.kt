@@ -18,4 +18,8 @@ object ProfileGameService {
     fun byId(uuid: UUID): GameProfile? {
         return getValues().firstOrNull { it.uuid == uuid }
     }
+
+    fun byName(name: String) : GameProfile? {
+        return getValues().firstOrNull { it.username == name }
+    }
 }

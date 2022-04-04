@@ -34,6 +34,9 @@ subprojects {
 
         implementation 'com.google.code.gson:gson:2.9.0'
         implementation 'org.mongodb:mongo-java-driver:3.12.10'
+        implementation 'redis.clients:jedis:4.2.1'
+
+
         implementation 'com.github.98ping:Dataflow:b97a02d911'
 
 

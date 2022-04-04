@@ -1,6 +1,10 @@
 package ltd.matrixstudios.alchemist
 
+import co.aikar.commands.PaperCommandManager
+import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.mongo.credientials.MongoPoolConnection
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -27,9 +31,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 config.getString("mongo.authDB"))
         }
 
-        Alchemist.start(mongoPoolConnection)
+        Alchemist.start(mongoPoolConnection, config.getString("redis.host"))
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
+
+        val commandHandler = PaperCommandManager(this).apply {
+            registerCommand(GenericRankCommands())
+
+            this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
+        }
 
 
 

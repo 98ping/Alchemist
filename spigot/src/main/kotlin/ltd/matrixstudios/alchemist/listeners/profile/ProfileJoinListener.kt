@@ -10,6 +10,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class ProfileJoinListener : Listener {
@@ -17,15 +18,14 @@ class ProfileJoinListener : Listener {
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
         if (ProfileGameService.byId(event.uniqueId) == null) {
-            val stopwatch = Stopwatch.createUnstarted()
-            stopwatch.start()
+            val stopwatch = Stopwatch.createStarted()
 
-            val profile = GameProfile(event.uniqueId, event.name, JsonObject(), Collections.singletonList(SHA.toHexString(event.address.hostAddress)!!))
-            ProfileGameService.save(profile)
+            ProfileGameService.save(GameProfile(event.uniqueId, event.name, JsonObject(), ArrayList()))
 
             stopwatch.stop()
 
             println("Profile creation for " + event.name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms")
+
         }
     }
 }

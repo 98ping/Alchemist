@@ -25,6 +25,7 @@ object PunishmentService : ExpiringService<Punishment>() {
         return getValues().filter { it.punishmentType == punishmentType.name }
     }
 
+
     override fun clearOutModels() {
         getValues().forEach {
             if (!it.expirable.isActive() && it.removedBy == null) {
