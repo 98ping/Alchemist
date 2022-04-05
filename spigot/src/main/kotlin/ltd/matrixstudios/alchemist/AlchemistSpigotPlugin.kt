@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.create.BanCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import me.ninetyeightping.pinglib.menus.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
 
 class AlchemistSpigotPlugin : JavaPlugin() {
@@ -44,6 +45,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
+        server.pluginManager.registerEvents(MenuListener(), this)
 
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
