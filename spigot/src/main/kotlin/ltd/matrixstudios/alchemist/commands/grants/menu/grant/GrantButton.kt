@@ -4,6 +4,9 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.punishments.actor.ActorType
+import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -13,7 +16,6 @@ import org.bukkit.Material
 import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import java.util.*
 
 
 class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
@@ -97,7 +99,7 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
                                 return END_OF_CONVERSATION
                             }
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration)
+                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration, DefaultActor(Executor.PLAYER, Bukkit.getServerName(), ActorType.GAME))
 
                                 RankGrantService.save(rankGrant)
                                 player.sendMessage(

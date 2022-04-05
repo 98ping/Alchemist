@@ -2,9 +2,8 @@ package ltd.matrixstudios.alchemist.models.grant.types
 
 import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
-import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
-import ltd.matrixstudios.alchemist.punishments.actor.Actor
+import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import java.util.*
 
 
@@ -14,7 +13,7 @@ class Punishment(
     addedBy: UUID,
     addedReason: String,
     duration: Long,
-    actor: Actor
+    actor: DefaultActor
 ) :
     Grantable<PunishmentType>(
         UUID.randomUUID(),
@@ -27,7 +26,7 @@ class Punishment(
     ) {
 
     var punishmentType: String = punishmentType
-    var actor: Actor = actor
+    var actor: DefaultActor = actor
 
     override fun getGrantable(): PunishmentType {
         return PunishmentType.valueOf(punishmentType)

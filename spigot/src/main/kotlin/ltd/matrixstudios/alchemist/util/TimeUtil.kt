@@ -30,6 +30,10 @@ object TimeUtil {
     }
 
     fun formatDuration(time: Long): String {
+        if (time == Long.MAX_VALUE) {
+            return "Forever"
+        }
+
         return DurationFormatUtils.formatDurationWords(time, true, true)
     }
 

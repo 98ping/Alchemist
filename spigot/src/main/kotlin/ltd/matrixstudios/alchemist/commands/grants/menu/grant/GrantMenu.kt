@@ -20,6 +20,6 @@ class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMen
     }
 
     override fun getTitle(player: Player): String {
-        return "Grants of " + gameProfile.username
+        return "Granting of " + gameProfile.username
     }
 }

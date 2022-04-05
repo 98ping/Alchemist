@@ -5,6 +5,7 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
+import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.BanCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
@@ -53,6 +54,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(GenericRankCommands())
             registerCommand(BanCommand())
             registerCommand(GrantCommand())
+            registerCommand(GrantsCommand())
         }
 
 
