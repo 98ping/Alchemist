@@ -67,6 +67,10 @@ abstract class PaginatedMenu(
                 return ChatColor.translateAlternateColorCodes('&', "&cCurrent Page: &f$page")
             }
 
+            override fun getData(player: Player): Short {
+                return 0
+            }
+
             override fun onClick(player: Player, slot: Int, type: ClickType) {
                 if (page == 1) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are already on the last page!"))
@@ -88,6 +92,10 @@ abstract class PaginatedMenu(
 
             override fun getDisplayName(player: Player): String? {
                 return ChatColor.translateAlternateColorCodes('&', "&cCurrent Page: &f$page")
+            }
+
+            override fun getData(player: Player): Short {
+                return 0
             }
 
             override fun onClick(player: Player, slot: Int, type: ClickType) {

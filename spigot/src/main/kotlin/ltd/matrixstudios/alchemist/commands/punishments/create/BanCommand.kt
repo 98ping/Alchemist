@@ -1,8 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.punishments.create
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.Name
+import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -19,7 +18,8 @@ import java.util.*
 class BanCommand : BaseCommand() {
 
     @CommandAlias("ban|b|banish")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Optional @Name("silent") silent: Boolean, @Name("reason") reason: String) {
+    @CommandPermission("alchemist.punishments.ban")
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,
             gameProfile.uuid,

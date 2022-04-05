@@ -9,12 +9,12 @@ public final class BanCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.ban")
     @co.aikar.commands.annotation.CommandAlias(value = "ban|b|banish")
     public final void ban(@org.jetbrains.annotations.NotNull()
     org.bukkit.command.CommandSender sender, @org.jetbrains.annotations.NotNull()
     @co.aikar.commands.annotation.Name(value = "target")
-    ltd.matrixstudios.alchemist.models.profile.GameProfile gameProfile, @co.aikar.commands.annotation.Name(value = "silent")
-    @co.aikar.commands.annotation.Optional()
+    ltd.matrixstudios.alchemist.models.profile.GameProfile gameProfile, @co.aikar.commands.annotation.Flags(value = "s")
     boolean silent, @org.jetbrains.annotations.NotNull()
     @co.aikar.commands.annotation.Name(value = "reason")
     java.lang.String reason) {
