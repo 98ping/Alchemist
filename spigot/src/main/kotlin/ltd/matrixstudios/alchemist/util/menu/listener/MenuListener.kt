@@ -1,6 +1,6 @@
-package me.ninetyeightping.pinglib.menus.listener
+package ltd.matrixstudios.alchemist.util.menu.listener
 
-import me.ninetyeightping.pinglib.menus.MenuController
+import ltd.matrixstudios.alchemist.util.menu.MenuController
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

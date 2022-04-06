@@ -1,4 +1,4 @@
-package me.ninetyeightping.pinglib.menus
+package ltd.matrixstudios.alchemist.util.menu
 
 import org.bukkit.Material
 import org.bukkit.entity.Player

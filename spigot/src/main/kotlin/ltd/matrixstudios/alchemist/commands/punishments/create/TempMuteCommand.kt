@@ -1,30 +1,30 @@
 package ltd.matrixstudios.alchemist.commands.punishments.create
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.*
-import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Flags
+import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
-import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import java.util.*
 
-class BanCommand : BaseCommand() {
+class TempMuteCommand : BaseCommand() {
 
-    @CommandAlias("ban|b|banish")
-    @CommandPermission("alchemist.punishments.ban")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("reason") reason: String) {
+    @CommandAlias("tempmute|tmute")
+    @CommandPermission("alchemist.punishments.tempmute")
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("duration")duration: String, @Name("reason") reason: String) {
         val punishment = Punishment(
-            PunishmentType.BAN.name,
+            PunishmentType.MUTE.name,
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, Long.MAX_VALUE,
+            reason, TimeUtil.parseTime(duration),
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),

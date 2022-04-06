@@ -10,7 +10,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
-import me.ninetyeightping.pinglib.menus.Button
+import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.conversations.*

@@ -1,6 +1,6 @@
-package me.ninetyeightping.pinglib.menus
+package ltd.matrixstudios.alchemist.util.menu
 
-import me.ninetyeightping.pinglib.menus.pagination.PaginatedMenu
+import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 import java.util.*
 

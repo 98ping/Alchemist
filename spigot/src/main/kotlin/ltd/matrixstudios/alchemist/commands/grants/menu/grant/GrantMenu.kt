@@ -2,8 +2,8 @@ package ltd.matrixstudios.alchemist.commands.grants.menu.grant
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.ranks.RankService
-import me.ninetyeightping.pinglib.menus.Button
-import me.ninetyeightping.pinglib.menus.pagination.PaginatedMenu
+import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 
 class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(27, player) {

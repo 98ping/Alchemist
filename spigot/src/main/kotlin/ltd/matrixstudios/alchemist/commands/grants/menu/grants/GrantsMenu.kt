@@ -1,12 +1,10 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grants
 
 import com.google.common.base.Stopwatch
-import ltd.matrixstudios.alchemist.commands.grants.menu.grant.GrantButton
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
-import ltd.matrixstudios.alchemist.service.ranks.RankService
-import me.ninetyeightping.pinglib.menus.Button
-import me.ninetyeightping.pinglib.menus.pagination.PaginatedMenu
+import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 

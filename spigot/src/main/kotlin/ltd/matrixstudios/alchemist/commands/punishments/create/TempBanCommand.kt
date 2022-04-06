@@ -10,21 +10,22 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class BanCommand : BaseCommand() {
+class TempBanCommand : BaseCommand() {
 
-    @CommandAlias("ban|b|banish")
-    @CommandPermission("alchemist.punishments.ban")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("reason") reason: String) {
+    @CommandAlias("tempban|tb")
+    @CommandPermission("alchemist.punishments.tempban")
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("duration")time: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, Long.MAX_VALUE,
+            reason, TimeUtil.parseTime(time),
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),

@@ -1,11 +1,10 @@
-package me.ninetyeightping.pinglib.menus.pagination
+package ltd.matrixstudios.alchemist.util.menu.pagination
 
-import me.ninetyeightping.pinglib.menus.Button
-import me.ninetyeightping.pinglib.menus.MenuController
+import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.MenuController
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
-import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
@@ -136,7 +135,7 @@ abstract class PaginatedMenu(
 
         player.openInventory(inventory)
         player.updateInventory()
-        MenuController.paginatedMenuMap.put(player.uniqueId, this)
+        MenuController.paginatedMenuMap[player.uniqueId] = this
     }
 
 }
