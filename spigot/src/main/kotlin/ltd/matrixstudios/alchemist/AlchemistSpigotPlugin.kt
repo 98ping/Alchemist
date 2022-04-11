@@ -33,13 +33,14 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         if (authEnabled) {
             val connectionPool = AuthenticatedMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
-                password = config.getString("mongo.pass")
+                password = config.getString("mongo.password")
                 username = config.getString("mongo.username")
                 port = config.getInt("mongo.port")
                 databaseName = "Alchemist"
+                authDb = "admin"
             }
 
-            Alchemist.start(connectionPool, "127.0.0.1")
+            Alchemist.start(connectionPool, "172.18.0.1")
         } else {
             val connectionPool = NoAuthMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
@@ -47,7 +48,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 databaseName = "Alchemist"
             }
 
-            Alchemist.start(connectionPool, "127.0.0.1")
+            Alchemist.start(connectionPool, "172.18.0.1")
         }
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)

@@ -37,7 +37,7 @@ subprojects {
         implementation 'redis.clients:jedis:4.2.1'
 
 
-        implementation 'com.github.devrawr:honey:9e2876f3ab'
+        implementation fileTree(include: ['*.jar'], dir: 'lib')
 
 
     }
