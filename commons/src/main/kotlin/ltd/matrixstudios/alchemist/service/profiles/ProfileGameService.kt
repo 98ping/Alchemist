@@ -12,11 +12,11 @@ object ProfileGameService {
 
 
     fun getValues(): Collection<GameProfile> {
-        return handler.retrieveAll()
+        return handler.retrieveAllAsync().get()
     }
 
     fun save(profile: GameProfile) {
-        handler.store(profile.uuid, profile)
+        handler.storeAsync(profile.uuid, profile)
     }
 
     fun byId(id: UUID): GameProfile? {
