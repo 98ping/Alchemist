@@ -8,7 +8,11 @@ import javafx.scene.shape.Shape3D
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
-import ltd.matrixstudios.alchemist.commands.punishments.create.BanCommand
+import ltd.matrixstudios.alchemist.commands.punishments.create.*
+import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
+import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
+import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
+import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -57,9 +61,21 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             registerCommand(GenericRankCommands())
-            registerCommand(BanCommand())
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
+
+            registerCommand(MuteCommand())
+            registerCommand(BanCommand())
+            registerCommand(BlacklistCommand())
+            registerCommand(TempBanCommand())
+            registerCommand(TempMuteCommand())
+            registerCommand(WarnCommand())
+
+            registerCommand(UnbanCommand())
+            registerCommand(UnmuteCommand())
+            registerCommand(UnblacklistCommand())
+
+            registerCommand(HistoryCommand())
         }
         
 

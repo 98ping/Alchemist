@@ -20,6 +20,10 @@ data class GameProfile(
         return PunishmentService.getValues().filter { it.target == uuid }
     }
 
+    fun getActivePunishments(type: PunishmentType) : Collection<Punishment> {
+        return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
+    }
+
 
     fun hasActivePunishment(type: PunishmentType) : Boolean {
         return getPunishments().find { it.getGrantable() == type } != null

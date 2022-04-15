@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.punishment
 
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.punishment.packets.PunishmentDispatchPacket
+import ltd.matrixstudios.alchemist.punishment.packets.PunishmentRemovePacket
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -21,6 +22,11 @@ object BukkitPunishmentFunctions {
         if (sender is Player) return Executor.PLAYER
 
         return Executor.CONSOLE
+    }
+
+    fun remove(punishment: Punishment, silent: Boolean) {
+        RedisPacketManager.send(PunishmentRemovePacket(punishment.getGrantable(), punishment.target, punishment.executor, silent))
+        PunishmentService.save(punishment)
     }
 
     fun dispatch(punishment: Punishment, silent: Boolean) {
