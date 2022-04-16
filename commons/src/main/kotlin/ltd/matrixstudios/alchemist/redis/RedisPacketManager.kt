@@ -23,7 +23,7 @@ object RedisPacketManager {
     }
 
     fun send(redisPacket: RedisPacket) {
-        ForkJoinPool.commonPool().execute {
+         thread {
             val dataToSend = "${redisPacket.javaClass.name}|${redisGson.toJson(redisPacket)}"
 
             pool.resource.publish("Alchemist||Packets", dataToSend)
