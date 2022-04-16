@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.listeners.profile
 import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import sun.java2d.cmm.Profile
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -19,6 +21,20 @@ import kotlin.collections.ArrayList
 
 
 class ProfileJoinListener : Listener {
+
+    @EventHandler
+    fun applyPerms(event: PlayerJoinEvent) {
+        val player = event.player
+
+        val profile = ProfileGameService.byId(player.uniqueId)
+
+        if (profile == null) {
+            player.kickPlayer(Chat.format("&cYour profile was not able to be loaded so permissions could not be applied"))
+            return
+        }
+
+        AccessiblePermissionHandler.update(player, profile.getPermissions())
+    }
 
 
     @EventHandler

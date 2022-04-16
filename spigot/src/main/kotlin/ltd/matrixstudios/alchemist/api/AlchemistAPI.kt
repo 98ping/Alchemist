@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.api
 
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import sun.java2d.cmm.Profile
 import java.util.*
 
 object AlchemistAPI {
@@ -11,18 +13,13 @@ object AlchemistAPI {
         return profile.getCurrentRank()!!.color + profile.username
     }
 
-    fun getWoolColor(str: String): Short {
-        if (str.contains("&1") || str.contains("&9")) return 11
-        if (str.contains("&2")) return 13
-        if (str.contains("&3")) return 9
+    fun quickFindProfile(uuid: UUID) : GameProfile? {
+        return ProfileGameService.byId(uuid)
+    }
+
+    fun getWoolColor(str: String): Short { //for punishments
         if (str.contains("&4") || str.contains("&c")) return 14
-        if (str.contains("&5")) return 10
         if (str.contains("&6")) return 1
-        if (str.contains("&7")) return 8
-        if (str.contains("&8")) return 7
-        if (str.contains("&a")) return 5
-        if (str.contains("&b")) return 3
-        if (str.contains("&d")) return 6
         return if (str.contains("&e")) 4 else 0
     }
 }

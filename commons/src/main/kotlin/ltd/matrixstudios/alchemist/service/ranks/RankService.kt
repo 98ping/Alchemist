@@ -11,7 +11,7 @@ object RankService  {
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
 
     fun createDefaultRankIfDoesntExist() {
-        if (byId("default") == null) {
+        if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
             save(Rank(
                 "default",
                 "Default",

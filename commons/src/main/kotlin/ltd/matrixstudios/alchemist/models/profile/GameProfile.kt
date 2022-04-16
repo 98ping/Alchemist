@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
+import kotlin.collections.HashMap
 
 data class GameProfile(
     var uuid: UUID,
@@ -16,28 +17,58 @@ data class GameProfile(
     var usedIps: ArrayList<String>,
 ) {
 
-    fun getPunishments() : Collection<Punishment> {
+    fun getPunishments(): Collection<Punishment> {
         return PunishmentService.getValues().filter { it.target == uuid }
     }
 
-    fun getActivePunishments(type: PunishmentType) : Collection<Punishment> {
+    fun getActivePunishments(type: PunishmentType): Collection<Punishment> {
         return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
     }
 
+    fun getPermissions(): HashMap<String?, Boolean?> {
+        val returnedPerms = hashMapOf<String?, Boolean?>()
+        val allPerms = arrayListOf<String>()
 
-    fun hasActivePunishment(type: PunishmentType) : Boolean {
-        return getPunishments().find { it.getGrantable() == type } != null
-    }
+        allPerms.addAll(getCurrentRank()!!.permissions)
 
-    fun getCurrentRank(): Rank? {
-        var currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
+        val parents = getCurrentRank()!!.parents.map {
+            RankService.byId(it)
+        }.filter {
+            Objects.nonNull(it)
+        }
 
-        RankGrantService.findByTarget(uuid).forEach { grant ->
-            if (grant.expirable.isActive() && grant.getGrantable()!!.weight > currentGrant!!.weight) {
-                currentGrant = grant.getGrantable()
+        parents.forEach { rank ->
+            rank!!.permissions.forEach {
+                if (!allPerms.contains(it))
+                {
+                    allPerms.add(it)
+                }
             }
         }
 
-        return currentGrant
+
+        allPerms.forEach {
+            returnedPerms[it] = true
+        }
+
+        return returnedPerms
     }
+
+
+
+fun hasActivePunishment(type: PunishmentType): Boolean {
+    return getPunishments().find { it.getGrantable() == type } != null
+}
+
+fun getCurrentRank(): Rank? {
+    var currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
+
+    RankGrantService.findByTarget(uuid).forEach { grant ->
+        if (grant.expirable.isActive() && grant.getGrantable()!!.weight > currentGrant!!.weight) {
+            currentGrant = grant.getGrantable()
+        }
+    }
+
+    return currentGrant
+}
 }
