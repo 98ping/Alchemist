@@ -19,7 +19,7 @@ class WarnCommand : BaseCommand() {
 
     @CommandAlias("warn|w")
     @CommandPermission("alchemist.punishments.warn")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("reason") reason: String) {
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.WARN.name,
             gameProfile.uuid,
@@ -33,7 +33,7 @@ class WarnCommand : BaseCommand() {
 
         )
 
-        BukkitPunishmentFunctions.dispatch(punishment, silent != null)
+        BukkitPunishmentFunctions.dispatch(punishment, true)
 
     }
 

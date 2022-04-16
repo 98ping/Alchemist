@@ -14,7 +14,7 @@ public final class UnbanCommand extends co.aikar.commands.BaseCommand {
     public final void ban(@org.jetbrains.annotations.NotNull()
     org.bukkit.command.CommandSender sender, @org.jetbrains.annotations.NotNull()
     @co.aikar.commands.annotation.Name(value = "target")
-    ltd.matrixstudios.alchemist.models.profile.GameProfile gameProfile, @co.aikar.commands.annotation.Name(value = "s")
+    ltd.matrixstudios.alchemist.models.profile.GameProfile gameProfile, @co.aikar.commands.annotation.Name(value = "-s")
     @co.aikar.commands.annotation.Optional()
     boolean silent, @org.jetbrains.annotations.NotNull()
     @co.aikar.commands.annotation.Name(value = "reason")

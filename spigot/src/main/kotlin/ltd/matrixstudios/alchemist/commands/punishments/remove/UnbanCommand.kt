@@ -16,7 +16,7 @@ class UnbanCommand  : BaseCommand() {
 
     @CommandAlias("unban|unb")
     @CommandPermission("alchemist.punishments.unban")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Optional @Name("s") silent: Boolean, @Name("reason") reason: String) {
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishments = gameProfile.getActivePunishments(PunishmentType.BAN)
 
         if (punishments.isEmpty()) {
@@ -31,7 +31,7 @@ class UnbanCommand  : BaseCommand() {
         punishment.removedBy = BukkitPunishmentFunctions.getSenderUUID(sender)
         punishment.removedReason = reason
 
-        BukkitPunishmentFunctions.remove(punishment, silent != null)
+        BukkitPunishmentFunctions.remove(punishment, true)
 
     }
 

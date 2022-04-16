@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.punishments.create
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Flags
-import co.aikar.commands.annotation.Name
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
@@ -19,7 +16,7 @@ class MuteCommand : BaseCommand() {
 
     @CommandAlias("mute|pmute")
     @CommandPermission("alchemist.punishments.mute")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Flags("s") silent: Boolean, @Name("reason") reason: String) {
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
             gameProfile.uuid,
@@ -33,7 +30,7 @@ class MuteCommand : BaseCommand() {
 
         )
 
-        BukkitPunishmentFunctions.dispatch(punishment, silent != null)
+        BukkitPunishmentFunctions.dispatch(punishment, true)
 
     }
 
