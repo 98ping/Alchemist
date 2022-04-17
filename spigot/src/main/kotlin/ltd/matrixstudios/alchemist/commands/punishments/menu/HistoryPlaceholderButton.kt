@@ -26,7 +26,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getData(player: Player): Short {
-        return AlchemistAPI.getWoolColor(punishmentType.color)
+        return AlchemistAPI.getWoolColor(punishmentType.color).woolData.toShort()
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {

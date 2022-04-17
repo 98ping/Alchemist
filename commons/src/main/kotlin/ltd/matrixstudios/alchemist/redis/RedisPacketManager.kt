@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPool
 import java.util.concurrent.ForkJoinPool
 import kotlin.concurrent.thread
 
-object RedisPacketManager {
+object  RedisPacketManager {
 
     lateinit var pool: JedisPool
 
@@ -22,11 +22,4 @@ object RedisPacketManager {
         }
     }
 
-    fun send(redisPacket: RedisPacket) {
-         thread {
-            val dataToSend = "${redisPacket.javaClass.name}|${redisGson.toJson(redisPacket)}"
-
-            pool.resource.publish("Alchemist||Packets", dataToSend)
-        }
-    }
 }

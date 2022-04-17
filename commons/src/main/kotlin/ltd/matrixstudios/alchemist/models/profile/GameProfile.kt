@@ -57,7 +57,7 @@ data class GameProfile(
 
 
 fun hasActivePunishment(type: PunishmentType): Boolean {
-    return getPunishments().find { it.getGrantable() == type } != null
+    return getPunishments().find { it.expirable.isActive() && it.getGrantable() == type } != null
 }
 
 fun getCurrentRank(): Rank? {

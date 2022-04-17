@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.redis
 
 import redis.clients.jedis.JedisPubSub
+import kotlin.concurrent.thread
 
 
 class RedisPacketPubSub : JedisPubSub() {
@@ -20,7 +21,9 @@ class RedisPacketPubSub : JedisPubSub() {
 
         val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
 
-        packet.action()
-        println("[Packet] Received packet " + packet.packetId)
+        thread {
+            packet.action()
+            println("[Packet] Received packet " + packet.packetId)
+        }
     }
 }

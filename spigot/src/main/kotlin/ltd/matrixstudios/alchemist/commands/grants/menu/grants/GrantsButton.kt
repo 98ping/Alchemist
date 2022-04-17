@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
+import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -41,7 +42,7 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
     }
 
     override fun getData(player: Player): Short {
-        return 0
+        return (if (rankGrant.expirable.isActive()) DyeColor.GREEN.woolData.toShort() else DyeColor.RED.woolData.toShort())
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {

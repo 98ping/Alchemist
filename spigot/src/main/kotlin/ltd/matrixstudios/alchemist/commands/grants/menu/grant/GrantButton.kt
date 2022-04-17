@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -44,7 +45,7 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
     }
 
     override fun getData(player: Player): Short {
-        return 0
+        return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
