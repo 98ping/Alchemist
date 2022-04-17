@@ -18,6 +18,7 @@ import sun.java2d.cmm.Profile
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 
 class ProfileJoinListener : Listener {
@@ -33,7 +34,9 @@ class ProfileJoinListener : Listener {
             return
         }
 
-        AccessiblePermissionHandler.update(player, profile.getPermissions())
+        thread {
+            AccessiblePermissionHandler.update(player, profile.getPermissions())
+        }
     }
 
 

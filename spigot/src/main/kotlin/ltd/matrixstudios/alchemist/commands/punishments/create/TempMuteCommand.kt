@@ -21,7 +21,7 @@ class TempMuteCommand : BaseCommand() {
             PunishmentType.MUTE.name,
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, TimeUtil.parseTime(duration),
+            reason, TimeUtil.parseTime(duration).toLong() * 1000L,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),

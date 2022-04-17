@@ -4,6 +4,7 @@ import org.apache.commons.lang.time.DurationFormatUtils
 import java.sql.Timestamp
 import java.text.DecimalFormat
 import java.util.*
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
@@ -118,55 +119,33 @@ object TimeUtil {
         return `in`
     }
 
-    fun parseTime(time: String): Long {
-        var totalTime = 0L
-        var found = false
-        val matcher = Pattern.compile("\\d+\\D+").matcher(time)
-        while (matcher.find()) {
-            val s = matcher.group()
-            val value = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)").toTypedArray()[0].toLong()
-            var s2: String
-            s2 = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)").toTypedArray()[1]
-            val type = s2
-            when (s2) {
-                "s" -> {
-                    totalTime += value
-                    found = true
-                    continue
+    fun parseTime(time: String): Int {
+        if (time == "0" || time == "") {
+            return 0
+        }
+
+        if (time == "perm") {
+            return Long.MAX_VALUE.toInt()
+        }
+
+        val lifeMatch = arrayOf("y", "w", "d", "h", "m", "s")
+        val lifeInterval = intArrayOf(31_536_000, 604800, 86400, 3600, 60, 1)
+
+        var seconds = -1
+        for (i in lifeMatch.indices) {
+            val matcher = Pattern.compile("([0-9]+)" + lifeMatch[i]).matcher(time)
+            while (matcher.find()) {
+                if (seconds == -1) {
+                    seconds = 0
                 }
-                "m" -> {
-                    totalTime += value * 60L
-                    found = true
-                    continue
-                }
-                "h" -> {
-                    totalTime += value * 60L * 60L
-                    found = true
-                    continue
-                }
-                "d" -> {
-                    totalTime += value * 60L * 60L * 24L
-                    found = true
-                    continue
-                }
-                "w" -> {
-                    totalTime += value * 60L * 60L * 24L * 7L
-                    found = true
-                    continue
-                }
-                "M" -> {
-                    totalTime += value * 60L * 60L * 24L * 30L
-                    found = true
-                    continue
-                }
-                "y" -> {
-                    totalTime += value * 60L * 60L * 24L * 365L
-                    found = true
-                    continue
-                }
+                seconds += Integer.parseInt(matcher.group(1)) * lifeInterval[i]
             }
         }
-        if (time.equals("perm", ignoreCase = true)) return Long.MAX_VALUE
-        return if (found) totalTime * 1000L else -1L
+
+        if (seconds == -1) {
+            throw IllegalArgumentException("Invalid time provided.")
+        }
+
+        return seconds
     }
 }

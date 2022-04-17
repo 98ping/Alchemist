@@ -25,7 +25,7 @@ class TempBanCommand : BaseCommand() {
             PunishmentType.BAN.name,
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, TimeUtil.parseTime(time),
+            reason, TimeUtil.parseTime(time) * 1000L,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),

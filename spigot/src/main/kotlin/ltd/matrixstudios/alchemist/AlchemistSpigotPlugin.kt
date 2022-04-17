@@ -15,6 +15,7 @@ import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -66,6 +67,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(MenuListener(), this)
 
         AccessiblePermissionHandler.load()
+
+        ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
 
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())

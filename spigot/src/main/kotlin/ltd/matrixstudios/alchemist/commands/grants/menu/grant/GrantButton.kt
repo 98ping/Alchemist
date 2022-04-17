@@ -94,13 +94,13 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
                             context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                             END_OF_CONVERSATION
                         } else {
-                            val duration: Long = TimeUtil.parseTime(input)
+                            val duration = TimeUtil.parseTime(input)
                             if (duration <= 0L) {
                                 player.sendMessage(Chat.format("&cInvalid time, grant process aborted."))
                                 return END_OF_CONVERSATION
                             }
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration, DefaultActor(Executor.PLAYER, Bukkit.getServerName(), ActorType.GAME))
+                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration * 1000L, DefaultActor(Executor.PLAYER, Bukkit.getServerName(), ActorType.GAME))
 
                                 RankGrantService.save(rankGrant)
                                 player.sendMessage(

@@ -8,7 +8,7 @@ class Expirable(
     var removedAt: Long
 ) {
     fun isActive() : Boolean {
-        if (duration != -1L && this.duration - System.currentTimeMillis() <= 0) {
+        if (duration != -1L && (this.addedAt + this.duration) - System.currentTimeMillis() <= 0) {
             expired = true
             removedAt = System.currentTimeMillis()
         }
