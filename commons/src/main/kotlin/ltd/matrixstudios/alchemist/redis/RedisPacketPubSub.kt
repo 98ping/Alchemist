@@ -21,9 +21,7 @@ class RedisPacketPubSub : JedisPubSub() {
 
         val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
 
-        thread {
-            packet.action()
-            println("[Packet] Received packet " + packet.packetId)
-        }
+        packet.action()
+        println("[Packet] Received packet " + packet.packetId)
     }
 }
