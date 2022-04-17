@@ -14,8 +14,8 @@ object  RedisPacketManager {
 
     var redisGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
 
-    fun load(host: String) {
-        pool = JedisPool(host, 6379)
+    fun load(host: String, port: Int, password: String?, username: String?) {
+        pool = JedisPool(host, port, username, password)
 
         thread {
             pool.resource.subscribe(RedisPacketPubSub(), "Alchemist||Packets")

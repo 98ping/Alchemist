@@ -1,10 +1,8 @@
 package ltd.matrixstudios.alchemist
 
 import co.aikar.commands.PaperCommandManager
-import com.sun.javafx.geom.transform.BaseTransform
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
-import javafx.scene.shape.Shape3D
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
@@ -19,8 +17,6 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
-import java.awt.Shape
-import java.util.*
 
 class AlchemistSpigotPlugin : JavaPlugin() {
 
@@ -45,7 +41,12 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 authDb = "admin"
             }
 
-            Alchemist.start(connectionPool, "172.18.0.1")
+            Alchemist.start(connectionPool,
+                config.getString("redis.host"),
+                config.getInt("redis.port"),
+                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
+                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+            )
         } else {
             val connectionPool = NoAuthMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
@@ -53,7 +54,12 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 databaseName = "Alchemist"
             }
 
-            Alchemist.start(connectionPool, "172.18.0.1")
+            Alchemist.start(connectionPool,
+                config.getString("redis.host"),
+                config.getInt("redis.port"),
+                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
+                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+            )
         }
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
