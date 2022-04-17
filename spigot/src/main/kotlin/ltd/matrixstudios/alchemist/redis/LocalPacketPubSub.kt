@@ -1,10 +1,12 @@
 package ltd.matrixstudios.alchemist.redis
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import org.bukkit.scheduler.BukkitRunnable
 import redis.clients.jedis.JedisPubSub
 import kotlin.concurrent.thread
 
 
-class RedisPacketPubSub : JedisPubSub() {
+class LocalPacketPubSub : JedisPubSub() {
 
     override fun onMessage(channel: String?, message: String?) {
         val packetClass: Class<*>
@@ -21,7 +23,11 @@ class RedisPacketPubSub : JedisPubSub() {
 
         val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
 
-        packet.action()
-        println("[Packet] Received packet " + packet.packetId)
+        object : BukkitRunnable() {
+            override fun run() {
+                packet.action()
+                println("[Packet] Received packet " + packet.packetId)
+            }
+        }.runTask(AlchemistSpigotPlugin.instance)
     }
 }

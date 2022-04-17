@@ -16,10 +16,6 @@ object  RedisPacketManager {
 
     fun load(host: String, port: Int, password: String?, username: String?) {
         pool = JedisPool(host, port, username, password)
-
-        thread {
-            pool.resource.subscribe(RedisPacketPubSub(), "Alchemist||Packets")
-        }
     }
 
 }

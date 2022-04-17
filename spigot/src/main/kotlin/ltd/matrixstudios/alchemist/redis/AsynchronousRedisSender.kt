@@ -8,9 +8,13 @@ import kotlin.concurrent.thread
 object AsynchronousRedisSender {
 
     fun send(redisPacket: RedisPacket) {
-        val dataToSend = "${redisPacket.javaClass.name}|${RedisPacketManager.redisGson.toJson(redisPacket)}"
+        object : BukkitRunnable() {
+            override fun run() {
+                val dataToSend = "${redisPacket.javaClass.name}|${RedisPacketManager.redisGson.toJson(redisPacket)}"
 
-        RedisPacketManager.pool.resource.publish("Alchemist||Packets", dataToSend)
+                RedisPacketManager.pool.resource.publish("Alchemist||Packets", dataToSend)
+            }
+        }.runTaskAsynchronously(AlchemistSpigotPlugin.instance)
     }
 
 }

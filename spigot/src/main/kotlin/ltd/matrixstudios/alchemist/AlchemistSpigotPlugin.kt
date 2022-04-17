@@ -15,9 +15,12 @@ import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
+import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
+import kotlin.concurrent.thread
 
 class AlchemistSpigotPlugin : JavaPlugin() {
 
@@ -61,6 +64,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
                 (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
             )
+        }
+
+        thread {
+            RedisPacketManager.pool.resource.subscribe(LocalPacketPubSub(), "Alchemist||Packets")
         }
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
