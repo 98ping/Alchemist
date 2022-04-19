@@ -16,7 +16,7 @@ class ListCommand : BaseCommand() {
         sender.sendMessage(Chat.format(" "))
         sender.sendMessage(Chat.format("&e&lCurrently Online: &f" + Bukkit.getOnlinePlayers().size))
         sender.sendMessage(Chat.format("&e&lRanks: " + RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
-        sender.sendMessage(Chat.format(AlchemistAPI.supplyColoredNames().get()))
+        sender.sendMessage(Chat.format("&e&lPlayers: " + AlchemistAPI.supplyColoredNames().get()))
         sender.sendMessage(Chat.format(" "))
     }
 }
