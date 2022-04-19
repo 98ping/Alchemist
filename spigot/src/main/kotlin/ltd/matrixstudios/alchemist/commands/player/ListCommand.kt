@@ -7,16 +7,22 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import java.util.*
+import java.util.concurrent.ForkJoinPool
 
 class ListCommand : BaseCommand() {
 
 
     @CommandAlias("list|players|online")
     fun list(sender: CommandSender) {
-        sender.sendMessage(Chat.format(" "))
-        sender.sendMessage(Chat.format("&e&lCurrently Online: &f" + Bukkit.getOnlinePlayers().size))
-        sender.sendMessage(Chat.format("&e&lRanks: " + RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
-        sender.sendMessage(Chat.format("&e&lPlayers: " + AlchemistAPI.supplyColoredNames().get()))
-        sender.sendMessage(Chat.format(" "))
+        ForkJoinPool.commonPool().execute {
+            sender.sendMessage(Chat.format(" "))
+            sender.sendMessage(Chat.format("&e&lCurrently Online: &f" + Bukkit.getOnlinePlayers().size))
+            sender.sendMessage(Chat.format("&e&lRanks: " + RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
+
+            val names = AlchemistAPI.supplyColoredNames().get()
+            sender.sendMessage(Chat.format("&e&lPlayers: $names"))
+            sender.sendMessage(Chat.format(" "))
+        }
     }
 }

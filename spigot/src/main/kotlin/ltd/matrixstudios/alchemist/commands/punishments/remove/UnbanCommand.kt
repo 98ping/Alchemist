@@ -31,7 +31,7 @@ class UnbanCommand  : BaseCommand() {
         punishment.removedBy = BukkitPunishmentFunctions.getSenderUUID(sender)
         punishment.removedReason = reason
 
-        BukkitPunishmentFunctions.remove(punishment, true)
+        BukkitPunishmentFunctions.remove(BukkitPunishmentFunctions.getSenderUUID(sender), punishment, true)
 
     }
 

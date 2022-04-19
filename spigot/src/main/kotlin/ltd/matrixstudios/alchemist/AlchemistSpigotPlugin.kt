@@ -4,6 +4,7 @@ import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
@@ -100,6 +101,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(HistoryCommand())
 
             registerCommand(ListCommand())
+            registerCommand(FriendCommands())
         }
         
 

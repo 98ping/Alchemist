@@ -52,7 +52,7 @@ class ProfileJoinListener : Listener {
         if (ProfileGameService.byId(event.uniqueId) == null) {
             val stopwatch = Stopwatch.createStarted()
 
-            ProfileGameService.save(GameProfile(event.uniqueId, event.name, JsonObject(), ArrayList()))
+            ProfileGameService.save(GameProfile(event.uniqueId, event.name, JsonObject(), ArrayList(), ArrayList(), ArrayList()))
 
             stopwatch.stop()
 

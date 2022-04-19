@@ -6,7 +6,7 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 
-class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(27, player) {
+class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player) {
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()

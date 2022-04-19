@@ -7,7 +7,7 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 
-class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: PunishmentType, var player: Player): PaginatedMenu(27, player) {
+class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: PunishmentType, var player: Player): PaginatedMenu(18, player) {
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
