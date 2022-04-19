@@ -27,7 +27,6 @@ class GeneralPunishmentButton(var punishment: Punishment) : Button() {
         desc.add(Chat.format("&7* &eDuration: &c" + TimeUtil.formatDuration(punishment.expirable.duration)))
         desc.add(" ")
         desc.add(Chat.format("&eActor:"))
-        desc.add(Chat.format("&7* &eExecuted On: &c" + punishment.actor.name))
         desc.add(Chat.format("&7* &eType: &c" + punishment.actor.actorType.name))
         desc.add(Chat.format("&7* &eExecuted From: &c" + punishment.actor.executor.name))
         desc.add(Chat.format("&7&m--------------------"))

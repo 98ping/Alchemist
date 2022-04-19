@@ -28,7 +28,6 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
         desc.add(Chat.format("&7* &eDuration: &c${TimeUtil.formatDuration(rankGrant.expirable.duration)}"))
         desc.add(" ")
         desc.add(Chat.format("&eActor:"))
-        desc.add(Chat.format("&7* &eExecuted On: &c" + rankGrant.internalActor.name))
         desc.add(Chat.format("&7* &eType: &c" + rankGrant.internalActor.actorType.name))
         desc.add(Chat.format("&7* &eExecuted From: &c" + rankGrant.internalActor.executor.name))
         desc.add(Chat.format("&7&m--------------------"))

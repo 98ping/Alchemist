@@ -100,7 +100,7 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
                                 return END_OF_CONVERSATION
                             }
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration * 1000L, DefaultActor(Executor.PLAYER, Bukkit.getServerName(), ActorType.GAME))
+                                val rankGrant = RankGrant(rank.id, gameProfile.uuid, player.uniqueId, reason, duration * 1000L, DefaultActor(Executor.PLAYER, ActorType.GAME))
 
                                 RankGrantService.save(rankGrant)
                                 player.sendMessage(

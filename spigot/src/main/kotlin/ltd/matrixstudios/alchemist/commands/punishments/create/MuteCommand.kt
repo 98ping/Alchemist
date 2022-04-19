@@ -25,7 +25,6 @@ class MuteCommand : BaseCommand() {
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                Bukkit.getServerName(),
                 ActorType.GAME)
 
         )
