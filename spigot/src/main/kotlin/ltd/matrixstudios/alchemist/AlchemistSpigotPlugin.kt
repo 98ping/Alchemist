@@ -6,6 +6,7 @@ import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.player.ListCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
@@ -95,6 +96,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(UnblacklistCommand())
 
             registerCommand(HistoryCommand())
+
+            registerCommand(ListCommand())
         }
         
 
