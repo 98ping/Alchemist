@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-@CommandAlias("friends|friend|f")
+@CommandAlias("friend|f")
 class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
