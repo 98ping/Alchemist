@@ -68,7 +68,9 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         thread {
-            RedisPacketManager.pool.resource.subscribe(LocalPacketPubSub(), "Alchemist||Packets")
+            RedisPacketManager.pool.resource.use {
+                it.subscribe(LocalPacketPubSub(), "Alchemist||Packets||")
+            }
         }
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)

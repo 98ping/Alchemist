@@ -1,33 +1,23 @@
 package ltd.matrixstudios.alchemist.redis
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.Bukkit
 import redis.clients.jedis.JedisPubSub
-import kotlin.concurrent.thread
 
 
 class LocalPacketPubSub : JedisPubSub() {
 
-    override fun onMessage(channel: String?, message: String?) {
+    override fun onMessage(channel: String?, message: String) {
         val packetClass: Class<*>
-
-        val packetMessageSplit = message!!.indexOf("|")
+        val packetMessageSplit = message.indexOf("|")
         val packetClassStr = message.substring(0, packetMessageSplit)
         val messageJson = message.substring(packetMessageSplit + "|".length)
-
         packetClass = try {
             Class.forName(packetClassStr)
         } catch (ignored: ClassNotFoundException) {
             return
         }
-
         val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
-
-        object : BukkitRunnable() {
-            override fun run() {
-                packet.action()
-                println("[Packet] Received packet " + packet.packetId)
-            }
-        }.runTask(AlchemistSpigotPlugin.instance)
+        Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance, packet::action)
     }
 }
