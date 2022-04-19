@@ -44,7 +44,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 username = config.getString("mongo.username")
                 port = config.getInt("mongo.port")
                 databaseName = config.getString("mongo.database")
-                authDb = "admin"
+                authDb = config.getString("mongo.authDB")
             }
 
             Alchemist.start(connectionPool,
