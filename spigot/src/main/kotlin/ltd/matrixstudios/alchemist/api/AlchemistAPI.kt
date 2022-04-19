@@ -24,10 +24,10 @@ object AlchemistAPI {
 
     fun supplyColoredNames() : CompletableFuture<String> {
         return CompletableFuture.supplyAsync {
-            Bukkit.getOnlinePlayers().stream()
-                .sorted {
-                        o1, o2 -> quickFindProfile(o1.uniqueId)?.getCurrentRank()!!.weight - quickFindProfile(o2.uniqueId)?.getCurrentRank()!!.weight
-                }.collect(Collectors.toList()).reversed()
+            Bukkit.getOnlinePlayers()
+                .sortedBy {
+                        quickFindProfile(it.uniqueId)?.getCurrentRank()!!.weight
+                }.reversed()
                 .joinToString(", ") {
                     getRankDisplay(it.uniqueId)
                 }
