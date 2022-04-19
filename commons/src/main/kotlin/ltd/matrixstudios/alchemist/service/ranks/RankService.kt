@@ -4,6 +4,7 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import java.util.*
+import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 object RankService  {
@@ -33,6 +34,10 @@ object RankService  {
 
     fun save(rank: Rank) {
         handler.store(rank.id, rank)
+    }
+
+    fun getRanksInOrder() : Collection<Rank> {
+        return getValues().stream().sorted { o1, o2 ->  o2.weight - o1.weight }.collect(Collectors.toList())
     }
 
     fun findFirstAvailableDefaultRank() : Rank? {

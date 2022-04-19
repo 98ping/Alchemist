@@ -4,6 +4,9 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.DyeColor
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executors
+import java.util.stream.Collectors
 
 
 object AlchemistAPI {
@@ -16,6 +19,18 @@ object AlchemistAPI {
 
     fun quickFindProfile(uuid: UUID) : GameProfile? {
         return ProfileGameService.byId(uuid)
+    }
+
+    fun supplyColoredNames() : CompletableFuture<String> {
+        return CompletableFuture.supplyAsync {
+            ProfileGameService.getValues()
+                .stream().sorted {
+                        o1, o2 -> o2.getCurrentRank()!!.weight - o1.getCurrentRank()!!.weight
+                }.collect(Collectors.toList())
+                .joinToString(", ") {
+                    getRankDisplay(it.uuid)
+                }
+        }
     }
 
     fun getWoolColor(color: String): DyeColor {

@@ -4,6 +4,7 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 object ProfileGameService {
 
@@ -18,6 +19,7 @@ object ProfileGameService {
     fun save(profile: GameProfile) {
         handler.storeAsync(profile.uuid, profile)
     }
+
 
     fun byId(id: UUID): GameProfile? {
         return getValues().firstOrNull { it.uuid == id }

@@ -34,6 +34,7 @@ object BukkitPunishmentFunctions {
     fun dispatch(punishment: Punishment, silent: Boolean) {
         AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent))
         AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
+
         PunishmentService.save(punishment)
     }
 }
