@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.api
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import org.bukkit.Bukkit
 import org.bukkit.DyeColor
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -23,12 +24,12 @@ object AlchemistAPI {
 
     fun supplyColoredNames() : CompletableFuture<String> {
         return CompletableFuture.supplyAsync {
-            ProfileGameService.getValues()
+            Bukkit.getOnlinePlayers()
                 .stream().sorted {
-                        o1, o2 -> o2.getCurrentRank()!!.weight - o1.getCurrentRank()!!.weight
+                        o1, o2 -> quickFindProfile(o1.uniqueId)!!.getCurrentRank()!!.weight - quickFindProfile(o2.uniqueId)!!.getCurrentRank()!!.weight
                 }.collect(Collectors.toList())
                 .joinToString(", ") {
-                    getRankDisplay(it.uuid)
+                    getRankDisplay(it.uniqueId)
                 }
         }
     }
