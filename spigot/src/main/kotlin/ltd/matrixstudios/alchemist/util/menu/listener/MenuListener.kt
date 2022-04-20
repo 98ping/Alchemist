@@ -20,9 +20,9 @@ class MenuListener : Listener {
             event.isCancelled = true
             if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
             {
-                if (menu.getButtonsInRange()[slot] != null)
+                if (menu.getButtonsInRange().get()[slot] != null)
                 {
-                    menu.getButtonsInRange()[slot]!!.onClick(event.whoClicked as Player, slot, click)
+                    menu.getButtonsInRange().get()[slot]!!.onClick(event.whoClicked as Player, slot, click)
                 }
 
                 if (menu.getPageNavigationButtons()[slot] != null)

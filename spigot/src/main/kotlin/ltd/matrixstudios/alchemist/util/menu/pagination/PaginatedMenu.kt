@@ -8,6 +8,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 abstract class PaginatedMenu(
     private val size: Int,
@@ -19,34 +20,35 @@ abstract class PaginatedMenu(
     abstract fun getPagesButtons(player: Player): MutableMap<Int, Button>
     abstract fun getTitle(player: Player): String
 
-    fun getButtonsInRange() : MutableMap<Int, Button> {
-        val buttons = hashMapOf<Int, Button>()
-        
-        val buttonSlots = getAllPagesButtonSlots()
-        if (buttonSlots.isEmpty()) {
-            val minIndex = ((page - 1) * 18)
-            val maxIndex = (page * 18)
+    fun getButtonsInRange() : CompletableFuture<MutableMap<Int, Button>> {
+        return CompletableFuture.supplyAsync {
+            val buttons = hashMapOf<Int, Button>()
 
-            for (entry in getPagesButtons(player).entries) {
-                var ind = entry.key
-                if (ind in minIndex until maxIndex) {
-                    ind -= (18 * (page - 1)) - 9
-                    buttons[0 + ind] = entry.value
+            val buttonSlots = getAllPagesButtonSlots()
+            if (buttonSlots.isEmpty()) {
+                val minIndex = ((page - 1) * 18)
+                val maxIndex = (page * 18)
+
+                for (entry in getPagesButtons(player).entries) {
+                    var ind = entry.key
+                    if (ind in minIndex until maxIndex) {
+                        ind -= (18 * (page - 1)) - 9
+                        buttons[0 + ind] = entry.value
+                    }
+                }
+            } else {
+                val maxPerPage = buttonSlots.size
+                val minIndex = (page - 1) * maxPerPage
+                val maxIndex = page * maxPerPage
+
+                for ((index, entry) in getPagesButtons(player).entries.withIndex()) {
+                    if (index in minIndex until Math.min(maxIndex, buttonSlots.size)) {
+                        buttons[buttonSlots[index]] = entry.value
+                    }
                 }
             }
-        } else {
-            val maxPerPage = buttonSlots.size
-            val minIndex = (page - 1) * maxPerPage
-            val maxIndex = page * maxPerPage
-
-            for ((index, entry) in getPagesButtons(player).entries.withIndex()) {
-                if (index in minIndex until Math.min(maxIndex, buttonSlots.size)) {
-                    buttons[buttonSlots[index]] = entry.value
-                }
-            }
+            return@supplyAsync buttons
         }
-
-        return buttons
 
     }
 
@@ -129,7 +131,7 @@ abstract class PaginatedMenu(
             inventory.setItem(entry.key, entry.value.constructItemStack(player))
         }
 
-        for (entry in getButtonsInRange()) {
+        for (entry in getButtonsInRange().get()) {
             inventory.setItem(entry.key, entry.value.constructItemStack(player))
         }
 

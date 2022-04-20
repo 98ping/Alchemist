@@ -13,11 +13,11 @@ object PunishmentService : ExpiringService<Punishment>() {
 
 
     fun getValues() : Collection<Punishment> {
-        return handler.retrieveAll()
+        return handler.retrieveAllAsync().get()
     }
 
     fun save(punishment: Punishment) {
-        handler.store(punishment.uuid, punishment)
+        handler.storeAsync(punishment.uuid, punishment)
     }
 
     fun sortByActorType(actorType: ActorType) : List<Punishment> {

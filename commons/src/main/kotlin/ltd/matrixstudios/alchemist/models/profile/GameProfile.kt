@@ -27,6 +27,10 @@ data class GameProfile(
         return PunishmentService.getValues().filter { it.target == uuid }
     }
 
+    fun isOnline() : Boolean {
+        return metadata.get("server").asString != "None"
+    }
+
     fun supplyFriendsAsProfiles() : CompletableFuture<List<GameProfile?>> {
         return CompletableFuture.supplyAsync {
             friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }

@@ -28,6 +28,18 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
     }
 
+    @Subcommand("delete")
+    @CommandPermission("rank.admin")
+    fun delete(sender: CommandSender, @Name("rank") name: String) {
+        if (RankService.byId(name) == null) {
+            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
+            return
+        }
+
+        RankService.handler.delete(name)
+        sender.sendMessage(Chat.format("&cDeleted the rank &f$name"))
+    }
+
     @Subcommand("module")
     @CommandPermission("rank.admin")
     fun module(sender: CommandSender, @Name("rank") name: String, @Name("module")module: String, @Name("argument")arg: String) {
