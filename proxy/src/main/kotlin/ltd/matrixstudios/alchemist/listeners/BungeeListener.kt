@@ -26,7 +26,7 @@ class BungeeListener : Listener {
         val playerRank = ProfileGameService.byId(player)?.getCurrentRank()!!
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff && event.from != null) {
-                StaffMessagePacket("&9[Staff] &r" + playerRank.color + event.player.name + " &bswitched servers to " + event.player.server.info.name + " &7[From " + event.from.name + "&7]").action()
+                StaffMessagePacket("&b[S] &r" + playerRank.color + event.player.name + " &3joined &b" + event.player.server.info.name + " &3from &b" + event.from.name).action()
             }
         }, 1100L, TimeUnit.MILLISECONDS)
     }
@@ -38,7 +38,7 @@ class BungeeListener : Listener {
         val playerRank = ProfileGameService.byId(player)?.getCurrentRank()!!
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff) {
-                StaffMessagePacket("&9[Staff] &r" + playerRank.color + event.connection.name + " &bjoined the network").action()
+                StaffMessagePacket("&b[S] &r" + playerRank.color + event.connection.name + " &3connected to the network").action()
             }
         }, 1100L, TimeUnit.MILLISECONDS)
     }
