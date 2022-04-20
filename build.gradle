@@ -17,6 +17,9 @@ allprojects {
         maven { url 'https://repo.enonic.com/public/' }
         maven { url "https://oss.sonatype.org/content/groups/public/"}
         maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+        maven {
+            url 'https://papermc.io/repo/repository/maven-public/'
+        }
 
     }
 }

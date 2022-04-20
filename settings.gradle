@@ -1,4 +1,5 @@
 rootProject.name = 'Alchemist'
 include 'commons'
 include 'spigot'
+include 'proxy'
 
