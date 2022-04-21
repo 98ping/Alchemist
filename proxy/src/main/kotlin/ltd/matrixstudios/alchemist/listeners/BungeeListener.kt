@@ -35,7 +35,8 @@ class BungeeListener : Listener {
     fun login(event: LoginEvent) {
         val player = event.connection.uniqueId
 
-        val playerRank = ProfileGameService.byId(player)?.getCurrentRank()!!
+        val playerRank = ProfileGameService.byId(player)?.getCurrentRank() ?: return
+
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + event.connection.name + " &3connected to the network").action()
