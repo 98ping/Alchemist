@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.lockdown.LockdownManager
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.redis.BungeeRedisSender
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.event.LoginEvent
 import net.md_5.bungee.api.event.ServerConnectEvent
@@ -52,7 +53,7 @@ class BungeeListener : Listener {
                 if (LockdownManager.hasClearance(event.player)) {
                     StaffMessagePacket("&b✓ &a" + event.player.name + " has clearance for " + event.player.server.info.name).action()
                 } else {
-                    event.player.disconnect(TextComponent(Chat.format("&cServer is on lockdown and you do not have clearance!")))
+                    event.player.disconnect(TextComponent(ChatColor.translateAlternateColorCodes('&',"&cServer is on lockdown and you do not have clearance!")))
                 }
             }
         }, 1100L, TimeUnit.MILLISECONDS)
