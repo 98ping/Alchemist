@@ -61,5 +61,6 @@ class FriendCommands : BaseCommand() {
         player.sendMessage(Chat.format("&e&l[Friends] &aYou have accepted ${gameProfile.username}'s &fFriend Request"))
 
         ProfileGameService.save(playerGameProfile)
+        ProfileGameService.save(gameProfile)
     }
 }

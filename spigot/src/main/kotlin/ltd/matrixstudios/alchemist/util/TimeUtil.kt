@@ -124,10 +124,6 @@ object TimeUtil {
             return 0
         }
 
-        if (time == "perm") {
-            return Long.MAX_VALUE.toInt()
-        }
-
         val lifeMatch = arrayOf("y", "w", "d", "h", "m", "s")
         val lifeInterval = intArrayOf(31_536_000, 604800, 86400, 3600, 60, 1)
 
