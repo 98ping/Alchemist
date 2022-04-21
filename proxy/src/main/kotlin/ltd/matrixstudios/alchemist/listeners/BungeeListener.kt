@@ -13,6 +13,7 @@ import net.md_5.bungee.api.event.ServerConnectEvent
 import net.md_5.bungee.api.event.ServerSwitchEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
+import net.md_5.bungee.protocol.packet.Chat
 import java.util.concurrent.TimeUnit
 
 //no packets actually need to send through redis because bungee has all players already stored
@@ -51,7 +52,7 @@ class BungeeListener : Listener {
                 if (LockdownManager.hasClearance(event.player)) {
                     StaffMessagePacket("&b✓ &a" + event.player.name + " has clearance for " + event.player.server.info.name).action()
                 } else {
-                    event.player.disconnect(TextComponent("&cServer is on lockdown and you do not have clearance!"))
+                    event.player.disconnect(TextComponent(Chat.format("&cServer is on lockdown and you do not have clearance!")))
                 }
             }
         }, 1100L, TimeUnit.MILLISECONDS)
