@@ -4,7 +4,9 @@ import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
+import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
@@ -16,6 +18,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -83,9 +86,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
+            this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
             registerCommand(GenericRankCommands())
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
+            registerCommand(CGrantCommand())
 
             registerCommand(MuteCommand())
             registerCommand(BanCommand())

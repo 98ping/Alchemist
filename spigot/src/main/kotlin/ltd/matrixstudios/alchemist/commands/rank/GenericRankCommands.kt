@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 @CommandAlias("rank")
 class GenericRankCommands : BaseCommand() {
@@ -26,6 +27,19 @@ class GenericRankCommands : BaseCommand() {
         RankService.save(rank)
 
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
+    }
+
+    @Subcommand("list")
+    @CommandPermission("rank.admin")
+    fun list(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m--------------------------"))
+        sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.getValues().size + ")"))
+        for (rank in RankService.getRanksInOrder()) {
+            val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "]"
+
+            sender.sendMessage(message)
+        }
+        sender.sendMessage(Chat.format("&7&m--------------------------"))
     }
 
     @Subcommand("delete")
