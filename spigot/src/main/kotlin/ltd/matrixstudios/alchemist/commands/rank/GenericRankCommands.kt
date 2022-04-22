@@ -6,7 +6,9 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,6 +29,7 @@ class GenericRankCommands : BaseCommand() {
         RankService.save(rank)
 
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Added a new rank with the name &b$name"))
     }
 
     @Subcommand("list")
@@ -37,7 +40,7 @@ class GenericRankCommands : BaseCommand() {
         for (rank in RankService.getRanksInOrder()) {
             val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "]"
 
-            sender.sendMessage(message)
+            sender.sendMessage(Chat.format(message))
         }
         sender.sendMessage(Chat.format("&7&m--------------------------"))
     }
@@ -52,6 +55,7 @@ class GenericRankCommands : BaseCommand() {
 
         RankService.handler.delete(name)
         sender.sendMessage(Chat.format("&cDeleted the rank &f$name"))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Removed a rank with the id &b$name"))
     }
 
     @Subcommand("module")

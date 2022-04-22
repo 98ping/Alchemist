@@ -122,7 +122,7 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
                                     )
                                 )
 
-                                AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName))
+                                AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
                             }, 1L)
                             END_OF_CONVERSATION
                         }

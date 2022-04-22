@@ -37,7 +37,7 @@ class CGrantCommand : BaseCommand() {
         )
 
         RankGrantService.save(rankGrant)
-        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
         sender.sendMessage(Chat.format("&aGranted " + gameProfile.username + " the rank "  + rank.color + rank.displayName))
     }
 }
