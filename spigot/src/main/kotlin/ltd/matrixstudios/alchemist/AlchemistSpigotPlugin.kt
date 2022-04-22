@@ -16,6 +16,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
+import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -107,6 +108,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             registerCommand(ListCommand())
             registerCommand(FriendCommands())
+            registerCommand(StaffchatCommand())
         }
         
 
