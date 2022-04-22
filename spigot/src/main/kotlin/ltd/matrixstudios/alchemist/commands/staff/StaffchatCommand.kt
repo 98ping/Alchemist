@@ -12,6 +12,6 @@ class StaffchatCommand : BaseCommand() {
 
     @CommandAlias("sc|staffchat")
     fun staffchat(player: Player, @Name("message")message: String) {
-        AsynchronousRedisSender.send(StaffMessagePacket(message, player))
+        AsynchronousRedisSender.send(StaffMessagePacket(message, player.uniqueId))
     }
 }
