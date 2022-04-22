@@ -1,4 +1,4 @@
-.gradle
-spigot\build
-proxy\build
-commons\build
+spigot/build
+proxy/build
+commons/build
+.gradle/

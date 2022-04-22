@@ -10,7 +10,7 @@ class StaffMessagePacket(val message: String, val sender: Player) : RedisPacket(
 
     override fun action() {
         val name = AlchemistAPI.getRankDisplay(sender.uniqueId)
-        val msg = "&b[S] &r$name&7: &f$message"
+        val msg = "&b[S] &3[Chat] &r$name&7: &f$message"
         Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.positions.staff") }.forEach { it.sendMessage(Chat.format(msg)) }
     }
 }
