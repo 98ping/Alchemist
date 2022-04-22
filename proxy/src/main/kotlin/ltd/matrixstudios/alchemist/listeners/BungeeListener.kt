@@ -25,7 +25,7 @@ class BungeeListener : Listener {
     fun switch(event: ServerSwitchEvent) {
         val player = event.player.uniqueId
 
-        val playerRank = ProfileGameService.byId(player)?.getCurrentRank()!!
+        val playerRank = ProfileGameService.byId(player)?.getCurrentRank() ?: return
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff && event.from != null) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + event.player.name + " &3joined &b" + event.player.server.info.name + " &3from &b" + event.from.name).action()
