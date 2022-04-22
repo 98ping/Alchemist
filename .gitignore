@@ -1,0 +1,4 @@
+.gradle
+spigot\build
+proxy\build
+commons\build
