@@ -4,28 +4,24 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.grant.types.TagGrant
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-object RankGrantService : ExpiringService<RankGrant>() {
+object TagGrantService : ExpiringService<TagGrant>() {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, TagGrant>(DataStoreType.MONGO)
 
 
-    fun getValues() : CompletableFuture<Collection<RankGrant>> {
+    fun getValues() : CompletableFuture<Collection<TagGrant>> {
         return handler.retrieveAllAsync()
     }
 
-    fun save(rankGrant: RankGrant) {
-        handler.storeAsync(rankGrant.uuid, rankGrant)
+    fun save(tagGrant: TagGrant) {
+        handler.storeAsync(tagGrant.uuid, tagGrant)
     }
-
-    fun findByTarget(target: UUID) : Collection<RankGrant> {
-        return getValues().get().filter { it.target == target }
-    }
-
 
     override fun clearOutModels() {
         getValues().get().forEach {

@@ -90,6 +90,16 @@ class GenericRankCommands : BaseCommand() {
                 sender.sendMessage(Chat.format("&aUpdated the weight of &7$name"))
             }
 
+            "permission" -> {
+                if (rank.permissions.contains(arg)) {
+                    rank.permissions.remove(arg)
+                } else rank.permissions.add(arg)
+
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the permissions of &7$name"))
+            }
+
             "staff" -> {
                 rank.staff = arg.toBoolean()
                 RankService.save(rank)

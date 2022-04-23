@@ -11,7 +11,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
 
-@CommandAlias("friend|f")
+@CommandAlias("friend")
 class FriendCommands : BaseCommand() {
 
     @Subcommand("add")

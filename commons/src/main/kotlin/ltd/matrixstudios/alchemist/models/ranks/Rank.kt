@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Rank(
@@ -9,8 +10,8 @@ class Rank(
     var displayName: String,
 
     var weight: Int,
-    var permissions: List<String>,
-    var parents: List<String>,
+    var permissions: ArrayList<String>,
+    var parents: ArrayList<String>,
 
     var prefix: String,
     var color: String,
