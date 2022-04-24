@@ -1,7 +1,9 @@
 package ltd.matrixstudios.alchemist.api
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.tags.TagService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
 import java.util.*
@@ -21,6 +23,7 @@ object AlchemistAPI {
     fun quickFindProfile(uuid: UUID) : GameProfile? {
         return ProfileGameService.byId(uuid)
     }
+
 
     fun supplyColoredNames() : CompletableFuture<String> {
         return CompletableFuture.supplyAsync {

@@ -20,7 +20,7 @@ object TagService {
     }
 
 
-    fun byId(id: String) : Tag? {
+    fun byId(id: String?) : Tag? {
         return getValues().get().firstOrNull { it.id.equals(id, ignoreCase = true) }
     }
 }

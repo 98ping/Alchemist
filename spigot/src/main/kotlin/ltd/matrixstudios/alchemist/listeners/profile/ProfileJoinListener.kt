@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import org.bukkit.Material
@@ -29,9 +30,20 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun autoFormatChat(event: AsyncPlayerChatEvent) {
-        event.format = Chat.format(
-            AlchemistAPI.quickFindProfile(event.player.uniqueId)!!.getCurrentRank()!!.prefix + "%1\$s&7: &r%2\$s"
-        )
+        var prefixString = ""
+
+        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId) ?: return
+
+        if (profile.hasActivePrefix()) {
+
+            val prefix = profile.getActivePrefix()
+
+            if (prefix != null) {
+                prefixString = prefix.prefix
+            }
+        }
+
+        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + "%1\$s&7: &r%2\$s")
     }
 
     @EventHandler
@@ -68,7 +80,8 @@ class ProfileJoinListener : Listener {
                     JsonObject(),
                     ArrayList(),
                     ArrayList(),
-                    ArrayList()
+                    ArrayList(),
+                    null
                 )
             )
 
