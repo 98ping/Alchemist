@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.tags
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.commands.tags.menu.TagCustomizationMenu
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player
 class TagAdminCommand : BaseCommand() {
 
     @Subcommand("create")
+    @CommandPermission("alchemist.tags.admin")
     fun create(sender: CommandSender, @Name("name")name: String) {
         val tag = TagService.byId(name)
 
@@ -28,6 +30,7 @@ class TagAdminCommand : BaseCommand() {
     }
 
     @Subcommand("edit")
+    @CommandPermission("alchemist.tags.admin")
     fun edit(player: Player) {
         TagCustomizationMenu(player).updateMenu()
     }

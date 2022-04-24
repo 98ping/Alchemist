@@ -20,6 +20,7 @@ import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
+import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -112,6 +113,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(TagAdminCommand())
             registerCommand(TagCommand())
             registerCommand(TagGrantCommand())
+            registerCommand(TagGrantsCommand())
 
             registerCommand(ListCommand())
             registerCommand(FriendCommands())

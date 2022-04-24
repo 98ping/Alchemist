@@ -9,6 +9,7 @@ public final class StaffchatCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandPermission(value = "alchemist.staffchat")
     @co.aikar.commands.annotation.CommandAlias(value = "sc|staffchat")
     public final void staffchat(@org.jetbrains.annotations.NotNull()
     org.bukkit.entity.Player player, @org.jetbrains.annotations.NotNull()
