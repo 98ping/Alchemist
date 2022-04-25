@@ -18,7 +18,7 @@ object FilterListener : Listener {
             if (event.message.contains(filter.word, ignoreCase = false))
             {
                 event.isCancelled = true
-                event.player.sendMessage(Chat.format("&c&lYou have set off our filter system. Punishment: &e" + filter.offense.name))
+                event.player.sendMessage(Chat.format("&c&lYou have set off our filter system. Word: &e" + filter.word))
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), filter.command.replace("%target%", event.player.name))
                 AsynchronousRedisSender.send(StaffAuditPacket("&c[Filtered] &e(" + event.player.displayName + " &e-> " + event.message + ")"))
             }

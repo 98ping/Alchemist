@@ -21,7 +21,7 @@ class FilterCommands : BaseCommand() {
             player.sendMessage(Chat.format("&cFilter for word already exists"))
             return
         }
-        val filter = Filter(UUID.randomUUID(), word, Filter.FilterOffense.NOTHING, "")
+        val filter = Filter(UUID.randomUUID(), word, "")
 
         FilterService.save(filter)
         player.sendMessage(Chat.format("&aCreated a new filter with the word $word"))
@@ -43,27 +43,4 @@ class FilterCommands : BaseCommand() {
         player.sendMessage(Chat.format("&aUpdated the command for the filter $word"))
     }
 
-    @Subcommand("setoffense")
-    @CommandPermission("alchemist.filters.admin")
-    fun setoffense(player: Player, @Name("word")word: String, @Name("offense")offense: String) {
-        if (FilterService.byWord(word) == null) {
-            player.sendMessage(Chat.format("&cNo filter for word exists"))
-            return
-        }
-
-        val filter = FilterService.byWord(word) ?: return
-
-        var offense2: Filter.FilterOffense = Filter.FilterOffense.NOTHING
-
-        try {
-            offense2 = Filter.FilterOffense.valueOf(offense.toUpperCase())
-        } catch (e: IllegalArgumentException) {
-            player.sendMessage(Chat.format("&cOffense was not found"))
-        }
-
-        filter.offense = offense2
-
-        FilterService.save(filter)
-        player.sendMessage(Chat.format("&aUpdated the offense for the filter $word"))
-    }
 }

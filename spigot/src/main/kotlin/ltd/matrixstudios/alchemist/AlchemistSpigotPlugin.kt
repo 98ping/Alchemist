@@ -3,8 +3,10 @@ package ltd.matrixstudios.alchemist
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import javafx.collections.transformation.FilteredList
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
+import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
@@ -21,6 +23,7 @@ import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
+import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -84,6 +87,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
+        server.pluginManager.registerEvents(FilterListener, this)
 
         AccessiblePermissionHandler.load()
 
@@ -114,6 +118,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(TagCommand())
             registerCommand(TagGrantCommand())
             registerCommand(TagGrantsCommand())
+
+            registerCommand(FilterCommands())
 
             registerCommand(ListCommand())
             registerCommand(FriendCommands())
