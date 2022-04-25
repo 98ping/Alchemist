@@ -50,7 +50,7 @@ class ProfileJoinListener : Listener {
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
-        val profile = ProfileGameService.byId(player.uniqueId)
+        val profile = ProfileGameService.quickFind(player.uniqueId)
 
         if (profile == null) {
             player.kickPlayer(Chat.format("&cYour profile was not able to be loaded so permissions could not be applied"))
@@ -91,7 +91,8 @@ class ProfileJoinListener : Listener {
 
         }
 
-        val profile = ProfileGameService.byId(event.uniqueId)
+        val profile = ProfileGameService.quickFind(event.uniqueId)
+
 
         if (profile == null) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
@@ -99,6 +100,8 @@ class ProfileJoinListener : Listener {
 
             return
         }
+
+        ProfileGameService.load(profile)
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED

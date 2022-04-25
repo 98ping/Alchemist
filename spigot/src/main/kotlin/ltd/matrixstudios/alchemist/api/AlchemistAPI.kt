@@ -21,7 +21,7 @@ object AlchemistAPI {
     }
 
     fun quickFindProfile(uuid: UUID) : GameProfile? {
-        return ProfileGameService.byId(uuid)
+        return ProfileGameService.quickFind(uuid)
     }
 
 
