@@ -24,6 +24,7 @@ object AccessiblePermissionHandler {
         } catch (e: NoSuchFieldException) {
             e.printStackTrace()
         }
+
     }
 
     fun remove(player: Player) {
@@ -39,7 +40,8 @@ object AccessiblePermissionHandler {
         } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
+
         val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
-        player.displayName = format(profile.getCurrentRank()?.color.toString() + player.name)
+        player.displayName = format(profile.getCurrentRank()?.color + player.name)
     }
 }

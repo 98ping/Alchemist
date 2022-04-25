@@ -16,8 +16,14 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
+        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
+            return
+        }
+
+        if (playerProfile.friendInvites.contains(gameProfile.uuid)) {
+            player.sendMessage(Chat.format("&cAlready sent an invite to this player"))
             return
         }
 

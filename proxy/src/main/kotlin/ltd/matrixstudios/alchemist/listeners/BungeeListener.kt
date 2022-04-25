@@ -30,7 +30,7 @@ class BungeeListener : Listener {
             if (playerRank.staff && event.from != null) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + event.player.name + " &3joined &b" + event.player.server.info.name + " &3from &b" + event.from.name).action()
             }
-        }, 1100L, TimeUnit.MILLISECONDS)
+        }, 400L, TimeUnit.MILLISECONDS)
     }
 
     @EventHandler
