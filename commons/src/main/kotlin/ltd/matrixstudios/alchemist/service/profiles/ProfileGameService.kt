@@ -49,8 +49,6 @@ object ProfileGameService {
 
         var foundInRedis = false
 
-        val startingTime = System.currentTimeMillis()
-
         RedisPacketManager.pool.resource.use {
             redisProfile = RedisPacketManager.redisGson.fromJson(
                 it.get("Alchemist||ProfileCache||$id"),
