@@ -3,6 +3,8 @@ package ltd.matrixstudios.alchemist.commands.grants.menu.grants
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -69,7 +71,9 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
                                 rankGrant.expirable.expired = true
 
                                 RankGrantService.save(rankGrant)
-                                player.sendMessage(Chat.format("&cRemoved the grant!"))
+
+                                AsynchronousRedisSender.send(PermissionUpdatePacket(rankGrant.uuid))
+                                player.sendMessage(Chat.format("&aRemoved the grant!"))
                             }, 5L)
                             return Prompt.END_OF_CONVERSATION
                         }
