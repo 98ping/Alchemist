@@ -72,7 +72,7 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
 
                                 RankGrantService.save(rankGrant)
 
-                                AsynchronousRedisSender.send(PermissionUpdatePacket(rankGrant.uuid))
+                                AsynchronousRedisSender.send(PermissionUpdatePacket(rankGrant.target))
                                 player.sendMessage(Chat.format("&aRemoved the grant!"))
                             }, 5L)
                             return Prompt.END_OF_CONVERSATION
