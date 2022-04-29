@@ -20,6 +20,7 @@ class TempBanCommand : BaseCommand() {
 
     @CommandAlias("tempban|tb")
     @CommandPermission("alchemist.punishments.tempban")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")time: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,

@@ -9,6 +9,7 @@ public final class MuteCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.mute")
     @co.aikar.commands.annotation.CommandAlias(value = "mute|pmute")
     public final void ban(@org.jetbrains.annotations.NotNull()

@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist
 
+import co.aikar.commands.BukkitCommandCompletionContext
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
@@ -12,6 +13,7 @@ import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
+import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
@@ -32,6 +34,7 @@ import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
 
@@ -96,6 +99,9 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
+            this.commandCompletions.registerCompletion("gameprofile") {
+                return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
+            }
             registerCommand(GenericRankCommands())
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
@@ -124,6 +130,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(ListCommand())
             registerCommand(FriendCommands())
             registerCommand(StaffchatCommand())
+            registerCommand(PlayerAdminCommand())
         }
         
 

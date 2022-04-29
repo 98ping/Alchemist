@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
@@ -90,12 +91,27 @@ class GenericRankCommands : BaseCommand() {
                 sender.sendMessage(Chat.format("&aUpdated the weight of &7$name"))
             }
 
+            "parent" -> {
+                if (rank.parents.contains(arg)) {
+                    rank.parents.remove(arg)
+                } else rank.parents.add(arg)
+
+                RankService.save(rank)
+
+                AsynchronousRedisSender.send(PermissionUpdateAllPacket())
+
+                sender.sendMessage(Chat.format("&aUpdated the parents of &7$name"))
+            }
+
+
             "permission" -> {
                 if (rank.permissions.contains(arg)) {
                     rank.permissions.remove(arg)
                 } else rank.permissions.add(arg)
 
                 RankService.save(rank)
+
+                AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the permissions of &7$name"))
             }

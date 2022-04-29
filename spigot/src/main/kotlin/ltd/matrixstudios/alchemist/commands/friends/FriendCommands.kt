@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.friends
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
@@ -15,6 +16,7 @@ import sun.java2d.cmm.Profile
 class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
+    @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
         if (gameProfile.friends.contains(player.uniqueId)) {
@@ -51,6 +53,7 @@ class FriendCommands : BaseCommand() {
     }
 
     @Subcommand("accept")
+    @CommandCompletion("@gameprofile")
     fun accept(player: Player, @Name("target")gameProfile: GameProfile) {
         val playerGameProfile = ProfileGameService.byId(player.uniqueId)
 

@@ -16,6 +16,7 @@ class MuteCommand : BaseCommand() {
 
     @CommandAlias("mute|pmute")
     @CommandPermission("alchemist.punishments.mute")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,

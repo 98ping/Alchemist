@@ -9,6 +9,7 @@ public final class TempMuteCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.tempmute")
     @co.aikar.commands.annotation.CommandAlias(value = "tempmute|tmute")
     public final void ban(@org.jetbrains.annotations.NotNull()

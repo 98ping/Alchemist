@@ -10,6 +10,7 @@ public final class FriendCommands extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.Subcommand(value = "add")
     public final void add(@org.jetbrains.annotations.NotNull()
     org.bukkit.entity.Player player, @org.jetbrains.annotations.NotNull()
@@ -22,6 +23,7 @@ public final class FriendCommands extends co.aikar.commands.BaseCommand {
     org.bukkit.entity.Player player) {
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.Subcommand(value = "accept")
     public final void accept(@org.jetbrains.annotations.NotNull()
     org.bukkit.entity.Player player, @org.jetbrains.annotations.NotNull()

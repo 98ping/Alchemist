@@ -9,6 +9,7 @@ public final class HistoryCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.check")
     @co.aikar.commands.annotation.CommandAlias(value = "c|history|checkpunishments")
     public final void ban(@org.jetbrains.annotations.NotNull()
