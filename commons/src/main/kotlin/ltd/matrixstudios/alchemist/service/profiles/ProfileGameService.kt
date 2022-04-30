@@ -49,6 +49,8 @@ object ProfileGameService {
 
         var foundInRedis = false
 
+        var startingTime = System.currentTimeMillis()
+
         RedisPacketManager.pool.resource.use {
             redisProfile = RedisPacketManager.redisGson.fromJson(
                 it.get("Alchemist||ProfileCache||$id"),
@@ -61,6 +63,8 @@ object ProfileGameService {
         //return this profile because it was actually found in redis.
         if (redisProfile != null) {
             foundInRedis = true
+
+            println("[Alchemist] [Debug] Profile loading for " + redisProfile!!.username + " took " + System.currentTimeMillis().minus(startingTime) + "ms (redis loading)")
             return redisProfile
         }
 
@@ -72,6 +76,7 @@ object ProfileGameService {
 
         if (mongoProfile != null) {
             foundInMongo = true
+            println("[Alchemist] [Debug] Profile loading for " + mongoProfile.username + " took " + System.currentTimeMillis().minus(startingTime) + "ms (mongo loading)")
             return mongoProfile
         }
 
