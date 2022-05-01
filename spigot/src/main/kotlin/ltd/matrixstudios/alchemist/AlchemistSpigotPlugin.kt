@@ -120,6 +120,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             println("[Alchemist] [Debug] Created a new server instance because none was found")
             UniqueServerService.save(server)
+
+            globalServer = server
+        } else {
+            globalServer = UniqueServerService.byId(config.getString("server.id"))!!
         }
 
 
