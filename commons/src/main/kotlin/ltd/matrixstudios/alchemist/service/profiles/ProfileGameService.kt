@@ -25,7 +25,7 @@ object ProfileGameService {
             RedisPacketManager.pool.resource.use {
                 it.setex(
                     "Alchemist||ProfileCache||${profile.uuid.toString()}",
-                    TimeUnit.MINUTES.toMillis(1),
+                    TimeUnit.MINUTES.toMillis(10),
                     RedisPacketManager.redisGson.toJson(profile)
                 )
             }
@@ -37,7 +37,7 @@ object ProfileGameService {
             RedisPacketManager.pool.resource.use {
                 it.setex(
                     "Alchemist||ProfileCache||${profile.uuid.toString()}",
-                    TimeUnit.MINUTES.toMillis(1),
+                    TimeUnit.MINUTES.toMillis(10),
                     RedisPacketManager.redisGson.toJson(profile)
                 )
             }

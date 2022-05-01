@@ -20,6 +20,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
+import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
@@ -29,9 +30,11 @@ import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.Bukkit
@@ -43,6 +46,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
     companion object {
         lateinit var instance: AlchemistSpigotPlugin
     }
+
+    lateinit var globalServer: UniqueServer
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -96,6 +101,25 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
 
+
+        if (UniqueServerService.byId(config.getString("server.id")) == null) {
+            val server = UniqueServer(
+                config.getString("server.id").lowercase(),
+                config.getString("server.id"),
+                config.getString("server.id"),
+                arrayListOf(),
+                true,
+                1024,
+                config.getString("server.id"),
+                false,
+                ""
+            )
+
+            println("[Alchemist] [Debug] Created a new server instance because none was found")
+            UniqueServerService.save(server)
+        }
+
+
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
@@ -124,6 +148,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(TagCommand())
             registerCommand(TagGrantCommand())
             registerCommand(TagGrantsCommand())
+
+            registerCommand(ServerEnvironmentCommand())
 
             registerCommand(FilterCommands())
 
