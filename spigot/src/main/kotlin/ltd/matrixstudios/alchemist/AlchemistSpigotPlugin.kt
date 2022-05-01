@@ -34,6 +34,7 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
@@ -100,6 +101,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         AccessiblePermissionHandler.load()
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
+        ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
 
 
         if (UniqueServerService.byId(config.getString("server.id")) == null) {
@@ -112,7 +114,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 1024,
                 config.getString("server.id"),
                 false,
-                ""
+                "",
+                System.currentTimeMillis()
             )
 
             println("[Alchemist] [Debug] Created a new server instance because none was found")
