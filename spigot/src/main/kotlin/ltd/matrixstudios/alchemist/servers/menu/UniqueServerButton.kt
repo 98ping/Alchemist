@@ -22,7 +22,7 @@ class UniqueServerButton(var server: UniqueServer) : Button() {
         desc.add(Chat.format("&7* &eBungee Id: &f" + server.bungeeName))
         desc.add(Chat.format("&7* &eQueue Server Name: &f" + server.queueName))
         desc.add(" ")
-        desc.add(Chat.format("&7* &ePerformance Overview"))
+        desc.add(Chat.format("&ePerformance Overview"))
         desc.add(Chat.format("&7* &eRam: &f" + server.ramAllocated))
         desc.add(Chat.format("&7* &eOnline: &f" + server.online))
         desc.add(" ")
@@ -43,6 +43,5 @@ class UniqueServerButton(var server: UniqueServer) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        TODO("Not yet implemented")
     }
 }
