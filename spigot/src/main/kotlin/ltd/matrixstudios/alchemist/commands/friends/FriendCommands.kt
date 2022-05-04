@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
 
@@ -19,6 +20,8 @@ class FriendCommands : BaseCommand() {
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
+        val bukkitPlayer: Player = Bukkit.getOfflinePlayer(gameProfile.uuid).player
+
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
             return
@@ -37,12 +40,22 @@ class FriendCommands : BaseCommand() {
         gameProfile.friendInvites.add(player.uniqueId)
         player.sendMessage(Chat.format("&e&l[Friends] &aYou have send a friend request to &f" + gameProfile.username))
 
+        if (bukkitPlayer.isOnline){
+            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aYou have received a friend request from &f" + playerProfile.username))
+            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aType &f/friend accept &ato accept the request"))
+        }
+
+
         ProfileGameService.save(gameProfile)
     }
 
     @Subcommand("list")
     fun list(player: Player) {
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId)!!
+        if (gameProfile.friends.isEmpty()) {
+            player.sendMessage(Chat.format("&e&l[Friends] &cYou have no friends"))
+            return
+        }
         player.sendMessage(Chat.format("&7&m------------------------"))
         player.sendMessage(Chat.format("&e&lFriends:"))
         player.sendMessage(" ")

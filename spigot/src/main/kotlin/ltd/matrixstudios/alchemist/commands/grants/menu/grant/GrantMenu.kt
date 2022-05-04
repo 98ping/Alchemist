@@ -12,7 +12,7 @@ class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMen
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (rank in RankService.getValues()) {
+        for (rank in RankService.getRanksInOrder()) {
             buttons[index++] = GrantButton(rank, gameProfile)
         }
 

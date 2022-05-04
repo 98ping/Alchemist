@@ -22,7 +22,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getDisplayName(player: Player): String? {
-        return Chat.format(punishmentType.color + punishmentType.id.replaceFirstChar { it.uppercase()})
+        return Chat.format(punishmentType.color + punishmentType.id.replaceFirstChar { it.uppercase()}) + "s"
     }
 
     override fun getData(player: Player): Short {
