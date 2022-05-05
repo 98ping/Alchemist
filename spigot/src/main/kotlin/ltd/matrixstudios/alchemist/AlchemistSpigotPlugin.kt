@@ -4,7 +4,6 @@ import co.aikar.commands.BukkitCommandCompletionContext
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
-import javafx.collections.transformation.FilteredList
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands

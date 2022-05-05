@@ -23,7 +23,7 @@ class PunishmentDispatchPacket(
                 " &ahas " +
                 punishmentType.added +
                 " &r" +
-                AlchemistAPI.getRankDisplay(target)
+                AlchemistAPI.getRankDisplay(target) + "&a."
 
         Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.positions.staff") }.forEach { it.sendMessage(Chat.format(message)) }
     }
