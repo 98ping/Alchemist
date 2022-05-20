@@ -27,20 +27,5 @@ class FilterCommands : BaseCommand() {
         player.sendMessage(Chat.format("&aCreated a new filter with the word $word"))
     }
 
-    @Subcommand("setcommand")
-    @CommandPermission("alchemist.filters.admin")
-    fun setcommand(player: Player, @Name("word")word: String, @Name("command")command: String) {
-        if (FilterService.byWord(word) == null) {
-            player.sendMessage(Chat.format("&cNo filter for word exists"))
-            return
-        }
-
-        val filter = FilterService.byWord(word) ?: return
-
-        filter.command = command
-
-        FilterService.save(filter)
-        player.sendMessage(Chat.format("&aUpdated the command for the filter $word"))
-    }
 
 }

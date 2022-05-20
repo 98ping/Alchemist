@@ -4,6 +4,7 @@ import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -34,6 +35,12 @@ class ProfileJoinListener : Listener {
         var prefixString = ""
 
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
+
+        if (profile.hasActivePunishment(PunishmentType.MUTE)){
+            event.isCancelled = true
+            event.player.sendMessage(Chat.format("&cYou are currently muted."))
+            return
+        }
 
         if (profile.hasActivePrefix()) {
 
@@ -109,4 +116,5 @@ class ProfileJoinListener : Listener {
         }
 
     }
+
 }

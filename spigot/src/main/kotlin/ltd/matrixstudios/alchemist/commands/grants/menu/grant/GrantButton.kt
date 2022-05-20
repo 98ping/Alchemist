@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
@@ -121,6 +122,8 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
                                         "&aGranted &f" + gameProfile.username + " &athe " + rank.color + rank.displayName + " &arank"
                                     )
                                 )
+
+                                AsynchronousRedisSender.send(PermissionUpdatePacket(gameProfile.uuid))
 
                                 AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
                             }, 1L)

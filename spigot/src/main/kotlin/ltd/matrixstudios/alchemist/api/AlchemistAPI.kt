@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
+import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
@@ -16,6 +17,7 @@ import java.util.stream.Collectors
 object AlchemistAPI {
 
     fun getRankDisplay(uuid: UUID) : String {
+<<<<<<< HEAD
         var finalString = "&cNot Found"
 
         quickFindProfile(uuid).thenApply {
@@ -24,6 +26,12 @@ object AlchemistAPI {
 
         return finalString
 
+=======
+        if (Bukkit.getOfflinePlayer(uuid) !is Player){
+            return "§c&lConsole"
+        }
+        val profile = ProfileGameService.byId(uuid) ?: return "&cNot Found"
+>>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
 
     }
 

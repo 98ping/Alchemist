@@ -9,6 +9,7 @@ public final class WarnCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.warn")
     @co.aikar.commands.annotation.CommandAlias(value = "warn|w")
     public final void ban(@org.jetbrains.annotations.NotNull()

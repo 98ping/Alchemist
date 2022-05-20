@@ -19,6 +19,7 @@ class BanCommand : BaseCommand() {
 
     @CommandAlias("ban|b|banish")
     @CommandPermission("alchemist.punishments.ban")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,

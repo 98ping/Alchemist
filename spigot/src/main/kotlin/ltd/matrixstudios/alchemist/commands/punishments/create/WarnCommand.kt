@@ -19,6 +19,7 @@ class WarnCommand : BaseCommand() {
 
     @CommandAlias("warn|w")
     @CommandPermission("alchemist.punishments.warn")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.WARN.name,

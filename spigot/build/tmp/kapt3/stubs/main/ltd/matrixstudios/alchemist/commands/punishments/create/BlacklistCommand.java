@@ -9,6 +9,7 @@ public final class BlacklistCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.blacklist")
     @co.aikar.commands.annotation.CommandAlias(value = "blacklist|bl")
     public final void ban(@org.jetbrains.annotations.NotNull()

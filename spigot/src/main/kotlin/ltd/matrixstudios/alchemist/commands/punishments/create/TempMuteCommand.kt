@@ -16,6 +16,7 @@ class TempMuteCommand : BaseCommand() {
 
     @CommandAlias("tempmute|tmute")
     @CommandPermission("alchemist.punishments.tempmute")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")duration: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,

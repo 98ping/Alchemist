@@ -9,6 +9,7 @@ public final class CGrantCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.grants.admin")
     @co.aikar.commands.annotation.CommandAlias(value = "cgrant")
     public final void ogrant(@org.jetbrains.annotations.NotNull()

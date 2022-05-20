@@ -9,6 +9,7 @@ public final class BanCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.ban")
     @co.aikar.commands.annotation.CommandAlias(value = "ban|b|banish")
     public final void ban(@org.jetbrains.annotations.NotNull()

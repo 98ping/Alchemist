@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.friends
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
@@ -9,6 +10,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
 
@@ -16,8 +18,15 @@ import sun.java2d.cmm.Profile
 class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
+    @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
+<<<<<<< HEAD
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
+=======
+        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
+        val bukkitPlayer: Player = Bukkit.getOfflinePlayer(gameProfile.uuid).player
+
+>>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
             return
@@ -36,12 +45,26 @@ class FriendCommands : BaseCommand() {
         gameProfile.friendInvites.add(player.uniqueId)
         player.sendMessage(Chat.format("&e&l[Friends] &aYou have send a friend request to &f" + gameProfile.username))
 
+        if (bukkitPlayer.isOnline){
+            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aYou have received a friend request from &f" + playerProfile.username))
+            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aType &f/friend accept &ato accept the request"))
+        }
+
+
         ProfileGameService.save(gameProfile)
     }
 
     @Subcommand("list")
     fun list(player: Player) {
+<<<<<<< HEAD
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
+=======
+        val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId)!!
+        if (gameProfile.friends.isEmpty()) {
+            player.sendMessage(Chat.format("&e&l[Friends] &cYou have no friends"))
+            return
+        }
+>>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
         player.sendMessage(Chat.format("&7&m------------------------"))
         player.sendMessage(Chat.format("&e&lFriends:"))
         player.sendMessage(" ")
@@ -52,6 +75,7 @@ class FriendCommands : BaseCommand() {
     }
 
     @Subcommand("accept")
+    @CommandCompletion("@gameprofile")
     fun accept(player: Player, @Name("target")gameProfile: GameProfile) {
         val playerGameProfile = ProfileSearchService.getAsync(player.uniqueId).get()
 

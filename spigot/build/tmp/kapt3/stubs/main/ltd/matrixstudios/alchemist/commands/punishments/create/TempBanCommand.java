@@ -9,6 +9,7 @@ public final class TempBanCommand extends co.aikar.commands.BaseCommand {
         super();
     }
     
+    @co.aikar.commands.annotation.CommandCompletion(value = "@gameprofile")
     @co.aikar.commands.annotation.CommandPermission(value = "alchemist.punishments.tempban")
     @co.aikar.commands.annotation.CommandAlias(value = "tempban|tb")
     public final void ban(@org.jetbrains.annotations.NotNull()
