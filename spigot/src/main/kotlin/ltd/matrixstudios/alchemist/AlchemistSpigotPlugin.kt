@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
+import ltd.matrixstudios.alchemist.commands.player.SudoCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
@@ -30,6 +31,7 @@ import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
@@ -123,6 +125,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             registerCommand(ListCommand())
             registerCommand(FriendCommands())
+            registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
         }
         

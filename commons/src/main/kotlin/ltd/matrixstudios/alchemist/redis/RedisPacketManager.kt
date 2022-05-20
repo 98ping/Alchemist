@@ -13,7 +13,7 @@ object  RedisPacketManager {
 
     lateinit var pool: JedisPool
 
-    var redisGson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
+    var gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
 
     fun load(host: String, port: Int, password: String?, username: String?) {
         pool = JedisPool(host, port, username, password)

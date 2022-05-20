@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.tags.menu
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
@@ -36,7 +37,7 @@ class GeneralTagButton(var tag: Tag) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        val playerProfile = ProfileGameService.byId(player.uniqueId)
+        val playerProfile = ProfileSearchService.getAsync(player.uniqueId).get()!!
 
         if (playerProfile == null) {
             player.sendMessage(Chat.format("&cNull profile. Cannot equip prefixes"))

@@ -17,7 +17,7 @@ class LocalPacketPubSub : JedisPubSub() {
         } catch (ignored: ClassNotFoundException) {
             return
         }
-        val packet = RedisPacketManager.redisGson.fromJson(messageJson, packetClass) as RedisPacket
+        val packet = RedisPacketManager.gson.fromJson(messageJson, packetClass) as RedisPacket
         Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance, packet::action)
     }
 }

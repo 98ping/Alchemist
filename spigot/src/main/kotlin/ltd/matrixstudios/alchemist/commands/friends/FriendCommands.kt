@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
@@ -16,7 +17,7 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
-        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
+        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
             return
@@ -40,7 +41,7 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("list")
     fun list(player: Player) {
-        val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId)!!
+        val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
         player.sendMessage(Chat.format("&7&m------------------------"))
         player.sendMessage(Chat.format("&e&lFriends:"))
         player.sendMessage(" ")
@@ -52,7 +53,7 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("accept")
     fun accept(player: Player, @Name("target")gameProfile: GameProfile) {
-        val playerGameProfile = ProfileGameService.byId(player.uniqueId)
+        val playerGameProfile = ProfileSearchService.getAsync(player.uniqueId).get()
 
         if (!playerGameProfile?.friendInvites!!.contains(gameProfile.uuid)) {
             player.sendMessage(Chat.format("&cThis player has never tried friending you!"))

@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
@@ -32,7 +33,7 @@ class ProfileJoinListener : Listener {
     fun autoFormatChat(event: AsyncPlayerChatEvent) {
         var prefixString = ""
 
-        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId) ?: return
+        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
 
         if (profile.hasActivePrefix()) {
 
@@ -50,19 +51,14 @@ class ProfileJoinListener : Listener {
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
-        val profile = ProfileGameService.quickFind(player.uniqueId)
-
-        if (profile == null) {
-            player.kickPlayer(Chat.format("&cYour profile was not able to be loaded so permissions could not be applied"))
-            return
-        }
-
-        object : BukkitRunnable() {
-            override fun run() {
-                AccessiblePermissionHandler.update(player, profile.getPermissions())
+        ProfileSearchService.getAsync(player.uniqueId).thenApplyAsync {
+            if (it == null) {
+                player.kickPlayer(Chat.format("&cYour profile was not able to be loaded so permissions could not be applied"))
+                return@thenApplyAsync
             }
 
-        }.runTaskAsynchronously(AlchemistSpigotPlugin.instance)
+            AccessiblePermissionHandler.update(player, it.getPermissions())
+        }
 
 
     }
@@ -70,19 +66,23 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        if (ProfileGameService.byId(event.uniqueId) == null) {
+        if (ProfileSearchService.getAsync(event.uniqueId).get() == null) {
             val stopwatch = Stopwatch.createStarted()
 
+            val profile = GameProfile(
+                event.uniqueId,
+                event.name,
+                JsonObject(),
+                ArrayList(),
+                ArrayList(),
+                ArrayList(),
+                null
+            )
+
+            ProfileGameService.cache[event.uniqueId] = profile
+
             ProfileGameService.save(
-                GameProfile(
-                    event.uniqueId,
-                    event.name,
-                    JsonObject(),
-                    ArrayList(),
-                    ArrayList(),
-                    ArrayList(),
-                    null
-                )
+                profile
             )
 
             stopwatch.stop()
@@ -91,24 +91,22 @@ class ProfileJoinListener : Listener {
 
         }
 
-        val profile = ProfileGameService.quickFind(event.uniqueId)
+        ProfileSearchService.getAsync(event.uniqueId).thenAccept {
+            if (it == null) {
+                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
+                event.kickMessage = Chat.format("&cYour profile failed to load")
 
+                return@thenAccept
+            }
 
-        if (profile == null) {
-            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
-            event.kickMessage = Chat.format("&cYour profile failed to load")
-
-            return
+            if (it.hasActivePunishment(PunishmentType.BAN)) {
+                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
+                event.kickMessage = Chat.format("&cYou are currently banned from the server")
+            } else if (it.hasActivePunishment(PunishmentType.BLACKLIST)) {
+                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
+                event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
+            }
         }
 
-        ProfileGameService.load(profile)
-
-        if (profile.hasActivePunishment(PunishmentType.BAN)) {
-            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently banned from the server")
-        } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
-            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
-        }
     }
 }
