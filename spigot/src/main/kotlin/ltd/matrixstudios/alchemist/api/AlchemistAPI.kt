@@ -17,21 +17,19 @@ import java.util.stream.Collectors
 object AlchemistAPI {
 
     fun getRankDisplay(uuid: UUID) : String {
-<<<<<<< HEAD
         var finalString = "&cNot Found"
+
+        if (Bukkit.getOfflinePlayer(uuid) !is Player){
+            return "§c&lConsole"
+        }
 
         quickFindProfile(uuid).thenApply {
             finalString = it!!.getCurrentRank()!!.prefix + it.username
         }
 
+
         return finalString
 
-=======
-        if (Bukkit.getOfflinePlayer(uuid) !is Player){
-            return "§c&lConsole"
-        }
-        val profile = ProfileGameService.byId(uuid) ?: return "&cNot Found"
->>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
 
     }
 

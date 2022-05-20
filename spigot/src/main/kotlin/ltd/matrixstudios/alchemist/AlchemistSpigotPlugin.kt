@@ -12,11 +12,8 @@ import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
-<<<<<<< HEAD
 import ltd.matrixstudios.alchemist.commands.player.SudoCommand
-=======
 import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
->>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
@@ -37,12 +34,9 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-<<<<<<< HEAD
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-=======
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
->>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.Bukkit

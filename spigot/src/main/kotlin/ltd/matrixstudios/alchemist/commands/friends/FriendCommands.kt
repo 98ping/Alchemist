@@ -20,13 +20,9 @@ class FriendCommands : BaseCommand() {
     @Subcommand("add")
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target")gameProfile: GameProfile) {
-<<<<<<< HEAD
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
-=======
-        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
         val bukkitPlayer: Player = Bukkit.getOfflinePlayer(gameProfile.uuid).player
 
->>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
             return
@@ -56,15 +52,11 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("list")
     fun list(player: Player) {
-<<<<<<< HEAD
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
-=======
-        val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId)!!
         if (gameProfile.friends.isEmpty()) {
             player.sendMessage(Chat.format("&e&l[Friends] &cYou have no friends"))
             return
         }
->>>>>>> 051709bb1ff9433b1035fb471994d2c9a529f86f
         player.sendMessage(Chat.format("&7&m------------------------"))
         player.sendMessage(Chat.format("&e&lFriends:"))
         player.sendMessage(" ")
