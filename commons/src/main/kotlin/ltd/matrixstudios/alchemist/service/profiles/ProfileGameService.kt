@@ -19,7 +19,7 @@ object ProfileGameService {
     fun byId(uuid: UUID) : GameProfile? {
         return ProfileSearchService.getAsync(uuid).get()!!
     }
-    
+
 
     fun save(gameProfile: GameProfile) {
         cache[gameProfile.uuid] = gameProfile

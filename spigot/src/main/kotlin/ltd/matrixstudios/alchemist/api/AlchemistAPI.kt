@@ -19,14 +19,11 @@ object AlchemistAPI {
     fun getRankDisplay(uuid: UUID) : String {
         var finalString = "&cNot Found"
 
-        if (Bukkit.getOfflinePlayer(uuid) !is Player){
-            return "§c&lConsole"
-        }
+        val profile = quickFindProfile(uuid).get()
 
-        quickFindProfile(uuid).thenApply {
-            finalString = it!!.getCurrentRank()!!.prefix + it.username
+        if (profile != null) {
+            finalString = profile.getCurrentRank()!!.color + profile.username
         }
-
 
         return finalString
 

@@ -8,7 +8,7 @@ object BungeeRedisSender {
         AlchemistBungee.instance.proxy.scheduler.runAsync(AlchemistBungee.instance)
         {
             RedisPacketManager.pool.resource.use { jedis ->
-                val encodedPacket = packet.javaClass.name + "|" + RedisPacketManager.redisGson.toJson(packet)
+                val encodedPacket = packet.javaClass.name + "|" + RedisPacketManager.gson.toJson(packet)
                 jedis.publish("Alchemist||Packets||", encodedPacket)
             }
         }

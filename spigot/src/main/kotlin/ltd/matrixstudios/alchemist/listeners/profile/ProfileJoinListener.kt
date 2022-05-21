@@ -73,7 +73,7 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        ProfileSearchService.exists(event.uniqueId).thenAccept {
+        ProfileSearchService.exists(event.uniqueId).thenAcceptAsync {
 
             if (!it) {
                 val stopwatch = Stopwatch.createStarted()
