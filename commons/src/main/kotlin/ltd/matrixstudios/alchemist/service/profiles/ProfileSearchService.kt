@@ -27,7 +27,7 @@ object ProfileSearchService {
         }
     }
 
-    fun getAsync(uuid: UUID) : CompletableFuture<GameProfile?> {
+    fun getAsync(uuid: UUID) :  CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
 
             val inhashmap = ProfileGameService.cache.getOrDefault(uuid, null)

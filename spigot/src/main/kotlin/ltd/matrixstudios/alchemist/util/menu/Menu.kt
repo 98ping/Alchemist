@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.util.menu
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 abstract class Menu(
     private val size: Int,
@@ -22,9 +23,13 @@ abstract class Menu(
 
         MenuController.addToMenuMap(player, this)
 
-        for (entry in getAllButtons()) {
-            inventory.setItem(entry.key, entry.value.constructItemStack(player))
+        CompletableFuture.runAsync {
+            for (entry in getAllButtons())
+            {
+                inventory.setItem(entry.key, entry.value.constructItemStack(player))
+            }
         }
+
 
         player.openInventory(inventory)
 

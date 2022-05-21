@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.service.tags.TagService
@@ -109,6 +110,8 @@ class ProfileJoinListener : Listener {
 
                 return@thenAccept
             }
+
+            RankGrantService.setupGrants(it)
 
             if (it.hasActivePunishment(PunishmentType.BAN)) {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
