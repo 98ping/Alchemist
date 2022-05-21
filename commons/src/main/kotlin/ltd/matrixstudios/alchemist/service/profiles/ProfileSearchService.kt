@@ -19,6 +19,14 @@ object ProfileSearchService {
         }
     }
 
+    fun exists(uuid: UUID) : CompletableFuture<Boolean> {
+        return CompletableFuture.supplyAsync {
+            val profileInMongo = owningCollection.find(Filters.eq("uuid", uuid.toString())).firstOrNull()
+
+            return@supplyAsync profileInMongo != null
+        }
+    }
+
     fun getAsync(uuid: UUID) : CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
 

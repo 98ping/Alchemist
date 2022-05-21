@@ -36,7 +36,7 @@ class ProfileJoinListener : Listener {
 
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
 
-        if (profile.hasActivePunishment(PunishmentType.MUTE)){
+        if (profile.hasActivePunishment(PunishmentType.MUTE)) {
             event.isCancelled = true
             event.player.sendMessage(Chat.format("&cYou are currently muted."))
             return
@@ -73,32 +73,36 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        if (ProfileSearchService.getAsync(event.uniqueId).get() == null) {
-            val stopwatch = Stopwatch.createStarted()
+        ProfileSearchService.exists(event.uniqueId).thenAccept {
 
-            val profile = GameProfile(
-                event.uniqueId,
-                event.name,
-                JsonObject(),
-                ArrayList(),
-                ArrayList(),
-                ArrayList(),
-                null
-            )
+            if (!it) {
+                val stopwatch = Stopwatch.createStarted()
 
-            ProfileGameService.cache[event.uniqueId] = profile
+                val profile = GameProfile(
+                    event.uniqueId,
+                    event.name,
+                    JsonObject(),
+                    ArrayList(),
+                    ArrayList(),
+                    ArrayList(),
+                    null
+                )
 
-            ProfileGameService.save(
-                profile
-            )
+                ProfileGameService.save(
+                    profile
+                )
 
-            stopwatch.stop()
+                stopwatch.stop()
 
-            println("Profile creation for " + event.name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms")
+                println("Profile creation for " + event.name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms")
 
+            }
         }
 
         ProfileSearchService.getAsync(event.uniqueId).thenAccept {
+
+            ProfileGameService.cache[event.uniqueId] = it
+
             if (it == null) {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
                 event.kickMessage = Chat.format("&cYour profile failed to load")
@@ -114,7 +118,7 @@ class ProfileJoinListener : Listener {
                 event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
             }
         }
-
     }
 
 }
+
