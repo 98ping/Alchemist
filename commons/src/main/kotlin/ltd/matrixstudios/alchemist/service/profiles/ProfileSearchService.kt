@@ -13,10 +13,15 @@ object ProfileSearchService {
 
     fun <T> searchAsync(key: String, value: T) : CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
-            val rawDoc = owningCollection.find(Filters.eq(key, value)).firstOrNull()!!.toJson() ?: return@supplyAsync null
+            val rawDoc = owningCollection.find(Filters.eq(key, value)).firstOrNull() ?: return@supplyAsync null
 
-            return@supplyAsync Alchemist.gson.fromJson(rawDoc, GameProfile::class.java)
+            return@supplyAsync Alchemist.gson.fromJson(rawDoc.toJson()!!, GameProfile::class.java)
         }
+    }
+
+    //forgive me I have sinned. contacting a db on main thread!
+     fun getByUsername(username: String) : GameProfile? {
+        return ProfileGameService.handler.retrieveAll().firstOrNull { it.username.equals(username, ignoreCase = true) }
     }
 
     fun exists(uuid: UUID) : CompletableFuture<Boolean> {

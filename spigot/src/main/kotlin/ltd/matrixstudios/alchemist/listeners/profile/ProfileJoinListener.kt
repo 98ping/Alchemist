@@ -111,8 +111,6 @@ class ProfileJoinListener : Listener {
                 return@thenAccept
             }
 
-            RankGrantService.setupGrants(it)
-
             if (it.hasActivePunishment(PunishmentType.BAN)) {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
                 event.kickMessage = Chat.format("&cYou are currently banned from the server")

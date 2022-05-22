@@ -114,8 +114,6 @@ class GenericRankCommands : BaseCommand() {
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-                RankGrantService.smashThenReplaceGrants(rank)
-
                 sender.sendMessage(Chat.format("&aUpdated the permissions of &7$name"))
             }
 

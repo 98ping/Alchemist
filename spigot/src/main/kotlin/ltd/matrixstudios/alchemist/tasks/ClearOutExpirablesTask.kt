@@ -10,9 +10,7 @@ import java.util.*
 object ClearOutExpirablesTask : BukkitRunnable() {
 
     override fun run() {
-        for (grant in RankGrantService.cache.values)
-        {
-            grant.forEach {
+        RankGrantService.getValues().get().forEach {
                 if (!it.expirable.isActive() && it.removedBy == null) {
                     it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
                     it.removedReason = "Expired"
@@ -22,7 +20,7 @@ object ClearOutExpirablesTask : BukkitRunnable() {
                     RankGrantService.save(it)
                 }
             }
-        }
+
 
         PunishmentService.getValues().forEach {
             if (!it.expirable.isActive() && it.removedBy == null)

@@ -131,8 +131,10 @@ abstract class PaginatedMenu(
             inventory.setItem(entry.key, entry.value.constructItemStack(player))
         }
 
-        for (entry in getButtonsInRange().get()) {
-            inventory.setItem(entry.key, entry.value.constructItemStack(player))
+        CompletableFuture.runAsync {
+            for (entry in getButtonsInRange().get()) {
+                inventory.setItem(entry.key, entry.value.constructItemStack(player))
+            }
         }
 
         player.openInventory(inventory)
