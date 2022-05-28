@@ -1,19 +1,28 @@
 package ltd.matrixstudios.alchemist.commands.friends
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
 
 @CommandAlias("friend")
 class FriendCommands : BaseCommand() {
+
+    @HelpCommand
+    fun help(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&6&lFriend Help"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&e/friend add &f<target>"))
+        sender.sendMessage(Chat.format("&e/friend accept &f<target>"))
+        sender.sendMessage(Chat.format("&e/friend list"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
 
     @Subcommand("add")
     @CommandCompletion("@gameprofile")

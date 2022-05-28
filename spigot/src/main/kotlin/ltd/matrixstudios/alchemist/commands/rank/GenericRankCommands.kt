@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.rank
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -16,6 +13,20 @@ import org.bukkit.entity.Player
 
 @CommandAlias("rank")
 class GenericRankCommands : BaseCommand() {
+
+    @HelpCommand
+    @CommandPermission("rank.admin")
+    fun help(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&6&lRank Help"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&e/rank info &f<rank>"))
+        sender.sendMessage(Chat.format("&e/rank create &f<rank>"))
+        sender.sendMessage(Chat.format("&e/rank delete &f<rank>"))
+        sender.sendMessage(Chat.format("&e/rank list"))
+        sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
 
     @Subcommand("create")
     @CommandPermission("rank.admin")
