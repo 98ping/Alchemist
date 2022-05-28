@@ -10,7 +10,7 @@ class PermissionUpdateAllPacket : RedisPacket("permission-update-all") {
 
     override fun action() {
         for (player in Bukkit.getOnlinePlayers()) {
-            val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: continue
+            val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: continue
 
             AccessiblePermissionHandler.update(player, gameProfile.getPermissions())
         }

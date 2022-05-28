@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import java.util.*
@@ -56,7 +57,7 @@ data class GameProfile(
 
     fun supplyFriendsAsProfiles() : CompletableFuture<List<GameProfile?>> {
         return CompletableFuture.supplyAsync {
-            friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }
+            friends.map { ProfileSearchService.getAsync(it).get() }.filter { Objects.nonNull(it) }
         }
     }
 

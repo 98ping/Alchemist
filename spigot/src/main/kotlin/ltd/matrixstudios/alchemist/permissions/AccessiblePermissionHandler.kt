@@ -41,7 +41,7 @@ object AccessiblePermissionHandler {
             e.printStackTrace()
         }
 
-        val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId) ?: return
+        val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
         player.displayName = format(profile.getCurrentRank()?.color + player.name)
     }
 }

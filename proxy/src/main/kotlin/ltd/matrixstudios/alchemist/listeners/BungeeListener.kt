@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
 
 //no packets actually need to send through redis because bungee has all players already stored
 //I am going to do something with redis in the future but this is just a quick solution
-class BungeeListener : Listener {
+class     BungeeListener : Listener {
 
     @EventHandler
     fun switch(event: ServerSwitchEvent) {

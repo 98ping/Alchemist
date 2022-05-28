@@ -10,7 +10,7 @@ import java.util.*
 class PermissionUpdatePacket(var player: UUID) : RedisPacket("permission-update") {
 
     override fun action() {
-        val gameProfile = AlchemistAPI.quickFindProfile(player) ?: return
+        val gameProfile = AlchemistAPI.quickFindProfile(player).get() ?: return
 
         val player = Bukkit.getPlayer(player) ?: return
 

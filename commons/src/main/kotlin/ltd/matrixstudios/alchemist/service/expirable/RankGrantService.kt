@@ -1,12 +1,15 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
+import com.mongodb.client.model.Filters
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
+import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -38,5 +41,4 @@ object RankGrantService : ExpiringService<RankGrant>() {
             }
         }
     }
-
 }
