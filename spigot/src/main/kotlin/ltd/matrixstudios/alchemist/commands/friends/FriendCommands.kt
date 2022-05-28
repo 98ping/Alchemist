@@ -7,11 +7,8 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.util.Chat
-<<<<<<< HEAD
 import org.bukkit.command.CommandSender
-=======
 import org.bukkit.Bukkit
->>>>>>> 7e5df71cafa853e52cbcc5c2c950e48e619bcd04
 import org.bukkit.entity.Player
 import sun.java2d.cmm.Profile
 
