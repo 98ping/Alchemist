@@ -78,21 +78,23 @@ class FriendCommands : BaseCommand() {
     @Subcommand("accept")
     @CommandCompletion("@gameprofile")
     fun accept(player: Player, @Name("target")gameProfile: GameProfile) {
-        val playerGameProfile = ProfileSearchService.getAsync(player.uniqueId).get()
+        ProfileSearchService.getAsync(player.uniqueId).thenAcceptAsync {
+            if (!it?.friendInvites!!.contains(gameProfile.uuid)) {
+                player.sendMessage(Chat.format("&cThis player has never tried friending you!"))
+                return@thenAcceptAsync
+            }
 
-        if (!playerGameProfile?.friendInvites!!.contains(gameProfile.uuid)) {
-            player.sendMessage(Chat.format("&cThis player has never tried friending you!"))
-            return
+            it.friendInvites.remove(gameProfile.uuid)
+            it.friends.add(gameProfile.uuid)
+
+            gameProfile.friends.add(it.uuid)
+
+            player.sendMessage(Chat.format("&e&l[Friends] &aYou have accepted ${gameProfile.username}'s &fFriend Request"))
+
+            ProfileGameService.save(it)
+            ProfileGameService.save(gameProfile)
         }
 
-        playerGameProfile.friendInvites.remove(gameProfile.uuid)
-        playerGameProfile.friends.add(gameProfile.uuid)
 
-        gameProfile.friends.add(playerGameProfile.uuid)
-
-        player.sendMessage(Chat.format("&e&l[Friends] &aYou have accepted ${gameProfile.username}'s &fFriend Request"))
-
-        ProfileGameService.save(playerGameProfile)
-        ProfileGameService.save(gameProfile)
     }
 }

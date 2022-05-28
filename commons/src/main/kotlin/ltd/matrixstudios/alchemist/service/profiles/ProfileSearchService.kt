@@ -19,9 +19,12 @@ object ProfileSearchService {
         }
     }
 
-    //forgive me I have sinned. contacting a db on main thread!
-     fun getByUsername(username: String) : GameProfile? {
-        return ProfileGameService.handler.retrieveAll().firstOrNull { it.username.equals(username, ignoreCase = true) }
+     fun getByUsername(username: String) : CompletableFuture<GameProfile?> {
+        return CompletableFuture.supplyAsync {
+            val profileInMongo = owningCollection.find(Filters.eq("username", username)).firstOrNull()
+
+            return@supplyAsync Alchemist.gson.fromJson(profileInMongo!!.toJson(), GameProfile::class.java)
+        }
     }
 
     fun exists(uuid: UUID) : CompletableFuture<Boolean> {
@@ -35,19 +38,16 @@ object ProfileSearchService {
     fun getAsync(uuid: UUID) :  CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
 
-            val inhashmap = ProfileGameService.cache.getOrDefault(uuid, null)
+            val inhashmap = ProfileGameService.cache.getOrDefault(uuid,
+                Alchemist.gson.fromJson(owningCollection.find(
+                    Filters.eq("uuid",
+                        uuid.toString())
+                ).first()!!.toJson(),
+                    GameProfile::class.java)
+            )
 
-            //end supplier here if it found it
-            if (inhashmap != null) {
-                return@supplyAsync inhashmap
-            }
+            return@supplyAsync inhashmap
 
-
-            //scan if it didnt
-            val document = owningCollection.find(Filters.eq("uuid", uuid.toString())).first()
-
-
-            return@supplyAsync Alchemist.gson.fromJson(document.toJson(), GameProfile::class.java)
         }
     }
 
