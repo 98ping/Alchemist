@@ -131,6 +131,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
+
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
             }

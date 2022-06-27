@@ -24,7 +24,6 @@ class ListCommand : BaseCommand() {
                 sender.sendMessage(Chat.format("&e&lPlayers: $it"))
                 sender.sendMessage(Chat.format(" "))
             }
-
         }
     }
 }

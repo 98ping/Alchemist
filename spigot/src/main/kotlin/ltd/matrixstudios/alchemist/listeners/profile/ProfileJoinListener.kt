@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.scheduler.BukkitRunnable
 import sun.java2d.cmm.Profile
 import java.util.*
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
@@ -59,13 +60,13 @@ class ProfileJoinListener : Listener {
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
-        ProfileSearchService.getAsync(player.uniqueId).thenApplyAsync {
-            if (it == null) {
-                player.kickPlayer(Chat.format("&cYour profile was not able to be loaded so permissions could not be applied"))
-                return@thenApplyAsync
-            }
+        val perms = AccessiblePermissionHandler.pendingLoadPermissions.getOrDefault(player.uniqueId, mapOf())
 
-            AccessiblePermissionHandler.update(player, it.getPermissions())
+        CompletableFuture.runAsync {
+            AccessiblePermissionHandler.update(
+                player,
+                perms
+            )
         }
 
 
@@ -74,9 +75,9 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        ProfileSearchService.exists(event.uniqueId).thenAcceptAsync {
+        ProfileSearchService.getAsync(event.uniqueId).thenAcceptAsync {
 
-            if (!it) {
+            if (it == null) {
                 val stopwatch = Stopwatch.createStarted()
 
                 val profile = GameProfile(
@@ -96,11 +97,7 @@ class ProfileJoinListener : Listener {
                 stopwatch.stop()
 
                 println("Profile creation for " + event.name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms")
-
             }
-        }
-
-        ProfileSearchService.getAsync(event.uniqueId).thenAccept {
 
             ProfileGameService.cache[event.uniqueId] = it
 
@@ -108,7 +105,7 @@ class ProfileJoinListener : Listener {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
                 event.kickMessage = Chat.format("&cYour profile failed to load")
 
-                return@thenAccept
+                return@thenAcceptAsync
             }
 
             if (it.hasActivePunishment(PunishmentType.BAN)) {
@@ -118,7 +115,10 @@ class ProfileJoinListener : Listener {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
                 event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
             }
+
+            AccessiblePermissionHandler.setupPlayer(event.uniqueId, it.getPermissions())
         }
+
     }
 
 }

@@ -17,6 +17,8 @@ object AccessiblePermissionHandler {
 
     lateinit var permissionField: Field
 
+    var pendingLoadPermissions = hashMapOf<UUID, Map<String?, Boolean?>>()
+
     fun load() {
         try {
             permissionField = PermissionAttachment::class.java.getDeclaredField("permissions")
@@ -26,6 +28,10 @@ object AccessiblePermissionHandler {
         }
 
     }
+
+    fun setupPlayer(uuid: UUID, perms: Map<String?, Boolean?>) {
+        pendingLoadPermissions[uuid] = perms
+     }
 
     fun remove(player: Player) {
         permissionAttachmentMap.remove(player.uniqueId)

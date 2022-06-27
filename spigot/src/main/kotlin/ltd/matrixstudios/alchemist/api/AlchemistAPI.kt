@@ -42,7 +42,7 @@ object AlchemistAPI {
                         quickFindProfile(it.uniqueId).get()?.getCurrentRank()!!.weight
                 }.reversed()
                 .joinToString(", ") {
-                    getRankDisplay(it.uniqueId)
+                    it.displayName
                 }
         }
     }
