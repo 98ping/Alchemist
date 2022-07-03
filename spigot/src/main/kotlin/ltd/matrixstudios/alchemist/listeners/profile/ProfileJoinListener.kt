@@ -72,12 +72,11 @@ class ProfileJoinListener : Listener {
 
     }
 
-
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        ProfileSearchService.getAsync(event.uniqueId).thenAcceptAsync {
+        ProfileSearchService.exists(event.uniqueId).thenAcceptAsync {
 
-            if (it == null) {
+            if (!it) {
                 val stopwatch = Stopwatch.createStarted()
 
                 val profile = GameProfile(
@@ -97,7 +96,11 @@ class ProfileJoinListener : Listener {
                 stopwatch.stop()
 
                 println("Profile creation for " + event.name + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms")
+
             }
+        }
+
+        ProfileSearchService.getAsync(event.uniqueId).thenAccept {
 
             ProfileGameService.cache[event.uniqueId] = it
 
@@ -105,7 +108,7 @@ class ProfileJoinListener : Listener {
                 event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
                 event.kickMessage = Chat.format("&cYour profile failed to load")
 
-                return@thenAcceptAsync
+                return@thenAccept
             }
 
             if (it.hasActivePunishment(PunishmentType.BAN)) {
@@ -118,7 +121,6 @@ class ProfileJoinListener : Listener {
 
             AccessiblePermissionHandler.setupPlayer(event.uniqueId, it.getPermissions())
         }
-
     }
 
 }
