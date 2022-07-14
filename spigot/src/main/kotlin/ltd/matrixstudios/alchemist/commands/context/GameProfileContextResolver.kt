@@ -5,7 +5,6 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.contexts.ContextResolver
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import java.util.*
 
 class GameProfileContextResolver : ContextResolver<GameProfile, BukkitCommandExecutionContext> {
@@ -13,8 +12,8 @@ class GameProfileContextResolver : ContextResolver<GameProfile, BukkitCommandExe
     override fun getContext(c: BukkitCommandExecutionContext?): GameProfile? {
         val firstArg = c!!.popFirstArg() ?: return null
 
-        val profile = ProfileSearchService.getByUsername(firstArg).get()
+        val profile = ProfileGameService.byUsername(firstArg)
         
-        return profile ?: throw Exception("&cPlayer with this name was not found")
+        return profile ?: throw InvalidCommandArgument("No player by this name found")
     }
 }

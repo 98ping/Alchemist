@@ -5,12 +5,10 @@ import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import sun.java2d.cmm.Profile
 
 @CommandAlias("friend")
 class FriendCommands : BaseCommand() {
@@ -28,7 +26,7 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("add")
     @CommandCompletion("@gameprofile")
-    fun add(player: Player, @Name("target")gameProfile: GameProfile) {
+    fun add(player: Player, @Name("target") gameProfile: GameProfile) {
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
         val bukkitPlayer: Player = Bukkit.getOfflinePlayer(gameProfile.uuid).player
 
@@ -50,7 +48,7 @@ class FriendCommands : BaseCommand() {
         gameProfile.friendInvites.add(player.uniqueId)
         player.sendMessage(Chat.format("&e&l[Friends] &aYou have send a friend request to &f" + gameProfile.username))
 
-        if (bukkitPlayer.isOnline){
+        if (bukkitPlayer.isOnline) {
             bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aYou have received a friend request from &f" + playerProfile.username))
             bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aType &f/friend accept &ato accept the request"))
         }
@@ -77,24 +75,21 @@ class FriendCommands : BaseCommand() {
 
     @Subcommand("accept")
     @CommandCompletion("@gameprofile")
-    fun accept(player: Player, @Name("target")gameProfile: GameProfile) {
-        ProfileSearchService.getAsync(player.uniqueId).thenAcceptAsync {
-            if (!it?.friendInvites!!.contains(gameProfile.uuid)) {
-                player.sendMessage(Chat.format("&cThis player has never tried friending you!"))
-                return@thenAcceptAsync
-            }
-
-            it.friendInvites.remove(gameProfile.uuid)
-            it.friends.add(gameProfile.uuid)
-
-            gameProfile.friends.add(it.uuid)
-
-            player.sendMessage(Chat.format("&e&l[Friends] &aYou have accepted ${gameProfile.username}'s &fFriend Request"))
-
-            ProfileGameService.save(it)
-            ProfileGameService.save(gameProfile)
+    fun accept(player: Player, @Name("target") gameProfile: GameProfile) {
+        val it = ProfileGameService.byId(player.uniqueId)
+        if (!it?.friendInvites!!.contains(gameProfile.uuid)) {
+            player.sendMessage(Chat.format("&cThis player has never tried friending you!"))
+            return
         }
 
+        it.friendInvites.remove(gameProfile.uuid)
+        it.friends.add(gameProfile.uuid)
 
+        gameProfile.friends.add(it.uuid)
+
+        player.sendMessage(Chat.format("&e&l[Friends] &aYou have accepted ${gameProfile.username}'s &fFriend Request"))
+
+        ProfileGameService.save(it)
+        ProfileGameService.save(gameProfile)
     }
 }

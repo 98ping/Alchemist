@@ -14,7 +14,7 @@ object FilterService {
 
 
     fun getValues(): Collection<Filter> {
-        return handler.retrieveAllAsync().get()
+        return handler.retrieveAll()
     }
 
     fun save(filter: Filter) {

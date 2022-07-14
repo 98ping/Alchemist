@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.models.profile
 
 import com.google.gson.JsonObject
-import com.mongodb.BasicDBList
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.tags.Tag
@@ -10,7 +9,6 @@ import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.profiles.ProfileSearchService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import java.util.*
@@ -21,6 +19,7 @@ import kotlin.collections.HashMap
 data class GameProfile(
     var uuid: UUID,
     var username: String,
+    var lowercasedUsername: String,
     var metadata: JsonObject,
     var usedIps: ArrayList<String>,
     var friends: ArrayList<UUID>,
@@ -57,7 +56,7 @@ data class GameProfile(
 
     fun supplyFriendsAsProfiles() : CompletableFuture<List<GameProfile?>> {
         return CompletableFuture.supplyAsync {
-            friends.map { ProfileSearchService.getAsync(it).get() }.filter { Objects.nonNull(it) }
+            friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }
         }
     }
 
