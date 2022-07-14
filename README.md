@@ -18,12 +18,12 @@ Alchemist's features are listed below:
 - Friends System
 - Punishments System
 - StaffUtils  (Staffchat and other staff messages)
+- Prefix System
 
 Soon to be added:
 - Party System
 - Discord Bot for Syncing and what not 
 - Staff Suite (reports and helpop and other stuff)
-- Prefix System
 
 # Using
 
