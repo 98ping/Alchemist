@@ -18,7 +18,13 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        return arrayListOf()
+        val desc = arrayListOf<String>()
+        desc.add(Chat.format("&fClick to view this category of punishment."))
+        desc.add(" ")
+        desc.add(Chat.format("&fTotal Punishments:"))
+        val punishments = gameProfile.getPunishments().filter { it.getGrantable() == punishmentType }
+        desc.add(Chat.format("&f${punishments.size}"))
+        return desc
     }
 
     override fun getDisplayName(player: Player): String? {
