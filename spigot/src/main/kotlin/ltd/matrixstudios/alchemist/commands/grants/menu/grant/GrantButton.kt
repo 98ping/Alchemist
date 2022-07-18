@@ -33,12 +33,14 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = arrayListOf<String>()
 
-        desc.add(Chat.format("&7&m--------------"))
-        desc.add(Chat.format("&fRank: &r${rank.color}${rank.displayName}"))
-        desc.add(Chat.format("&7* &fColor: ${rank.color}This"))
-        desc.add(Chat.format("&7* &fPrefix: ${rank.prefix}"))
-        desc.add(Chat.format("&7* &fWeight: ${rank.weight}"))
-        desc.add(Chat.format("&7&m--------------"))
+        desc.add(Chat.format("&6&m---------------------"))
+        desc.add(Chat.format("&ePriority: &6${rank.weight}"))
+        desc.add(Chat.format("&ePrefix:  ${rank.prefix}"))
+        desc.add(Chat.format("&eColor: ${rank.color}This"))
+        desc.add(Chat.format("&eDefault: &6${rank.default}"))
+        desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
+        desc.add(Chat.format("&6&m---------------------"))
+        desc.add(Chat.format("&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${AlchemistAPI.getRankDisplay(gameProfile.uuid)}"))
 
 
         return desc
