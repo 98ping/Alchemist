@@ -138,7 +138,7 @@ object TimeUtil {
             }
         }
 
-        if (time == "perm") return Long.MAX_VALUE.toInt()
+        if (time == "perm" || time.equals("Permanent", ignoreCase = true)) return Long.MAX_VALUE.toInt()
 
         if (seconds == -1) {
             throw IllegalArgumentException("Invalid time provided.")
