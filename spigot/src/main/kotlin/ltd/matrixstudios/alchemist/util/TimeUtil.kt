@@ -138,6 +138,8 @@ object TimeUtil {
             }
         }
 
+        if (time == "perm") return Long.MAX_VALUE.toInt()
+
         if (seconds == -1) {
             throw IllegalArgumentException("Invalid time provided.")
         }
