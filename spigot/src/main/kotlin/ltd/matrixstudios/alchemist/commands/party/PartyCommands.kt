@@ -15,6 +15,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 @CommandAlias("p|party")
@@ -27,7 +28,7 @@ class PartyCommands : BaseCommand() {
             return
         }
 
-        val party = Party(UUID.randomUUID(), player.uniqueId, setOf(), setOf())
+        val party = Party(UUID.randomUUID(), player.uniqueId, mutableListOf(), mutableListOf(), mutableMapOf(), System.currentTimeMillis(), true)
         PartyService.handler.storeAsync(party.id, party)
 
         player.sendMessage(Chat.format("&aYou have created a party!"))
@@ -71,17 +72,6 @@ class PartyCommands : BaseCommand() {
         party.invited[targetProfile.uuid] = System.currentTimeMillis()
         PartyService.handler.storeAsync(party.id, party)
         AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&aYou have been invited to join ${player.displayName}'s party!")))
-
-        Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-            if (party.invited.containsKey(targetProfile.uuid)) {
-                party.invited.remove(targetProfile.uuid)
-                PartyService.handler.storeAsync(party.id, party)
-
-                for (member in party.getAllMembers()) {
-                    AsynchronousRedisSender.send(NetworkMessagePacket(member, Chat.format("&cPlayer '${targetProfile.username}' invite has expired!")))
-                }
-            }
-        }, 20 * 60 * 5)
     }
 
     @CommandAlias("accept|join")
