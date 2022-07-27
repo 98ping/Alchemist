@@ -28,7 +28,7 @@ class FriendCommands : BaseCommand() {
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target") gameProfile: GameProfile) {
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
-        val bukkitPlayer: Player = Bukkit.getOfflinePlayer(gameProfile.uuid).player
+        val bukkitPlayer = Bukkit.getOfflinePlayer(gameProfile.uuid)
 
         if (gameProfile.friends.contains(player.uniqueId)) {
             player.sendMessage(Chat.format("&cThis player is already friends with you"))
@@ -48,9 +48,9 @@ class FriendCommands : BaseCommand() {
         gameProfile.friendInvites.add(player.uniqueId)
         player.sendMessage(Chat.format("&e&l[Friends] &aYou have send a friend request to &f" + gameProfile.username))
 
-        if (bukkitPlayer.isOnline) {
-            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aYou have received a friend request from &f" + playerProfile.username))
-            bukkitPlayer.sendMessage(Chat.format("&e&l[Friends] &aType &f/friend accept &ato accept the request"))
+        if (bukkitPlayer != null && bukkitPlayer.isOnline) {
+            bukkitPlayer.player.sendMessage(Chat.format("&e&l[Friends] &aYou have received a friend request from &f" + playerProfile.username))
+            bukkitPlayer.player.sendMessage(Chat.format("&e&l[Friends] &aType &f/friend accept &ato accept the request"))
         }
 
 
