@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.service.party
 
-import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
@@ -9,7 +8,7 @@ import java.util.*
 
 object PartyService {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.REDIS)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
 
 
     fun getValues(): Collection<Party> {

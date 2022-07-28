@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
 import ltd.matrixstudios.alchemist.commands.player.SudoCommand
 import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
@@ -31,7 +32,9 @@ import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.networking.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
+import ltd.matrixstudios.alchemist.party.listeners.PartyQuitListener
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -99,6 +102,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
         server.pluginManager.registerEvents(FilterListener, this)
+        server.pluginManager.registerEvents(PartyQuitListener(), this)
+        server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
 
         AccessiblePermissionHandler.load()
 
@@ -169,6 +174,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(PlayerAdminCommand())
+
+            registerCommand(PartyCommands())
         }
         
 
