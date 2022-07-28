@@ -28,6 +28,8 @@ class PartyQuitListener : Listener {
                             AsynchronousRedisSender.send(NetworkMessagePacket(it.first, "&8[&dParties&8] &fYour party has been &cdisbanded"))
                         }
                         PartyService.handler.delete(party.id)
+
+                        return
                     }
 
                     if (party.members.map { it.first }.contains(e.player.uniqueId) && NetworkManager.hasFullyDCed(e.player.uniqueId))
