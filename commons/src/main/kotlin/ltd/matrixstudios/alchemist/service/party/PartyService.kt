@@ -18,7 +18,11 @@ object PartyService {
 
     fun getParty(uuid: UUID): Party? {
         for (party in getValues()) {
-            if (party.leader == uuid || party.moderators.contains(uuid) || party.members.contains(uuid)) {
+            if (party.leader == uuid
+                || party.members.firstOrNull {
+                    it.first.toString() == uuid.toString()
+                } != null
+            ) {
                 return party
             }
         }

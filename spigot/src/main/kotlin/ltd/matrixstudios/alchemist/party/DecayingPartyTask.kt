@@ -1,8 +1,5 @@
 package ltd.matrixstudios.alchemist.party
 
-import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.party.PartyService
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.concurrent.TimeUnit
@@ -22,7 +19,7 @@ object DecayingPartyTask : BukkitRunnable() {
                 return
             }
 
-            if (party.getAllMembers().size > 0)
+            if (party.members.size > 0)
             {
                 party.alive = true
             }

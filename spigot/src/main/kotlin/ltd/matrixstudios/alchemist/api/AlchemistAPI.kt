@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 object AlchemistAPI {
 
     fun getRankDisplay(uuid: UUID) : String {
-        var finalString = "&cNot Found"
+        var finalString = "&cConsole"
 
         val profile = quickFindProfile(uuid).get()
 

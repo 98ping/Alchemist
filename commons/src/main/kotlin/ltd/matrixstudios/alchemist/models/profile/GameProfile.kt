@@ -51,7 +51,7 @@ data class GameProfile(
     }
 
     fun isOnline() : Boolean {
-        return metadata.get("server") != null
+        return metadata.get("server").asString != "None"
     }
 
     fun supplyFriendsAsProfiles() : CompletableFuture<List<GameProfile?>> {
