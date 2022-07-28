@@ -62,7 +62,6 @@ class ProfileJoinListener : Listener {
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
         profile.lastSeenAt = System.currentTimeMillis()
-        profile.metadata.addProperty("server", AlchemistSpigotPlugin.instance.globalServer.id)
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
