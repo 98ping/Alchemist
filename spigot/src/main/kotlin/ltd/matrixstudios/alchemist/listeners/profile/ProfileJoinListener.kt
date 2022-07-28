@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.listeners.profile
 
 import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
@@ -61,6 +62,7 @@ class ProfileJoinListener : Listener {
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
         profile.lastSeenAt = System.currentTimeMillis()
+        profile.metadata.addProperty("server", AlchemistSpigotPlugin.instance.globalServer.id)
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
