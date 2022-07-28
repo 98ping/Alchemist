@@ -22,7 +22,7 @@ class PartyQuitListener : Listener {
         {
             object : BukkitRunnable() {
                 override fun run() {
-                    if (party.leader == e.player.uniqueId && NetworkManager.hasFullyDCed(e.player.uniqueId))
+                    if (party.leader.toString() == e.player.uniqueId.toString() && NetworkManager.hasFullyDCed(e.player.uniqueId))
                     {
                         party.members.forEach {
                             AsynchronousRedisSender.send(NetworkMessagePacket(it.first, "&8[&dParties&8] &fYour party has been &cdisbanded"))
