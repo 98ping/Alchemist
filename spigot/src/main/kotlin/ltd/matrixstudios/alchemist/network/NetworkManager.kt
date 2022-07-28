@@ -10,7 +10,7 @@ object NetworkManager {
         var offline = false
         val it = AlchemistAPI.quickFindProfile(target).get()
 
-        if (!it!!.isOnline() && System.currentTimeMillis().minus(it.lastSeenAt) >= TimeUnit.SECONDS.toMillis(30L)) {
+        if (!it!!.isOnline() && System.currentTimeMillis().minus(it.lastSeenAt) >= TimeUnit.MINUTES.toMillis(1L)) {
             offline = true
         } else if (it.isOnline()) {
             offline = false

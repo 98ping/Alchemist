@@ -104,7 +104,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
-        (DecayingPartyTask()).runTaskTimer(this, 0L, 20L)
+        (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
 
 
         if (UniqueServerService.byId(config.getString("server.id")) == null) {

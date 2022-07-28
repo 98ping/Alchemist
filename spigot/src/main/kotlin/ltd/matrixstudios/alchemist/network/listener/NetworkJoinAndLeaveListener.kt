@@ -16,6 +16,8 @@ class NetworkJoinAndLeaveListener : Listener {
             if (it != null) {
                 it.metadata.addProperty("server", "None")
 
+                it.lastSeenAt = System.currentTimeMillis()
+
                 ProfileGameService.save(it)
             }
         }
@@ -26,6 +28,8 @@ class NetworkJoinAndLeaveListener : Listener {
         AlchemistAPI.quickFindProfile(e.uniqueId).thenApply {
             if (it != null) {
                 it.metadata.addProperty("server", AlchemistSpigotPlugin.instance.globalServer.id)
+
+                it.lastSeenAt = System.currentTimeMillis()
 
                 ProfileGameService.save(it)
             }
