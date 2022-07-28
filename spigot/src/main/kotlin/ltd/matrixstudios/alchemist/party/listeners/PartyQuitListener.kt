@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.party.listeners
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.networking.NetworkManager
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.impl.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.party.PartyService
@@ -21,7 +22,7 @@ class PartyQuitListener : Listener {
         {
             object : BukkitRunnable() {
                 override fun run() {
-                    if (party.leader == e.player.uniqueId)
+                    if (party.leader == e.player.uniqueId && NetworkManager.hasFullyDCed(e.player.uniqueId))
                     {
                         party.members.forEach {
                             AsynchronousRedisSender.send(NetworkMessagePacket(it.first, "&8[&dParties&8] &fYour party has been &cdisbanded"))
@@ -29,7 +30,7 @@ class PartyQuitListener : Listener {
                         PartyService.handler.delete(party.id)
                     }
 
-                    if (party.members.map { it.first }.contains(e.player.uniqueId))
+                    if (party.members.map { it.first }.contains(e.player.uniqueId) && NetworkManager.hasFullyDCed(e.player.uniqueId))
                     {
                         party.removeMember(e.player.uniqueId)
                     }

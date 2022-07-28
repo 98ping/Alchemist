@@ -24,7 +24,8 @@ data class GameProfile(
     var usedIps: ArrayList<String>,
     var friends: ArrayList<UUID>,
     var friendInvites: ArrayList<UUID>,
-    var activePrefix: String?
+    var activePrefix: String?,
+    var lastSeenAt: Long
 ) {
 
     fun getPunishments(): Collection<Punishment> {

@@ -1,13 +1,11 @@
 package ltd.matrixstudios.alchemist.commands.party
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.Flags
-import co.aikar.commands.annotation.HelpCommand
-import co.aikar.commands.annotation.Single
+import co.aikar.commands.annotation.*
 import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -111,7 +109,7 @@ class PartyCommands : BaseCommand() {
     }
 
     @CommandAlias("accept|join")
-    fun accept(player: Player, target: String) {
+    fun accept(player: Player, @Name("target")target: String) {
         if (PartyService.getParty(player.uniqueId) != null) {
             player.sendMessage(Chat.format("&cYou are already in a party!"))
             return
@@ -131,7 +129,12 @@ class PartyCommands : BaseCommand() {
             return
         }
     
-        TODO("Finish")
+        party.members.add(Pair(player.uniqueId, PartyElevation.MEMBER))
+        party.members.forEach {
+            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(targetProfile.uuid)} &fhas joined your party!")))
+        }
+
+        PartyService.handler.storeAsync(party.id, party)
     }
 
 }

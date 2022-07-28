@@ -61,7 +61,7 @@ object ProfileGameService {
             return possibleProfile
         }
 
-        val lastResortProfile = GameProfile(uuid, username, username.toLowerCase(), JsonObject(), arrayListOf(), arrayListOf(), arrayListOf(), null)
+        val lastResortProfile = GameProfile(uuid, username, username.toLowerCase(), JsonObject(), arrayListOf(), arrayListOf(), arrayListOf(), null, System.currentTimeMillis())
 
         save(lastResortProfile)
 

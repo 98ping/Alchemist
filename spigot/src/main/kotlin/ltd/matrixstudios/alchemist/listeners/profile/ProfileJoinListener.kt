@@ -58,17 +58,23 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-            val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
+        val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
-            if (profile.hasActivePunishment(PunishmentType.BAN)) {
-                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-                event.kickMessage = Chat.format("&cYou are currently banned from the server")
-            } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
-                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-                event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
-            }
+        profile.lastSeenAt = System.currentTimeMillis()
 
-            AccessiblePermissionHandler.setupPlayer(event.uniqueId, profile.getPermissions())
+        if (profile.hasActivePunishment(PunishmentType.BAN)) {
+            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
+            event.kickMessage = Chat.format("&cYou are currently banned from the server")
+        } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
+            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
+            event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
         }
+
+        //doing this for syncing purposes and because the network manager needs to track when they were last on
+        ProfileGameService.handler.storeAsync(profile.uuid, profile)
+
+
+        AccessiblePermissionHandler.setupPlayer(event.uniqueId, profile.getPermissions())
     }
+}
 
