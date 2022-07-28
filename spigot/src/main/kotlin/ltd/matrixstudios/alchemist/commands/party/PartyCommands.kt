@@ -8,11 +8,13 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
+import ltd.matrixstudios.alchemist.party.PartyInformationSuppplier
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.impl.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.party.PartyService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -44,6 +46,23 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/party invite <target>"))
         sender.sendMessage(Chat.format("&e/party disband"))
         sender.sendMessage(Chat.format("&e/party accept <target>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
+    @CommandAlias("info")
+    fun info(sender: Player) {
+        if (PartyService.getParty(sender.uniqueId) == null) {
+            sender.sendMessage(Chat.format("&cYou are not in a party!"))
+            return
+        }
+
+        val party = PartyService.getParty(sender.uniqueId)
+
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&r" + PartyInformationSuppplier.getLeaderFancyName(party!!.leader) + "&6's Party"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&eMembers: &7" + PartyInformationSuppplier.formatMembersString(party).toString()))
+        sender.sendMessage(Chat.format("&eUptime: &f" + TimeUtil.formatDuration((System.currentTimeMillis() - party.createdAt))))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 

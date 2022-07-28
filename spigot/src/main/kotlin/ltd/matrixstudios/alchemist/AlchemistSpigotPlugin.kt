@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist
 
-import co.aikar.commands.BukkitCommandCompletionContext
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
@@ -32,18 +31,15 @@ import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
-import ltd.matrixstudios.alchemist.networking.listener.NetworkJoinAndLeaveListener
+import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
-import ltd.matrixstudios.alchemist.party.listeners.PartyQuitListener
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
 
@@ -102,14 +98,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
         server.pluginManager.registerEvents(FilterListener, this)
-        server.pluginManager.registerEvents(PartyQuitListener(), this)
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
 
         AccessiblePermissionHandler.load()
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
-        DecayingPartyTask.runTaskTimerAsynchronously(this, 0L, 20L)
+        (DecayingPartyTask()).runTaskTimer(this, 0L, 20L)
 
 
         if (UniqueServerService.byId(config.getString("server.id")) == null) {
@@ -132,6 +127,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             globalServer = server
         } else {
             globalServer = UniqueServerService.byId(config.getString("server.id"))!!
+
+            globalServer.online = true
         }
 
 
