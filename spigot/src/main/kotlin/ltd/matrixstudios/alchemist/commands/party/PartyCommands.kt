@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.party
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Flags
+import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Single
 import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import ltd.matrixstudios.alchemist.Alchemist
@@ -15,6 +16,7 @@ import ltd.matrixstudios.alchemist.service.party.PartyService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
@@ -33,6 +35,18 @@ class PartyCommands : BaseCommand() {
         PartyService.handler.storeAsync(party.id, party)
 
         player.sendMessage(Chat.format("&8[&dParties&8] &fYou have &acreated &fa party!"))
+    }
+
+    @HelpCommand
+    fun help(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&6&lParty Help"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&e/party create"))
+        sender.sendMessage(Chat.format("&e/party invite <target>"))
+        sender.sendMessage(Chat.format("&e/party disband"))
+        sender.sendMessage(Chat.format("&e/party accept <target>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 
     @CommandAlias("invite")
@@ -91,7 +105,7 @@ class PartyCommands : BaseCommand() {
         }
 
         partyByPlayer.members.forEach {
-            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, "&8[&dParties&8] &fYour party has been &cdisbanded"))
+            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] &fYour party has been &cdisbanded")))
         }
         PartyService.handler.delete(partyByPlayer.id)
     }
