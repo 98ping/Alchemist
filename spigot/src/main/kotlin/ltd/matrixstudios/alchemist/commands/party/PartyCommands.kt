@@ -6,7 +6,6 @@ import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.commands.party.menu.PartyMenu
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
 import ltd.matrixstudios.alchemist.party.PartyInformationSuppplier
@@ -18,6 +17,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import org.bukkit.conversations.StringPrompt
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
@@ -44,29 +44,45 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&6&lParty Help"))
         sender.sendMessage(" ")
         sender.sendMessage(Chat.format("&e/party create"))
-        sender.sendMessage(Chat.format("&e/party invite <target>"))
+        sender.sendMessage(Chat.format("&e/party invite"))
         sender.sendMessage(Chat.format("&e/party disband"))
         sender.sendMessage(Chat.format("&e/party accept <target>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 
-    @CommandAlias("info")
-    fun info(sender: Player) {
-        if (PartyService.getParty(sender.uniqueId) == null) {
-            sender.sendMessage(Chat.format("&cYou are not in a party!"))
-            return
-        }
-
-        PartyMenu(sender, PartyService.getParty(sender.uniqueId)!!).openMenu()
-    }
-
     @CommandAlias("invite")
-    fun invite(player: Player) {
+    fun invite(player: Player, @Name("target")target: String) {
         if (PartyService.getParty(player.uniqueId) == null) {
             create(player)
         }
 
-        PartyMenu(player, PartyService.getParty(player.uniqueId)!!).openMenu()
+        val party = PartyService.getParty(player.uniqueId)!!
+
+        val targetProfile = ProfileGameService.byUsername(target)
+
+        if (targetProfile == null) {
+            player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
+            return
+        }
+
+        if (!targetProfile.isOnline()) {
+            player.sendMessage(Chat.format("&cPlayer '$target' is not online!"))
+            return
+        }
+
+        if (PartyService.getParty(targetProfile.uuid) != null) {
+            player.sendMessage(Chat.format("&cPlayer '$target' is already in a party!"))
+            return
+        }
+
+        if (party.invited.containsKey(targetProfile.uuid)) {
+            player.sendMessage(Chat.format("&cPlayer '$target' has already been invited to your party!"))
+            return
+        }
+
+        party.invited[targetProfile.uuid] = System.currentTimeMillis()
+        PartyService.handler.storeAsync(party.id, party)
+        AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
     }
 
     @CommandAlias("disband")
