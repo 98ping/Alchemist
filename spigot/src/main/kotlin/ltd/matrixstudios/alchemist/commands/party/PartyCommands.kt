@@ -6,6 +6,7 @@ import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.party.menu.PartyMenu
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
 import ltd.matrixstudios.alchemist.party.PartyInformationSuppplier
@@ -56,55 +57,16 @@ class PartyCommands : BaseCommand() {
             return
         }
 
-        val party = PartyService.getParty(sender.uniqueId)
-
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&r" + PartyInformationSuppplier.getLeaderFancyName(party!!.leader) + "&6's Party"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&eMembers: &7" + PartyInformationSuppplier.formatMembersString(party).toString()))
-        sender.sendMessage(Chat.format("&eUptime: &f" + TimeUtil.formatDuration((System.currentTimeMillis() - party.createdAt))))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        PartyMenu(sender, PartyService.getParty(sender.uniqueId)!!).openMenu()
     }
 
     @CommandAlias("invite")
-    fun invite(player: Player, @Flags("other") @Single target: String) {
+    fun invite(player: Player) {
         if (PartyService.getParty(player.uniqueId) == null) {
             create(player)
         }
 
-        val party = PartyService.getParty(player.uniqueId)!!
-
-        if (party.members.map { it.first }.contains(player.uniqueId)
-            && party.members.first { it.first.toString() == player.uniqueId.toString() }.second == PartyElevation.MEMBER) {
-            player.sendMessage(Chat.format("&cYou are not high enough rank to invite people to your party!"))
-            return
-        }
-
-        val targetProfile = ProfileGameService.byUsername(target)
-
-        if (targetProfile == null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
-            return
-        }
-
-        if (!targetProfile.isOnline()) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is not online!"))
-            return
-        }
-
-        if (PartyService.getParty(targetProfile.uuid) != null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is already in a party!"))
-            return
-        }
-
-        if (party.invited.containsKey(targetProfile.uuid)) {
-            player.sendMessage(Chat.format("&cPlayer '$target' has already been invited to your party!"))
-            return
-        }
-
-        party.invited[targetProfile.uuid] = System.currentTimeMillis()
-        PartyService.handler.storeAsync(party.id, party)
-        AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
+        PartyMenu(player, PartyService.getParty(player.uniqueId)!!).openMenu()
     }
 
     @CommandAlias("disband")

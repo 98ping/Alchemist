@@ -14,7 +14,14 @@ abstract class Button {
 
     abstract fun onClick(player: Player, slot: Int, type: ClickType)
 
+    open fun getButtonItem(player: Player) : ItemStack? { return null }
+
     fun constructItemStack(player: Player) : ItemStack {
+        if (getButtonItem(player) != null)
+        {
+            return getButtonItem(player)!!
+        }
+
         val itemStack: ItemStack = ItemStack(getMaterial(player))
 
         itemStack.durability = getData(player)
