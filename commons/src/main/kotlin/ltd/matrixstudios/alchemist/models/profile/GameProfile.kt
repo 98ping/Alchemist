@@ -52,6 +52,8 @@ data class GameProfile(
     }
 
     fun isOnline() : Boolean {
+        if (metadata.get("server") == null) return false
+
         return metadata.get("server").asString != "None"
     }
 

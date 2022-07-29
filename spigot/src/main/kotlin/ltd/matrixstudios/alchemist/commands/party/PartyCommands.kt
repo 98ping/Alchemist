@@ -44,7 +44,7 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&6&lParty Help"))
         sender.sendMessage(" ")
         sender.sendMessage(Chat.format("&e/party create"))
-        sender.sendMessage(Chat.format("&e/party invite"))
+        sender.sendMessage(Chat.format("&e/party invite <target>"))
         sender.sendMessage(Chat.format("&e/party disband"))
         sender.sendMessage(Chat.format("&e/party accept <target>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
