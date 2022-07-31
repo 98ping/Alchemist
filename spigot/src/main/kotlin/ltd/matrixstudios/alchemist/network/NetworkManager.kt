@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.network
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -17,5 +18,13 @@ object NetworkManager {
         }
 
         return offline
+    }
+
+    fun joinedServerFromList(target: UUID) : Boolean {
+        val profile = ProfileGameService.byId(target) ?: return false
+
+        if (!profile.isOnline()) return true
+
+        return false
     }
 }

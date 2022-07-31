@@ -71,6 +71,29 @@ class GenericRankCommands : BaseCommand() {
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Removed a rank with the id &b$name"))
     }
 
+    @Subcommand("info")
+    @CommandPermission("rank.admin")
+    fun info(sender: CommandSender, @Name("rank") name: String) {
+        if (RankService.byId(name) == null) {
+            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
+            return
+        }
+
+        val rank = RankService.byId(name)!!
+
+        sender.sendMessage(Chat.format("&7&m--------------------------"))
+        sender.sendMessage(Chat.format(rank.color + rank.displayName))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&eWeight: &f" + rank.weight))
+        sender.sendMessage(Chat.format("&ePrefix: &f" + rank.prefix))
+        sender.sendMessage(Chat.format("&eColor: " + rank.color + "This"))
+        sender.sendMessage(Chat.format("&eParents: &f" + rank.parents.size))
+        sender.sendMessage(Chat.format("&ePermissions: &f" + rank.permissions.size))
+        sender.sendMessage(Chat.format("&eStaff Rank: &f" + rank.staff))
+        sender.sendMessage(Chat.format("&eDefault Rank: &f" + rank.default))
+        sender.sendMessage(Chat.format("&7&m--------------------------"))
+    }
+
     @Subcommand("module")
     @CommandPermission("rank.admin")
     fun module(sender: CommandSender, @Name("rank") name: String, @Name("module")module: String, @Name("argument")arg: String) {

@@ -128,7 +128,7 @@ class PartyCommands : BaseCommand() {
     
         party.members.add(Pair(player.uniqueId, PartyElevation.MEMBER))
         party.members.forEach {
-            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(targetProfile.uuid)} &fhas joined your party!")))
+            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(player.uniqueId)} &fhas joined your party!")))
         }
 
         PartyService.handler.storeAsync(party.id, party)
