@@ -11,7 +11,7 @@ data class UniqueServer(
     var online: Boolean,
     var ramAllocated: Int,
     var bungeeName: String,
-    var lockedWithPermission: Boolean,
-    var lockPermission: String,
+    var lockedWithRank: Boolean,
+    var lockRank: String,
     var lastHeartbeat: Long,
 )

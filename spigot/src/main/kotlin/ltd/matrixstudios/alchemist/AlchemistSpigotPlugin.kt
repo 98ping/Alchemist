@@ -36,6 +36,7 @@ import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
@@ -99,6 +100,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(MenuListener(), this)
         server.pluginManager.registerEvents(FilterListener, this)
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
+        server.pluginManager.registerEvents(ServerLockListener(), this)
 
         AccessiblePermissionHandler.load()
 

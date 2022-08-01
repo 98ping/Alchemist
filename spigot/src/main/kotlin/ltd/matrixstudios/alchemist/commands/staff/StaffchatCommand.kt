@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.staff.packets.StaffMessagePacket
@@ -14,6 +15,6 @@ class StaffchatCommand : BaseCommand() {
     @CommandAlias("sc|staffchat")
     @CommandPermission("alchemist.staffchat")
     fun staffchat(player: Player, @Name("message")message: String) {
-        AsynchronousRedisSender.send(StaffMessagePacket(message, player.uniqueId))
+        AsynchronousRedisSender.send(StaffMessagePacket(message, AlchemistSpigotPlugin.instance.globalServer.displayName, player.uniqueId))
     }
 }

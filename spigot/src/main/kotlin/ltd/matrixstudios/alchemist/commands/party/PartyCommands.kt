@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.party
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
+import com.sun.org.apache.bcel.internal.generic.RET
 import com.sun.xml.internal.ws.wsdl.writer.document.Part
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
@@ -47,7 +48,41 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/party invite <target>"))
         sender.sendMessage(Chat.format("&e/party disband"))
         sender.sendMessage(Chat.format("&e/party accept <target>"))
+        sender.sendMessage(Chat.format("&e/party leave"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
+    @CommandAlias("kick")
+    fun kick(player: Player, @Name("target")target: String) {
+        if (PartyService.getParty(player.uniqueId) == null) {
+            player.sendMessage(Chat.format("&cYou are not in a party!"))
+            return
+        }
+
+        val party = PartyService.getParty(player.uniqueId)!!
+
+        val targetProfile = ProfileGameService.byUsername(target)
+
+        if (targetProfile == null) {
+            player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
+            return
+        }
+
+        if (PartyService.getParty(targetProfile.uuid) == null) {
+            player.sendMessage(Chat.format("&cPlayer '$target' is not in a party!"))
+            return
+        }
+
+        if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
+            player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
+            return
+        }
+
+        party.members.forEach {
+            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(targetProfile.uuid)} &fhas been &ckicked &ffrom your party!")))
+        }
+        party.removeMember(targetProfile.uuid)
+        PartyService.handler.storeAsync(party.id, party)
     }
 
     @CommandAlias("invite")
@@ -80,6 +115,11 @@ class PartyCommands : BaseCommand() {
             return
         }
 
+        if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
+            player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
+            return
+        }
+
         party.invited[targetProfile.uuid] = System.currentTimeMillis()
         PartyService.handler.storeAsync(party.id, party)
         AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
@@ -103,6 +143,30 @@ class PartyCommands : BaseCommand() {
             AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] &fYour party has been &cdisbanded")))
         }
         PartyService.handler.delete(partyByPlayer.id)
+    }
+
+    @CommandAlias("leave")
+    fun leave(player: Player) {
+        if (PartyService.getParty(player.uniqueId) == null) {
+            player.sendMessage(Chat.format("&cYou are not in a party!"))
+            return
+        }
+
+
+        val party = PartyService.getParty(player.uniqueId)!!
+
+        if (party.leader.toString() == player.uniqueId.toString()) {
+            player.sendMessage(Chat.format("&cYou are the leader of this party, use /party disband instead!"))
+            return
+        }
+
+        party.removeMember(player.uniqueId)
+        player.sendMessage(Chat.format("&cYou have left your party!"))
+        party.members.forEach {
+            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(player.uniqueId)} &fhas &cleft &fyour party!")))
+        }
+
+        PartyService.handler.storeAsync(party.id, party)
     }
 
     @CommandAlias("accept|join")

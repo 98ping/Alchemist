@@ -19,12 +19,4 @@ object NetworkManager {
 
         return offline
     }
-
-    fun joinedServerFromList(target: UUID) : Boolean {
-        val profile = ProfileGameService.byId(target) ?: return false
-
-        if (!profile.isOnline()) return true
-
-        return false
-    }
 }
