@@ -48,6 +48,7 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/party invite <target>"))
         sender.sendMessage(Chat.format("&e/party disband"))
         sender.sendMessage(Chat.format("&e/party accept <target>"))
+        sender.sendMessage(Chat.format("&e/party kick <target>"))
         sender.sendMessage(Chat.format("&e/party leave"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
@@ -75,6 +76,13 @@ class PartyCommands : BaseCommand() {
 
         if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
             player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
+            return
+        }
+
+        val targetParty = PartyService.getParty(targetProfile.uuid)
+
+        if (targetParty!!.id.toString() != party.id.toString()) {
+            player.sendMessage(Chat.format("&cThis player is not in your party!"))
             return
         }
 
