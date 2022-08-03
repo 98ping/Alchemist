@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
@@ -133,7 +134,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             globalServer.online = true
         }
 
-
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
@@ -157,6 +157,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(UnmuteCommand())
             registerCommand(UnblacklistCommand())
 
+            registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
 
             registerCommand(TagAdminCommand())

@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.models.profile
 
 import com.google.gson.JsonObject
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.tags.Tag
@@ -11,6 +12,7 @@ import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.tags.TagService
+import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.collections.ArrayList
@@ -21,7 +23,7 @@ data class GameProfile(
     var username: String,
     var lowercasedUsername: String,
     var metadata: JsonObject,
-    var usedIps: ArrayList<String>,
+    var ip: String,
     var friends: ArrayList<UUID>,
     var friendInvites: ArrayList<UUID>,
     var activePrefix: String?,
@@ -32,17 +34,56 @@ data class GameProfile(
         return PunishmentService.getValues().filter { it.target == uuid }
     }
 
-    fun hasActivePrefix() : Boolean {
+    fun accuracyOfRelation(profile: GameProfile) : Int {
+        var assurance = 85
+
+        if (ip != profile.ip)
+        {
+            assurance -= 50
+        }
+
+        if (ip == profile.ip)
+        {
+            if (getActivePunishments().isEmpty()) {
+                assurance -= 70
+            }
+        }
+
+        return assurance
+    }
+
+    fun getActivePunishments() : Collection<Punishment> {
+        return getPunishments().filter { it.expirable.isActive() }
+    }
+
+    fun getAltAccounts(): MutableList<GameProfile> {
+        val finalAccounts = arrayListOf<GameProfile>()
+        val targetDocuments = ProfileGameService.collection.find(Document("ip", ip))
+
+
+        for (document in targetDocuments) {
+            val documentJson = document.toJson()
+
+            val profile = Alchemist.gson.fromJson(documentJson, GameProfile::class.java)
+
+            finalAccounts.add(profile)
+
+        }
+
+        return finalAccounts
+    }
+
+    fun hasActivePrefix(): Boolean {
         return activePrefix != null
     }
 
-    fun getActivePrefix() : Tag? {
+    fun getActivePrefix(): Tag? {
         val tag = TagService.byId(activePrefix!!) ?: return null
 
         return tag
     }
 
-    fun canUse(tag: Tag) : Boolean {
+    fun canUse(tag: Tag): Boolean {
         return TagGrantService.getValues().get()
             .filter {
                 it.target == uuid && it.expirable.isActive()
@@ -51,13 +92,13 @@ data class GameProfile(
             } != null
     }
 
-    fun isOnline() : Boolean {
+    fun isOnline(): Boolean {
         if (metadata.get("server") == null) return false
 
         return metadata.get("server").asString != "None"
     }
 
-    fun supplyFriendsAsProfiles() : CompletableFuture<List<GameProfile?>> {
+    fun supplyFriendsAsProfiles(): CompletableFuture<List<GameProfile?>> {
         return CompletableFuture.supplyAsync {
             friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }
         }

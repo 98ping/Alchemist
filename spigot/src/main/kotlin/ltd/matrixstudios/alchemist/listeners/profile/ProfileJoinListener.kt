@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.SHA
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -62,6 +63,11 @@ class ProfileJoinListener : Listener {
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
         profile.lastSeenAt = System.currentTimeMillis()
+
+        val hostAddress = event.address.hostAddress
+        val output = SHA.toHexString(hostAddress)!!
+
+        profile.ip = output
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED

@@ -9,7 +9,7 @@ object SHA {
 
     fun toHexString(input: String): String? {
         return try {
-            val md = MessageDigest.getInstance("SHA-256")
+            val md = MessageDigest.getInstance("SHA-384")
             val hash = md.digest(input.toByteArray(StandardCharsets.UTF_8))
             val number = BigInteger(1, hash)
             val hexString = StringBuilder(number.toString(16))
