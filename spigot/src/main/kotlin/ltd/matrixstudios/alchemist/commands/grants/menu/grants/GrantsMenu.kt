@@ -16,7 +16,7 @@ class GrantsMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMe
         val stopwatch = Stopwatch.createStarted()
 
         var index = 0
-        for (grant in RankGrantService.findByTarget(gameProfile.uuid)) {
+        for (grant in RankGrantService.getFromCache(gameProfile.uuid)) {
             buttons[index++] = GrantsButton(grant)
         }
 

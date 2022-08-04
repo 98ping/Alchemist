@@ -29,15 +29,6 @@ object PunishmentService : ExpiringService<Punishment>() {
     }
 
 
-    override fun clearOutModels() {
-        getValues().forEach {
-            if (!it.expirable.isActive() && it.removedBy == null) {
-                it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
-                it.removedReason = "Expired"
-
-                save(it)
-            }
-        }
-    }
+    override fun clearOutModels() { }
 
 }

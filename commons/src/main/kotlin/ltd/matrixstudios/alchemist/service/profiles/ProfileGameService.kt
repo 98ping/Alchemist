@@ -49,22 +49,16 @@ object ProfileGameService {
 
     fun loadProfile(uuid: UUID, username: String) : GameProfile
     {
-        if (cache.containsKey(uuid))
+        val cached = cache[uuid] ?: handler.retrieve(uuid)
+
+        return if (cached != null)
         {
-            return cache[uuid]!!
-        }
-
-        val possibleProfile = handler.retrieve(uuid)
-
-        if (possibleProfile != null)
+            cached
+        } else
         {
-            return possibleProfile
+            GameProfile(
+                uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, System.currentTimeMillis()
+            )
         }
-
-        val lastResortProfile = GameProfile(uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, System.currentTimeMillis())
-
-        save(lastResortProfile)
-
-        return lastResortProfile
     }
 }

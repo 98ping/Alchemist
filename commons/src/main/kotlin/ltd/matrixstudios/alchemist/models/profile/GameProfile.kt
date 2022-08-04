@@ -144,12 +144,18 @@ data class GameProfile(
     fun getCurrentRank(): Rank? {
         var currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
 
-        RankGrantService.findByTarget(uuid).forEach { grant ->
-            if (grant.expirable.isActive() && grant.getGrantable()!!.weight > currentGrant!!.weight) {
-                currentGrant = grant.getGrantable()
-            }
+        val filteredRank = RankGrantService.getFromCache(uuid).filter {
+            it.expirable.isActive()
+        }.sortedBy { it.getGrantable()!!.weight }.reversed().firstOrNull()
+
+        if (filteredRank == null
+            ||
+            filteredRank.getGrantable()!!.weight < currentGrant!!.weight
+        )
+        {
+            return currentGrant
         }
 
-        return currentGrant
+        return filteredRank.getGrantable()
     }
 }
