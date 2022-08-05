@@ -42,7 +42,7 @@ class GenericRankCommands : BaseCommand() {
         RankService.save(rank)
 
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
-        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Added a new rank with the name &b$name"))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Added a new rank with the id &b$name"))
     }
 
     @Subcommand("list")

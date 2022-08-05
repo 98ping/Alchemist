@@ -57,6 +57,8 @@ class ProfileJoinListener : Listener {
         CompletableFuture.runAsync {
             AccessiblePermissionHandler.update(player, perms)
         }
+
+        AccessiblePermissionHandler.pendingLoadPermissions.remove(player.uniqueId)
     }
 
     @EventHandler
