@@ -108,6 +108,29 @@ data class GameProfile(
         return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
     }
 
+    fun getPermissionsAsList(): MutableList<String> {
+        val allPerms = arrayListOf<String>()
+
+        allPerms.addAll(getCurrentRank()!!.permissions)
+
+        val parents = getCurrentRank()!!.parents.map {
+            RankService.byId(it)
+        }.filter {
+            Objects.nonNull(it)
+        }
+
+        parents.forEach { rank ->
+            rank!!.permissions.forEach {
+                if (!allPerms.contains(it)) {
+                    allPerms.add(it)
+                }
+            }
+        }
+
+
+        return allPerms
+    }
+
     fun getPermissions(): HashMap<String?, Boolean?> {
         val returnedPerms = hashMapOf<String?, Boolean?>()
         val allPerms = arrayListOf<String>()
