@@ -100,6 +100,8 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
                         .thatExcludesNonPlayersWithMessage("Go away evil console!")
                 val con: Conversation = factory.buildConversation(player)
                 player.beginConversation(con)
+            } else if (time == "Permanent") {
+                ReasonMenu(player, rank, target, Long.MAX_VALUE).updateMenu()
             } else {
                 ReasonMenu(player, rank, target, TimeUtil.parseTime(time) * 1000L).updateMenu()
             }
