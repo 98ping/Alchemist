@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 
@@ -29,6 +30,17 @@ class RankGrant(
 
     var internalActor: DefaultActor = actor
     var rank: String = rankId
+
+    fun getIssuedByName() : String
+    {
+        val profile = ProfileGameService.byId(this.executor)
+        if (profile == null)
+        {
+            return "Console"
+        }
+
+        return profile.username
+    }
 
     override fun getGrantable(): Rank? {
        return RankService.byId(rank)
