@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.models.profile
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
+import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -106,6 +107,13 @@ data class GameProfile(
 
     fun getActivePunishments(type: PunishmentType): Collection<Punishment> {
         return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
+    }
+
+    fun getAllGrants() : Collection<RankGrant>
+    {
+        val grants = RankGrantService.findByTarget(uuid).get()
+
+        return grants
     }
 
     fun getPermissionsAsList(): MutableList<String> {
