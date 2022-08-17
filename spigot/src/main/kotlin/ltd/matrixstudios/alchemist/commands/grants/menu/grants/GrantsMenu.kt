@@ -13,15 +13,15 @@ class GrantsMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMe
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        val stopwatch = Stopwatch.createStarted()
+        val time = System.currentTimeMillis()
 
         var index = 0
         for (grant in RankGrantService.getFromCache(gameProfile.uuid)) {
             buttons[index++] = GrantsButton(grant)
         }
 
-        stopwatch.stop()
-        println("Menu " + this.javaClass.simpleName + " took " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms to open")
+
+        println("Menu " + this.javaClass.simpleName + " took " + System.currentTimeMillis().minus(time) + "ms to open")
 
         return buttons
     }

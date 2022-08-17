@@ -17,11 +17,10 @@ class ListCommand : BaseCommand() {
     fun list(sender: CommandSender) {
         ForkJoinPool.commonPool().execute {
             sender.sendMessage(Chat.format(" "))
-            sender.sendMessage(Chat.format("&e&lCurrently Online: &f" + Bukkit.getOnlinePlayers().size))
-            sender.sendMessage(Chat.format("&e&lRanks: " + RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
+            sender.sendMessage(Chat.format(RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
 
             AlchemistAPI.supplyColoredNames().thenAccept {
-                sender.sendMessage(Chat.format("&e&lPlayers: $it"))
+                sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/5000&f) $it"))
                 sender.sendMessage(Chat.format(" "))
             }
         }
