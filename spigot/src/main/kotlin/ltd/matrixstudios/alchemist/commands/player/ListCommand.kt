@@ -20,7 +20,7 @@ class ListCommand : BaseCommand() {
             sender.sendMessage(Chat.format(RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
 
             AlchemistAPI.supplyColoredNames().thenAccept {
-                sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/5000&f) $it"))
+                sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) $it"))
                 sender.sendMessage(Chat.format(" "))
             }
         }
