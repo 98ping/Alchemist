@@ -74,7 +74,7 @@ abstract class PaginatedMenu(
 
             override fun onClick(player: Player, slot: Int, type: ClickType) {
                 if (page == 1) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are already on the last page!"))
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are already on the first page!"))
                     return
                 }
                 page -= 1
@@ -100,6 +100,11 @@ abstract class PaginatedMenu(
             }
 
             override fun onClick(player: Player, slot: Int, type: ClickType) {
+                if (page >= getMaximumPages(player)) {
+                    player.sendMessage("${ChatColor.RED}You have already reached the last page!")
+                    return
+                }
+
                 page += 1
                 updateMenu()
             }
