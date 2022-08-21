@@ -4,9 +4,11 @@ import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.metric.MetricManager
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -63,7 +65,10 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
+        val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
+
+        MetricManager.metrics["profile"]!!.addEntry(System.currentTimeMillis().minus(start))
 
         profile.lastSeenAt = System.currentTimeMillis()
 
@@ -73,6 +78,7 @@ class ProfileJoinListener : Listener {
         profile.ip = output
 
         RankGrantService.recalculatePlayer(profile)
+        PunishmentService.recalculatePlayer(profile)
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
@@ -87,6 +93,7 @@ class ProfileJoinListener : Listener {
 
 
         AccessiblePermissionHandler.setupPlayer(event.uniqueId, profile.getPermissions())
+
     }
 }
 

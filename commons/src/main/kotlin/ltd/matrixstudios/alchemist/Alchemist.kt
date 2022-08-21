@@ -6,6 +6,7 @@ import com.google.gson.LongSerializationPolicy
 import io.github.nosequel.data.DataHandler
 import io.github.nosequel.data.connection.mongo.MongoConnectionPool
 import io.github.nosequel.data.connection.redis.RedisConnectionPool
+import ltd.matrixstudios.alchemist.metric.MetricManager
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 
@@ -26,6 +27,8 @@ object Alchemist {
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
 
         RankService.createDefaultRankIfDoesntExist()
+
+        MetricManager.loadMetrics()
 
     }
 }

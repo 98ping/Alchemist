@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.metrics.MetricsCommand
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
 import ltd.matrixstudios.alchemist.commands.player.SudoCommand
@@ -176,6 +177,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(PlayerAdminCommand())
 
             registerCommand(PartyCommands())
+
+            registerCommand(MetricsCommand())
         }
         
 

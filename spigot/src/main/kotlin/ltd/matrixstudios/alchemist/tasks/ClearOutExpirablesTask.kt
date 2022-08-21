@@ -24,13 +24,12 @@ object ClearOutExpirablesTask : BukkitRunnable() {
 
 
 
-            PunishmentService.handler.retrieveAllAsync().thenApply { punishments ->
+            PunishmentService.getValues().thenApply { punishments ->
                 punishments.forEach {
                     if (!it.expirable.isActive() && it.removedBy == null) {
                         it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
                         it.removedReason = "Expired"
 
-                        AsynchronousRedisSender.send(PermissionUpdatePacket(it.target))
                         PunishmentService.save(it)
                     }
                 }

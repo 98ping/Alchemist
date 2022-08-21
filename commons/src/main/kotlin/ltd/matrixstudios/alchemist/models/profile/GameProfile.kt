@@ -32,7 +32,7 @@ data class GameProfile(
 ) {
 
     fun getPunishments(): Collection<Punishment> {
-        return PunishmentService.getValues().filter { it.target == uuid }
+        return PunishmentService.getFromCache(uuid)
     }
 
     fun accuracyOfRelation(profile: GameProfile) : Int {
