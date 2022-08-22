@@ -14,6 +14,7 @@ import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.metrics.MetricsCommand
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
+import ltd.matrixstudios.alchemist.commands.player.LookupCommand
 import ltd.matrixstudios.alchemist.commands.player.SudoCommand
 import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
@@ -179,6 +180,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(PartyCommands())
 
             registerCommand(MetricsCommand())
+            registerCommand(LookupCommand())
         }
         
 
