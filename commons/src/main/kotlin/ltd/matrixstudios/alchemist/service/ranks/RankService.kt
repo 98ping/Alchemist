@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.service.ranks
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import java.util.*
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
@@ -11,7 +10,9 @@ object RankService  {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
 
-    fun createDefaultRankIfDoesntExist() {
+    var ranks = mutableMapOf<String, Rank>()
+
+    fun loadRanks() {
         if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
             save(Rank(
                 "default",
@@ -26,6 +27,12 @@ object RankService  {
                 default = true)
             )
         }
+
+        //since there are only a limited amount of ranks we can just load on startup
+        for (rank in getValues())
+        {
+            ranks[rank.id] = rank
+        }
     }
 
     fun getValues() : Collection<Rank> {
@@ -33,11 +40,13 @@ object RankService  {
     }
 
     fun save(rank: Rank) {
-        handler.store(rank.id, rank)
+        ranks[rank.id] = rank
+
+        handler.storeAsync(rank.id, rank)
     }
 
     fun getRanksInOrder() : Collection<Rank> {
-        return getValues().stream().sorted { o1, o2 ->  o2.weight - o1.weight }.collect(Collectors.toList())
+        return ranks.values.stream().sorted { o1, o2 ->  o2.weight - o1.weight }.collect(Collectors.toList())
     }
 
     fun findFirstAvailableDefaultRank() : Rank? {
@@ -45,6 +54,11 @@ object RankService  {
     }
 
     fun byId(id: String) : Rank? {
+        if (ranks.containsKey(id))
+        {
+            return ranks[id]
+        }
+
         return getValues().firstOrNull { it.name.equals(id, ignoreCase = true) }
     }
 }
