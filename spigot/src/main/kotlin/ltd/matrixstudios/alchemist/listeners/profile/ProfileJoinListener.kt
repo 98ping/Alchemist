@@ -4,8 +4,6 @@ import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.metric.MetricManager
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -67,8 +65,6 @@ class ProfileJoinListener : Listener {
     fun join(event: AsyncPlayerPreLoginEvent) {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
-
-        MetricManager.metrics["profile"]!!.addEntry(System.currentTimeMillis().minus(start))
 
         profile.lastSeenAt = System.currentTimeMillis()
 

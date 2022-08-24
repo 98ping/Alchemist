@@ -2,7 +2,6 @@ package ltd.matrixstudios.alchemist.service.expirable
 
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.metric.MetricManager
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import org.bson.Document
@@ -29,7 +28,6 @@ object RankGrantService : ExpiringService<RankGrant>() {
         val time = System.currentTimeMillis()
         findByTarget(gameProfile.uuid).thenApply { playerGrants[gameProfile.uuid] = it }
 
-        MetricManager.metrics["grants"]!!.addEntry(System.currentTimeMillis().minus(time))
     }
 
 

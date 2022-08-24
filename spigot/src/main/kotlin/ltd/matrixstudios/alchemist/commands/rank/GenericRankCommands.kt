@@ -79,6 +79,7 @@ class GenericRankCommands : BaseCommand() {
             return
         }
 
+
         val rank = RankService.byId(name)!!
 
         sender.sendMessage(Chat.format("&7&m--------------------------"))

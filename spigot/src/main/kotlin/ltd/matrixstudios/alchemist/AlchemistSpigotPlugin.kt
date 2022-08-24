@@ -11,7 +11,6 @@ import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
-import ltd.matrixstudios.alchemist.commands.metrics.MetricsCommand
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
 import ltd.matrixstudios.alchemist.commands.player.LookupCommand
@@ -42,6 +41,7 @@ import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
+import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
@@ -136,6 +136,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             globalServer.online = true
         }
 
+        StatisticManager.loadStats()
+
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
@@ -179,7 +181,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             registerCommand(PartyCommands())
 
-            registerCommand(MetricsCommand())
             registerCommand(LookupCommand())
         }
         
