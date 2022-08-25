@@ -224,10 +224,11 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
                     customChart.getRequestJsonObject(
                         errorLogger,
                         logErrors
-                    )
+                    )!!
                 }
                 .filter(Objects::nonNull)
-                .toArray() as Array<JsonObjectBuilder.JsonObject>
+                .collect(Collectors.toList())
+                .toTypedArray()
             serviceJsonBuilder.appendField("id", serviceId)
             serviceJsonBuilder.appendField("customCharts", chartData)
             baseJsonBuilder.appendField("service", serviceJsonBuilder.build())
