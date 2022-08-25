@@ -16,13 +16,6 @@ object StatisticManager {
 
         this.metrics = Metric(AlchemistSpigotPlugin.instance, pluginId)
 
-        metrics.addCustomChart(
-            Metric.SingleLineChart(
-                "profiles",
-                Callable {
-                    ProfileGameService.handler.retrieveAll().size
-                })
-        )
     }
 
 }
