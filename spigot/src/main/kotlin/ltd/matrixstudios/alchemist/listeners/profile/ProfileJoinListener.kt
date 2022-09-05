@@ -16,6 +16,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -59,6 +60,12 @@ class ProfileJoinListener : Listener {
         }
 
         AccessiblePermissionHandler.pendingLoadPermissions.remove(player.uniqueId)
+    }
+
+    @EventHandler
+    fun quit(event: PlayerQuitEvent)
+    {
+        AccessiblePermissionHandler.remove(event.player)
     }
 
     @EventHandler
