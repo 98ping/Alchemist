@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import java.util.*
 
 class TempMuteCommand : BaseCommand() {
 
@@ -20,6 +21,7 @@ class TempMuteCommand : BaseCommand() {
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")duration: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
+            UUID.randomUUID().toString().substring(0, 4),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             reason, TimeUtil.parseTime(duration).toLong() * 1000L,

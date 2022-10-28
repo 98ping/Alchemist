@@ -16,7 +16,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -63,12 +62,6 @@ class ProfileJoinListener : Listener {
     }
 
     @EventHandler
-    fun quit(event: PlayerQuitEvent)
-    {
-        AccessiblePermissionHandler.remove(event.player)
-    }
-
-    @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
@@ -91,9 +84,14 @@ class ProfileJoinListener : Listener {
             event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
         }
 
+        val currentServer = AlchemistSpigotPlugin.instance.globalServer
+
+
+        profile.currentSession = profile.createNewSession(currentServer)
+
+
         //doing this for syncing purposes and because the network manager needs to track when they were last on
         ProfileGameService.handler.storeAsync(profile.uuid, profile)
-
 
         AccessiblePermissionHandler.setupPlayer(event.uniqueId, profile.getPermissions())
 

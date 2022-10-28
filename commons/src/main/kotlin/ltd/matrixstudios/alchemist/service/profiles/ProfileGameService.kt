@@ -4,11 +4,14 @@ import com.google.gson.JsonObject
 import com.mongodb.client.model.Filters
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
+import java.util.stream.Collectors
 import javax.security.auth.callback.Callback
 
 object ProfileGameService {
@@ -20,6 +23,14 @@ object ProfileGameService {
 
     var cache = hashMapOf<UUID, GameProfile?>()
 
+    fun getHighestGrant(uuid: UUID) : RankGrant?
+    {
+        val grants = RankGrantService.getFromCache(uuid)
+
+        grants.stream().sorted { o1, o2 ->  o2.getGrantable()!!.weight- o1.getGrantable()!!.weight }.collect(Collectors.toList())
+
+        return grants.firstOrNull()
+    }
     fun byId(uuid: UUID) : GameProfile? {
         return cache.getOrDefault(uuid, handler.retrieve(uuid))
     }

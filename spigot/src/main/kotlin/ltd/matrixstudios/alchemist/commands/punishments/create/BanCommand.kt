@@ -23,6 +23,7 @@ class BanCommand : BaseCommand() {
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,
+            UUID.randomUUID().toString().substring(0, 4),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             reason, Long.MAX_VALUE,

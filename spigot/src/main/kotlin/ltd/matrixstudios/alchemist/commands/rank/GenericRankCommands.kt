@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.rank
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
+import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -56,6 +57,13 @@ class GenericRankCommands : BaseCommand() {
             sender.sendMessage(Chat.format(message))
         }
         sender.sendMessage(Chat.format("&7&m--------------------------"))
+    }
+
+    @Subcommand("editor")
+    @CommandPermission("rank.admin")
+    fun editor(player: Player)
+    {
+        RankEditor(player).updateMenu()
     }
 
     @Subcommand("delete")

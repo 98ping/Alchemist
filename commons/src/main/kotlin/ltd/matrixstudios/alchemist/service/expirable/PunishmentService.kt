@@ -7,7 +7,6 @@ import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -18,7 +17,7 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     val collection = Alchemist.MongoConnectionPool.getCollection("punishment")
 
-    var grants = mutableMapOf<UUID, MutableList<Punishment>>()
+    var grants = mutableMapOf<UUID, Collection<Punishment>>()
 
     fun getValues() : CompletableFuture<Collection<Punishment>> {
         return handler.retrieveAllAsync()
@@ -26,25 +25,39 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     fun save(punishment: Punishment) {
         handler.storeAsync(punishment.uuid, punishment)
-
-        val user = punishment.target
-
-        val punishments = grants.getOrDefault(user, mutableListOf())
-
-        if (!punishments.contains(punishment))
-        {
-            punishments.add(punishment)
-        }
-
-        grants[user] = punishments
     }
 
     fun getFromCache(uuid: UUID): Collection<Punishment> {
-        return grants.getOrDefault(uuid, findByTarget(uuid).get().toMutableList())
+        return grants.getOrDefault(uuid, findByTarget(uuid).get())
     }
 
     fun recalculatePlayer(gameProfile: GameProfile) {
-        findByTarget(gameProfile.uuid).thenApply { grants[gameProfile.uuid] = it.toMutableList() }
+        findByTarget(gameProfile.uuid).thenApply { grants[gameProfile.uuid] = it }
+    }
+
+    fun findExecutorPunishments(executor: UUID) : List<Punishment>
+    {
+        val filter = Document("executor", executor.toString())
+        val bson = collection.find(filter)
+        val finalPunishments = mutableListOf<Punishment>()
+
+        for (document in bson)
+        {
+            val model = Alchemist.gson.fromJson(document.toJson(), Punishment::class.java)
+
+            finalPunishments.add(model)
+        }
+
+        return finalPunishments
+    }
+
+    fun searchFromId(punishmentId: String) : Punishment?
+    {
+        val filter = Document("easyFindId", punishmentId)
+
+        val bson = collection.find(filter).first() ?: return null
+
+        return Alchemist.gson.fromJson(bson.toJson(), Punishment::class.java)
     }
 
     fun findByTarget(target: UUID) : CompletableFuture<Collection<Punishment>> {

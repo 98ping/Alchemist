@@ -219,18 +219,18 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
             appendPlatformDataConsumer.accept(baseJsonBuilder)
             val serviceJsonBuilder = JsonObjectBuilder()
             appendServiceDataConsumer.accept(serviceJsonBuilder)
-            val chartData: Array<JsonObjectBuilder.JsonObject> = customCharts.stream()
+            val chartData: Array<JsonObjectBuilder.JsonObject?> = customCharts.stream()
                 .map { customChart: CustomChart ->
                     customChart.getRequestJsonObject(
                         errorLogger,
                         logErrors
-                    )!!
+                    )
                 }
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList())
                 .toTypedArray()
             serviceJsonBuilder.appendField("id", serviceId)
-            serviceJsonBuilder.appendField("customCharts", chartData)
+            serviceJsonBuilder.appendField("customCharts", chartData.filterNotNull().toTypedArray())
             baseJsonBuilder.appendField("service", serviceJsonBuilder.build())
             baseJsonBuilder.appendField("serverUUID", serverUuid)
             baseJsonBuilder.appendField("metricsVersion", METRICS_VERSION)

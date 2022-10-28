@@ -5,6 +5,8 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.models.sessions.Session
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -12,6 +14,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.service.session.SessionService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import org.bson.Document
 import java.util.*
@@ -31,26 +34,11 @@ data class GameProfile(
     var lastSeenAt: Long
 ) {
 
+    @Transient
+    var currentSession: Session? = null
+
     fun getPunishments(): Collection<Punishment> {
         return PunishmentService.getFromCache(uuid)
-    }
-
-    fun accuracyOfRelation(profile: GameProfile) : Int {
-        var assurance = 85
-
-        if (ip != profile.ip)
-        {
-            assurance -= 50
-        }
-
-        if (ip == profile.ip)
-        {
-            if (getActivePunishments().isEmpty()) {
-                assurance -= 70
-            }
-        }
-
-        return assurance
     }
 
     fun getActivePunishments() : Collection<Punishment> {
@@ -72,6 +60,18 @@ data class GameProfile(
         }
 
         return finalAccounts
+    }
+
+    fun createNewSession(server: UniqueServer) : Session
+    {
+        val session = Session(UUID.randomUUID().toString().substring(0, 4), uuid, mutableMapOf(), System.currentTimeMillis(), 0L)
+
+        session.serversJoined[System.currentTimeMillis()] = server
+
+        SessionService.save(session)
+        SessionService.loadIntoCache(this)
+
+        return session
     }
 
     fun hasActivePrefix(): Boolean {

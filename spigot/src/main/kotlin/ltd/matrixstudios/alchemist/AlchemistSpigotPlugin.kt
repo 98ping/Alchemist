@@ -18,11 +18,13 @@ import ltd.matrixstudios.alchemist.commands.player.SudoCommand
 import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
+import ltd.matrixstudios.alchemist.commands.punishments.menu.PunishmentLookupCommands
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
-import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
+import ltd.matrixstudios.alchemist.commands.punishments.menu.server.ServerEnvironmentCommand
+import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
 import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
@@ -178,6 +180,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(PlayerAdminCommand())
+            registerCommand(SessionCommands())
+            registerCommand(PunishmentLookupCommands())
 
             registerCommand(PartyCommands())
 

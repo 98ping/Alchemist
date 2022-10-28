@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.network.NetworkManager
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.session.SessionService
 import ltd.matrixstudios.alchemist.staff.packets.StaffGeneralMessagePacket
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -21,6 +22,15 @@ class NetworkJoinAndLeaveListener : Listener {
                 it.metadata.addProperty("server", "None")
 
                 it.lastSeenAt = System.currentTimeMillis()
+
+                if (it.currentSession != null)
+                {
+                    it.currentSession!!.leftAt = System.currentTimeMillis()
+                    SessionService.save(it.currentSession!!)
+                    
+                    it.currentSession = null
+                }
+
 
                 ProfileGameService.save(it)
             }

@@ -26,8 +26,8 @@ abstract class PaginatedMenu(
 
             val buttonSlots = getAllPagesButtonSlots()
             if (buttonSlots.isEmpty()) {
-                val minIndex = ((page - 1) * 18)
-                val maxIndex = (page * 18)
+                val minIndex = ((page - 1) * size)
+                val maxIndex = (page * size)
 
                 for (entry in getPagesButtons(player).entries) {
                     var ind = entry.key

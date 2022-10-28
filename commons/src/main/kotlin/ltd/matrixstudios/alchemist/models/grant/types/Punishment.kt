@@ -10,6 +10,7 @@ import java.util.*
 
 class Punishment(
     punishmentType: String,
+    easyFindId: String,
     addedTo: UUID,
     addedBy: UUID,
     addedReason: String,
@@ -28,6 +29,7 @@ class Punishment(
 
     var punishmentType: String = punishmentType
     var actor: DefaultActor = actor
+    var easyFindId: String = easyFindId
 
     fun getIssuedByName() : String
     {

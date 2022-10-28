@@ -24,6 +24,7 @@ class TempBanCommand : BaseCommand() {
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")time: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,
+            UUID.randomUUID().toString().substring(0, 4),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             reason, TimeUtil.parseTime(time) * 1000L,

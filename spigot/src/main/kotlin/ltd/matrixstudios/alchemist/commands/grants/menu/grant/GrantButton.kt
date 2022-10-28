@@ -41,6 +41,7 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
         desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
         desc.add(Chat.format("&6&m---------------------"))
         desc.add(Chat.format("&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${AlchemistAPI.getRankDisplay(gameProfile.uuid)}"))
+        desc.add(Chat.format("&6&m---------------------"))
 
 
         return desc

@@ -22,8 +22,6 @@ object ClearOutExpirablesTask : BukkitRunnable() {
                 }
             }
 
-
-
             PunishmentService.getValues().thenApply { punishments ->
                 punishments.forEach {
                     if (!it.expirable.isActive() && it.removedBy == null) {
