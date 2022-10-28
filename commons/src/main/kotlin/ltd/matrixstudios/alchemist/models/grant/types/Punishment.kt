@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.models.grant.types
 
 import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
+import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -11,6 +12,7 @@ import java.util.*
 class Punishment(
     punishmentType: String,
     easyFindId: String,
+    proof: MutableList<ProofEntry>,
     addedTo: UUID,
     addedBy: UUID,
     addedReason: String,
@@ -30,6 +32,7 @@ class Punishment(
     var punishmentType: String = punishmentType
     var actor: DefaultActor = actor
     var easyFindId: String = easyFindId
+    var proof: List<ProofEntry> = proof
 
     fun getIssuedByName() : String
     {

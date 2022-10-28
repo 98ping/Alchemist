@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
+import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -25,6 +26,7 @@ class TempBanCommand : BaseCommand() {
         val punishment = Punishment(
             PunishmentType.BAN.name,
             UUID.randomUUID().toString().substring(0, 4),
+            mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             reason, TimeUtil.parseTime(time) * 1000L,

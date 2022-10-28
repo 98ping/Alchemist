@@ -127,12 +127,19 @@ abstract class PaginatedMenu(
         }
     }
 
-
+    open fun getHeaderItems(player: Player) : MutableMap<Int, Button> {
+        return mutableMapOf()
+    }
+    
     fun updateMenu() {
         val inventory = Bukkit.createInventory(null, (size + 9), getTitle(player))
 
 
         for (entry in getPageNavigationButtons()) {
+            inventory.setItem(entry.key, entry.value.constructItemStack(player))
+        }
+
+        for (entry in getHeaderItems(player)) {
             inventory.setItem(entry.key, entry.value.constructItemStack(player))
         }
 

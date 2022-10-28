@@ -41,6 +41,8 @@ class GeneralPunishmentButton(var punishment: Punishment) : Button() {
             desc.add(Chat.format("&eRemoved Reason: &f" + punishment.removedReason!!))
             desc.add(Chat.format("&6&m--------------------"))
         }
+        desc.add(Chat.format("&aLeft-Click to view Proof Menu"))
+        desc.add(Chat.format("&6&m--------------------"))
         return desc
     }
 

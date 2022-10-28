@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.punishments.create
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
+import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -22,6 +23,7 @@ class MuteCommand : BaseCommand() {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
             UUID.randomUUID().toString().substring(0, 4),
+            mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             reason, Long.MAX_VALUE,

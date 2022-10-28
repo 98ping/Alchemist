@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.util.menu.buttons
 
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -9,9 +10,12 @@ class SimpleActionButton(
     val material: Material,
     val description: MutableList<String>,
     val name: String, val data: Short,
-    val body: ((Player, Int, ClickType) -> Unit)?
 ) : Button() {
 
+    var body: ((Player, Int, ClickType) -> Unit)? = null
+    fun setBody(body: ((Player, Int, ClickType) -> Unit)?) : SimpleActionButton {
+        return this.apply { this.body = body }
+    }
     override fun getMaterial(player: Player): Material {
         return material
     }
@@ -21,7 +25,7 @@ class SimpleActionButton(
     }
 
     override fun getDisplayName(player: Player): String? {
-        return name
+        return Chat.format(name)
     }
 
     override fun getData(player: Player): Short {
@@ -29,6 +33,9 @@ class SimpleActionButton(
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        body?.invoke(player, slot, type)
+        if (body != null)
+        {
+            body?.invoke(player, slot, type)
+        }
     }
 }
