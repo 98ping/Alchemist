@@ -6,6 +6,7 @@ import com.google.gson.LongSerializationPolicy
 import io.github.nosequel.data.DataHandler
 import io.github.nosequel.data.connection.mongo.MongoConnectionPool
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 
 object Alchemist {
@@ -25,6 +26,5 @@ object Alchemist {
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
 
         RankService.loadRanks()
-
     }
 }

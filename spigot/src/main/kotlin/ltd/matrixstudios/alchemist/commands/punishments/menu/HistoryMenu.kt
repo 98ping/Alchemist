@@ -8,8 +8,11 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import org.bukkit.entity.Player
 
-class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(9, player) {
+class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(player) {
 
+    init {
+        staticSize = 9
+    }
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 

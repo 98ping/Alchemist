@@ -11,7 +11,12 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import org.bukkit.entity.Player
 
-class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val proofType: ProofEntry.ProofType) : Menu(9, player) {
+class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val proofType: ProofEntry.ProofType) : Menu(player) {
+
+    init {
+        staticSize = 9
+    }
+
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
