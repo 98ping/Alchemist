@@ -20,6 +20,11 @@ class MenuListener : Listener {
             event.isCancelled = true
             if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
             {
+                if (menu.getHeaderItems(event.whoClicked as Player)[slot] != null)
+                {
+                    menu.getHeaderItems(event.whoClicked as Player)[slot]!!.onClick(event.whoClicked as Player, slot, click)
+                }
+
                 if (menu.getButtonsInRange().get()[slot] != null)
                 {
                     menu.getButtonsInRange().get()[slot]!!.onClick(event.whoClicked as Player, slot, click)

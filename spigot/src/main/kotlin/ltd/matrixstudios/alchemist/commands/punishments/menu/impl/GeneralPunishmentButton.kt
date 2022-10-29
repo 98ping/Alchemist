@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.punishments.menu.impl
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.proof.ProofMenu
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -55,6 +56,9 @@ class GeneralPunishmentButton(var punishment: Punishment) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-
+        if (type == ClickType.LEFT)
+        {
+            ProofMenu(player, punishment).updateMenu()
+        }
     }
 }

@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.punishments.menu.impl.proof
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.proof.sub.ProofSelectTypeMenu
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.util.Chat
@@ -17,7 +18,7 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
     override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
         buttons[4] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&aClick to add Proof", 0).setBody {
-            player, i, clickType ->
+            player, i, clickType -> ProofSelectTypeMenu(player, punishment).openMenu()
         }
 
         return buttons
@@ -51,15 +52,15 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
                 desc.add(Chat.format("&6&m---------------------"))
                 desc.add(Chat.format("&eType: " + proofEntry.type.displayName))
                 desc.add(Chat.format("&eAt: &f" + Date(proofEntry.addedAt)))
-                desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded.uuid)))
+                desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
                 desc.add(" ")
                 desc.add(Chat.format("&aClick to view link"))
                 desc.add(Chat.format("&6&m---------------------"))
             } else {
                 desc.add(Chat.format("&6&m---------------------"))
-                desc.add(Chat.format("&eType: &k" + proofEntry.type.displayName))
-                desc.add(Chat.format("&eAt: &f&k" + Date(proofEntry.addedAt)))
-                desc.add(Chat.format("&eBy: &f&k" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded.uuid)))
+                desc.add(Chat.format("&eType: &f" + proofEntry.type.displayName))
+                desc.add(Chat.format("&eAt: &f" + Date(proofEntry.addedAt)))
+                desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
                 desc.add(" ")
                 if (player.hasPermission("alchemist.punishments.proof"))
                 {
@@ -74,7 +75,7 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
         }
 
         override fun getDisplayName(player: Player): String? {
-            return Chat.format(AlchemistAPI.getRankDisplay(proofEntry.whoAdded.uuid))
+            return Chat.format(AlchemistAPI.getRankDisplay(proofEntry.whoAdded))
         }
 
         override fun getData(player: Player): Short {

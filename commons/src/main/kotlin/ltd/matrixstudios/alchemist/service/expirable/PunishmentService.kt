@@ -25,6 +25,7 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     fun save(punishment: Punishment) {
         handler.storeAsync(punishment.uuid, punishment)
+        recalculateUUID(punishment.target)
     }
 
     fun getFromCache(uuid: UUID): Collection<Punishment> {
@@ -33,6 +34,10 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     fun recalculatePlayer(gameProfile: GameProfile) {
         findByTarget(gameProfile.uuid).thenApply { grants[gameProfile.uuid] = it }
+    }
+
+    fun recalculateUUID(playerId: UUID) {
+        findByTarget(playerId).thenApply { grants[playerId] = it }
     }
 
     fun findExecutorPunishments(executor: UUID) : List<Punishment>

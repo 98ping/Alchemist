@@ -32,7 +32,7 @@ class Punishment(
     var punishmentType: String = punishmentType
     var actor: DefaultActor = actor
     var easyFindId: String = easyFindId
-    var proof: List<ProofEntry> = proof
+    var proof: MutableList<ProofEntry> = proof
 
     fun getIssuedByName() : String
     {
