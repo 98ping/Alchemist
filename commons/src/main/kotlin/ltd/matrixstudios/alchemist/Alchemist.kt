@@ -26,5 +26,6 @@ object Alchemist {
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
 
         RankService.loadRanks()
+        FilterService.loadIntoCache()
     }
 }

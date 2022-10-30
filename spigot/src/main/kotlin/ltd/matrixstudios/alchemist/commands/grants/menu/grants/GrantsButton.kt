@@ -28,7 +28,7 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
         val desc = arrayListOf<String>()
 
         desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
+        desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
         desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable()!!.color + rankGrant.getGrantable()!!.displayName))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(rankGrant.expirable.duration)))
         if (rankGrant.expirable.duration != Long.MAX_VALUE && rankGrant.expirable.isActive())

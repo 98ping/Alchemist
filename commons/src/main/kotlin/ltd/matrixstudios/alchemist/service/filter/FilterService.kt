@@ -3,15 +3,24 @@ package ltd.matrixstudios.alchemist.service.filter
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import org.bson.Document
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 object FilterService {
 
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(DataStoreType.MONGO)
+    val collection = Alchemist.MongoConnectionPool.getCollection("filter")
 
+    val cache = mutableMapOf<String, Filter>()
+
+    fun loadIntoCache()
+    {
+        for (value in getValues())
+        {
+            cache[value.word] = value
+        }
+    }
 
     fun getValues(): Collection<Filter> {
         return handler.retrieveAll()
@@ -22,7 +31,23 @@ object FilterService {
     }
 
     fun byWord(word: String): Filter? {
-        return getValues().firstOrNull { it.word.equals(word, ignoreCase = true) }
+        val filter = Document("word", word)
+        val finder = collection.find(filter).first()
+
+        return Alchemist.gson.fromJson(finder.toJson(), Filter::class.java)
+    }
+
+    fun findInMessage(message: String) : Filter?
+    {
+        for (filter in cache.values)
+        {
+            if (message.toLowerCase().contains(filter.word))
+            {
+                return filter
+            }
+        }
+
+        return null
     }
 
 }
