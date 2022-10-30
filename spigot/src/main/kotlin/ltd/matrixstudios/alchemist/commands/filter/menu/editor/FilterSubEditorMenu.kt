@@ -1,13 +1,18 @@
 package ltd.matrixstudios.alchemist.commands.filter.menu.editor
 
+import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.PunishmentTypeSelectionMenu
 import ltd.matrixstudios.alchemist.models.filter.Filter
+import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.InputPrompt
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.*
 
 class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player) {
 
@@ -21,7 +26,12 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
 
         buttons[10] = SimpleActionButton(
             Material.QUARTZ,
-            mutableListOf(" ", Chat.format("&eChange the silent status of the filter"), Chat.format("&eCurrently: &f" + if (filter.silent) "&aSilent" else "&cPublic"), " "),
+            mutableListOf(
+                " ",
+                Chat.format("&eChange the silent status of the filter"),
+                Chat.format("&eCurrently: &f" + if (filter.silent) "&aSilent" else "&cPublic"),
+                " "
+            ),
             "&eChange Silent Status", 0
         ).setBody { player, slot, clicktype ->
             val otherBool = !filter.silent
@@ -29,6 +39,75 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             FilterService.save(filter)
             player.sendMessage(Chat.format("&eUpdate the silent status of &6${filter.word} &eto " + if (otherBool) "&aSilent" else "&cPublic"))
             FilterSubEditorMenu(player, filter).openMenu()
+        }
+
+        buttons[11] = SimpleActionButton(
+            Material.REDSTONE_TORCH_ON,
+            mutableListOf(
+                " ",
+                Chat.format("&eChange the punishment type"),
+                Chat.format("&eCurrently: &f" + filter.punishmentType.color + filter.punishmentType.niceName)
+            ),
+            "&eChange Punishment Type", 0
+        ).setBody { player, slot, clicktype ->
+            PunishmentTypeSelectionMenu(player, filter).openMenu()
+        }
+
+        buttons[12] = SimpleActionButton(
+            Material.WATCH,
+            mutableListOf(
+                " ",
+                Chat.format("&eChange the duration of the punishment"),
+                Chat.format("&eCurrently: &f" + filter.duration)
+            ),
+            "&eChange Duration of Punishment", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new duration you want to use!"))
+                .acceptInput {
+                    val verifyDuration = TimeUtil.parseTime(it)
+
+                    filter.duration = it
+
+                    FilterService.save(filter)
+                    player.sendMessage(Chat.format("&aSet the duration of the punishment to $it"))
+                    FilterSubEditorMenu(player, filter).openMenu()
+                }.start(player)
+        }
+
+        buttons[13] = SimpleActionButton(
+            Material.BEACON,
+            mutableListOf(
+                " ",
+                Chat.format("&eCan Staff Bypass the Filter?"),
+                Chat.format("&eCurrently: &f" + if (filter.staffExempt) "&eTrue" else "&cFalse")
+            ),
+            "&eChange Staff Bypass", 0
+        ).setBody { player, slot, clicktype ->
+            val otherBool = !filter.staffExempt
+            filter.staffExempt = otherBool
+            FilterService.save(filter)
+            player.sendMessage(Chat.format("&eUpdate the staff exempt status of &6${filter.word} &eto " + if (otherBool) "&aTrue" else "&cFalse"))
+            FilterSubEditorMenu(player, filter).openMenu()
+        }
+
+        buttons[14] = SimpleActionButton(
+            Material.EMERALD,
+            mutableListOf(
+                " ",
+                Chat.format("&eSet Exempt Permission"),
+                Chat.format("&eCurrently: &f" + filter.exemptPermission)
+            ),
+            "&eChange Staff Bypass", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new permission you want to use!"))
+                .acceptInput {
+                    filter.exemptPermission = it
+                    FilterService.save(filter)
+                    player.sendMessage(Chat.format("&eUpdate the exempt permission of &6${filter.word} &eto " + it))
+                    FilterSubEditorMenu(player, filter).openMenu()
+                }.start(player)
         }
 
         return buttons
