@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
+import ltd.matrixstudios.alchemist.commands.grants.GrantHistoryCommand
 import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.player.ListCommand
@@ -165,6 +166,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
+            registerCommand(GrantHistoryCommand())
 
             registerCommand(TagAdminCommand())
             registerCommand(TagCommand())

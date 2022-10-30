@@ -20,6 +20,22 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return handler.retrieveAllAsync()
     }
 
+    fun findExecutedBy(executor: UUID) : MutableList<RankGrant>
+    {
+        val filter = Document("executor", executor.toString())
+        val documents = collection.find(filter)
+        val finalGrants = mutableListOf<RankGrant>()
+
+        for (document in documents)
+        {
+            val obj = Alchemist.gson.fromJson(document.toJson(), RankGrant::class.java)
+
+            finalGrants.add(obj)
+        }
+
+        return finalGrants
+    }
+
     fun getFromCache(uuid: UUID): Collection<RankGrant> {
         return playerGrants.getOrDefault(uuid, findByTarget(uuid).get())
     }
