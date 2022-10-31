@@ -9,8 +9,10 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
+import java.util.logging.Level
 
 class LookupCommand : BaseCommand() {
 
@@ -19,6 +21,7 @@ class LookupCommand : BaseCommand() {
     @CommandCompletion("@gameprofile")
     fun lookup(player: Player, @Name("target") gameProfile: GameProfile)
     {
+        val start = System.currentTimeMillis()
         player.sendMessage(Chat.format("&aLooking up player..."))
         object : BukkitRunnable() {
             override fun run() {
@@ -34,7 +37,9 @@ class LookupCommand : BaseCommand() {
                     player.sendMessage(Chat.format("&cPlayer was not found on the proxy"))
                 }
             }
-        }.runTaskLater(AlchemistSpigotPlugin.instance, 25L)
+        }.runTaskLater(AlchemistSpigotPlugin.instance, 0L)
+
+        Bukkit.getLogger().log(Level.INFO, "Player lookup took " + System.currentTimeMillis().minus(start) + "ms")
     }
 
 }

@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.listeners.filter
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
@@ -9,8 +10,12 @@ import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
+import ltd.matrixstudios.alchemist.staff.packets.StaffGeneralMessagePacket
+import ltd.matrixstudios.alchemist.staff.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -54,5 +59,9 @@ object FilterListener : Listener {
 
             BukkitPunishmentFunctions.dispatch(punishment, true)
         }
+
+        val uniqueServer = AlchemistSpigotPlugin.instance.globalServer
+
+        AsynchronousRedisSender.send(StaffGeneralMessagePacket("&e[Filter] &7[${uniqueServer.displayName}] &c(${AlchemistAPI.getRankDisplay(player.uniqueId)} &e-> " + event.message + "&c)"))
     }
 }

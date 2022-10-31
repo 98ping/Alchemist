@@ -1,3 +1,4 @@
+#all information for mongo. AuthDB is NOT the database you will use for documents to go into
 mongo:
   host: "127.0.0.1"
   port: 27017
@@ -7,11 +8,22 @@ mongo:
   authDB: ""
   database: "Alchemist"
 
+#all redis information. This is used for messaging from server to server
 redis:
   host: "127.0.0.1"
   port: 6379
   username: ""
   password: ""
 
+#server information to identify the server
 server:
   id: "server1"
+
+#enable and disable all modules
+modules:
+  ranks: true
+  punishments: true
+  parties: true
+  friends: true
+  prefixes: true
+  filters: true

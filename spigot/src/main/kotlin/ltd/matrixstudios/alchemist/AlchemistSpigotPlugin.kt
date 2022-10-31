@@ -104,7 +104,12 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
-        server.pluginManager.registerEvents(FilterListener, this)
+
+        if (config.getBoolean("modules.filters"))
+        {
+            server.pluginManager.registerEvents(FilterListener, this)
+        }
+
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
 
@@ -112,7 +117,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
-        (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
+
+        if (config.getBoolean("modules.parties"))
+        {
+            (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
+        }
 
 
         if (UniqueServerService.byId(config.getString("server.id")) == null) {
@@ -141,6 +150,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         StatisticManager.loadStats()
 
+        val config = this.config
+
         val commandHandler = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
@@ -148,44 +159,66 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
             }
-            registerCommand(GenericRankCommands())
+            if (config.getBoolean("modules.ranks"))
+            {
+                registerCommand(GenericRankCommands())
+            }
+
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
             registerCommand(CGrantCommand())
 
-            registerCommand(MuteCommand())
-            registerCommand(BanCommand())
-            registerCommand(BlacklistCommand())
-            registerCommand(TempBanCommand())
-            registerCommand(TempMuteCommand())
-            registerCommand(WarnCommand())
+            if (config.getBoolean("modules.punishments"))
+            {
+                registerCommand(MuteCommand())
+                registerCommand(BanCommand())
+                registerCommand(BlacklistCommand())
+                registerCommand(TempBanCommand())
+                registerCommand(TempMuteCommand())
+                registerCommand(WarnCommand())
 
-            registerCommand(UnbanCommand())
-            registerCommand(UnmuteCommand())
-            registerCommand(UnblacklistCommand())
+                registerCommand(UnbanCommand())
+                registerCommand(UnmuteCommand())
+                registerCommand(UnblacklistCommand())
+                registerCommand(PunishmentLookupCommands())
+            }
+
 
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
             registerCommand(GrantHistoryCommand())
 
-            registerCommand(TagAdminCommand())
-            registerCommand(TagCommand())
-            registerCommand(TagGrantCommand())
-            registerCommand(TagGrantsCommand())
+            if (config.getBoolean("modules.prefixes"))
+            {
+                registerCommand(TagAdminCommand())
+                registerCommand(TagCommand())
+                registerCommand(TagGrantCommand())
+                registerCommand(TagGrantsCommand())
+            }
+
+
+            if (config.getBoolean("modules.filters"))
+            {
+                registerCommand(FilterCommands())
+            }
+
+            if (config.getBoolean("modules.friends"))
+            {
+                registerCommand(FriendCommands())
+            }
 
             registerCommand(ServerEnvironmentCommand())
-
-            registerCommand(FilterCommands())
-
             registerCommand(ListCommand())
-            registerCommand(FriendCommands())
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(PlayerAdminCommand())
             registerCommand(SessionCommands())
-            registerCommand(PunishmentLookupCommands())
 
-            registerCommand(PartyCommands())
+            if (config.getBoolean("modules.parties"))
+            {
+                registerCommand(PartyCommands())
+            }
+
 
             registerCommand(LookupCommand())
         }
