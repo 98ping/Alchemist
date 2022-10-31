@@ -13,11 +13,10 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.concurrent.ForkJoinPool
 
-@CommandAlias("alts|alt")
-@CommandPermission("alchemist.alts")
 class AltsCommand : BaseCommand() {
 
-    @Subcommand("listAll")
+    @Subcommand("alts")
+    @CommandPermission("alchemist.alts")
     fun listAll(player: Player, @Name("target") profile: GameProfile) {
         ForkJoinPool.commonPool().run {
             val playerProfile = ProfileGameService.byId(player.uniqueId)

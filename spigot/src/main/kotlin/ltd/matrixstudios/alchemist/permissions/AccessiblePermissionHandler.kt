@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.util.Chat.format
 import org.bukkit.entity.Player
+import org.bukkit.permissions.PermissibleBase
 import org.bukkit.permissions.PermissionAttachment
 import sun.java2d.cmm.Profile
 import java.lang.reflect.Field

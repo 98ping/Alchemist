@@ -45,7 +45,7 @@ class ProfileJoinListener : Listener {
             }
         }
 
-        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + "%1\$s&7: &r%2\$s")
+        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + profile.getCurrentRank()!!.color + "%1\$s&7: &r%2\$s")
     }
 
     @EventHandler

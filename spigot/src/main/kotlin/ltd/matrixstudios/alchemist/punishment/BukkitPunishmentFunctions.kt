@@ -15,9 +15,9 @@ import java.util.*
 object BukkitPunishmentFunctions {
 
     fun getSenderUUID(sender: CommandSender) : UUID {
-        if (sender is Player) {
-            return sender.uniqueId
-        } else return UUID.fromString("00000000-0000-0000-0000-000000000000")
+        return if (sender is Player) {
+            sender.uniqueId
+        } else UUID.fromString("00000000-0000-0000-0000-000000000000")
     }
 
     fun getExecutorFromSender(sender: CommandSender) : Executor {
