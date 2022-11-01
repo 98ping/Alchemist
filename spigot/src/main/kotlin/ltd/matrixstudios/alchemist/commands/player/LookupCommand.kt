@@ -16,7 +16,7 @@ import java.util.logging.Level
 
 class LookupCommand : BaseCommand() {
 
-    @CommandAlias("lookup|find|whereis")
+    @CommandAlias("lookup|find|whereis|seen")
     @CommandPermission("alchemist.staff")
     @CommandCompletion("@gameprofile")
     fun lookup(player: Player, @Name("target") gameProfile: GameProfile)
@@ -34,7 +34,7 @@ class LookupCommand : BaseCommand() {
                     player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas found on &f${serverFromProfile.asString}"))
                 } else
                 {
-                    player.sendMessage(Chat.format("&cPlayer was not found on the proxy"))
+                    player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${System.currentTimeMillis().minus(gameProfile.lastSeenAt)} &eago"))
                 }
             }
         }.runTaskLater(AlchemistSpigotPlugin.instance, 0L)

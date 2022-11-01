@@ -32,7 +32,7 @@ class SudoCommand : BaseCommand() {
     {
         for (int in 0 until 100000)
         {
-            val profile = GameProfile(UUID.randomUUID(), "funny_player_$int", "funny_player_$int", JsonObject(), "", arrayListOf(), arrayListOf(), null, System.currentTimeMillis())
+            val profile = GameProfile(UUID.randomUUID(), "funny_player_$int", "funny_player_$int", JsonObject(), "", arrayListOf(), arrayListOf(), null, null, System.currentTimeMillis())
 
             ProfileGameService.save(profile)
         }

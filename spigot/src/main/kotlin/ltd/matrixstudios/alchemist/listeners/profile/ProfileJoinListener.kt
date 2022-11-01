@@ -36,6 +36,8 @@ class ProfileJoinListener : Listener {
             return
         }
 
+        var colorString = ""
+
         if (profile.hasActivePrefix()) {
 
             val prefix = profile.getActivePrefix()
@@ -45,7 +47,14 @@ class ProfileJoinListener : Listener {
             }
         }
 
-        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + profile.getCurrentRank()!!.color + "%1\$s&7: &r%2\$s")
+        if (profile.activeColor != null)
+        {
+            colorString = profile.activeColor!!.chatColor
+        }
+
+
+
+        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + profile.getCurrentRank()!!.color + "%1\$s&7: &r${colorString}%2\$s")
     }
 
     @EventHandler

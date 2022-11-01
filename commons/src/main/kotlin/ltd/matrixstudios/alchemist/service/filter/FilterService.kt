@@ -28,6 +28,8 @@ object FilterService {
 
     fun save(filter: Filter) {
         handler.storeAsync(filter.id, filter)
+
+        cache[filter.word] = filter
     }
 
     fun byWord(word: String): Filter? {
@@ -41,7 +43,7 @@ object FilterService {
     {
         for (filter in cache.values)
         {
-            if (message.toLowerCase().contains(filter.word))
+            if (message.toLowerCase().contains(filter.word.toLowerCase()))
             {
                 return filter
             }

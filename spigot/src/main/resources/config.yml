@@ -27,3 +27,4 @@ modules:
   friends: true
   prefixes: true
   filters: true
+  chatcolors: true

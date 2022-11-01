@@ -17,7 +17,7 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     val collection = Alchemist.MongoConnectionPool.getCollection("punishment")
 
-    var grants = mutableMapOf<UUID, Collection<Punishment>>()
+    var grants = mutableMapOf<UUID, MutableList<Punishment>>()
 
     fun getValues() : CompletableFuture<Collection<Punishment>> {
         return handler.retrieveAllAsync()
@@ -65,7 +65,7 @@ object PunishmentService : ExpiringService<Punishment>() {
         return Alchemist.gson.fromJson(bson.toJson(), Punishment::class.java)
     }
 
-    fun findByTarget(target: UUID) : CompletableFuture<Collection<Punishment>> {
+    fun findByTarget(target: UUID) : CompletableFuture<MutableList<Punishment>> {
         return CompletableFuture.supplyAsync {
             val sorted = collection.find(Document("target", target.toString()))
 

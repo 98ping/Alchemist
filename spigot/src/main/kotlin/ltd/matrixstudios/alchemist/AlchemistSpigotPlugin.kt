@@ -3,26 +3,25 @@ package ltd.matrixstudios.alchemist
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
+import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
+import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.commands.context.PunishmentTypeResolver
 import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
-import ltd.matrixstudios.alchemist.commands.grants.CGrantCommand
-import ltd.matrixstudios.alchemist.commands.grants.GrantCommand
-import ltd.matrixstudios.alchemist.commands.grants.GrantHistoryCommand
-import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
-import ltd.matrixstudios.alchemist.commands.player.ListCommand
-import ltd.matrixstudios.alchemist.commands.player.LookupCommand
-import ltd.matrixstudios.alchemist.commands.player.SudoCommand
-import ltd.matrixstudios.alchemist.commands.player.PlayerAdminCommand
+import ltd.matrixstudios.alchemist.commands.player.*
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.menu.PunishmentLookupCommands
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
+import ltd.matrixstudios.alchemist.commands.punishments.remove.WipePunishmentsCommand
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
@@ -39,6 +38,7 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -57,6 +57,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
     }
 
     lateinit var globalServer: UniqueServer
+    lateinit var commandManager: PaperCommandManager
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -152,9 +153,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val config = this.config
 
-        val commandHandler = PaperCommandManager(this).apply {
+        this.commandManager = PaperCommandManager(this).apply {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
+            this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
+
 
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
@@ -181,8 +184,17 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 registerCommand(UnmuteCommand())
                 registerCommand(UnblacklistCommand())
                 registerCommand(PunishmentLookupCommands())
+
+                registerCommand(WipePunishmentsCommand())
             }
 
+            if (config.getBoolean("modules.chatcolors"))
+            {
+                ChatColorLoader.loadAllChatColors()
+                registerCommand(ChatColorCommands())
+            }
+
+            registerCommand(AuditCommand)
 
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
@@ -211,7 +223,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(ListCommand())
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
+            registerCommand(AdminChatCommand())
             registerCommand(PlayerAdminCommand())
+
+            registerCommand(WipeProfileCommand())
             registerCommand(SessionCommands())
 
             if (config.getBoolean("modules.parties"))

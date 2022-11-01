@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.models.profile
 
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -30,7 +31,9 @@ data class GameProfile(
     var ip: String,
     var friends: ArrayList<UUID>,
     var friendInvites: ArrayList<UUID>,
+    var activeColor: ChatColor?,
     var activePrefix: String?,
+
     var lastSeenAt: Long
 ) {
 

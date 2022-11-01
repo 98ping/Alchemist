@@ -68,7 +68,7 @@ object ProfileGameService {
         } else
         {
             GameProfile(
-                uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, System.currentTimeMillis()
+                uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, System.currentTimeMillis()
             )
         }
     }
