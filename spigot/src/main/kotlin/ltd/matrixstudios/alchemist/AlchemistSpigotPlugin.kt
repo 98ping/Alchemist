@@ -208,6 +208,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 registerCommand(TagGrantsCommand())
             }
 
+            if (config.getBoolean("freeRank.enabled"))
+            {
+                registerCommand(FreerankCommand())
+            }
+
 
             if (config.getBoolean("modules.filters"))
             {

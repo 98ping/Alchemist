@@ -28,3 +28,16 @@ modules:
   prefixes: true
   filters: true
   chatcolors: true
+
+#for general server information to use in command messages
+details:
+  ip: "yourIp.xyz"
+  serverWebsite: "www.yourIp.xyz"
+
+
+#to incentivise players to play your server longer
+freeRank:
+  enabled: true
+  message:
+    - "change me!"
+  command: "cgrant <target> Owner 10m Hello World"
