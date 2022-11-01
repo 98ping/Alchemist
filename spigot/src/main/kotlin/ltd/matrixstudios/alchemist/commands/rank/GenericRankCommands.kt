@@ -26,6 +26,7 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/rank create &f<rank>"))
         sender.sendMessage(Chat.format("&e/rank delete &f<rank>"))
         sender.sendMessage(Chat.format("&e/rank list"))
+        sender.sendMessage(Chat.format("&e/rank editor"))
         sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
@@ -165,6 +166,10 @@ class GenericRankCommands : BaseCommand() {
                 RankService.save(rank)
 
                 sender.sendMessage(Chat.format("&aUpdated the staff status of &7$name"))
+            }
+
+            else -> {
+                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix."))
             }
         }
 
