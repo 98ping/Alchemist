@@ -14,6 +14,8 @@ import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
+import ltd.matrixstudios.alchemist.commands.permission.PermissionEditCommand
+import ltd.matrixstudios.alchemist.commands.permission.menu.PermissionEditMenu
 import ltd.matrixstudios.alchemist.commands.player.*
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
@@ -170,6 +172,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
             registerCommand(CGrantCommand())
+
+            registerCommand(PermissionEditCommand())
 
             if (config.getBoolean("modules.punishments"))
             {

@@ -2,5 +2,7 @@ name: Alchemist
 version: 1.44
 main: ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 author: 98ping
+load: STARTUP
 loadbefore:
   - Funnel
+  - iLib

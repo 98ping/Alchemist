@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
+import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -35,6 +36,14 @@ class BlacklistCommand : BaseCommand() {
                 ActorType.GAME)
 
         )
+
+        val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.BLACKLIST)
+
+        if (hasPunishment)
+        {
+            sender.sendMessage(Chat.format("&cPlayer is already blacklisted!"))
+            return
+        }
 
         BukkitPunishmentFunctions.dispatch(punishment, true)
 

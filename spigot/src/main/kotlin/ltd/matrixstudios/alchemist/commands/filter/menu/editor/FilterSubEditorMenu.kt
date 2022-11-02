@@ -30,7 +30,6 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                 " ",
                 Chat.format("&eChange the silent status of the filter"),
                 Chat.format("&eCurrently: &f" + if (filter.silent) "&aSilent" else "&cPublic"),
-                " "
             ),
             "&eChange Silent Status", 0
         ).setBody { player, slot, clicktype ->
@@ -108,6 +107,22 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                     player.sendMessage(Chat.format("&eUpdate the exempt permission of &6${filter.word} &eto " + it))
                     FilterSubEditorMenu(player, filter).openMenu()
                 }.start(player)
+        }
+
+        buttons[15] = SimpleActionButton(
+            Material.PAINTING,
+            mutableListOf(
+                " ",
+                Chat.format("&eChange the punishment status of the filter"),
+                Chat.format("&eCurrently: &f" + if (filter.shouldPunish) "&aShould Punish" else "&cShouldn't Punish"),
+            ),
+            "&eChange Punishment Status", 0
+        ).setBody { player, slot, clicktype ->
+            val otherBool = !filter.shouldPunish
+            filter.shouldPunish = otherBool
+            FilterService.save(filter)
+            player.sendMessage(Chat.format("&eUpdate the punishment status of &6${filter.word} &eto " + if (filter.shouldPunish) "&aShould Punish" else "&cShouldn't Punish"))
+            FilterSubEditorMenu(player, filter).openMenu()
         }
 
         return buttons

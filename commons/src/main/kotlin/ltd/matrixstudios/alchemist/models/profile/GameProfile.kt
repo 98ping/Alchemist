@@ -33,6 +33,7 @@ data class GameProfile(
     var friendInvites: ArrayList<UUID>,
     var activeColor: ChatColor?,
     var activePrefix: String?,
+    var permissions: MutableList<String>,
 
     var lastSeenAt: Long
 ) {
@@ -167,12 +168,28 @@ data class GameProfile(
             returnedPerms[it] = true
         }
 
+        for (permission in permissions)
+        {
+            if (!returnedPerms.containsKey(permission))
+            {
+                returnedPerms[permission] = true
+            }
+        }
+
         return returnedPerms
     }
 
 
     fun hasActivePunishment(type: PunishmentType): Boolean {
         return getPunishments().find { it.expirable.isActive() && it.getGrantable() == type } != null
+    }
+
+    fun getCurrentGrant(): RankGrant? {
+        val filteredRank = RankGrantService.getFromCache(uuid).filter {
+            it.expirable.isActive()
+        }.sortedBy { it.getGrantable()!!.weight }.reversed().firstOrNull()
+
+        return filteredRank
     }
 
     fun getCurrentRank(): Rank? {

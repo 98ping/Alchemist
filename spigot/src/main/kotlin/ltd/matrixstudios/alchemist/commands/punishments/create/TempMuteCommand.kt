@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -33,6 +34,14 @@ class TempMuteCommand : BaseCommand() {
                 ActorType.GAME)
 
         )
+
+        val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.MUTE)
+
+        if (hasPunishment)
+        {
+            sender.sendMessage(Chat.format("&cPlayer is already muted!"))
+            return
+        }
 
         BukkitPunishmentFunctions.dispatch(punishment, true)
 

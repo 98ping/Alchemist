@@ -15,4 +15,8 @@ class Expirable(
 
         return !this.expired
     }
+
+    fun getActiveUntil(): Long {
+        return if (duration == Long.MAX_VALUE) Long.MAX_VALUE else addedAt + duration
+    }
 }
