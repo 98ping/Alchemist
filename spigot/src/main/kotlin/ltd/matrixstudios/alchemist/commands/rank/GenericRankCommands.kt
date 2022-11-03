@@ -119,21 +119,21 @@ class GenericRankCommands : BaseCommand() {
                 rank.prefix = arg
                 RankService.save(rank)
 
-                sender.sendMessage(Chat.format("&aUpdated the prefix of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the prefix of &f" + rank.color + rank.displayName))
             }
 
             "color" -> {
                 rank.color = arg
                 RankService.save(rank)
 
-                sender.sendMessage(Chat.format("&aUpdated the color of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the color of &f" + rank.color + rank.displayName))
             }
 
             "weight" -> {
                 rank.weight = arg.toInt()
                 RankService.save(rank)
 
-                sender.sendMessage(Chat.format("&aUpdated the weight of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the weight of &f" + rank.color + rank.displayName))
             }
 
             "parent" -> {
@@ -145,7 +145,7 @@ class GenericRankCommands : BaseCommand() {
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-                sender.sendMessage(Chat.format("&aUpdated the parents of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the parents of &f" + rank.color + rank.displayName))
             }
 
 
@@ -158,14 +158,14 @@ class GenericRankCommands : BaseCommand() {
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-                sender.sendMessage(Chat.format("&aUpdated the permissions of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the permissions of &f" + rank.color + rank.displayName))
             }
 
             "staff" -> {
                 rank.staff = arg.toBoolean()
                 RankService.save(rank)
 
-                sender.sendMessage(Chat.format("&aUpdated the staff status of &7$name"))
+                sender.sendMessage(Chat.format("&aUpdated the staff status of &f" + rank.color + rank.displayName))
             }
 
             else -> {

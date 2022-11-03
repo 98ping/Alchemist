@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture
 object AlchemistAPI {
 
     var SERVER_NAME = AlchemistSpigotPlugin.instance.config.getString("details.ip")
+    var SC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.staffChat")
+    var AC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.adminChat")
 
     fun getRankDisplay(uuid: UUID) : String {
         var finalString = "&cConsole"

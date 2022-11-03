@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
+import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -58,7 +59,7 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-           return
+           RankEditPropertiesMenu(player, rank).openMenu()
         }
 
 

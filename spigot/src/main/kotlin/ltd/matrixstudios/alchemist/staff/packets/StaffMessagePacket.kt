@@ -11,7 +11,7 @@ class StaffMessagePacket(val message: String, val server: String, val sender: UU
 
     override fun action() {
         val name = AlchemistAPI.getRankDisplay(sender)
-        val msg = "&b[SC] &7[$server] &r$name&7: &b$message"
+        val msg = AlchemistAPI.SC_FORMAT.replace("%server%", server).replace("%profile%", name).replace("%message%", message)
         Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.positions.staff") }.forEach { it.sendMessage(Chat.format(msg)) }
     }
 }

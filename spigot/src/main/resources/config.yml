@@ -34,6 +34,9 @@ details:
   ip: "yourIp.xyz"
   serverWebsite: "www.yourIp.xyz"
 
+channels:
+  staffChat: "&b[SC] &7(%server%) &f%profile%&7: &b%message%"
+  adminChat: "&c[AC] &7(%server%) &f%profile%&7: &c%message%"
 
 #to incentivise players to play your server longer
 freeRank:
