@@ -48,6 +48,9 @@ import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
+import ltd.matrixstudios.alchemist.themes.ThemeLoader
+import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
+import ltd.matrixstudios.alchemist.themes.commands.menu.ThemeSelectMenu
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
@@ -98,6 +101,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
             )
         }
+
+        ThemeLoader.loadAllThemes()
 
         thread {
             RedisPacketManager.pool.resource.use {
@@ -168,6 +173,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             {
                 registerCommand(GenericRankCommands())
             }
+
+            registerCommand(ThemeSelectCommand())
 
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())

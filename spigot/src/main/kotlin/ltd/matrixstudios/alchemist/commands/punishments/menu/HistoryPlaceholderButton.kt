@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.GeneralPunishmentMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
@@ -18,21 +19,15 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        val desc = arrayListOf<String>()
-        desc.add(Chat.format("&fClick to view this category of punishment."))
-        desc.add(" ")
-        desc.add(Chat.format("&fTotal Punishments:"))
-        val punishments = gameProfile.getPunishments().filter { it.getGrantable() == punishmentType }
-        desc.add(Chat.format("&f${punishments.size}"))
-        return desc
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, gameProfile, punishmentType)
     }
 
     override fun getDisplayName(player: Player): String? {
-        return Chat.format(punishmentType.color + punishmentType.id.replaceFirstChar { it.uppercase()}) + "s"
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderName(player, gameProfile, punishmentType)
     }
 
     override fun getData(player: Player): Short {
-        return AlchemistAPI.getWoolColor(punishmentType.color).woolData.toShort()
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderData(player, gameProfile, punishmentType)
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {

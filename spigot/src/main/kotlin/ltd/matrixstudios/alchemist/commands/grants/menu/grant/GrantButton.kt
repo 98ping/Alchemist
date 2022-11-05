@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
+import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -31,28 +32,15 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        val desc = arrayListOf<String>()
-
-        desc.add(Chat.format("&6&m---------------------"))
-        desc.add(Chat.format("&ePriority: &6${rank.weight}"))
-        desc.add(Chat.format("&ePrefix:  ${rank.prefix}"))
-        desc.add(Chat.format("&eColor: ${rank.color}This"))
-        desc.add(Chat.format("&eDefault: &6${rank.default}"))
-        desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
-        desc.add(Chat.format("&6&m---------------------"))
-        desc.add(Chat.format("&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${AlchemistAPI.getRankDisplay(gameProfile.uuid)}"))
-        desc.add(Chat.format("&6&m---------------------"))
-
-
-        return desc
+        return ThemeLoader.defaultTheme.getGrantLore(player, gameProfile, rank)
     }
 
     override fun getDisplayName(player: Player): String? {
-        return Chat.format("${rank.color}${rank.displayName}")
+        return ThemeLoader.defaultTheme.getGrantDisplayName(player, rank)
     }
 
     override fun getData(player: Player): Short {
-        return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
+        return ThemeLoader.defaultTheme.getGrantData(player, rank)
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {

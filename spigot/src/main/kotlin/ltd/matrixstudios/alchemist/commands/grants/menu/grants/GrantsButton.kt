@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
+import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -25,41 +26,15 @@ class GrantsButton(var rankGrant: RankGrant) : Button() {
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        val desc = arrayListOf<String>()
-
-        desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
-        desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable()!!.color + rankGrant.getGrantable()!!.displayName))
-        desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(rankGrant.expirable.duration)))
-        if (rankGrant.expirable.duration != Long.MAX_VALUE && rankGrant.expirable.isActive())
-        {
-            desc.add(Chat.format("&eRemaining: &f" + TimeUtil.formatDuration((rankGrant.expirable.addedAt + rankGrant.expirable.duration) - System.currentTimeMillis())))
-        }
-        desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eActor:"))
-        desc.add(Chat.format("&7- &eType: &c" + rankGrant.internalActor.actorType.name))
-        desc.add(Chat.format("&7- &eExecuted From: &c" + rankGrant.internalActor.executor.name))
-        desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
-        desc.add(Chat.format("&eIssued Reason: &f" + rankGrant.reason))
-        desc.add(Chat.format("&6&m--------------------"))
-        if (!rankGrant.expirable.isActive())
-        {
-            desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
-            desc.add(Chat.format("&eRemoved Reason: &f" + rankGrant.removedReason!!))
-            desc.add(Chat.format("&6&m--------------------"))
-        }
-
-
-        return desc
+        return ThemeLoader.defaultTheme.getGrantsLore(player, rankGrant)
     }
 
     override fun getDisplayName(player: Player): String? {
-        return Chat.format((if (rankGrant.expirable.isActive()) "&a&l(Active) " else "&c&l(Inactive) ") + Date(rankGrant.expirable.addedAt))
+        return ThemeLoader.defaultTheme.getGrantsDisplayName(player, rankGrant)
     }
 
     override fun getData(player: Player): Short {
-        return (if (rankGrant.expirable.isActive()) DyeColor.GREEN.woolData.toShort() else DyeColor.RED.woolData.toShort())
+        return ThemeLoader.defaultTheme.getGrantsData(player, rankGrant)
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {

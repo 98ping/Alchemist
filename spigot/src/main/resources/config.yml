@@ -19,6 +19,9 @@ redis:
 server:
   id: "server1"
 
+#theme info
+defaultTheme: "MMC"
+
 #enable and disable all modules
 modules:
   ranks: true
