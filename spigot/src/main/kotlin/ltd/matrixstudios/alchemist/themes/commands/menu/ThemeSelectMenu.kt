@@ -23,6 +23,7 @@ class ThemeSelectMenu(val player: Player) : Menu(player) {
 
         buttons[10] = ThemeButton(ThemeLoader.themes["MMC"]!!)
         buttons[11] = ThemeButton(ThemeLoader.themes["hydrogen"]!!)
+        buttons[12] = ThemeButton(ThemeLoader.themes["neutron"]!!)
 
         return buttons
     }
