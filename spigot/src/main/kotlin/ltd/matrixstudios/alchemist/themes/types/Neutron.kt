@@ -30,9 +30,9 @@ class Neutron : Theme(
         desc.add(Chat.format("&7&m-----------------------"))
         if (!rankGrant.expirable.isActive())
         {
-            desc.add(Chat.format("&ePardoned By: &f" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
-            desc.add(Chat.format("&ePardoned At: &f" + Date(rankGrant.expirable.removedAt)))
-            desc.add(Chat.format("&ePardoned Reason: &f" + rankGrant.removedReason!!))
+            desc.add(Chat.format("&ePardoned By: &c" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
+            desc.add(Chat.format("&ePardoned At: &c" + Date(rankGrant.expirable.removedAt)))
+            desc.add(Chat.format("&ePardoned Reason: &c" + rankGrant.removedReason!!))
             desc.add(Chat.format("&7&m-----------------------"))
         }
 
@@ -49,9 +49,9 @@ class Neutron : Theme(
 
     override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
         val desc = mutableListOf<String>()
-        desc.add(Chat.format("&9&m--------------------------------"))
+        desc.add(Chat.format("&7&m--------------------------------"))
         desc.add(Chat.format("&9Click to grant &f" + rank.color + rank.displayName + " &9to " + AlchemistAPI.getRankDisplay(gameProfile.uuid)))
-        desc.add(Chat.format("&9&m--------------------------------"))
+        desc.add(Chat.format("&7&m--------------------------------"))
 
         return desc
     }
@@ -77,9 +77,9 @@ class Neutron : Theme(
         desc.add(Chat.format("&7&m-----------------------"))
         if (!punishment.expirable.isActive())
         {
-            desc.add(Chat.format("&ePardoned By: &f" + AlchemistAPI.getRankDisplay(punishment.removedBy!!)))
-            desc.add(Chat.format("&ePardoned At: &f" + Date(punishment.expirable.removedAt)))
-            desc.add(Chat.format("&ePardoned Reason: &f" + punishment.removedReason!!))
+            desc.add(Chat.format("&ePardoned By: &c" + AlchemistAPI.getRankDisplay(punishment.removedBy!!)))
+            desc.add(Chat.format("&ePardoned At: &c" + Date(punishment.expirable.removedAt)))
+            desc.add(Chat.format("&ePardoned Reason: &c" + punishment.removedReason!!))
             desc.add(Chat.format("&7&m-----------------------"))
         }
 

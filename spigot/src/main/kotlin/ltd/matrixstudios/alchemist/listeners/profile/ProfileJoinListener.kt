@@ -86,11 +86,12 @@ class ProfileJoinListener : Listener {
         PunishmentService.recalculatePlayer(profile)
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
+            val punishment = profile.getActivePunishments(PunishmentType.BAN).firstOrNull()
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently banned from the server")
+            event.kickMessage = Chat.format("&cYou are currently banned from the server! \n &cReason: " + punishment!!.reason  + " \n &cPunishment Code: &c#" + punishment.easyFindId)
         } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently blacklisted from the server")
+            event.kickMessage = Chat.format("&cYou are currently blacklisted from the server! \n &cThis punishment is not appealable!")
         }
 
         val currentServer = AlchemistSpigotPlugin.instance.globalServer

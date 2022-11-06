@@ -17,9 +17,9 @@ class PunishmentExecutePacket(
 
         if (player != null) {
             if (punishmentType == PunishmentType.BLACKLIST) {
-                player.kickPlayer(Chat.format("&cYou have been blacklisted from the network for $reason"))
+                player.kickPlayer(Chat.format("&cYou are currently blacklisted from the server! \n &cThis punishment is not appealable!"))
             } else if (punishmentType == PunishmentType.BAN) {
-                player.kickPlayer(Chat.format("&cYou have been banned from the network for $reason"))
+                player.kickPlayer(Chat.format("&cYou are currently banned from the server! \n &cReason: $reason"))
             }
 
             if (punishmentType == PunishmentType.WARN) {

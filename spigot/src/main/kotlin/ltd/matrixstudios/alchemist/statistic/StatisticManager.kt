@@ -15,7 +15,6 @@ object StatisticManager {
         val pluginId = 16260
 
         this.metrics = Metric(AlchemistSpigotPlugin.instance, pluginId)
-
     }
 
 }

@@ -15,6 +15,8 @@ class DecayingPartyTask : BukkitRunnable() {
         for (party in parties)
         {
 
+            var changed = false
+
 
             if (NetworkManager.hasFullyDCed(party.leader))
             {
@@ -31,7 +33,11 @@ class DecayingPartyTask : BukkitRunnable() {
                 if (NetworkManager.hasFullyDCed(it))
                 {
                     party.removeMember(it)
+
+                    changed = true
                 }
+
+
             }
 
             for (invite in party.invited)
@@ -39,10 +45,16 @@ class DecayingPartyTask : BukkitRunnable() {
                 if ((System.currentTimeMillis() - invite.value)  >= TimeUnit.MINUTES.toMillis(1L))
                 {
                     party.invited.remove(invite.key)
+
+                    changed = true
                 }
             }
 
-            PartyService.handler.storeAsync(party.id, party)
+            if (changed)
+            {
+                PartyService.handler.storeAsync(party.id, party)
+            }
+
         }
     }
 }
