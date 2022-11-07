@@ -53,6 +53,7 @@ import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 import ltd.matrixstudios.alchemist.themes.commands.menu.ThemeSelectMenu
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.logging.Level
 import kotlin.concurrent.thread
 
 class AlchemistSpigotPlugin : JavaPlugin() {
@@ -69,6 +70,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         instance = this
 
 
+        val startMongo = System.currentTimeMillis()
         val authEnabled = config.getBoolean("mongo.auth")
 
         if (authEnabled) {
@@ -102,14 +104,23 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             )
         }
 
+        logger.log(Level.INFO, "[Mongo] Detected mongo auth type and loaded in " + System.currentTimeMillis().minus(startMongo) + "ms")
+
+        val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
 
+        logger.log(Level.INFO, "[Themes] All themes loaded in " + System.currentTimeMillis().minus(themeStart) + "ms")
+
+        val pubsubStart = System.currentTimeMillis()
         thread {
             RedisPacketManager.pool.resource.use {
                 it.subscribe(LocalPacketPubSub(), "Alchemist||Packets||")
             }
         }
 
+        logger.log(Level.INFO, "[Jedis] Jedis publisher started in " + System.currentTimeMillis().minus(pubsubStart) + "ms")
+
+        val listenerStart = System.currentTimeMillis()
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
 
@@ -121,7 +132,12 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
 
+        logger.log(Level.INFO, "[Listeners] Listeners loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
+
+        val permissionStart = System.currentTimeMillis()
         AccessiblePermissionHandler.load()
+
+        logger.log(Level.INFO, "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
@@ -131,6 +147,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
         }
 
+        val serversStart = System.currentTimeMillis()
 
         if (UniqueServerService.byId(config.getString("server.id")) == null) {
             val server = UniqueServer(
@@ -155,6 +172,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             globalServer.online = true
         }
+
+        logger.log(Level.INFO, "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
 
         StatisticManager.loadStats()
 

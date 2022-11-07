@@ -34,7 +34,6 @@ data class GameProfile(
     var activeColor: ChatColor?,
     var activePrefix: String?,
     var permissions: MutableList<String>,
-
     var lastSeenAt: Long
 ) {
 
