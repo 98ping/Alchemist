@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -19,6 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
+import java.util.logging.Level
 import kotlin.collections.ArrayList
 
 
@@ -75,7 +77,9 @@ class ProfileJoinListener : Listener {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
-        profile.lastSeenAt = System.currentTimeMillis()
+        Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
+
+         profile.lastSeenAt = System.currentTimeMillis()
 
         val hostAddress = event.address.hostAddress
         val output = SHA.toHexString(hostAddress)!!
