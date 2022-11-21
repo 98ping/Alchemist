@@ -15,7 +15,7 @@ import java.util.concurrent.ForkJoinPool
 
 class AltsCommand : BaseCommand() {
 
-    @Subcommand("alts")
+    @CommandAlias("alts")
     @CommandPermission("alchemist.alts")
     fun listAll(player: Player, @Name("target") profile: GameProfile) {
         ForkJoinPool.commonPool().run {
