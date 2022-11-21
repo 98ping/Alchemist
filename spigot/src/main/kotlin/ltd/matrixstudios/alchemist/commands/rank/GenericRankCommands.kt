@@ -148,6 +148,13 @@ class GenericRankCommands : BaseCommand() {
                 sender.sendMessage(Chat.format("&aUpdated the parents of &f" + rank.color + rank.displayName))
             }
 
+            "displayname" -> {
+                rank.displayName = arg
+                RankService.save(rank)
+
+                sender.sendMessage(Chat.format("&aUpdated the display name of &f" + rank.color + rank.displayName))
+            }
+
 
             "permission" -> {
                 if (rank.permissions.contains(arg)) {
@@ -169,7 +176,7 @@ class GenericRankCommands : BaseCommand() {
             }
 
             else -> {
-                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix."))
+                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix, or displayname."))
             }
         }
 
