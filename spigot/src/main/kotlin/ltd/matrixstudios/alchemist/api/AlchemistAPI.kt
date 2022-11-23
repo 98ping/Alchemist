@@ -25,8 +25,6 @@ object AlchemistAPI {
         }
 
         return finalString
-
-
     }
 
     fun quickFindProfile(uuid: UUID) : CompletableFuture<GameProfile?> {

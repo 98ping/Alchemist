@@ -34,7 +34,7 @@ class GenericRankCommands : BaseCommand() {
     @Subcommand("create")
     @CommandPermission("rank.admin")
     fun create(sender: CommandSender, @Name("name") name: String) {
-        if (RankService.byId(name) != null) {
+        if (RankService.byId(name.toLowerCase()) != null) {
             sender.sendMessage(Chat.format("&cThis rank already exists"))
             return
         }
@@ -70,12 +70,13 @@ class GenericRankCommands : BaseCommand() {
     @Subcommand("delete")
     @CommandPermission("rank.admin")
     fun delete(sender: CommandSender, @Name("rank") name: String) {
-        if (RankService.byId(name) == null) {
-            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
+        if (RankService.byId(name.toLowerCase()) == null) {
+            sender.sendMessage(Chat.format("&cThis rank doesn't exist"))
             return
         }
 
-        RankService.handler.delete(name)
+        RankService.ranks.remove(name.toLowerCase())
+        RankService.handler.delete(name.toLowerCase())
         sender.sendMessage(Chat.format("&cDeleted the rank &f$name"))
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Removed a rank with the id &b$name"))
     }
@@ -83,13 +84,13 @@ class GenericRankCommands : BaseCommand() {
     @Subcommand("info")
     @CommandPermission("rank.admin")
     fun info(sender: CommandSender, @Name("rank") name: String) {
-        if (RankService.byId(name) == null) {
+        if (RankService.byId(name.toLowerCase()) == null) {
             sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
             return
         }
 
 
-        val rank = RankService.byId(name)!!
+        val rank = RankService.byId(name.toLowerCase())!!
 
         sender.sendMessage(Chat.format("&7&m--------------------------"))
         sender.sendMessage(Chat.format(rank.color + rank.displayName))
@@ -107,12 +108,12 @@ class GenericRankCommands : BaseCommand() {
     @Subcommand("module")
     @CommandPermission("rank.admin")
     fun module(sender: CommandSender, @Name("rank") name: String, @Name("module")module: String, @Name("argument")arg: String) {
-        if (RankService.byId(name) == null) {
+        if (RankService.byId(name.toLowerCase()) == null) {
             sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
             return
         }
 
-        val rank = RankService.byId(name)!!
+        val rank = RankService.byId(name.toLowerCase())!!
 
         when (module) {
             "prefix" -> {

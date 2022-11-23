@@ -19,7 +19,6 @@ class AltsCommand : BaseCommand() {
     @CommandPermission("alchemist.alts")
     fun listAll(player: Player, @Name("target") profile: GameProfile) {
         ForkJoinPool.commonPool().run {
-            val playerProfile = ProfileGameService.byId(player.uniqueId)
             val alts = profile.getAltAccounts()
 
             object : BukkitRunnable()

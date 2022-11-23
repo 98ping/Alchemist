@@ -188,8 +188,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
             }
-            if (config.getBoolean("modules.ranks"))
-            {
+            if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())
             }
 
@@ -201,8 +200,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             registerCommand(PermissionEditCommand())
 
-            if (config.getBoolean("modules.punishments"))
-            {
+            if (config.getBoolean("modules.punishments")) {
                 registerCommand(MuteCommand())
                 registerCommand(BanCommand())
                 registerCommand(BlacklistCommand())
@@ -218,8 +216,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 registerCommand(WipePunishmentsCommand())
             }
 
-            if (config.getBoolean("modules.chatcolors"))
-            {
+            if (config.getBoolean("modules.chatcolors")) {
                 ChatColorLoader.loadAllChatColors()
                 registerCommand(ChatColorCommands())
             }
@@ -230,27 +227,23 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(HistoryCommand())
             registerCommand(GrantHistoryCommand())
 
-            if (config.getBoolean("modules.prefixes"))
-            {
+            if (config.getBoolean("modules.prefixes")) {
                 registerCommand(TagAdminCommand())
                 registerCommand(TagCommand())
                 registerCommand(TagGrantCommand())
                 registerCommand(TagGrantsCommand())
             }
 
-            if (config.getBoolean("freeRank.enabled"))
-            {
+            if (config.getBoolean("freeRank.enabled")) {
                 registerCommand(FreerankCommand())
             }
 
 
-            if (config.getBoolean("modules.filters"))
-            {
+            if (config.getBoolean("modules.filters")) {
                 registerCommand(FilterCommands())
             }
 
-            if (config.getBoolean("modules.friends"))
-            {
+            if (config.getBoolean("modules.friends")) {
                 registerCommand(FriendCommands())
             }
 
@@ -264,17 +257,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(WipeProfileCommand())
             registerCommand(SessionCommands())
 
-            if (config.getBoolean("modules.parties"))
-            {
+            if (config.getBoolean("modules.parties")) {
                 registerCommand(PartyCommands())
             }
 
 
             registerCommand(LookupCommand())
         }
-        
-
-
 
     }
 }
