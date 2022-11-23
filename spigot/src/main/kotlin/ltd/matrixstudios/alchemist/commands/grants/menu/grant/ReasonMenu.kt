@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
@@ -107,6 +108,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                     )
 
                     AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
+                    AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
 
                     AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
                 }, 1L)

@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.punishment.packets.PunishmentRemovePacket
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.redis.impl.caches.UpdatePunishmentsRequest
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -34,6 +35,7 @@ object BukkitPunishmentFunctions {
     fun dispatch(punishment: Punishment, silent: Boolean) {
         AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent))
         AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
+        AsynchronousRedisSender.send(UpdatePunishmentsRequest(punishment.target))
 
         PunishmentService.save(punishment)
     }

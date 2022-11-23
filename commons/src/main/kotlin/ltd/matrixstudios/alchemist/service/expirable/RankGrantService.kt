@@ -43,7 +43,10 @@ object RankGrantService : ExpiringService<RankGrant>() {
     fun recalculatePlayer(gameProfile: GameProfile) {
         val time = System.currentTimeMillis()
         findByTarget(gameProfile.uuid).thenApply { playerGrants[gameProfile.uuid] = it }
+    }
 
+    fun recalculateUUID(gameProfile: UUID) {
+        findByTarget(gameProfile).thenApply { playerGrants[gameProfile] = it }
     }
 
 
