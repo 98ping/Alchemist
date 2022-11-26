@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.AlchemistBungee
 import ltd.matrixstudios.alchemist.lockdown.LockdownManager
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.redis.BungeeRedisSender
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
@@ -52,13 +53,17 @@ class BungeeListener : Listener {
     {
         val player = event.player
 
-        val playerRank = ProfileGameService.byId(player.uniqueId)?.getCurrentRank() ?: return
+        val profile = ProfileGameService.byId(player.uniqueId) ?: return
+
+        RankGrantService.recalculatePlayer(profile)
+
+        val playerRank = profile.getCurrentRank() ?: return
 
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + player.name + " &3left the network").action()
             }
-        }, 1100L, TimeUnit.MILLISECONDS)
+        }, 1100L, TimeUnit.SECONDS)
     }
 
     @EventHandler
