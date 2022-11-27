@@ -22,6 +22,7 @@ class WarnCommand : BaseCommand() {
     @CommandAlias("warn|w")
     @CommandPermission("alchemist.punishments.warn")
     @CommandCompletion("@gameprofile")
+    @Syntax("<target> [-a] <reason>")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.WARN.name,
@@ -29,7 +30,7 @@ class WarnCommand : BaseCommand() {
             mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, Long.MAX_VALUE,
+            BukkitPunishmentFunctions.parseReason(reason), Long.MAX_VALUE,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
@@ -37,7 +38,7 @@ class WarnCommand : BaseCommand() {
 
         )
 
-        BukkitPunishmentFunctions.dispatch(punishment, true)
+        BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }
 

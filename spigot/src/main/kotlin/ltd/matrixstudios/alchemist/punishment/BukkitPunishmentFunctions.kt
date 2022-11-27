@@ -39,4 +39,34 @@ object BukkitPunishmentFunctions {
 
         PunishmentService.save(punishment)
     }
+    fun isSilent(reason: String) : Boolean {
+        if (reason.endsWith("-a", ignoreCase = true) || reason.startsWith("-a", ignoreCase = true))
+        {
+            return false
+        }
+
+        return true
+    }
+
+    fun parseReason(
+        reason: String?,
+        fallback: String = "Unfair Advantage"
+    ): String
+    {
+        var preParsedReason = reason ?: fallback
+        preParsedReason = preParsedReason.removePrefix("-a ")
+        preParsedReason = preParsedReason.removeSuffix(" -a")
+
+        preParsedReason = preParsedReason.removePrefix("-A ")
+        preParsedReason = preParsedReason.removeSuffix(" -A")
+
+        preParsedReason = preParsedReason.removePrefix("-A")
+        preParsedReason = preParsedReason.removeSuffix("-A")
+
+        preParsedReason = preParsedReason.removePrefix("-a")
+        preParsedReason = preParsedReason.removeSuffix("-a")
+
+
+        return preParsedReason.ifBlank { fallback }
+    }
 }

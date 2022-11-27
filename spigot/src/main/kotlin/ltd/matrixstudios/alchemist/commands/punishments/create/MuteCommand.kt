@@ -20,6 +20,7 @@ class MuteCommand : BaseCommand() {
     @CommandAlias("mute|pmute")
     @CommandPermission("alchemist.punishments.mute")
     @CommandCompletion("@gameprofile")
+    @Syntax("<target> [-a] <reason>")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
@@ -27,7 +28,7 @@ class MuteCommand : BaseCommand() {
             mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, Long.MAX_VALUE,
+            BukkitPunishmentFunctions.parseReason(reason, "Unspecified"), Long.MAX_VALUE,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
@@ -43,7 +44,7 @@ class MuteCommand : BaseCommand() {
             return
         }
 
-        BukkitPunishmentFunctions.dispatch(punishment, true)
+        BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }
 

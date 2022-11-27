@@ -23,6 +23,7 @@ class TempBanCommand : BaseCommand() {
     @CommandAlias("tempban|tb")
     @CommandPermission("alchemist.punishments.tempban")
     @CommandCompletion("@gameprofile")
+    @Syntax("<target> <duration> [-a] <reason>")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")time: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BAN.name,
@@ -30,7 +31,7 @@ class TempBanCommand : BaseCommand() {
             mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, TimeUtil.parseTime(time) * 1000L,
+            BukkitPunishmentFunctions.parseReason(reason, "Unspecified"), TimeUtil.parseTime(time) * 1000L,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
@@ -46,7 +47,7 @@ class TempBanCommand : BaseCommand() {
             return
         }
 
-        BukkitPunishmentFunctions.dispatch(punishment, true)
+        BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }
 

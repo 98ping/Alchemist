@@ -20,6 +20,7 @@ class TempMuteCommand : BaseCommand() {
     @CommandAlias("tempmute|tmute")
     @CommandPermission("alchemist.punishments.tempmute")
     @CommandCompletion("@gameprofile")
+    @Syntax("<target> <duration> [-a] <reason>")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")duration: String, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
@@ -27,7 +28,7 @@ class TempMuteCommand : BaseCommand() {
             mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            reason, TimeUtil.parseTime(duration).toLong() * 1000L,
+            BukkitPunishmentFunctions.parseReason(reason), TimeUtil.parseTime(duration).toLong() * 1000L,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
@@ -43,7 +44,7 @@ class TempMuteCommand : BaseCommand() {
             return
         }
 
-        BukkitPunishmentFunctions.dispatch(punishment, true)
+        BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }
 
