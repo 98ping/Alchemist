@@ -11,7 +11,7 @@ class ServerWhitelistPacket(val target: String) : RedisPacket("whitelist-packet"
 
         if (server.id.equals(target, ignoreCase = true))
         {
-            Bukkit.setWhitelist(true)
+            Bukkit.setWhitelist(!Bukkit.hasWhitelist())
         }
     }
 }
