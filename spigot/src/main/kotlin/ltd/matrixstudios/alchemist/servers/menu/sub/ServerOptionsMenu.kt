@@ -4,6 +4,7 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.servers.packets.ServerShutdownPacket
 import ltd.matrixstudios.alchemist.servers.packets.ServerWhitelistPacket
+import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -62,6 +63,8 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             } else {
                 player.sendMessage(Chat.format("&8[&eMonitor&8] &fSet rank lock status of " + server.id + " to false"))
             }
+
+            UniqueServerService.save(server)
         }
 
         return buttons
