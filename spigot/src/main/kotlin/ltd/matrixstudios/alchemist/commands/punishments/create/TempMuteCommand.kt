@@ -32,8 +32,8 @@ class TempMuteCommand : BaseCommand() {
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                ActorType.GAME)
-
+                ActorType.GAME
+            )
         )
 
         val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.MUTE)

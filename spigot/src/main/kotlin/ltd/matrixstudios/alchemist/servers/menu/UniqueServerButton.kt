@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.servers.menu
 
 import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.servers.menu.sub.ServerOptionsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
@@ -44,5 +45,6 @@ class UniqueServerButton(var server: UniqueServer) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
+        ServerOptionsMenu(player, server).openMenu()
     }
 }
