@@ -15,7 +15,6 @@ import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.permission.PermissionEditCommand
-import ltd.matrixstudios.alchemist.commands.permission.menu.PermissionEditMenu
 import ltd.matrixstudios.alchemist.commands.player.*
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
@@ -41,6 +40,7 @@ import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -50,7 +50,6 @@ import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
-import ltd.matrixstudios.alchemist.themes.commands.menu.ThemeSelectMenu
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
@@ -83,7 +82,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 authDb = config.getString("mongo.authDB")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(
+                connectionPool,
                 config.getString("redis.host"),
                 config.getInt("redis.port"),
                 (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
@@ -96,7 +96,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 databaseName = config.getString("mongo.database")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(
+                connectionPool,
                 config.getString("redis.host"),
                 config.getInt("redis.port"),
                 (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
@@ -104,7 +105,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             )
         }
 
-        logger.log(Level.INFO, "[Mongo] Detected mongo auth type and loaded in " + System.currentTimeMillis().minus(startMongo) + "ms")
+        logger.log(
+            Level.INFO,
+            "[Mongo] Detected mongo auth type and loaded in " + System.currentTimeMillis().minus(startMongo) + "ms"
+        )
 
         val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
@@ -118,32 +122,39 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             }
         }
 
-        logger.log(Level.INFO, "[Jedis] Jedis publisher started in " + System.currentTimeMillis().minus(pubsubStart) + "ms")
+        logger.log(
+            Level.INFO,
+            "[Jedis] Jedis publisher started in " + System.currentTimeMillis().minus(pubsubStart) + "ms"
+        )
 
         val listenerStart = System.currentTimeMillis()
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
 
-        if (config.getBoolean("modules.filters"))
-        {
+        if (config.getBoolean("modules.filters")) {
             server.pluginManager.registerEvents(FilterListener, this)
         }
 
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
 
-        logger.log(Level.INFO, "[Listeners] Listeners loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
+        logger.log(
+            Level.INFO,
+            "[Listeners] Listeners loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+        )
 
         val permissionStart = System.currentTimeMillis()
         AccessiblePermissionHandler.load()
 
-        logger.log(Level.INFO, "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
+        logger.log(
+            Level.INFO,
+            "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+        )
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
 
-        if (config.getBoolean("modules.parties"))
-        {
+        if (config.getBoolean("modules.parties")) {
             (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
         }
 
@@ -173,7 +184,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             globalServer.online = true
         }
 
-        logger.log(Level.INFO, "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms")
+        logger.log(
+            Level.INFO,
+            "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+        )
 
         StatisticManager.loadStats()
 

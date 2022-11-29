@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.servers.menu.sub
 
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.servers.menu.sub.menus.SelectRankMenu
 import ltd.matrixstudios.alchemist.servers.packets.ServerShutdownPacket
 import ltd.matrixstudios.alchemist.servers.packets.ServerWhitelistPacket
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -65,6 +66,14 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             }
 
             UniqueServerService.save(server)
+        }
+
+        buttons[14] = SkullButton(
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc1ZmQxZmQ2ZjA1NmNjY2NhYjJmZWRkZDY3Y2Q0Nzc2ZDdhYzI3YTBlNDM0Y2VlODMyNWIzZjQ5YjhjNGI3ZSJ9fX0=",
+            mutableListOf(" ", Chat.format("&eSet minimum rank required to join the server."), " "),
+            Chat.format("&6Set Min Lock Rank Of " + server.displayName)
+        ).setBody { player, i, clickType ->
+            SelectRankMenu(player, server).updateMenu()
         }
 
         return buttons
