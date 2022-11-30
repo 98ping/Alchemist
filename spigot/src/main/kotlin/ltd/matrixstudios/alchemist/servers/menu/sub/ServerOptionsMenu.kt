@@ -57,6 +57,7 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             val other = !server.lockedWithRank
 
             server.lockedWithRank = other
+            UniqueServerService.save(server)
 
             if (other)
             {
@@ -65,7 +66,6 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
                 player.sendMessage(Chat.format("&8[&eMonitor&8] &fSet rank lock status of " + server.id + " to false"))
             }
 
-            UniqueServerService.save(server)
         }
 
         buttons[14] = SkullButton(
