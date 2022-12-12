@@ -43,7 +43,14 @@ class RankGrant(
     }
 
     override fun getGrantable(): Rank? {
-       return RankService.byId(rank)
+       val optional = RankService.byId(rank)
+
+        if (optional != null)
+        {
+            return optional
+        }
+
+        return Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
     }
 
 }
