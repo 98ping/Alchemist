@@ -47,6 +47,7 @@ import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.statistic.StatisticManager
+import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
@@ -153,6 +154,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
+        (SyncTask()).runTaskTimer(this, 0L, 100L)
 
         if (config.getBoolean("modules.parties")) {
             (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)

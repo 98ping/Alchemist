@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshRankPacket
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
@@ -43,6 +44,8 @@ class GenericRankCommands : BaseCommand() {
 
         RankService.save(rank)
 
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
         sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Added a new rank with the id &b$name"))
     }
@@ -77,6 +80,8 @@ class GenericRankCommands : BaseCommand() {
 
         RankService.ranks.remove(name.toLowerCase())
         RankService.handler.delete(name.toLowerCase())
+
+        AsynchronousRedisSender.send(RefreshRankPacket())
         sender.sendMessage(Chat.format("&cDeleted the rank &f$name"))
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Removed a rank with the id &b$name"))
     }
@@ -119,6 +124,7 @@ class GenericRankCommands : BaseCommand() {
             "prefix" -> {
                 rank.prefix = arg
                 RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the prefix of &f" + rank.color + rank.displayName))
             }
@@ -126,6 +132,7 @@ class GenericRankCommands : BaseCommand() {
             "color" -> {
                 rank.color = arg
                 RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the color of &f" + rank.color + rank.displayName))
             }
@@ -133,6 +140,7 @@ class GenericRankCommands : BaseCommand() {
             "weight" -> {
                 rank.weight = arg.toInt()
                 RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the weight of &f" + rank.color + rank.displayName))
             }
@@ -145,6 +153,7 @@ class GenericRankCommands : BaseCommand() {
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the parents of &f" + rank.color + rank.displayName))
             }
@@ -152,6 +161,7 @@ class GenericRankCommands : BaseCommand() {
             "displayname" -> {
                 rank.displayName = arg
                 RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the display name of &f" + rank.color + rank.displayName))
             }
@@ -165,6 +175,7 @@ class GenericRankCommands : BaseCommand() {
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the permissions of &f" + rank.color + rank.displayName))
             }
@@ -172,6 +183,7 @@ class GenericRankCommands : BaseCommand() {
             "staff" -> {
                 rank.staff = arg.toBoolean()
                 RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
 
                 sender.sendMessage(Chat.format("&aUpdated the staff status of &f" + rank.color + rank.displayName))
             }
@@ -179,6 +191,7 @@ class GenericRankCommands : BaseCommand() {
             else -> {
                 sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix, or displayname."))
             }
+
         }
 
 

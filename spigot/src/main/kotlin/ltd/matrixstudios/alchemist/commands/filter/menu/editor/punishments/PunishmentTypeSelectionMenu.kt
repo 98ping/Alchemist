@@ -6,6 +6,8 @@ import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryPlaceholderB
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -63,7 +65,7 @@ class PunishmentTypeSelectionMenu(val player: Player, val filter: Filter) : Menu
             filter.punishmentType = punishmentType
             FilterService.save(filter)
             player.sendMessage(Chat.format("&eUpdated the punishment type to " + punishmentType.color + punishmentType.niceName))
-
+            AsynchronousRedisSender.send(RefreshFiltersPacket())
             FilterSubEditorMenu(player, filter).openMenu()
         }
 

@@ -3,6 +3,8 @@ package ltd.matrixstudios.alchemist.commands.filter.menu.editor
 import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.PunishmentTypeSelectionMenu
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -36,6 +38,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             val otherBool = !filter.silent
             filter.silent = otherBool
             FilterService.save(filter)
+            AsynchronousRedisSender.send(RefreshFiltersPacket())
+
             player.sendMessage(Chat.format("&eUpdate the silent status of &6${filter.word} &eto " + if (otherBool) "&aSilent" else "&cPublic"))
             FilterSubEditorMenu(player, filter).openMenu()
         }
@@ -69,6 +73,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                     filter.duration = it
 
                     FilterService.save(filter)
+                    AsynchronousRedisSender.send(RefreshFiltersPacket())
+
                     player.sendMessage(Chat.format("&aSet the duration of the punishment to $it"))
                     FilterSubEditorMenu(player, filter).openMenu()
                 }.start(player)
@@ -86,6 +92,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             val otherBool = !filter.staffExempt
             filter.staffExempt = otherBool
             FilterService.save(filter)
+            AsynchronousRedisSender.send(RefreshFiltersPacket())
+
             player.sendMessage(Chat.format("&eUpdate the staff exempt status of &6${filter.word} &eto " + if (otherBool) "&aTrue" else "&cFalse"))
             FilterSubEditorMenu(player, filter).openMenu()
         }
@@ -104,6 +112,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                 .acceptInput {
                     filter.exemptPermission = it
                     FilterService.save(filter)
+                    AsynchronousRedisSender.send(RefreshFiltersPacket())
+
                     player.sendMessage(Chat.format("&eUpdate the exempt permission of &6${filter.word} &eto " + it))
                     FilterSubEditorMenu(player, filter).openMenu()
                 }.start(player)
@@ -121,6 +131,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             val otherBool = !filter.shouldPunish
             filter.shouldPunish = otherBool
             FilterService.save(filter)
+            AsynchronousRedisSender.send(RefreshFiltersPacket())
+
             player.sendMessage(Chat.format("&eUpdate the punishment status of &6${filter.word} &eto " + if (filter.shouldPunish) "&aShould Punish" else "&cShouldn't Punish"))
             FilterSubEditorMenu(player, filter).openMenu()
         }

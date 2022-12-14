@@ -4,6 +4,8 @@ import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.Punis
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshRankPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -50,7 +52,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
 
                     rank.weight = newPriority
                     RankService.save(rank)
-
+                    AsynchronousRedisSender.send(RefreshRankPacket())
                     player.sendMessage(Chat.format("&aUpdated the priority of " + rank.color + rank.displayName))
                     RankEditPropertiesMenu(player, rank).openMenu()
                 }.start(player)
@@ -68,6 +70,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             val otherBool = !rank.staff
             rank.staff = otherBool
             RankService.save(rank)
+            AsynchronousRedisSender.send(RefreshRankPacket())
             player.sendMessage(Chat.format("&eUpdate the staff status of &6${rank.color}${rank.displayName} &eto " + if (otherBool) "&aTrue" else "&cFalse"))
             RankEditPropertiesMenu(player, rank).openMenu()
         }
@@ -86,7 +89,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 .acceptInput {
                     rank.prefix = it
                     RankService.save(rank)
-
+                    AsynchronousRedisSender.send(RefreshRankPacket())
                     player.sendMessage(Chat.format("&aUpdated the prefix of " + rank.color + rank.displayName))
                     RankEditPropertiesMenu(player, rank).openMenu()
                 }.start(player)
@@ -106,7 +109,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 .acceptInput {
                     rank.color = it
                     RankService.save(rank)
-
+                    AsynchronousRedisSender.send(RefreshRankPacket())
                     player.sendMessage(Chat.format("&aUpdated the color of " + rank.color + rank.displayName))
                     RankEditPropertiesMenu(player, rank).openMenu()
                 }.start(player)
@@ -126,7 +129,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 .acceptInput {
                     rank.displayName = it
                     RankService.save(rank)
-
+                    AsynchronousRedisSender.send(RefreshRankPacket())
                     player.sendMessage(Chat.format("&aUpdated the display name of " + rank.color + rank.displayName))
                     RankEditPropertiesMenu(player, rank).openMenu()
                 }.start(player)

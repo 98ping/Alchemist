@@ -5,6 +5,8 @@ import ltd.matrixstudios.alchemist.commands.filter.menu.editor.FilterSubEditorMe
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -36,6 +38,7 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player) {
                     val filter = Filter(UUID.randomUUID(), it.lowercase(), false, PunishmentType.MUTE, "1d", false, "", false)
 
                     FilterService.save(filter)
+                    AsynchronousRedisSender.send(RefreshFiltersPacket())
                     player.sendMessage(Chat.format("&aCreated a new filter!"))
                 }.start(player)
         }
