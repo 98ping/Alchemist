@@ -154,7 +154,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
-        (SyncTask()).runTaskTimer(this, 0L, 100L)
+        (SyncTask()).runTaskTimer(this, 0L, 60 * 20L)
 
         if (config.getBoolean("modules.parties")) {
             (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
