@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.api
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
@@ -30,6 +31,13 @@ object AlchemistAPI {
     fun quickFindProfile(uuid: UUID) : CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync { ProfileGameService.byId(uuid) }
     }
+
+    fun findRank(uuid: UUID) : Rank {
+        val profile = ProfileGameService.byId(uuid) ?: return Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+
+        return profile.getCurrentRank()!!
+    }
+
 
 
     fun supplyColoredNames() : CompletableFuture<String> {

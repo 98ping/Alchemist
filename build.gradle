@@ -39,10 +39,6 @@ subprojects {
         implementation 'redis.clients:jedis:4.3.1'
 
         implementation fileTree(include: ['*.jar'], dir: 'lib')
-
-        shadowJar {
-            configurations = [project.configurations.compileClasspath]
-        }
     }
 
 }

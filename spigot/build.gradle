@@ -1,8 +1,11 @@
 
 repositories {
     maven {
-        name = "sonatype-oss-snapshots1"
         url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    }
+
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
 }
 
@@ -12,4 +15,5 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "net.kyori:adventure-api:4.11.0"
+    compileOnly 'me.clip:placeholderapi:2.11.2'
 }

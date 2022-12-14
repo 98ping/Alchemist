@@ -39,6 +39,7 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
@@ -52,6 +53,7 @@ import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
 import kotlin.concurrent.thread
@@ -192,6 +194,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         )
 
         StatisticManager.loadStats()
+        registerExpansion()
 
         val config = this.config
 
@@ -279,6 +282,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
 
             registerCommand(LookupCommand())
+        }
+
+    }
+
+    fun registerExpansion()
+    {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+        {
+            AlchemistExpansion().register()
         }
 
     }

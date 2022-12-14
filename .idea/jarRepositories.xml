@@ -56,5 +56,10 @@
       <option name="name" value="sonatype-oss-snapshots1" />
       <option name="url" value="https://s01.oss.sonatype.org/content/repositories/snapshots/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven8" />
+      <option name="name" value="maven8" />
+      <option name="url" value="https://repo.extendedclip.com/content/repositories/placeholderapi/" />
+    </remote-repository>
   </component>
 </project>
