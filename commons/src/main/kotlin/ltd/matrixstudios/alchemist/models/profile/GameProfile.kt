@@ -150,14 +150,17 @@ data class GameProfile(
 
         val parents = getCurrentRank()!!.parents.map {
             RankService.byId(it)
-        }.filter {
-            Objects.nonNull(it)
         }
 
         parents.forEach { rank ->
-            rank!!.permissions.forEach {
-                if (!allPerms.contains(it)) {
-                    allPerms.add(it)
+            if (rank != null)
+            {
+                for (perm in rank.permissions)
+                {
+                    if (!allPerms.contains(perm))
+                    {
+                        allPerms.add(perm)
+                    }
                 }
             }
         }

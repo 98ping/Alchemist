@@ -17,6 +17,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -62,14 +63,9 @@ class ProfileJoinListener : Listener {
     @EventHandler
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
+        val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
-        val perms = AccessiblePermissionHandler.pendingLoadPermissions.getOrDefault(player.uniqueId, mapOf())
-
-        CompletableFuture.runAsync {
-            AccessiblePermissionHandler.update(player, perms)
-        }
-
-        AccessiblePermissionHandler.pendingLoadPermissions.remove(player.uniqueId)
+        AccessiblePermissionHandler.update(player, profile.getPermissions())
     }
 
     @EventHandler
@@ -107,7 +103,14 @@ class ProfileJoinListener : Listener {
         //doing this for syncing purposes and because the network manager needs to track when they were last on
         ProfileGameService.handler.storeAsync(profile.uuid, profile)
 
-        AccessiblePermissionHandler.setupPlayer(event.uniqueId, profile.getPermissions())
+    }
+
+    @EventHandler
+    fun leave(event: PlayerQuitEvent)
+    {
+        val player = event.player
+
+        AccessiblePermissionHandler.remove(player)
 
     }
 }
