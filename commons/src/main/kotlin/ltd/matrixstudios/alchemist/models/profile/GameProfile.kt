@@ -155,13 +155,7 @@ data class GameProfile(
         parents.forEach { rank ->
             if (rank != null)
             {
-                for (perm in rank.permissions)
-                {
-                    if (!allPerms.contains(perm))
-                    {
-                        allPerms.add(perm)
-                    }
-                }
+                allPerms.addAll(rank.getAllPermissions())
             }
         }
 

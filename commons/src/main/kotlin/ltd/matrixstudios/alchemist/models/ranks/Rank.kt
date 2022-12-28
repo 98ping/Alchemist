@@ -21,4 +21,24 @@ class Rank(
     var default: Boolean = false
 ) {
 
+    fun getAllPermissions() : MutableList<String> {
+        val perms = mutableListOf<String>()
+
+        perms.addAll(permissions)
+
+        for (parent in parents)
+        {
+            val rank = RankService.byId(parent) ?: continue
+
+            for (perm in rank.getAllPermissions())
+            {
+                if (!perms.contains(perm))
+                {
+                    perms.add(perm)
+                }
+            }
+        }
+
+        return perms
+    }
 }
