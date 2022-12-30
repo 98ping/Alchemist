@@ -65,7 +65,9 @@ class ProfileJoinListener : Listener {
         val player = event.player
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
-        AccessiblePermissionHandler.update(player, profile.getPermissions())
+        CompletableFuture.runAsync {
+            AccessiblePermissionHandler.update(player, profile.getPermissions())
+        }
     }
 
     @EventHandler

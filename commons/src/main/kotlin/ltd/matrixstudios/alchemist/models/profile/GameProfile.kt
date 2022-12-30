@@ -112,13 +112,6 @@ data class GameProfile(
         return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
     }
 
-    fun getAllGrants() : Collection<RankGrant>
-    {
-        val grants = RankGrantService.findByTarget(uuid).get()
-
-        return grants
-    }
-
     fun getPermissionsAsList(): MutableList<String> {
         val allPerms = arrayListOf<String>()
 
