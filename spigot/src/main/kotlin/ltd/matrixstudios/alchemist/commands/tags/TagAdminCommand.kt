@@ -29,6 +29,21 @@ class TagAdminCommand : BaseCommand() {
         sender.sendMessage(Chat.format("&aCreated a new tag"))
     }
 
+    @Subcommand("delete")
+    @CommandPermission("alchemist.tags.admin")
+    fun delete(sender: CommandSender, @Name("name")name: String)
+    {
+        val tag = TagService.byId(name)
+
+        if (tag == null) {
+            sender.sendMessage(Chat.format("&cTag does not exist"))
+            return
+        }
+
+        TagService.handler.delete(tag.id)
+        sender.sendMessage(Chat.format("&cDeleted this tag!"))
+    }
+
     @Subcommand("edit")
     @CommandPermission("alchemist.tags.admin")
     fun edit(player: Player) {

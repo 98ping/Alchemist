@@ -32,19 +32,21 @@ object AlchemistAPI {
         return CompletableFuture.supplyAsync { ProfileGameService.byId(uuid) }
     }
 
+    fun syncFindProfile(uuid: UUID) : GameProfile? {
+        return ProfileGameService.byId(uuid)
+    }
+
     fun findRank(uuid: UUID) : Rank {
         val profile = ProfileGameService.byId(uuid) ?: return Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
 
         return profile.getCurrentRank()!!
     }
 
-
-
     fun supplyColoredNames() : CompletableFuture<String> {
         return CompletableFuture.supplyAsync {
             Bukkit.getOnlinePlayers()
                 .sortedBy {
-                        quickFindProfile(it.uniqueId).get()?.getCurrentRank()!!.weight
+                        syncFindProfile(it.uniqueId)?.getCurrentRank()!!.weight
                 }.reversed()
                 .joinToString(", ") {
                     it.displayName

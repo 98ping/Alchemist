@@ -27,7 +27,7 @@ object ProfileGameService {
     {
         val grants = RankGrantService.getFromCache(uuid)
 
-        grants.stream().sorted { o1, o2 ->  o2.getGrantable()!!.weight- o1.getGrantable()!!.weight }.collect(Collectors.toList())
+        grants.stream().sorted { o1, o2 ->  o2.getGrantable()!!.weight - o1.getGrantable()!!.weight }.collect(Collectors.toList())
 
         return grants.firstOrNull()
     }

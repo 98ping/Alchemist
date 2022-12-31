@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
@@ -197,95 +198,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         StatisticManager.loadStats()
         registerExpansion()
 
-        val config = this.config
-
-        this.commandManager = PaperCommandManager(this).apply {
-            this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
-            this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
-            this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
-
-
-            this.commandCompletions.registerCompletion("gameprofile") {
-                return@registerCompletion server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
-            }
-            if (config.getBoolean("modules.ranks")) {
-                registerCommand(GenericRankCommands())
-            }
-
-            registerCommand(ThemeSelectCommand())
-
-            registerCommand(GrantCommand())
-            registerCommand(GrantsCommand())
-            registerCommand(CGrantCommand())
-
-            registerCommand(PermissionEditCommand())
-
-            if (config.getBoolean("modules.punishments")) {
-                registerCommand(MuteCommand())
-                registerCommand(BanCommand())
-                registerCommand(BlacklistCommand())
-                registerCommand(TempBanCommand())
-                registerCommand(TempMuteCommand())
-                registerCommand(WarnCommand())
-
-                registerCommand(UnbanCommand())
-                registerCommand(UnmuteCommand())
-                registerCommand(UnblacklistCommand())
-                registerCommand(PunishmentLookupCommands())
-
-                registerCommand(WipePunishmentsCommand())
-            }
-
-            if (config.getBoolean("modules.chatcolors")) {
-                ChatColorLoader.loadAllChatColors()
-                registerCommand(ChatColorCommands())
-            }
-
-            registerCommand(AuditCommand)
-
-            registerCommand(AltsCommand())
-            registerCommand(HistoryCommand())
-            registerCommand(GrantHistoryCommand())
-
-            if (config.getBoolean("modules.prefixes")) {
-                registerCommand(TagAdminCommand())
-                registerCommand(TagCommand())
-                registerCommand(TagGrantCommand())
-                registerCommand(TagGrantsCommand())
-            }
-
-            if (config.getBoolean("freeRank.enabled")) {
-                registerCommand(FreerankCommand())
-            }
-
-
-            if (config.getBoolean("modules.filters")) {
-                registerCommand(FilterCommands())
-            }
-
-            if (config.getBoolean("modules.friends")) {
-                registerCommand(FriendCommands())
-            }
-
-            registerCommand(ServerEnvironmentCommand())
-            registerCommand(ListCommand())
-            registerCommand(SudoCommand())
-            registerCommand(StaffchatCommand())
-            registerCommand(AdminChatCommand())
-            registerCommand(PlayerAdminCommand())
-
-            registerCommand(MetricCommand())
-
-            registerCommand(WipeProfileCommand())
-            registerCommand(SessionCommands())
-
-            if (config.getBoolean("modules.parties")) {
-                registerCommand(PartyCommands())
-            }
-
-
-            registerCommand(LookupCommand())
-        }
+        ACFCommandController.registerAll()
 
     }
 

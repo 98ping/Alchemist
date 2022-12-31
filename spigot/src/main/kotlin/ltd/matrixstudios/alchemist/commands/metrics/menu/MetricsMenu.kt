@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.metrics.menu
 
 import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.GrantsMetricButton
+import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.HeartbeatButton
 import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.ProfileMetricButton
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -15,6 +16,8 @@ class MetricsMenu(val player: Player) : Menu(player) {
 
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
+
+        buttons[4] = HeartbeatButton()
         buttons[10] = ProfileMetricButton()
         buttons[11] = GrantsMetricButton()
 
