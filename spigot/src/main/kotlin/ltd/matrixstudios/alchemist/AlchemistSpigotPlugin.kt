@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
+import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.permission.PermissionEditCommand
 import ltd.matrixstudios.alchemist.commands.player.*
@@ -272,6 +273,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             registerCommand(StaffchatCommand())
             registerCommand(AdminChatCommand())
             registerCommand(PlayerAdminCommand())
+
+            registerCommand(MetricCommand())
 
             registerCommand(WipeProfileCommand())
             registerCommand(SessionCommands())

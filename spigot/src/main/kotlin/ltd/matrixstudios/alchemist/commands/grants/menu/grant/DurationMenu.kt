@@ -33,8 +33,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        buttons[10] = DurationButton("1h", 0, "&f", rank, target)
-        buttons[11] = DurationButton("12h", 13, "&2", rank, target)
+        buttons[10] = DurationButton("1h", 13, "&2", rank, target)
         buttons[12] = DurationButton("1d", 5, "&a", rank, target)
         buttons[13] = DurationButton("1w", 4, "&e", rank, target)
         buttons[14] = DurationButton("1m", 1, "&6", rank, target)
@@ -99,7 +98,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
                                         return END_OF_CONVERSATION
                                     }
 
-                                    ReasonMenu(player, rank, target, duration).updateMenu()
+                                    ReasonMenu(player, rank, target, duration).openMenu()
 
                                     END_OF_CONVERSATION
                                 }
@@ -109,9 +108,9 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
                 val con: Conversation = factory.buildConversation(player)
                 player.beginConversation(con)
             } else if (time == "Permanent") {
-                ReasonMenu(player, rank, target, Long.MAX_VALUE).updateMenu()
+                ReasonMenu(player, rank, target, Long.MAX_VALUE).openMenu()
             } else {
-                ReasonMenu(player, rank, target, TimeUtil.parseTime(time) * 1000L).updateMenu()
+                ReasonMenu(player, rank, target, TimeUtil.parseTime(time) * 1000L).openMenu()
             }
         }
 

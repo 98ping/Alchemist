@@ -44,6 +44,6 @@ class GrantButton(var rank: Rank, var gameProfile: GameProfile) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        DurationMenu(player, rank, gameProfile).updateMenu()
+        DurationMenu(player, rank, gameProfile).openMenu()
     }
 }

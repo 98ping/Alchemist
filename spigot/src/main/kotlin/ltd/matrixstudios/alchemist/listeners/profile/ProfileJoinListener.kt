@@ -4,6 +4,8 @@ import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.metric.Metric
+import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -65,9 +67,12 @@ class ProfileJoinListener : Listener {
         val player = event.player
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
+        val startPerms = System.currentTimeMillis()
         CompletableFuture.runAsync {
             AccessiblePermissionHandler.update(player, profile.getPermissions())
         }
+
+        MetricService.addMetric("Permission Handler", Metric("Permission Handler", System.currentTimeMillis().minus(startPerms), System.currentTimeMillis()))
     }
 
     @EventHandler
@@ -76,6 +81,7 @@ class ProfileJoinListener : Listener {
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
         Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
+        MetricService.addMetric("Profile Service", Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis()))
 
          profile.lastSeenAt = System.currentTimeMillis()
 
@@ -84,8 +90,13 @@ class ProfileJoinListener : Listener {
 
         profile.ip = output
 
+        val startGrants = System.currentTimeMillis()
         RankGrantService.recalculatePlayer(profile)
+        MetricService.addMetric("Grants Service", Metric("Grants Service", System.currentTimeMillis().minus(startGrants), System.currentTimeMillis()))
+
+        val startPunishments = System.currentTimeMillis()
         PunishmentService.recalculatePlayer(profile)
+        MetricService.addMetric("Punishment Service", Metric("Punishment Service", System.currentTimeMillis().minus(startPunishments), System.currentTimeMillis()))
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             val punishment = profile.getActivePunishments(PunishmentType.BAN).firstOrNull()
