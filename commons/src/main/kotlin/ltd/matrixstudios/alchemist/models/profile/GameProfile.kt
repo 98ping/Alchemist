@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.profile.notes.ProfileNote
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.models.sessions.Session
@@ -27,14 +28,15 @@ data class GameProfile(
     var uuid: UUID,
     var username: String,
     var lowercasedUsername: String,
-    var metadata: JsonObject,
+    var metadata: JsonObject = JsonObject(),
     var ip: String,
-    var friends: ArrayList<UUID>,
-    var friendInvites: ArrayList<UUID>,
-    var activeColor: ChatColor?,
-    var activePrefix: String?,
-    var permissions: MutableList<String>,
-    var lastSeenAt: Long
+    var friends: ArrayList<UUID> = ArrayList(),
+    var friendInvites: ArrayList<UUID> = ArrayList(),
+    var activeColor: ChatColor? = null,
+    var activePrefix: String? = null,
+    var permissions: MutableList<String> = ArrayList(),
+    var lastSeenAt: Long,
+    val notes: MutableList<ProfileNote> = ArrayList(),
 ) {
 
     @Transient
