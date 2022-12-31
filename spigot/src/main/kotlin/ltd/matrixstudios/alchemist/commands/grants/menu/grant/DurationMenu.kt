@@ -14,6 +14,7 @@ import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -21,18 +22,25 @@ import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) : PaginatedMenu(9, player) {
+class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) : Menu(player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    init {
+        staticSize = 27
+        placeholder = true
+    }
+
+
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        buttons[0] = DurationButton("1h", 13, "&2", rank, target)
-        buttons[1] = DurationButton("1d", 5, "&a", rank, target)
-        buttons[2] = DurationButton("1w", 4, "&e", rank, target)
-        buttons[3] = DurationButton("1m", 1, "&6", rank, target)
-        buttons[4] = DurationButton("1y", 14, "&c", rank, target)
-        buttons[5] = DurationButton("Permanent", 14, "&4", rank, target)
-        buttons[6] = DurationButton("Custom", 8, "&7", rank, target)
+        buttons[10] = DurationButton("1h", 0, "&f", rank, target)
+        buttons[11] = DurationButton("12h", 13, "&2", rank, target)
+        buttons[12] = DurationButton("1d", 5, "&a", rank, target)
+        buttons[13] = DurationButton("1w", 4, "&e", rank, target)
+        buttons[14] = DurationButton("1m", 1, "&6", rank, target)
+        buttons[15] = DurationButton("1y", 14, "&c", rank, target)
+        buttons[16] = DurationButton("Permanent", 14, "&4", rank, target)
+        buttons[17] = DurationButton("Custom", 8, "&7", rank, target)
 
         return buttons
     }

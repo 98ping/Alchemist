@@ -15,6 +15,7 @@ import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -22,16 +23,21 @@ import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, val duration: Long) : PaginatedMenu(9, player) {
+class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, val duration: Long) : Menu(player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    init {
+        staticSize = 27
+        placeholder = true
+    }
+
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        buttons[0] = ReasonButton("Promotion", 10, "&5", rank, target, player, duration)
-        buttons[1] = ReasonButton("Won Event", 2, "&d", rank, target, player, duration)
-        buttons[2] = ReasonButton("Purchased", 11, "&9", rank, target, player, duration)
-        buttons[3] = ReasonButton("Staff Grant", 9, "&3", rank, target, player, duration)
-        buttons[4] = ReasonButton("Custom", 8, "&7", rank, target, player, duration)
+        buttons[11] = ReasonButton("Promotion", 10, "&5", rank, target, player, duration)
+        buttons[12] = ReasonButton("Won Event", 2, "&d", rank, target, player, duration)
+        buttons[13] = ReasonButton("Purchased", 11, "&9", rank, target, player, duration)
+        buttons[14] = ReasonButton("Staff Grant", 9, "&3", rank, target, player, duration)
+        buttons[15] = ReasonButton("Custom", 8, "&7", rank, target, player, duration)
 
         return buttons
     }
