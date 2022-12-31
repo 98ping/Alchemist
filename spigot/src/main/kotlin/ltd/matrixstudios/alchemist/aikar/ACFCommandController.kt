@@ -44,6 +44,7 @@ object ACFCommandController {
     fun registerAll()
     {
         AlchemistSpigotPlugin.instance.commandManager = PaperCommandManager(AlchemistSpigotPlugin.instance).apply {
+
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
             this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
@@ -105,15 +106,15 @@ object ACFCommandController {
 
 
             if (config.getBoolean("modules.filters")) {
-                registerCommand(FilterCommands())
+                registerCommand(FilterCommands(), true)
             }
 
             if (config.getBoolean("modules.friends")) {
-                registerCommand(FriendCommands())
+                registerCommand(FriendCommands(), true)
             }
 
             registerCommand(ServerEnvironmentCommand())
-            registerCommand(ListCommand())
+            registerCommand(ListCommand(), true)
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(AdminChatCommand())
