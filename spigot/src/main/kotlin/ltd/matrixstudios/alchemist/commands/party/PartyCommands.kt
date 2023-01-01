@@ -26,7 +26,7 @@ import java.util.*
 @CommandAlias("p|party")
 class PartyCommands : BaseCommand() {
 
-    @CommandAlias("create")
+    @Subcommand("create")
     fun create(player: Player) {
         if (PartyService.getParty(player.uniqueId) != null) {
             player.sendMessage(Chat.format("&cYou are already in a party!"))
@@ -53,7 +53,7 @@ class PartyCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 
-    @CommandAlias("kick")
+    @Subcommand("kick")
     fun kick(player: Player, @Name("target")target: String) {
         if (PartyService.getParty(player.uniqueId) == null) {
             player.sendMessage(Chat.format("&cYou are not in a party!"))
@@ -93,7 +93,7 @@ class PartyCommands : BaseCommand() {
         PartyService.handler.storeAsync(party.id, party)
     }
 
-    @CommandAlias("invite")
+    @Subcommand("invite")
     fun invite(player: Player, @Name("target")target: String) {
         if (PartyService.getParty(player.uniqueId) == null) {
             create(player)
@@ -133,7 +133,7 @@ class PartyCommands : BaseCommand() {
         AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
     }
 
-    @CommandAlias("disband")
+    @Subcommand("disband")
     fun disband(player: Player) {
         if (PartyService.getParty(player.uniqueId) == null) {
             player.sendMessage(Chat.format("&cYou are not in a party!"))
@@ -153,7 +153,7 @@ class PartyCommands : BaseCommand() {
         PartyService.handler.delete(partyByPlayer.id)
     }
 
-    @CommandAlias("leave")
+    @Subcommand("leave")
     fun leave(player: Player) {
         if (PartyService.getParty(player.uniqueId) == null) {
             player.sendMessage(Chat.format("&cYou are not in a party!"))
@@ -177,7 +177,7 @@ class PartyCommands : BaseCommand() {
         PartyService.handler.storeAsync(party.id, party)
     }
 
-    @CommandAlias("accept|join")
+    @Subcommand("accept|join")
     fun accept(player: Player, @Name("target")target: String) {
         if (PartyService.getParty(player.uniqueId) != null) {
             player.sendMessage(Chat.format("&cYou are already in a party!"))

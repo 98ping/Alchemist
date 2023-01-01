@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
+import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.permission.PermissionEditCommand
 import ltd.matrixstudios.alchemist.commands.player.*
@@ -43,6 +44,7 @@ object ACFCommandController {
     fun registerAll()
     {
         AlchemistSpigotPlugin.instance.commandManager = PaperCommandManager(AlchemistSpigotPlugin.instance).apply {
+
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
             this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
@@ -89,6 +91,7 @@ object ACFCommandController {
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
             registerCommand(GrantHistoryCommand())
+            registerCommand(PlayerNotesCommands())
 
             if (config.getBoolean("modules.prefixes")) {
                 registerCommand(TagAdminCommand())
@@ -103,15 +106,15 @@ object ACFCommandController {
 
 
             if (config.getBoolean("modules.filters")) {
-                registerCommand(FilterCommands())
+                registerCommand(FilterCommands(), true)
             }
 
             if (config.getBoolean("modules.friends")) {
-                registerCommand(FriendCommands())
+                registerCommand(FriendCommands(), true)
             }
 
             registerCommand(ServerEnvironmentCommand())
-            registerCommand(ListCommand())
+            registerCommand(ListCommand(), true)
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(AdminChatCommand())
