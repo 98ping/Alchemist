@@ -41,7 +41,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
     }
 
     override fun getTitle(player: Player): String {
-        return "Select a Duration"
+        return "Select a Reason"
     }
 
 

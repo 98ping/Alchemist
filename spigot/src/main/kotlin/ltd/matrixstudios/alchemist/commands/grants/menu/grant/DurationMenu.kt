@@ -24,12 +24,12 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
         val buttons = hashMapOf<Int, Button>()
 
         buttons[10] = DurationButton("1h", 13, "&2", rank, target)
-        buttons[12] = DurationButton("1d", 5, "&a", rank, target)
-        buttons[13] = DurationButton("1w", 4, "&e", rank, target)
-        buttons[14] = DurationButton("1m", 1, "&6", rank, target)
-        buttons[15] = DurationButton("1y", 14, "&c", rank, target)
-        buttons[16] = DurationButton("Permanent", 14, "&4", rank, target)
-        buttons[17] = DurationButton("Custom", 8, "&7", rank, target)
+        buttons[11] = DurationButton("1d", 5, "&a", rank, target)
+        buttons[12] = DurationButton("1w", 4, "&e", rank, target)
+        buttons[13] = DurationButton("1m", 1, "&6", rank, target)
+        buttons[14] = DurationButton("1y", 14, "&c", rank, target)
+        buttons[15] = DurationButton("Permanent", 14, "&4", rank, target)
+        buttons[16] = DurationButton("Custom", 8, "&7", rank, target)
 
         return buttons
     }
