@@ -2,9 +2,8 @@ package ltd.matrixstudios.alchemist.commands.filter.menu.editor
 
 import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.PunishmentTypeSelectionMenu
 import ltd.matrixstudios.alchemist.models.filter.Filter
-import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
+import ltd.matrixstudios.alchemist.caches.redis.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -14,7 +13,6 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import java.util.*
 
 class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player) {
 

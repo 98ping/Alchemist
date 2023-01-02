@@ -6,8 +6,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-import ltd.matrixstudios.alchemist.staff.packets.StaffMessagePacket
+import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import org.bukkit.entity.Player
 
 class StaffchatCommand : BaseCommand() {

@@ -1,10 +1,9 @@
-package ltd.matrixstudios.alchemist.staff.packets
+package ltd.matrixstudios.alchemist.packets
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import java.util.*
 
 class AdminChatPacket(val message: String, val server: String, val sender: UUID) : RedisPacket("admin-message") {

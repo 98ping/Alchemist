@@ -1,25 +1,10 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant
 
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
-import ltd.matrixstudios.alchemist.punishments.actor.ActorType
-import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
-import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
-import ltd.matrixstudios.alchemist.staff.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
-import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
-import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 

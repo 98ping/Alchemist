@@ -10,7 +10,7 @@ import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.commands.context.PunishmentTypeResolver
 import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
-import ltd.matrixstudios.alchemist.commands.friends.FriendCommands
+import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands

@@ -1,20 +1,21 @@
-package ltd.matrixstudios.alchemist.redis.impl.caches
+package ltd.matrixstudios.alchemist.caches.redis
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacket
+import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 
-class RefreshRankPacket : RedisPacket("refresh-rank") {
+class RefreshFiltersPacket : RedisPacket("refresh-filters") {
 
     override fun action() {
-        val cache = RankService.ranks
+        val cache = FilterService.cache
 
         cache.clear()
 
-        for (rank in RankService.getValues())
+        for (filter in FilterService.getValues())
         {
-            cache[rank.id] = rank
+            cache[filter.word] = filter
         }
     }
 }

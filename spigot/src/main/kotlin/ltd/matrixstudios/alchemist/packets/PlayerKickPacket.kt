@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.redis.impl
+package ltd.matrixstudios.alchemist.packets
 
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.util.Chat

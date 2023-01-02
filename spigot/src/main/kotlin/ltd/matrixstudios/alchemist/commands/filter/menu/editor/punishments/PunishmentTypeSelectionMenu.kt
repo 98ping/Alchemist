@@ -1,13 +1,10 @@
 package ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.filter.menu.editor.FilterSubEditorMenu
-import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryPlaceholderButton
 import ltd.matrixstudios.alchemist.models.filter.Filter
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
+import ltd.matrixstudios.alchemist.caches.redis.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button

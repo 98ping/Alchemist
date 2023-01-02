@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.staff.packets
+package ltd.matrixstudios.alchemist.packets
 
 import ltd.matrixstudios.alchemist.commands.grants.AuditCommand
 import ltd.matrixstudios.alchemist.redis.RedisPacket

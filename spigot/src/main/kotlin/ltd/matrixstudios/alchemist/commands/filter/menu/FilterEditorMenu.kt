@@ -1,20 +1,16 @@
 package ltd.matrixstudios.alchemist.commands.filter.menu
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.filter.menu.editor.FilterSubEditorMenu
 import ltd.matrixstudios.alchemist.models.filter.Filter
-import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshFiltersPacket
-import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
+import ltd.matrixstudios.alchemist.caches.redis.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

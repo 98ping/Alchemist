@@ -104,9 +104,9 @@ data class GameProfile(
         return metadata.get("server").asString != "None"
     }
 
-    fun supplyFriendsAsProfiles(): CompletableFuture<List<GameProfile?>> {
+    fun supplyFriendsAsProfiles(): CompletableFuture<List<GameProfile>> {
         return CompletableFuture.supplyAsync {
-            friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }
+            friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }.map { it!! }
         }
     }
 

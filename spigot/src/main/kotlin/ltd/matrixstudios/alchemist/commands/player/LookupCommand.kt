@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
@@ -34,7 +35,7 @@ class LookupCommand : BaseCommand() {
                     player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas found on &f${serverFromProfile.asString}"))
                 } else
                 {
-                    player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${System.currentTimeMillis().minus(gameProfile.lastSeenAt)} &eago"))
+                    player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(gameProfile.lastSeenAt))} &eago"))
                 }
             }
         }.runTaskLater(AlchemistSpigotPlugin.instance, 0L)

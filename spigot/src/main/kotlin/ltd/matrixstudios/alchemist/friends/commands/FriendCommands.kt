@@ -1,18 +1,20 @@
-package ltd.matrixstudios.alchemist.commands.friends
+package ltd.matrixstudios.alchemist.friends.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
+import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.NetworkMessagePacket
+import ltd.matrixstudios.alchemist.packets.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-@CommandAlias("friend")
+@CommandAlias("friend|friends")
 class FriendCommands : BaseCommand() {
 
     @HelpCommand
@@ -59,17 +61,8 @@ class FriendCommands : BaseCommand() {
     @Subcommand("list")
     fun list(player: Player) {
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
-        if (gameProfile.friends.isEmpty()) {
-            player.sendMessage(Chat.format("&e&l[Friends] &cYou have no friends"))
-            return
-        }
-        player.sendMessage(Chat.format("&7&m------------------------"))
-        player.sendMessage(Chat.format("&e&lFriends:"))
-        player.sendMessage(" ")
-        for (profile in gameProfile.supplyFriendsAsProfiles().get()) {
-            player.sendMessage(Chat.format(profile!!.getCurrentRank()!!.color + profile.username + " &7[" + (if (profile.isOnline()) "&aOnline" else "&cOffline") + "&7]"))
-        }
-        player.sendMessage(Chat.format("&7&m------------------------"))
+
+        FriendsMenu(player, gameProfile, FriendFilter.ALL).updateMenu()
     }
 
     @Subcommand("accept")

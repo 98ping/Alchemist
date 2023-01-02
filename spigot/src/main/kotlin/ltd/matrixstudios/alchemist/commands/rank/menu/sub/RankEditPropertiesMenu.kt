@@ -1,22 +1,16 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu.sub
 
-import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.PunishmentTypeSelectionMenu
-import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.impl.caches.RefreshRankPacket
-import ltd.matrixstudios.alchemist.service.filter.FilterService
+import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
-import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import java.util.*
 
 class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) {
 
