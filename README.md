@@ -19,11 +19,10 @@ Alchemist's features are listed below:
 - Punishments System
 - StaffUtils  (Staffchat and other staff messages)
 - Prefix System
+- Party System
 
 Soon to be added:
-- Party System
 - Discord Bot for Syncing and what not 
-- Staff Suite (reports and helpop and other stuff)
 
 # Using
 
