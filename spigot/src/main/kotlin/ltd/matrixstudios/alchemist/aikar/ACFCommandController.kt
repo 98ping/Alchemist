@@ -6,9 +6,9 @@ import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
-import ltd.matrixstudios.alchemist.commands.context.GameProfileContextResolver
-import ltd.matrixstudios.alchemist.commands.context.PunishmentTypeResolver
-import ltd.matrixstudios.alchemist.commands.context.RankContextResolver
+import ltd.matrixstudios.alchemist.aikar.context.GameProfileContextResolver
+import ltd.matrixstudios.alchemist.aikar.context.PunishmentTypeResolver
+import ltd.matrixstudios.alchemist.aikar.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*

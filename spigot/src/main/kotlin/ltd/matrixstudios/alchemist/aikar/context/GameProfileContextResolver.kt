@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.context
+package ltd.matrixstudios.alchemist.aikar.context
 
 import co.aikar.commands.BukkitCommandExecutionContext
 import co.aikar.commands.InvalidCommandArgument
