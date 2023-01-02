@@ -5,7 +5,7 @@ Made by 98ping, utilized projects from devrawr and aikiar
 
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.94-blue.svg?cacheSeconds=2592000" />
-  <img src="https://img.shields.io/badge/kotlin-1.7.21-blue.svg" />
+  <img src="https://img.shields.io/badge/kotlin-1.6.10-blue.svg" />
   <a href="https://github.com/98ping/Alchemist/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/maintained-yes-brightgreen.svg" />
   </a>
@@ -28,6 +28,7 @@ Soon to be added:
 
 You can implement it by compiling or head on over to JitPack and search up 98ping/Alchemist. You can use any of our versions from any tag there
 
+![Alt](https://repobeats.axiom.co/api/embed/1f4d288d4dcbdc05fc3d0dd7f31408ce08d5b260.svg "Repobeats analytics image")
 
 ## Contributing Rules
 
