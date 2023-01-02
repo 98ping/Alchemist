@@ -3,6 +3,14 @@ A swift and efficient rank core meant to work on all versions
 
 Made by 98ping, utilized projects from devrawr and aikiar
 
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.94-blue.svg?cacheSeconds=2592000" />
+  <img src="https://img.shields.io/badge/kotlin-1.7.21-blue.svg" />
+  <a href="https://github.com/98ping/Alchemist/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/maintained-yes-brightgreen.svg" />
+  </a>
+</p>
+
 # Features
 
 Alchemist's features are listed below:
@@ -19,6 +27,8 @@ Soon to be added:
 # Using
 
 You can implement it by compiling or head on over to JitPack and search up 98ping/Alchemist. You can use any of our versions from any tag there
+
+![Alt](https://repobeats.axiom.co/api/embed/d9732890507abe6f645b1c954e032aea40b39386.svg "Repobeats analytics image")
 
 ## Contributing Rules
 
