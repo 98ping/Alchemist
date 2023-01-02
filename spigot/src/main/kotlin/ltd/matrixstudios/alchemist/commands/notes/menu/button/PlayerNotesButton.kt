@@ -26,6 +26,7 @@ class PlayerNotesButton(val note: ProfileNote, val targetProfile: GameProfile) :
         desc.add(Chat.format("&eNote: &c" + note.content))
         desc.add(Chat.format("&7&m-------------------"))
         desc.add(Chat.format("&eClick to remove this note"))
+        desc.add(Chat.format("&7&m-------------------"))
 
         return desc
     }
