@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteVisibilityHandler
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
+import ltd.matrixstudios.alchemist.staff.mode.menu.OnlineStaffMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -53,6 +54,26 @@ class StaffmodeFunctionalityListener : Listener {
 
                     player.teleport(actualPlayer)
                     player.sendMessage(Chat.format("&6Teleporting..."))
+                }
+
+                if (itemInHand.isSimilar(StaffItems.ONLINE_STAFF))
+                {
+                    e.isCancelled = true
+                    OnlineStaffMenu(player).updateMenu()
+                }
+
+                if (itemInHand.isSimilar(StaffItems.LAST_PVP))
+                {
+                    e.isCancelled = true
+                    val location = StaffItems.lastPvP
+
+                    if (location == null)
+                    {
+                        player.sendMessage(Chat.format("&cNobody has fought anyone yet!"))
+                        return
+                    }
+
+                    player.teleport(location)
                 }
 
                 if (itemInHand.isSimilar(StaffItems.VANISH))

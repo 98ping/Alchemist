@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.staff.mode
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.serialize.Serializers
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -19,6 +20,8 @@ object StaffItems {
     val UNVANISH = ItemBuilder.of(Material.INK_SACK).data(10).name("&bVanish").build()
     val FREEZE = ItemBuilder.of(Material.ICE).name("&bFreeze Player").build()
     val LAST_PVP = ItemBuilder.of(Material.EMERALD).name("&cLast PvP").build()
+
+    var lastPvP: Location? = null
 
     fun equip(player: Player)
     {

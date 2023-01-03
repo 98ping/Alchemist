@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.staff.mode.listeners
 
+import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -152,6 +153,8 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (player is Player && damager is Player)
         {
+
+            StaffItems.lastPvP = player.location
 
             if (StaffSuiteManager.isModMode(damager))
             {
