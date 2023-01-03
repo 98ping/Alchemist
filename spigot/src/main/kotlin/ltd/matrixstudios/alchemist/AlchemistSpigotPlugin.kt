@@ -22,6 +22,9 @@ import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
+import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
+import ltd.matrixstudios.alchemist.staff.mode.listeners.GenericStaffmodePreventionListener
+import ltd.matrixstudios.alchemist.staff.mode.listeners.StaffmodeFunctionalityListener
 import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
@@ -115,6 +118,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
+
+        server.pluginManager.registerEvents(FrozenPlayerListener(), this)
+        server.pluginManager.registerEvents(GenericStaffmodePreventionListener(), this)
+        server.pluginManager.registerEvents(StaffmodeFunctionalityListener(), this)
 
         logger.log(
             Level.INFO,
