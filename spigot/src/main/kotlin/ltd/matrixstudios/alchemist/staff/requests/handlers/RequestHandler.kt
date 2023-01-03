@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.staff.requests.handlers
 
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.entity.Player
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -24,5 +25,12 @@ object RequestHandler {
         val value = reportCooldowns[player.uniqueId]!!
 
         return (System.currentTimeMillis().minus(value) >= TimeUnit.MINUTES.toMillis(5L))
+    }
+
+    fun hasReportsEnabled(player: Player) : Boolean
+    {
+        val profile = ProfileGameService.byId(player.uniqueId) ?: return true
+
+        return !profile.hasMetadata("toggleRequests")
     }
 }

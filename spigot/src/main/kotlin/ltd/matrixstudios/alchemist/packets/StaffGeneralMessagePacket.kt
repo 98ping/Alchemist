@@ -7,6 +7,6 @@ import org.bukkit.Bukkit
 class StaffGeneralMessagePacket(val message: String) : RedisPacket("staff-message-general") {
 
     override fun action() {
-        Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.positions.staff") }.forEach { it.sendMessage(Chat.format(message)) }
+        Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.staff") }.forEach { it.sendMessage(Chat.format(message)) }
     }
 }

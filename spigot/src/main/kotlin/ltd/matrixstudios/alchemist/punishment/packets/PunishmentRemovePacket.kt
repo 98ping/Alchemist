@@ -25,6 +25,6 @@ class PunishmentRemovePacket(
                 " &r" +
                 AlchemistAPI.getRankDisplay(target) + "&a."
 
-        Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.positions.staff") }.forEach { it.sendMessage(Chat.format(message)) }
+        Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.staff") }.forEach { it.sendMessage(Chat.format(message)) }
     }
 }

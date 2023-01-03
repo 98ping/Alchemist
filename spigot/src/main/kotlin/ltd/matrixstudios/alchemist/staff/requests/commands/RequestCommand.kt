@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.staff.requests.handlers.RequestHandler
+import ltd.matrixstudios.alchemist.staff.requests.packets.RequestPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
@@ -25,7 +26,7 @@ class RequestCommand : BaseCommand() {
         val currentServer = AlchemistSpigotPlugin.instance.globalServer.displayName
         val display = AlchemistAPI.getRankDisplay(player.uniqueId)
 
-        AsynchronousRedisSender.send(StaffGeneralMessagePacket("&9[Request] &7[$currentServer] &b$display &7requested assistance\n     &9Reason: &7$rzn"))
+        AsynchronousRedisSender.send(RequestPacket("&9[Request] &7[$currentServer] &b$display &7requested assistance\n     &9Reason: &7$rzn"))
         RequestHandler.requestCooldowns[player.uniqueId] = System.currentTimeMillis()
         player.sendMessage(Chat.format("&aYour request has been sent to every online staff member!"))
 

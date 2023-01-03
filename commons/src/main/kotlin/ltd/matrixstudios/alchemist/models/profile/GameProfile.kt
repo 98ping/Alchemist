@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.models.profile
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
@@ -81,6 +82,16 @@ data class GameProfile(
 
     fun hasActivePrefix(): Boolean {
         return activePrefix != null
+    }
+
+    fun hasMetadata(key: String) : Boolean
+    {
+        return metadata.get(key) != null
+    }
+
+    fun getMetadata(key: String) : JsonElement
+    {
+        return metadata[key]
     }
 
     fun getActivePrefix(): Tag? {

@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.staff.requests.handlers.RequestHandler
+import ltd.matrixstudios.alchemist.staff.requests.packets.RequestPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -42,7 +43,7 @@ class ReportCommand : BaseCommand() {
         val display = AlchemistAPI.getRankDisplay(player.uniqueId)
         val otherDisplay = AlchemistAPI.getRankDisplay(target.uniqueId)
 
-        AsynchronousRedisSender.send(StaffGeneralMessagePacket("&9[Report] &7[$currentServer] &b$display &7has reported &f$otherDisplay\n     &9Reason: &7$rzn"))
+        AsynchronousRedisSender.send(RequestPacket("&9[Report] &7[$currentServer] &b$display &7has reported &f$otherDisplay\n     &9Reason: &7$rzn"))
         RequestHandler.reportCooldowns[player.uniqueId] = System.currentTimeMillis()
         player.sendMessage(Chat.format("&aYour report has been sent to every online staff member!"))
 
