@@ -23,10 +23,10 @@ class StaffCommands : BaseCommand() {
             if (isIn)
             {
                 StaffSuiteManager.removeStaffMode(player)
-                player.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
+                player.sendMessage(Chat.format("&cYou have left Staff Mode!"))
             } else {
                 StaffSuiteManager.setStaffMode(player)
-                player.sendMessage(Chat.format("&cYou have left Staff Mode!"))
+                player.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
             }
         } else {
             val targetPlayer = Bukkit.getPlayer(target)
@@ -42,10 +42,10 @@ class StaffCommands : BaseCommand() {
             if (isIn)
             {
                 StaffSuiteManager.removeStaffMode(targetPlayer)
-                targetPlayer.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
+                targetPlayer.sendMessage(Chat.format("&cYou have left Staff Mode!"))
             } else {
                 StaffSuiteManager.setStaffMode(targetPlayer)
-                targetPlayer.sendMessage(Chat.format("&cYou have left Staff Mode!"))
+                targetPlayer.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
             }
 
             player.sendMessage(Chat.format("&aUpdated the Staff Mode status of &f$target"))

@@ -32,6 +32,9 @@ modules:
   filters: true
   chatcolors: true
 
+staffmode:
+  sendWelcomeMessage: true
+
 #for general server information to use in command messages
 details:
   ip: "yourIp.xyz"

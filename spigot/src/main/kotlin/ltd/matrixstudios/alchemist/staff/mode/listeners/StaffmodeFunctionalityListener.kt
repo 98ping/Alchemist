@@ -1,10 +1,11 @@
 package ltd.matrixstudios.alchemist.staff.mode.listeners
 
-import ltd.matrixstudios.alchemist.CompoundPlugin
-import ltd.matrixstudios.alchemist.chat.Chat
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteVisibilityHandler
-import ltd.matrixstudios.alchemist.staff.menu.StaffOnlineMenu
+import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
+import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -13,7 +14,10 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.metadata.FixedMetadataValue
+import java.text.SimpleDateFormat
+import java.util.*
 
 class StaffmodeFunctionalityListener : Listener {
 
@@ -21,7 +25,7 @@ class StaffmodeFunctionalityListener : Listener {
     fun interact(e: PlayerInteractEvent) {
         val player = e.player
 
-        if (CompoundPlugin.instance.staffManager.isModMode(player))
+        if (StaffSuiteManager.isModMode(player))
         {
             if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK)
             {
@@ -36,7 +40,7 @@ class StaffmodeFunctionalityListener : Listener {
 
                     if (actualPlayer == null)
                     {
-                        player.sendMessage(Chat.format("&cThis mf wasn't even found LOL"))
+                        player.sendMessage(Chat.format("&cAcutal player nulled"))
                         return
                     }
 
@@ -57,7 +61,7 @@ class StaffmodeFunctionalityListener : Listener {
 
                     StaffSuiteVisibilityHandler.onDisableVisbility(player)
 
-                    player.removeMetadata("vanish", CompoundPlugin.instance)
+                    player.removeMetadata("vanish", AlchemistSpigotPlugin.instance)
                 }
 
                 if (itemInHand.isSimilar(StaffItems.UNVANISH))
@@ -66,13 +70,7 @@ class StaffmodeFunctionalityListener : Listener {
 
                     StaffSuiteVisibilityHandler.onEnableVisibility(player)
 
-                    player.setMetadata("vanish", FixedMetadataValue(CompoundPlugin.instance, true))
-                }
-
-                if (itemInHand.isSimilar(StaffItems.ONLINE_STAFF))
-                {
-                    e.isCancelled = true
-                    StaffOnlineMenu(player).updateMenu()
+                    player.setMetadata("vanish", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
                 }
 
                 if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT))
@@ -93,7 +91,7 @@ class StaffmodeFunctionalityListener : Listener {
     {
         val player = e.player
 
-        if (CompoundPlugin.instance.staffManager.isModMode(player))
+        if (StaffSuiteManager.isModMode(player))
         {
             val itemInHand = player.itemInHand
 
@@ -110,6 +108,25 @@ class StaffmodeFunctionalityListener : Listener {
                     player.performCommand("freeze ${e.rightClicked.name}")
                     e.isCancelled = true
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    fun join(event: PlayerJoinEvent)
+    {
+        val player = event.player
+        val config = AlchemistSpigotPlugin.instance.config
+        val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
+
+        if (player.hasPermission("alchemist.staff")) {
+
+            if (config.getBoolean("staffmode.sendWelcomeMessage")) {
+                player.sendMessage(" ")
+                player.sendMessage(Chat.format("&eWelcome back, " + AlchemistAPI.getRankDisplay(player.uniqueId)))
+                player.sendMessage(Chat.format("&eIt is currently &d" + dateFormat.format(Date(System.currentTimeMillis()))))
+                player.sendMessage(Chat.format("&eEdit your mod mode with &a/editmodmode"))
+                player.sendMessage(" ")
             }
         }
     }

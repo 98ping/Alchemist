@@ -65,7 +65,10 @@ class MenuListener : Listener {
             val slot = event.slot
             val click = event.click
 
-            event.isCancelled = true
+            if (!menu.stealable) {
+                event.isCancelled = true
+            }
+
             if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
             {
                if (menu.getAllButtons()[slot] != null)

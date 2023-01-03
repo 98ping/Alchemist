@@ -38,6 +38,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.VanishCommands
 import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
+import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 
 object ACFCommandController {
@@ -69,6 +70,7 @@ object ACFCommandController {
             registerCommand(VanishCommands())
             registerCommand(StaffCommands())
             registerCommand(RequestCommand())
+            registerCommand(EditModModeCommand())
 
             registerCommand(PermissionEditCommand())
 

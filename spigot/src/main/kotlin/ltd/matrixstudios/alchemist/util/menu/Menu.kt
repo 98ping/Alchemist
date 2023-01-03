@@ -16,6 +16,7 @@ abstract class Menu(
 
     var staticSize: Int? = null
     var placeholder: Boolean = false
+    var stealable: Boolean = false
 
     abstract fun getButtons(player: Player) : MutableMap<Int, Button>
     abstract fun getTitle(player: Player) : String

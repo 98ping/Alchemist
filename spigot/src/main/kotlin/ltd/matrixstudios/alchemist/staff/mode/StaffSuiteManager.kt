@@ -65,19 +65,7 @@ object StaffSuiteManager {
         player.inventory.clear()
         player.inventory.armorContents = null
 
-        player.inventory.setItem(0, StaffItems.COMPASS)
-        player.inventory.setItem(1, StaffItems.INVENTORY_INSPECT)
-        player.inventory.setItem(2, StaffItems.RANDOMTP)
-        player.inventory.setItem(3, StaffItems.BETTER_VIEW)
-
-        if (player.hasPermission("alchemist.staffmode.worldedit"))
-        {
-            player.inventory.setItem(4, StaffItems.WORLDEDIT_AXE)
-        }
-
-        player.inventory.setItem(6, StaffItems.ONLINE_STAFF)
-        player.inventory.setItem(7, StaffItems.VANISH)
-        player.inventory.setItem(8, StaffItems.FREEZE)
+        StaffItems.equip(player)
 
         //makes it so arrows dont hit you when you are in staff mode
         player.spigot().collidesWithEntities = false
