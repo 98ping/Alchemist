@@ -25,7 +25,7 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!player.hasPermission("compound.staffmode.edit"))
+            if (!player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }
@@ -39,7 +39,7 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!player.hasPermission("compound.staffmode.edit"))
+            if (!player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }
@@ -60,7 +60,7 @@ class GenericStaffmodePreventionListener : Listener {
                 return
             }
 
-            if (!player.hasPermission("compound.staffmode.edit"))
+            if (!player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }
@@ -92,7 +92,7 @@ class GenericStaffmodePreventionListener : Listener {
 
             if (StaffSuiteManager.isModMode(player))
             {
-                if (!player.hasPermission("compound.staffmode.edit"))
+                if (!player.hasPermission("alchemist.staffmode.edit"))
                 {
                     e.isCancelled = true
                 }
@@ -113,7 +113,7 @@ class GenericStaffmodePreventionListener : Listener {
     fun drop(e: PlayerDropItemEvent) {
         if (StaffSuiteManager.isModMode(e.player))
         {
-            if (!e.player.hasPermission("compound.staffmode.edit"))
+            if (!e.player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }

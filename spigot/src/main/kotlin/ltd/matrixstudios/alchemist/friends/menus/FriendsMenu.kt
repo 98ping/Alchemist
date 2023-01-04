@@ -36,8 +36,6 @@ class FriendsMenu(val player: Player, val profile: GameProfile, val filter: Frie
             buttons[index++] = FriendButton(item)
         }
 
-        println(filtered.toString() + ": " + filter.displayName)
-
         return buttons
 
     }

@@ -15,7 +15,7 @@ object RequestHandler {
 
         val value = requestCooldowns[player.uniqueId]!!
 
-        return (System.currentTimeMillis().minus(value) >= TimeUnit.MINUTES.toMillis(5L))
+        return (System.currentTimeMillis().minus(value) <= TimeUnit.MINUTES.toMillis(5L))
     }
 
     fun isOnReportCooldown(player: Player) : Boolean
@@ -24,7 +24,7 @@ object RequestHandler {
 
         val value = reportCooldowns[player.uniqueId]!!
 
-        return (System.currentTimeMillis().minus(value) >= TimeUnit.MINUTES.toMillis(5L))
+        return (System.currentTimeMillis().minus(value) <= TimeUnit.MINUTES.toMillis(5L))
     }
 
     fun hasReportsEnabled(player: Player) : Boolean

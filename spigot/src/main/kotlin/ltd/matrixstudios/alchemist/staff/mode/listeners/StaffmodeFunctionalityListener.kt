@@ -149,6 +149,12 @@ class StaffmodeFunctionalityListener : Listener {
                 player.sendMessage(Chat.format("&eEdit your mod mode with &a/editmodmode"))
                 player.sendMessage(" ")
             }
+
+            if (StaffSuiteManager.isModModeOnJoin(player))
+            {
+                player.sendMessage(Chat.format("&7&oYou have been put into ModMode automatically"))
+                StaffSuiteManager.setStaffMode(player)
+            }
         }
     }
 }

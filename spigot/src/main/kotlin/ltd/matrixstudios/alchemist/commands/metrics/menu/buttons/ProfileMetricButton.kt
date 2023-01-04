@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.ClickType
 class ProfileMetricButton : Button() {
 
     override fun getMaterial(player: Player): Material {
-        return Material.SKULL_ITEM
+        return Material.SIGN
     }
 
     override fun getDescription(player: Player): MutableList<String>? {

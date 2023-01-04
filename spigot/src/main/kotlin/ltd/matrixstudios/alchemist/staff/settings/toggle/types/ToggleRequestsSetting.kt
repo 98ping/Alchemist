@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.staff.settings.toggle.types
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.staff.settings.toggle.menu.SettingsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
@@ -18,9 +20,9 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
         val hasMetadata = profile.hasMetadata("toggleRequests")
         if (hasMetadata)
         {
-            desc.add(Chat.format("&aCurrently enabled"))
+            desc.add(Chat.format("&7► &eCurrently &coff"))
         } else {
-            desc.add(Chat.format("&7Currently disabled"))
+            desc.add(Chat.format("&7► &eCurrently &aon"))
         }
         desc.add(" ")
         desc.add(Chat.format("&7Click to edit this value!"))
@@ -42,10 +44,14 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
         if (hasMetadata)
         {
             profile.metadata.remove("toggleRequests")
-            player.sendMessage(Chat.format("&eYou have toggled your reports and requests &coff"))
+            player.sendMessage(Chat.format("&eYou have toggled your reports and requests &aon"))
+            ProfileGameService.save(profile)
         } else {
             profile.metadata.addProperty("toggleRequests", true)
-            player.sendMessage(Chat.format("&eYou have toggled your reports and requests &aon"))
+            player.sendMessage(Chat.format("&eYou have toggled your reports and requests &coff"))
+            ProfileGameService.save(profile)
         }
+
+        SettingsMenu(player).openMenu()
     }
 }

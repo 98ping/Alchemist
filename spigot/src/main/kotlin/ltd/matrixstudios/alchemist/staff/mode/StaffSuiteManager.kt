@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.staff.mode
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -51,6 +52,20 @@ object StaffSuiteManager {
         player.removeMetadata("modmode", AlchemistSpigotPlugin.instance)
         player.removeMetadata("vanish", AlchemistSpigotPlugin.instance)
 
+    }
+
+    fun hasStaffchatEnabled(player: Player) : Boolean
+    {
+        val profile = ProfileGameService.byId(player.uniqueId) ?: return true
+
+        return !profile.hasMetadata("toggleSC")
+    }
+
+    fun isModModeOnJoin(player: Player) : Boolean
+    {
+        val profile = ProfileGameService.byId(player.uniqueId) ?: return true
+
+        return !profile.hasMetadata("toggleMM")
     }
 
     fun setStaffMode(player: Player)
