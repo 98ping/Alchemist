@@ -35,6 +35,7 @@ import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.staff.mode.commands.FreezeCommand
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.VanishCommands
 import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
@@ -73,6 +74,7 @@ object ACFCommandController {
             registerCommand(RequestCommand())
             registerCommand(EditModModeCommand())
             registerCommand(SettingsCommand())
+            registerCommand(FreezeCommand())
 
             registerCommand(PermissionEditCommand())
 

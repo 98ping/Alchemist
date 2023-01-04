@@ -36,11 +36,11 @@ class FreezeCommand : BaseCommand() {
         {
             target.removeMetadata("frozen", AlchemistSpigotPlugin.instance)
             target.sendMessage(Chat.format("&aYou have been unfrozen"))
-            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec has unfrozen $displayTarget"))
+            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec &3has unfrozen $displayTarget"))
         } else {
             target.setMetadata("frozen", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
             target.sendMessage(Chat.format("&cYou have been frozen"))
-            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec has frozen $displayTarget"))
+            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec &3has frozen $displayTarget"))
         }
 
     }
