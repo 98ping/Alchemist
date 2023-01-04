@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.player.*
@@ -52,8 +53,22 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val startMongo = System.currentTimeMillis()
         val authEnabled = config.getBoolean("mongo.auth")
+        val uri = config.getString("uri")
 
-        if (authEnabled) {
+        if (uri != "") {
+            val connectionPool = URIMongoConnectionPool().apply {
+                this.databaseName = config.getString("mongo.database")
+                this.uri = uri
+
+            }
+
+            Alchemist.start(connectionPool,
+                config.getString("redis.host"),
+                config.getInt("redis.port"),
+                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
+                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+            )
+        } else if (authEnabled) {
             val connectionPool = AuthenticatedMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
                 password = config.getString("mongo.password")

@@ -8,6 +8,9 @@ mongo:
   authDB: ""
   database: "Alchemist"
 
+#leave blank to not use!
+uri: ""
+
 #all redis information. This is used for messaging from server to server
 redis:
   host: "127.0.0.1"
