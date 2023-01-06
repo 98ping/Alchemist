@@ -148,7 +148,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         logger.log(
             Level.INFO,
-            "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+            "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(permissionStart) + "ms"
         )
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
@@ -187,13 +187,27 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         logger.log(
             Level.INFO,
-            "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+            "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(serversStart) + "ms"
         )
 
         StatisticManager.loadStats()
+
+        val papiStart = System.currentTimeMillis()
         registerExpansion()
 
+        logger.log(
+            Level.INFO,
+            "[Placeholders] All placeholders loaded in " + System.currentTimeMillis().minus(papiStart) + "ms"
+        )
+
+        val commandsStart = System.currentTimeMillis()
+
         ACFCommandController.registerAll()
+
+        logger.log(
+            Level.INFO,
+            "[Commands] All commands registered in " + System.currentTimeMillis().minus(commandsStart) + "ms"
+        )
 
     }
 
