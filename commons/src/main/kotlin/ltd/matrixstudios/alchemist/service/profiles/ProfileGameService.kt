@@ -32,8 +32,13 @@ object ProfileGameService {
         return grants.firstOrNull()
     }
     fun byId(uuid: UUID) : GameProfile? {
-        return cache.getOrDefault(uuid, handler.retrieve(uuid))
+        return if (cache.containsKey(uuid)) {
+            cache[uuid]
+        } else {
+            handler.retrieve(uuid)
+        }
     }
+
 
     fun byUsername(name: String) : GameProfile? {
         val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
