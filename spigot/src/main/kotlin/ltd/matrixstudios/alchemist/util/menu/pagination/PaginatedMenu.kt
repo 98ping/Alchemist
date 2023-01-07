@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.util.menu.pagination
 
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.MenuController
 import org.bukkit.Bukkit
@@ -132,7 +133,19 @@ abstract class PaginatedMenu(
     }
 
     fun updateMenu() {
-        val inventory = Bukkit.createInventory(null, (size + 9), getTitle(player))
+        val buttons = getButtonsInRange().get()
+
+        val inventory = Bukkit.createInventory(null, (
+                if (buttons.isEmpty()) {
+                    9
+                } else if (buttons.size <= 9){
+                    18
+                } else if (buttons.size <= 18) {
+                    27
+                } else {
+                    36
+                }
+                ), Chat.format("($page/${getMaximumPages(player)}) ") + getTitle(player))
 
 
         for (entry in getPageNavigationButtons()) {
@@ -144,7 +157,7 @@ abstract class PaginatedMenu(
         }
 
         CompletableFuture.runAsync {
-            for (entry in getButtonsInRange().get()) {
+            for (entry in buttons) {
                 inventory.setItem(entry.key, entry.value.constructItemStack(player))
             }
         }

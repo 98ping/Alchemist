@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.aikar.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.aikar.context.PunishmentTypeResolver
 import ltd.matrixstudios.alchemist.aikar.context.RankContextResolver
+import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
@@ -75,6 +76,8 @@ object ACFCommandController {
             registerCommand(EditModModeCommand())
             registerCommand(SettingsCommand())
             registerCommand(FreezeCommand())
+
+            registerCommand(AlchemistCommand())
 
             registerCommand(PermissionEditCommand())
 

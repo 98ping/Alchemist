@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.themes.Theme
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -131,11 +132,23 @@ class MMC : Theme(
         punishment: PunishmentType
     ): MutableList<String> {
         val desc = arrayListOf<String>()
-        desc.add(Chat.format("&fClick to view this category of punishment."))
-        desc.add(" ")
-        desc.add(Chat.format("&fTotal Punishments:"))
         val punishments = profile.getPunishments().filter { it.getGrantable() == punishment }
-        desc.add(Chat.format("&f${punishments.size}"))
+        desc.addAll(
+            listOf(
+                "&7Viewing statistics for the",
+                "&7${punishment.niceName} category:",
+                "",
+                " &7Total: &f${punishments.size}",
+                " &7Active: &a${punishments.filter { it.expirable.isActive() }.size}",
+                " &7Inactive: &c${
+                    punishments.filter { p ->
+                        !p.expirable.isActive()
+                    }.size
+                }",
+                "",
+                "&eClick to view more!"
+            )
+        )
         return desc
     }
 
