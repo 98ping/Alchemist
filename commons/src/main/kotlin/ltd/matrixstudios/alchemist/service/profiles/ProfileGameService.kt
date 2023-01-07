@@ -32,9 +32,7 @@ object ProfileGameService {
         return grants.firstOrNull()
     }
     fun byId(uuid: UUID) : GameProfile? {
-        return if (cache.containsKey(uuid)) {
-            cache[uuid]
-        } else {
+        return cache.computeIfAbsent(uuid) {
             handler.retrieve(uuid)
         }
     }
