@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.menu.sub.menus
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -51,6 +52,7 @@ class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMe
             server.lockRank = rank.id
 
             UniqueServerService.save(server)
+            AlchemistSpigotPlugin.instance.globalServer = server
 
             player.sendMessage(Chat.format("&aUpdated the lock rank of " + server.id + " to " + rank.color + rank.displayName))
         }

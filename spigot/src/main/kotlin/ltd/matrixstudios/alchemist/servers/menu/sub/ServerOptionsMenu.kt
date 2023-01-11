@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.menu.sub
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.servers.menu.sub.menus.SelectRankMenu
@@ -58,6 +59,7 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
 
             server.lockedWithRank = other
             UniqueServerService.save(server)
+            AlchemistSpigotPlugin.instance.globalServer = server
 
             if (other)
             {
