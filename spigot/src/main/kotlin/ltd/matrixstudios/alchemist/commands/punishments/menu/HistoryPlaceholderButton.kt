@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.GeneralPunishmentMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -19,7 +20,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, gameProfile, punishmentType)
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, ProfileGameService.byId(player.uniqueId)!!, punishmentType).map { Chat.format(it) }.toMutableList()
     }
 
     override fun getDisplayName(player: Player): String? {
