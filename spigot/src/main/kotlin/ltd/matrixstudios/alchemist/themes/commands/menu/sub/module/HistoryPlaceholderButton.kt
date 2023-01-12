@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.themes.Theme
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -23,7 +24,7 @@ class HistoryPlaceholderButton(val theme: Theme, val player: Player) : Button() 
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        return theme.getHistoryPlaceholderLore(player, ProfileGameService.byId(player.uniqueId)!!, type)
+        return theme.getHistoryPlaceholderLore(player, ProfileGameService.byId(player.uniqueId)!!, type).map { Chat.format(it) }.toMutableList()
     }
 
     override fun getDisplayName(player: Player): String? {
