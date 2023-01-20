@@ -16,4 +16,5 @@ dependencies {
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "net.kyori:adventure-api:4.11.0"
     compileOnly 'me.clip:placeholderapi:2.11.2'
+
 }

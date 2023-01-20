@@ -14,7 +14,6 @@ class AlchemistCommand : BaseCommand() {
         player.sendMessage(Chat.format(" "))
         player.sendMessage(Chat.format("&eMade By&7: &f98ping"))
         player.sendMessage(Chat.format("&eGitHub&7: &fhttps://github.com/98ping/Alchemist"))
-        player.sendMessage(Chat.format("&eMC-Market&7: &fhttps://builtbybit.com/resources/alchemist-rank-core-completely-free.24657/"))
         player.sendMessage(Chat.format("&7&m----------------------------------------"))
     }
 }

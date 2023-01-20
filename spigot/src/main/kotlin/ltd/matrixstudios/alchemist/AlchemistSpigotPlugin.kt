@@ -10,14 +10,11 @@ import ltd.matrixstudios.alchemist.commands.player.*
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
-import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
-import ltd.matrixstudios.alchemist.punishments.PunishmentType
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -30,12 +27,12 @@ import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
-import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
 import kotlin.concurrent.thread
+
 
 class AlchemistSpigotPlugin : JavaPlugin() {
 
@@ -210,6 +207,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         )
 
     }
+
 
     fun registerExpansion()
     {
