@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.placeholder
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.util.Chat
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 
@@ -24,15 +25,15 @@ class AlchemistExpansion : PlaceholderExpansion() {
 
         when (params) {
             "rankDisplay" -> {
-                return rank.color + rank.displayName
+                return Chat.format(rank.color + rank.displayName)
             }
 
             "rankPrefix" -> {
-                return rank.prefix
+                return Chat.format(rank.prefix)
             }
 
             "activeTag" -> {
-                return profile.getActivePrefix()?.prefix ?: ""
+                return Chat.format(profile.getActivePrefix()?.prefix ?: "")
             }
         }
 
