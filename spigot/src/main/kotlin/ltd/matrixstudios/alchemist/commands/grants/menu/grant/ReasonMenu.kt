@@ -92,6 +92,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                                         AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
 
                                         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + internalreason))
+                                        AsynchronousRedisSender.send(NetworkMessagePacket(target.uuid, Chat.format(AlchemistSpigotPlugin.instance.config.getString("grant-message").replace("<rank>", rank.displayName))))
                                     }, 1L)
                                     return Prompt.END_OF_CONVERSATION
                                 }

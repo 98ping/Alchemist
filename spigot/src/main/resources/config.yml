@@ -54,6 +54,9 @@ freeRank:
     - "change me!"
   command: "cgrant <target> Owner 10m Hello World"
 
+# Message sent to player after granting them something
+grant-message: "&aYou have been granted the &r<rank> &arank."
+
 CUSTOM_THEME:
   GRANTS_LORE:
     - "&7&m-------------------------"
