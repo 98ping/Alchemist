@@ -53,3 +53,10 @@ freeRank:
   message:
     - "change me!"
   command: "cgrant <target> Owner 10m Hello World"
+
+CUSTOM_THEME:
+  GRANTS_LORE:
+    - "&7&m-------------------------"
+    - "&eBy: &f%executor%"
+    - "&eReason: &c%reason%"
+    - "&eActor: &c%actor% &e: &c%executor%"
