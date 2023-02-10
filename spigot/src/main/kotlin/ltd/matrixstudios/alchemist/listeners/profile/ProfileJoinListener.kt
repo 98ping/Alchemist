@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -36,8 +37,15 @@ class ProfileJoinListener : Listener {
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
 
         if (profile.hasActivePunishment(PunishmentType.MUTE)) {
+            val mute = profile.getActivePunishments(PunishmentType.MUTE).first()
             event.isCancelled = true
-            event.player.sendMessage(Chat.format("&cYou are currently muted."))
+
+            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("muted-chat")
+
+            msgs.replaceAll { it.replace("<reason>", mute!!.reason) }
+            msgs.replaceAll { it.replace("<expires>", if (mute!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(mute.expirable.addedAt + mute.expirable.duration - System.currentTimeMillis())) }
+
+            msgs.forEach { event.player.sendMessage(Chat.format(it)) }
             return
         }
 
@@ -100,11 +108,22 @@ class ProfileJoinListener : Listener {
 
         if (profile.hasActivePunishment(PunishmentType.BAN)) {
             val punishment = profile.getActivePunishments(PunishmentType.BAN).firstOrNull()
+            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("banned-join")
+
+            msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
+            msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
+
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently banned from the server! \n &cReason: " + punishment!!.reason  + " \n &cPunishment Code: &c#" + punishment.easyFindId)
+            event.kickMessage = msgs.joinToString("\n")
         } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
+            val punishment = profile.getActivePunishments(PunishmentType.BLACKLIST).firstOrNull()
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = Chat.format("&cYou are currently blacklisted from the server! \n &cThis punishment is not appealable!")
+            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join")
+
+            msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
+            msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
+
+            event.kickMessage = msgs.joinToString("\n")
         }
 
         val currentServer = AlchemistSpigotPlugin.instance.globalServer
