@@ -74,9 +74,12 @@ warn-message:
     - "&cYou have been warned on this server."
     - "&cReason: &r<reason>"
 
-CUSTOM_THEME:
-  GRANTS_LORE:
-    - "&7&m-------------------------"
-    - "&eBy: &f%executor%"
-    - "&eReason: &c%reason%"
-    - "&eActor: &c%actor% &e: &c%executor%"
+banned-join:
+  - "&cYou are currently banned from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+
+blacklisted-join:
+    - "&cYou are currently blacklisted from the server!"
+    - "&cReason: &r<reason>"
+    - "&cExpires: &r<expires>"
