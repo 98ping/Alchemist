@@ -57,6 +57,23 @@ freeRank:
 # Message sent to player after granting them something
 grant-message: "&aYou have been granted the &r<rank> &arank."
 
+# Message to be sent to player when they are blacklisted from the server
+blacklist-message:
+  - "&cYou are blacklisted from this server."
+  - "&cReason: &r<reason>"
+
+ban-message:
+    - "&cYou are banned from this server."
+    - "&cReason: &r<reason>"
+
+mute-message:
+    - "&cYou are muted on this server."
+    - "&cReason: &r<reason>"
+
+warn-message:
+    - "&cYou have been warned on this server."
+    - "&cReason: &r<reason>"
+
 CUSTOM_THEME:
   GRANTS_LORE:
     - "&7&m-------------------------"
