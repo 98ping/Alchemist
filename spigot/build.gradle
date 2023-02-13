@@ -18,3 +18,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.2'
 
 }
+
+shadowJar {
+    relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated'
+}
