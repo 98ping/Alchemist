@@ -53,3 +53,33 @@ freeRank:
   message:
     - "change me!"
   command: "cgrant <target> Owner 10m Hello World"
+
+# Message sent to player after granting them something
+grant-message: "&aYou have been granted the &r<rank> &arank."
+
+# Message to be sent to player when they are blacklisted from the server
+blacklist-message:
+  - "&cYou are blacklisted from this server."
+  - "&cReason: &r<reason>"
+
+ban-message:
+    - "&cYou are banned from this server."
+    - "&cReason: &r<reason>"
+
+mute-message:
+    - "&cYou are muted on this server."
+    - "&cReason: &r<reason>"
+
+warn-message:
+    - "&cYou have been warned on this server."
+    - "&cReason: &r<reason>"
+
+banned-join:
+  - "&cYou are currently banned from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+
+blacklisted-join:
+    - "&cYou are currently blacklisted from the server!"
+    - "&cReason: &r<reason>"
+    - "&cExpires: &r<expires>"
