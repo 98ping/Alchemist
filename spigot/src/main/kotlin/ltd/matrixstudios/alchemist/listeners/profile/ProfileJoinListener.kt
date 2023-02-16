@@ -110,12 +110,22 @@ class ProfileJoinListener : Listener {
             val punishment = profile.getActivePunishments(PunishmentType.BAN).firstOrNull()
             val msgs = AlchemistSpigotPlugin.instance.config.getStringList("banned-join")
 
+            if (punishment.expirable.duration == Long.MAX_VALUE) {
+                // Permanent ban
+            } else {
+                // Temp ban
+            }
+
             msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
             msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
 
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
             event.kickMessage = msgs.joinToString("\n")
         } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
+            // add all the bans to this list too
+            val punishments = profile.getActivePunishments(PunishmentType.BLACKLIST).toMutableList()
+            punishments.addAll(profile.getActivePunishments(PunishmentType.BAN))
+            punishments.
             val punishment = profile.getActivePunishments(PunishmentType.BLACKLIST).firstOrNull()
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
             val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join")
