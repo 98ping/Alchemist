@@ -1,9 +1,8 @@
 package ltd.matrixstudios.alchemist.util
 
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.DyeColor
-
-
 
 
 object Chat {
@@ -11,6 +10,11 @@ object Chat {
     @JvmStatic
     fun format(string: String) : String {
         return ChatColor.translateAlternateColorCodes('&', string)
+    }
+
+    fun sendConsoleMessage(line: String) {
+        Bukkit.getServer().consoleSender.sendMessage(format(line))
+
     }
 
     fun getDyeColor(str: String): DyeColor {

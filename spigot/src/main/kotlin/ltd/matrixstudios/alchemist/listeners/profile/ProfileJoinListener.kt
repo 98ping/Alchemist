@@ -116,7 +116,6 @@ class ProfileJoinListener : Listener {
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
             event.kickMessage = msgs.joinToString("\n")
         } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
-            // add all the bans to this list too
             val punishments = profile.getActivePunishments(PunishmentType.BLACKLIST).toMutableList()
             punishments.addAll(profile.getActivePunishments(PunishmentType.BAN))
             val punishment = profile.getActivePunishments(PunishmentType.BLACKLIST).firstOrNull()
