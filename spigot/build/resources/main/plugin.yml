@@ -1,8 +1,0 @@
-name: Alchemist
-version: 1.93
-main: ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-author: 98ping
-softdepend:
-  - PlaceholderAPI
-loadbefore:
-  - Funnel
