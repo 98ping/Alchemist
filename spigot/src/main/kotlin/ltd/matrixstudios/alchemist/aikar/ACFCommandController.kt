@@ -65,18 +65,23 @@ object ACFCommandController {
                 registerCommand(GenericRankCommands())
             }
 
-            registerCommand(ThemeSelectCommand())
+            if (config.getBoolean("modules.themeCommands")) {
+                registerCommand(ThemeSelectCommand())
+            }
 
             registerCommand(GrantCommand())
             registerCommand(GrantsCommand())
             registerCommand(CGrantCommand())
 
-            registerCommand(VanishCommands())
-            registerCommand(StaffCommands())
-            registerCommand(RequestCommand())
-            registerCommand(EditModModeCommand())
-            registerCommand(SettingsCommand())
-            registerCommand(FreezeCommand())
+            if (config.getBoolean("modules.staffmode")) {
+                registerCommand(VanishCommands())
+                registerCommand(StaffCommands())
+                registerCommand(RequestCommand())
+                registerCommand(EditModModeCommand())
+                registerCommand(SettingsCommand())
+                registerCommand(FreezeCommand())
+            }
+
 
             registerCommand(AlchemistCommand())
 
@@ -110,7 +115,10 @@ object ACFCommandController {
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
             registerCommand(GrantHistoryCommand())
-            registerCommand(PlayerNotesCommands())
+
+            if (config.getBoolean("modules.notes")) {
+                registerCommand(PlayerNotesCommands())
+            }
 
             if (config.getBoolean("modules.prefixes")) {
                 registerCommand(TagAdminCommand())

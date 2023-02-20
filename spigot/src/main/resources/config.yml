@@ -34,6 +34,9 @@ modules:
   prefixes: true
   filters: true
   chatcolors: true
+  notes: true
+  staffmode: true
+  themeCommands: true
 
 staffmode:
   sendWelcomeMessage: true

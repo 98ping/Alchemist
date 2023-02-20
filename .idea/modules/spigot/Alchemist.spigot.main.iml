@@ -5,7 +5,6 @@
       <configuration>
         <autoDetectTypes>
           <platformType>SPIGOT</platformType>
-          <platformType>ADVENTURE</platformType>
         </autoDetectTypes>
       </configuration>
     </facet>

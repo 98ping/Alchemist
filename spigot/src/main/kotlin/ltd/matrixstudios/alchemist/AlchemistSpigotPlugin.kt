@@ -131,9 +131,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
 
-        server.pluginManager.registerEvents(FrozenPlayerListener(), this)
-        server.pluginManager.registerEvents(GenericStaffmodePreventionListener(), this)
-        server.pluginManager.registerEvents(StaffmodeFunctionalityListener(), this)
+        if (config.getBoolean("modules.staffmode")) {
+            server.pluginManager.registerEvents(FrozenPlayerListener(), this)
+            server.pluginManager.registerEvents(GenericStaffmodePreventionListener(), this)
+            server.pluginManager.registerEvents(StaffmodeFunctionalityListener(), this)
+        }
 
         logger.log(
             Level.INFO,
