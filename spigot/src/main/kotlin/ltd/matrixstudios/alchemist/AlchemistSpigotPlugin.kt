@@ -27,7 +27,9 @@ import ltd.matrixstudios.alchemist.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
+import org.apache.commons.lang3.StringUtils
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
@@ -47,6 +49,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         saveDefaultConfig()
         instance = this
 
+        sendStartupMSG()
 
         val startMongo = System.currentTimeMillis()
         val authEnabled = config.getBoolean("mongo.auth")
@@ -98,15 +101,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             )
         }
 
-        logger.log(
-            Level.INFO,
-            "[Mongo] Detected mongo auth type and loaded in " + System.currentTimeMillis().minus(startMongo) + "ms"
-        )
+        Chat.sendConsoleMessage("&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis().minus(startMongo) + "ms")
+
 
         val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
 
-        logger.log(Level.INFO, "[Themes] All themes loaded in " + System.currentTimeMillis().minus(themeStart) + "ms")
+        Chat.sendConsoleMessage("&d[Themes] &fAll themes loaded in &d" + System.currentTimeMillis().minus(themeStart) + "ms")
 
         val pubsubStart = System.currentTimeMillis()
         thread {
@@ -115,9 +116,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             }
         }
 
-        logger.log(
-            Level.INFO,
-            "[Jedis] Jedis publisher started in " + System.currentTimeMillis().minus(pubsubStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&4[Jedis] &fJedis publisher started in &4" + System.currentTimeMillis().minus(pubsubStart) + "ms"
         )
 
         val listenerStart = System.currentTimeMillis()
@@ -137,17 +137,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             server.pluginManager.registerEvents(StaffmodeFunctionalityListener(), this)
         }
 
-        logger.log(
-            Level.INFO,
-            "[Listeners] Listeners loaded in " + System.currentTimeMillis().minus(listenerStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&e[Listeners] &fListeners loaded in &e" + System.currentTimeMillis().minus(listenerStart) + "ms"
         )
 
         val permissionStart = System.currentTimeMillis()
         AccessiblePermissionHandler.load()
 
-        logger.log(
-            Level.INFO,
-            "[Permissions] All permissions loaded in " + System.currentTimeMillis().minus(permissionStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&9[Permissions] &fAll permissions loaded in &9" + System.currentTimeMillis().minus(permissionStart) + "ms"
         )
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
@@ -184,9 +182,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             globalServer.online = true
         }
 
-        logger.log(
-            Level.INFO,
-            "[Servers] Server instance loaded in " + System.currentTimeMillis().minus(serversStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&6[Servers] &fServer instance loaded in &6" + System.currentTimeMillis().minus(serversStart) + "ms"
         )
 
         StatisticManager.loadStats()
@@ -194,20 +191,36 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val papiStart = System.currentTimeMillis()
         registerExpansion()
 
-        logger.log(
-            Level.INFO,
-            "[Placeholders] All placeholders loaded in " + System.currentTimeMillis().minus(papiStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&b[Placeholders] &fAll placeholders loaded in &b" + System.currentTimeMillis().minus(papiStart) + "ms"
         )
 
         val commandsStart = System.currentTimeMillis()
 
         ACFCommandController.registerAll()
 
-        logger.log(
-            Level.INFO,
-            "[Commands] All commands registered in " + System.currentTimeMillis().minus(commandsStart) + "ms"
+        Chat.sendConsoleMessage(
+            "&3[Commands] &fAll commands registered in &3" + System.currentTimeMillis().minus(commandsStart) + "ms"
         )
 
+    }
+
+    fun sendStartupMSG()
+    {
+        Chat.sendMultiConsoleMessage(
+            arrayOf(
+                "&7&m" + StringUtils.repeat("-", 32),
+                "&a&lMatrix Studios Software &7- &f" + description.name + " &7[&a" + description.version + "&7]",
+                "",
+                "&fThis plugin has been distributed by Matrix Studios.",
+                "&fPlugin is not intended to be resold.",
+                "",
+                "&aWebsite: &fhttps://matrix-studios-software.github.io/",
+                "&aDiscord: &fhttps://discord.gg/UMnHT7QCSk",
+                "&aGitHub: &fhttps://github.com/Matrix-Studios-Software",
+                "&7&m" + StringUtils.repeat("-", 32)
+            )
+        )
     }
 
 

@@ -14,7 +14,12 @@ object Chat {
 
     fun sendConsoleMessage(line: String) {
         Bukkit.getServer().consoleSender.sendMessage(format(line))
+    }
 
+    fun sendMultiConsoleMessage(`in`: Array<String>) {
+        for (line in `in`) {
+            Bukkit.getServer().consoleSender.sendMessage(format(line))
+        }
     }
 
     fun getDyeColor(str: String): DyeColor {
