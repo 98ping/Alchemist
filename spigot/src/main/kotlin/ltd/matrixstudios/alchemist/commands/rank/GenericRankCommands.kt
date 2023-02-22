@@ -103,7 +103,7 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&ePrefix: &f" + rank.prefix))
         sender.sendMessage(Chat.format("&eColor: " + rank.color + "This"))
         sender.sendMessage(Chat.format("&eParents: &f" + rank.parents.size))
-        sender.sendMessage(Chat.format("&ePermissions: &f" + rank.permissions.size))
+        sender.sendMessage(Chat.format("&ePermissions: &f" + rank.permissions.toString()))
         sender.sendMessage(Chat.format("&eStaff Rank: &f" + rank.staff))
         sender.sendMessage(Chat.format("&eDefault Rank: &f" + rank.default))
         sender.sendMessage(Chat.format("&7&m--------------------------"))
