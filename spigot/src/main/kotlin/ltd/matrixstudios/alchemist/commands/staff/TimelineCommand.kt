@@ -18,7 +18,7 @@ class TimelineCommand : BaseCommand() {
     fun timeline(player: Player)
     {
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return
-        val grants = RankGrantService.getFromCache(profile.uuid).filter { it.getGrantable()!!.staff }.sortedBy { System.currentTimeMillis().minus(it.expirable.addedAt) }
+        val grants = RankGrantService.getFromCache(profile.uuid).filter { it.getGrantable()!!.staff }.sortedByDescending { System.currentTimeMillis().minus(it.expirable.addedAt) }
         val alreadyShownRanks = mutableListOf<Rank>()
         val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
         var barMessage = "&7█"
