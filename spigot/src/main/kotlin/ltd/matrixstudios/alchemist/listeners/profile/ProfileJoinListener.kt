@@ -114,7 +114,7 @@ class ProfileJoinListener : Listener {
             msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
 
             event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = msgs.joinToString("\n")
+            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
         } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
             val punishments = profile.getActivePunishments(PunishmentType.BLACKLIST).toMutableList()
             punishments.addAll(profile.getActivePunishments(PunishmentType.BAN))
@@ -125,7 +125,7 @@ class ProfileJoinListener : Listener {
             msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
             msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
 
-            event.kickMessage = msgs.joinToString("\n")
+            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
         }
 
         val currentServer = AlchemistSpigotPlugin.instance.globalServer
