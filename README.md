@@ -4,7 +4,7 @@ A swift and efficient rank core meant to work on all versions
 Made by 98ping, utilized projects from devrawr and aikiar
 
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.94-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.03-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/kotlin-1.6.10-blue.svg" />
   <a href="https://github.com/98ping/Alchemist/graphs/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/maintained-yes-brightgreen.svg" />
