@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.models.filter
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import java.util.*
 

@@ -59,6 +59,8 @@ class TagCustomizationButton(var tag: Tag) : Button() {
 
                 TagService.save(tag)
             }
+
+            else -> { return }
         }
     }
 

@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
 import ltd.matrixstudios.alchemist.service.ranks.RankService
-import sun.security.ec.point.ProjectivePoint.Mutable
 import java.util.*
 import kotlin.collections.ArrayList
 

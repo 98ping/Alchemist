@@ -17,7 +17,7 @@ object Serializers {
              }
 
              override fun shouldSkipClass(p0: Class<*>): Boolean {
-                 if (p0 == EntityItemFrame::class.java)
+                 if (p0.simpleName.equals("EntityItemFrame", ignoreCase = true))
                  {
                      return true
                  }
