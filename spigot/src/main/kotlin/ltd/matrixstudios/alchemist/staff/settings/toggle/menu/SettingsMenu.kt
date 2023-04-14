@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.staff.settings.toggle.menu
 
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.staff.settings.toggle.types.CanSeeOtherStaffSetting
 import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleModModeOnJoinSetting
 import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleRequestsSetting
 import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleStaffChatSetting
@@ -23,6 +24,7 @@ class SettingsMenu(val player: Player) : Menu(player) {
         buttons[10] = ToggleRequestsSetting(profile)
         buttons[11] = ToggleStaffChatSetting(profile)
         buttons[12] = ToggleModModeOnJoinSetting(profile)
+        buttons[13] = CanSeeOtherStaffSetting(profile)
 
         return buttons
     }

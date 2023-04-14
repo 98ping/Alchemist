@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.staff.mode
 
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.serialize.Serializers
+import ltd.matrixstudios.alchemist.serialize.type.ItemStackAdapter
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import org.bukkit.Location
 import org.bukkit.Material
@@ -32,7 +33,7 @@ object StaffItems {
 
             if (item != null)
             {
-                val items = Serializers.GSON.fromJson(item, Array<ItemStack>::class.java)
+                val items = ItemStackAdapter.itemStackArrayFromBase64(item)
 
                 player.inventory.contents = items
             } else {

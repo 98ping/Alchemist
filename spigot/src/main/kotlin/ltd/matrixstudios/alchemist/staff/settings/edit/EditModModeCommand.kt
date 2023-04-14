@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.serialize.Serializers
+import ltd.matrixstudios.alchemist.serialize.type.ItemStackAdapter
 import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
@@ -28,7 +29,7 @@ class EditModModeCommand : BaseCommand() {
     fun savemodmode(player: Player)
     {
         RedisPacketManager.pool.resource.use {
-            it.hset("Alchemist:ModMode:", player.uniqueId.toString(), Serializers.GSON.toJson(player.inventory.contents))
+            it.hset("Alchemist:ModMode:", player.uniqueId.toString(), ItemStackAdapter.itemStackArrayToBase64(player.inventory.contents))
         }
 
         player.sendMessage(Chat.format("&eYou have updated your &amod mode"))
