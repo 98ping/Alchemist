@@ -16,10 +16,9 @@ object VaultHookManager
         if (AlchemistSpigotPlugin.instance.server.pluginManager.getPlugin("Vault") != null)
         {
             using = true
+            setupPermissions()
+            setupChat()
         }
-
-        setupPermissions()
-        setupChat()
     }
 
     private fun setupChat(): Boolean {
