@@ -29,6 +29,7 @@ import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
+import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import org.apache.commons.lang3.StringUtils
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -187,6 +188,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         )
 
         StatisticManager.loadStats()
+
+        val vaultStart = System.currentTimeMillis()
+        VaultHookManager.loadVault()
+
+        Chat.sendConsoleMessage(
+            "&6[Vault] &fHooked in &6" + System.currentTimeMillis().minus(vaultStart) + "ms"
+        )
 
         val papiStart = System.currentTimeMillis()
         registerExpansion()
