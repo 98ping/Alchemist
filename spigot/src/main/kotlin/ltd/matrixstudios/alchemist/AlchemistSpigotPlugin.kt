@@ -5,9 +5,6 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
-import ltd.matrixstudios.alchemist.commands.grants.*
-import ltd.matrixstudios.alchemist.commands.player.*
-import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
@@ -30,7 +27,6 @@ import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
-import org.apache.commons.lang3.StringUtils
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
@@ -217,7 +213,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
     {
         Chat.sendMultiConsoleMessage(
             arrayOf(
-                "&7&m" + StringUtils.repeat("-", 32),
+                "&7&m--------------------------------",
                 "&a&lMatrix Studios Software &7- &f" + description.name + " &7[&a" + description.version + "&7]",
                 "",
                 "&fThis plugin has been distributed by Matrix Studios.",
@@ -226,7 +222,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 "&aWebsite: &fhttps://matrix-studios-software.github.io/",
                 "&aDiscord: &fhttps://discord.gg/UMnHT7QCSk",
                 "&aGitHub: &fhttps://github.com/Matrix-Studios-Software",
-                "&7&m" + StringUtils.repeat("-", 32)
+                "&7&m--------------------------------",
             )
         )
     }
