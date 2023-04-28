@@ -8,7 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider
 object VaultHookManager
 {
     private var using = false
-    var perms: Permission? = null
+    private var perms: Permission? = null
     var chat: Chat? = null
 
     fun loadVault()
@@ -16,24 +16,36 @@ object VaultHookManager
         if (AlchemistSpigotPlugin.instance.server.pluginManager.getPlugin("Vault") != null)
         {
             using = true
-            setupPermissions()
-            setupChat()
+            ltd.matrixstudios.alchemist.util.Chat.sendConsoleMessage("&6[Vault] &fPermission Hook: " + setupPermissions())
+            ltd.matrixstudios.alchemist.util.Chat.sendConsoleMessage("&6[Vault] &fChat Hook: " + setupChat())
         }
     }
 
     private fun setupChat(): Boolean {
-        val rsp: RegisteredServiceProvider<Chat> = AlchemistSpigotPlugin.instance.server.servicesManager.getRegistration(
-            Chat::class.java
-        )
-        chat = rsp.provider
+        try {
+            val rsp: RegisteredServiceProvider<net.milkbowl.vault.chat.Chat>? = AlchemistSpigotPlugin.instance.server.servicesManager.getRegistration(
+                net.milkbowl.vault.chat.Chat::class.java
+            )
+            if (rsp != null) {
+                chat = rsp.provider
+            }
+        } catch (ex: NoClassDefFoundError) {
+            return false
+        }
         return chat != null
     }
 
     private fun setupPermissions(): Boolean {
-        val rsp: RegisteredServiceProvider<Permission> = AlchemistSpigotPlugin.instance.server.servicesManager.getRegistration(
-            Permission::class.java
-        )
-        perms = rsp.provider
+        try {
+            val rsp: RegisteredServiceProvider<net.milkbowl.vault.permission.Permission>? = AlchemistSpigotPlugin.instance.server.servicesManager.getRegistration(
+                net.milkbowl.vault.permission.Permission::class.java
+            )
+            if (rsp != null) {
+                perms = rsp.provider
+            }
+        } catch (ex: NoClassDefFoundError) {
+            return false
+        }
         return perms != null
     }
 }
