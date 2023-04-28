@@ -1,12 +1,34 @@
 package ltd.matrixstudios.alchemist.vault.permission
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.vault.chat.VaultChatExtension
+import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.permission.Permission
+import org.bukkit.plugin.ServicePriority
 import java.lang.UnsupportedOperationException
 
 class VaultPermissionExtension : Permission() {
+
+    private val alchemist: AlchemistSpigotPlugin = AlchemistSpigotPlugin.instance
+    fun init()
+    {
+       alchemist.server.servicesManager.register(
+            Permission::class.java,
+            VaultPermissionExtension(),
+            alchemist,
+            ServicePriority.Highest
+        )
+
+        alchemist.server.servicesManager.register(
+            Chat::class.java,
+            VaultChatExtension(
+                this
+            ), alchemist, ServicePriority.Highest
+        )
+    }
     override fun getName(): String {
         return "Alchemist"
     }
