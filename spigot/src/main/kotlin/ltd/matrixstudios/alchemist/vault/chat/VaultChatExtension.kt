@@ -3,9 +3,11 @@ package ltd.matrixstudios.alchemist.vault.chat
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.permission.Permission
+import org.bukkit.plugin.Plugin
 import java.lang.UnsupportedOperationException
 
-class VaultChatExtension(perms: Permission) : Chat(perms){
+class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
+
     override fun getName(): String {
         return "Alchemist"
     }
