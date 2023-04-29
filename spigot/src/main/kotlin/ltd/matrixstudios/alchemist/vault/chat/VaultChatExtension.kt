@@ -27,7 +27,7 @@ class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
     }
 
     override fun getPlayerSuffix(p0: String?, p1: String?): String {
-        throw UnsupportedOperationException("Alchemist cannot handle suffixes!")
+        return ""
     }
 
     override fun setPlayerSuffix(p0: String?, p1: String?, p2: String?) {
@@ -35,7 +35,7 @@ class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
     }
 
     override fun getGroupPrefix(p0: String?, p1: String?): String {
-        throw UnsupportedOperationException("Alchemist cannot handle group information!")
+        return ""
     }
 
     override fun setGroupPrefix(p0: String?, p1: String?, p2: String?) {
