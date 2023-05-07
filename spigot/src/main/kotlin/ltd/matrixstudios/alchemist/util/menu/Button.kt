@@ -16,6 +16,8 @@ abstract class Button {
 
     open fun getButtonItem(player: Player) : ItemStack? { return null }
 
+    open fun setCustomAmount(player: Player) : Int { return 1 }
+
     fun constructItemStack(player: Player) : ItemStack {
         if (getButtonItem(player) != null)
         {
@@ -33,6 +35,8 @@ abstract class Button {
 
 
         itemStack.itemMeta = itemMeta
+
+        itemStack.amount = setCustomAmount(player)
 
         return itemStack
     }

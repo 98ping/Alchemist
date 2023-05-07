@@ -19,6 +19,7 @@ import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.permission.PermissionEditCommand
 import ltd.matrixstudios.alchemist.commands.player.*
 import ltd.matrixstudios.alchemist.commands.punishments.create.*
+import ltd.matrixstudios.alchemist.commands.punishments.menu.ExecutedPunishmentHistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.menu.PunishmentLookupCommands
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
@@ -103,6 +104,7 @@ object ACFCommandController {
                 registerCommand(PunishmentLookupCommands())
 
                 registerCommand(WipePunishmentsCommand())
+                registerCommand(ExecutedPunishmentHistoryCommand())
             }
 
             if (config.getBoolean("modules.chatcolors")) {
