@@ -17,7 +17,7 @@ object SHA {
             hexString.toString()
         } catch (ex: Exception) {
             ex.printStackTrace()
-            "null"
+            null
         }
     }
 }

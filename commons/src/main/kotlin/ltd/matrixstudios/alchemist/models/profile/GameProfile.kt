@@ -68,6 +68,30 @@ data class GameProfile(
         return finalAccounts
     }
 
+    fun alternateAccountHasBlacklist() : Boolean {
+        val alts = getAltAccounts()
+
+        for (acc in alts)
+        {
+            if (acc.hasActivePunishment(PunishmentType.BLACKLIST)) return true
+        }
+        return false
+    }
+
+    fun getFirstBlacklistFromAlts() : Punishment?
+    {
+        val alts = getAltAccounts()
+
+        for (acc in alts)
+        {
+            if (acc.hasActivePunishment(PunishmentType.BLACKLIST))
+            {
+                return acc.getActivePunishments(PunishmentType.BLACKLIST).firstOrNull()
+            }
+        }
+        return null
+    }
+
     fun createNewSession(server: UniqueServer) : Session
     {
         val session = Session(UUID.randomUUID().toString().substring(0, 4), uuid, mutableMapOf(), System.currentTimeMillis(), 0L)

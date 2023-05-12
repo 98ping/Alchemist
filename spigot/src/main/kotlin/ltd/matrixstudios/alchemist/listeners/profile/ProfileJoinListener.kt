@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
+import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -125,6 +126,16 @@ class ProfileJoinListener : Listener {
             msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
             msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
 
+            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
+        } else if (profile.alternateAccountHasBlacklist()) {
+            val detectedPunishment: Punishment = profile.getFirstBlacklistFromAlts() ?: return
+
+            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join-related")
+
+            msgs.replaceAll { it.replace("<reason>", detectedPunishment.reason) }
+            msgs.replaceAll { it.replace("<related>", AlchemistAPI.syncFindProfile(detectedPunishment.target)?.username ?: "N/A") }
+
+            msgs.replaceAll { it.replace("<expires>", if (detectedPunishment.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(detectedPunishment.expirable.addedAt + detectedPunishment.expirable.duration - System.currentTimeMillis())) }
             event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
         }
 

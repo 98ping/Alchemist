@@ -86,3 +86,9 @@ blacklisted-join:
     - "&cYou are currently blacklisted from the server!"
     - "&cReason: &r<reason>"
     - "&cExpires: &r<expires>"
+
+blacklisted-join-related:
+  - "&cYou are currently blacklisted from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+  - "&cIn Relation To: &r<related>"

@@ -32,7 +32,9 @@ object ProfileGameService {
         return grants.firstOrNull()
     }
     fun byId(uuid: UUID) : GameProfile? {
-        return cache.getOrDefault(uuid, handler.retrieve(uuid))
+        return cache.computeIfAbsent(uuid) {
+            return@computeIfAbsent handler.retrieve(it)
+        }
     }
 
     fun byUsername(name: String) : GameProfile? {
