@@ -29,6 +29,8 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.WipePunishmentsCo
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
+import ltd.matrixstudios.alchemist.commands.staff.JumpToPlayerCommand
+import ltd.matrixstudios.alchemist.commands.staff.OnlineStaffCommand
 import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
 import ltd.matrixstudios.alchemist.commands.staff.TimelineCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
@@ -147,6 +149,8 @@ object ACFCommandController {
             registerCommand(SudoCommand())
             registerCommand(StaffchatCommand())
             registerCommand(AdminChatCommand())
+            registerCommand(JumpToPlayerCommand())
+            registerCommand(OnlineStaffCommand())
             registerCommand(PlayerAdminCommand())
 
             registerCommand(MetricCommand())

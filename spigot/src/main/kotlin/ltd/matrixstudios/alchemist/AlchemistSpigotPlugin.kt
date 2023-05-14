@@ -25,6 +25,7 @@ import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.NetworkUtil
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import org.bukkit.Bukkit
@@ -177,6 +178,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             globalServer.online = true
         }
+
+        NetworkUtil.load()
 
         Chat.sendConsoleMessage(
             "&6[Servers] &fServer instance loaded in &6" + System.currentTimeMillis().minus(serversStart) + "ms"

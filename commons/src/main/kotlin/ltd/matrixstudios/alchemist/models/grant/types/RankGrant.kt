@@ -42,7 +42,7 @@ class RankGrant(
         return profile.username
     }
 
-    override fun getGrantable(): Rank? {
+    override fun getGrantable(): Rank {
        val optional = RankService.byId(rank)
 
         if (optional != null)
