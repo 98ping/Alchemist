@@ -94,9 +94,11 @@ class ProfileJoinListener : Listener {
         profile.ip = output
         profile.currentSession = profile.createNewSession(currentServer)
 
-        for (callback in BukkitPreLoginConnection.allCallbacks) callback.invoke(event)
+        val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
+            it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
+        }
 
-        for (lazy in BukkitPreLoginConnection.allLazyCallbacks) lazy.invoke(event)
+        for (cback in allCallbacks) cback.invoke(event)
 
         //doing this for syncing purposes and because the network manager needs to track when they were last on
         ProfileGameService.handler.storeAsync(profile.uuid, profile)
