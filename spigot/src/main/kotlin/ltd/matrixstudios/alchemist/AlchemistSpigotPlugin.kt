@@ -6,12 +6,13 @@ import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
-import ltd.matrixstudios.alchemist.listeners.profile.ProfileJoinListener
+import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
+import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -99,6 +100,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         Chat.sendConsoleMessage("&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis().minus(startMongo) + "ms")
+
+        val profileStart = System.currentTimeMillis()
+        BukkitProfileAdaptation.loadAllPreLoginEvents()
+
+        Chat.sendConsoleMessage("&d[Profiles] &fAll profile events loaded in &d" + System.currentTimeMillis().minus(profileStart) + "ms")
 
 
         val themeStart = System.currentTimeMillis()

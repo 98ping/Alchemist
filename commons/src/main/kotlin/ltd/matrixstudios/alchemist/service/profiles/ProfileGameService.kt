@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 import javax.security.auth.callback.Callback
 
-object ProfileGameService {
+object ProfileGameService : GeneralizedService {
 
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, GameProfile>(DataStoreType.MONGO)

@@ -4,9 +4,10 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.party.Party
+import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.*
 
-object PartyService {
+object PartyService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
 

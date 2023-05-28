@@ -3,10 +3,11 @@ package ltd.matrixstudios.alchemist.service.filter
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
+import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
 
-object FilterService {
+object FilterService : GeneralizedService {
 
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(DataStoreType.MONGO)

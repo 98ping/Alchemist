@@ -3,10 +3,11 @@ package ltd.matrixstudios.alchemist.service.ranks
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
-object RankService  {
+object RankService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
 

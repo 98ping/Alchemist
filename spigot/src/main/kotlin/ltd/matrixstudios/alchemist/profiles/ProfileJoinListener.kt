@@ -1,13 +1,11 @@
-package ltd.matrixstudios.alchemist.listeners.profile
+package ltd.matrixstudios.alchemist.profiles
 
-import com.google.common.base.Stopwatch
-import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
-import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
@@ -22,11 +20,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import java.util.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
 import java.util.logging.Level
-import kotlin.collections.ArrayList
 
 
 class ProfileJoinListener : Listener {
@@ -91,63 +86,20 @@ class ProfileJoinListener : Listener {
 
         Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
         MetricService.addMetric("Profile Service", Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis()))
-
-         profile.lastSeenAt = System.currentTimeMillis()
-
         val hostAddress = event.address.hostAddress
         val output = SHA.toHexString(hostAddress)!!
-
-        profile.ip = output
-
-        val startGrants = System.currentTimeMillis()
-        RankGrantService.recalculatePlayer(profile)
-        MetricService.addMetric("Grants Service", Metric("Grants Service", System.currentTimeMillis().minus(startGrants), System.currentTimeMillis()))
-
-        val startPunishments = System.currentTimeMillis()
-        PunishmentService.recalculatePlayer(profile)
-        MetricService.addMetric("Punishment Service", Metric("Punishment Service", System.currentTimeMillis().minus(startPunishments), System.currentTimeMillis()))
-
-        if (profile.hasActivePunishment(PunishmentType.BAN)) {
-            val punishment = profile.getActivePunishments(PunishmentType.BAN).firstOrNull()
-            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("banned-join")
-
-            msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
-            msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
-
-            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
-        } else if (profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
-            val punishments = profile.getActivePunishments(PunishmentType.BLACKLIST).toMutableList()
-            punishments.addAll(profile.getActivePunishments(PunishmentType.BAN))
-            val punishment = profile.getActivePunishments(PunishmentType.BLACKLIST).firstOrNull()
-            event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_BANNED
-            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join")
-
-            msgs.replaceAll { it.replace("<reason>", punishment!!.reason) }
-            msgs.replaceAll { it.replace("<expires>", if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis())) }
-
-            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
-        } else if (profile.alternateAccountHasBlacklist()) {
-            val detectedPunishment: Punishment = profile.getFirstBlacklistFromAlts() ?: return
-
-            val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join-related")
-
-            msgs.replaceAll { it.replace("<reason>", detectedPunishment.reason) }
-            msgs.replaceAll { it.replace("<related>", AlchemistAPI.syncFindProfile(detectedPunishment.target)?.username ?: "N/A") }
-
-            msgs.replaceAll { it.replace("<expires>", if (detectedPunishment.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(detectedPunishment.expirable.addedAt + detectedPunishment.expirable.duration - System.currentTimeMillis())) }
-            event.kickMessage = msgs.map { Chat.format(it) }.joinToString("\n")
-        }
-
         val currentServer = AlchemistSpigotPlugin.instance.globalServer
 
-
+        profile.lastSeenAt = System.currentTimeMillis()
+        profile.ip = output
         profile.currentSession = profile.createNewSession(currentServer)
 
+        for (callback in BukkitPreLoginConnection.allCallbacks) callback.invoke(event)
+
+        for (lazy in BukkitPreLoginConnection.allLazyCallbacks) lazy.invoke(event)
 
         //doing this for syncing purposes and because the network manager needs to track when they were last on
         ProfileGameService.handler.storeAsync(profile.uuid, profile)
-
     }
 
     @EventHandler
@@ -156,7 +108,6 @@ class ProfileJoinListener : Listener {
         val player = event.player
 
         AccessiblePermissionHandler.remove(player)
-
     }
 }
 

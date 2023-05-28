@@ -6,12 +6,13 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.models.sessions.Session
+import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
-object SessionService  {
+object SessionService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Session>(DataStoreType.MONGO)
     private val rawCollection = Alchemist.MongoConnectionPool.getCollection("session")
