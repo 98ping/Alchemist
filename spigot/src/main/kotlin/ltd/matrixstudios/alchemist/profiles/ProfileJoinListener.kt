@@ -81,27 +81,11 @@ class ProfileJoinListener : Listener {
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
-        val start = System.currentTimeMillis()
-        val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
-
-        Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
-        MetricService.addMetric("Profile Service", Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis()))
-        val hostAddress = event.address.hostAddress
-        val output = SHA.toHexString(hostAddress)!!
-        val currentServer = AlchemistSpigotPlugin.instance.globalServer
-
-        profile.lastSeenAt = System.currentTimeMillis()
-        profile.ip = output
-        profile.currentSession = profile.createNewSession(currentServer)
-
         val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
             it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
         }
 
         for (cback in allCallbacks) cback.invoke(event)
-
-        //doing this for syncing purposes and because the network manager needs to track when they were last on
-        ProfileGameService.handler.storeAsync(profile.uuid, profile)
     }
 
     @EventHandler

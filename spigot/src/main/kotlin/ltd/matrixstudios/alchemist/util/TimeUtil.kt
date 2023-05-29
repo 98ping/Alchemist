@@ -3,12 +3,19 @@ package ltd.matrixstudios.alchemist.util
 import org.apache.commons.lang.time.DurationFormatUtils
 import java.sql.Timestamp
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
 object TimeUtil {
+
+    private val dateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm")
+
+    fun formatIntoCalendarString(date: Date?): String? {
+        return dateFormat.format(date)
+    }
+
     fun millisToTimer(millis: Long): String {
         val seconds = millis / 1000L
         return if (seconds > 3600L) {

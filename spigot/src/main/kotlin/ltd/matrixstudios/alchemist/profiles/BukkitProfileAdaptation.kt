@@ -9,10 +9,14 @@ import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import org.bukkit.Bukkit
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import java.util.UUID
+import java.util.logging.Level
 
 /**
  * Class created on 5/27/2023
@@ -26,12 +30,35 @@ object BukkitProfileAdaptation
     fun loadAllPreLoginEvents()
     {
         BukkitPreLoginConnection.registerNewCallback { event ->
+            loadAndEquipProfile(event)
+        }
+
+        BukkitPreLoginConnection.registerNewCallback { event ->
             calculateAndPostGrantables(event.uniqueId)
         }
 
         BukkitPreLoginConnection.registerNewLazyCallback { event ->
             handlePunishmentsUsingEvent(event.uniqueId, event)
         }
+    }
+
+    fun loadAndEquipProfile(event: AsyncPlayerPreLoginEvent)
+    {
+        val start = System.currentTimeMillis()
+        val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
+
+        Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
+        MetricService.addMetric("Profile Service", Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis()))
+
+        val hostAddress = event.address.hostAddress
+        val output = SHA.toHexString(hostAddress)!!
+        val currentServer = AlchemistSpigotPlugin.instance.globalServer
+
+        profile.lastSeenAt = System.currentTimeMillis()
+        profile.ip = output
+        profile.currentSession = profile.createNewSession(currentServer)
+
+        ProfileGameService.save(profile)
     }
 
     fun handlePunishmentsUsingEvent(profileId: UUID, event: AsyncPlayerPreLoginEvent)

@@ -10,7 +10,9 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * Class created on 5/14/2023
@@ -28,9 +30,13 @@ class JumpToPlayerCommand : BaseCommand() {
         val onlineServer = target.metadata.get("server").asString
         val uniqueServer = UniqueServerService.byId(onlineServer.lowercase())
 
-        if (uniqueServer == null)
+        if (uniqueServer == null || onlineServer.lowercase().equals("None", ignoreCase = true))
         {
-            player.sendMessage(Chat.format("&cPlayer is not online or server is unable to handle your request"))
+            player.sendMessage(Chat.format("&6Server Jump Request"))
+            player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
+            player.sendMessage(Chat.format("&eDestination: &cNone"))
+            player.sendMessage(Chat.format("&eLast Seen: &f${TimeUtil.formatIntoCalendarString(Date(target.lastSeenAt))} ago"))
+            player.sendMessage(Chat.format("&cUnable to handle. Proxy issue?"))
             return
         }
 
@@ -42,7 +48,11 @@ class JumpToPlayerCommand : BaseCommand() {
             return
         }
 
-        player.sendMessage(Chat.format("&aPlayer Found! Currently on &f" + uniqueServer.displayName + " &7(Network abides by " + uniqueServer.bungeeName + ")"))
+        player.sendMessage(Chat.format("&6Server Jump Request"))
+        player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
+        player.sendMessage(Chat.format("&eDestination: &f" + uniqueServer.displayName))
+        player.sendMessage(Chat.format("&eProxy Name: &f" + uniqueServer.bungeeName))
+        player.sendMessage(Chat.format("&aCurrently sending..."))
         NetworkUtil.send(player, uniqueServer.id)
     }
 }

@@ -31,26 +31,31 @@ class OnlineStaffCommand : BaseCommand() {
 
     @CommandAlias("onlinestaff|globalstaff|sl|stafflist")
     @CommandPermission("alchemist.staff.list")
-    fun onlineStaff(player: Player){
+    fun onlineStaff(player: Player) {
         val msgs = mutableListOf<String>()
 
         val connectedServers = UniqueServerService.getValues()
         val visibleServers = mutableListOf<UniqueServer>()
 
-        for (server in connectedServers){
-            val lockedRank = RankService.byId(server.lockRank)
-            if (lockedRank != null) {
-                if(AlchemistAPI.findRank(player.uniqueId).weight > lockedRank.weight || player.hasPermission("alchemist.owner")){
-                    visibleServers.add(server)
+        for (server in connectedServers) {
+            if (server.lockedWithRank) {
+                val lockedRank = RankService.byId(server.lockRank)
+                if (lockedRank != null) {
+                    if (AlchemistAPI.findRank(player.uniqueId).weight > lockedRank.weight || player.hasPermission("alchemist.owner")) {
+                        visibleServers.add(server)
+                    }
                 }
+            } else {
+                visibleServers.add(server)
+
             }
         }
 
-        for(server in visibleServers){
+        for (server in visibleServers) {
             val uncoloredStaffList = getStaffMembers(server)
             val coloredStaffList = ArrayList<String>()
 
-            for(UUID in uncoloredStaffList){
+            for (UUID in uncoloredStaffList) {
                 coloredStaffList.add(AlchemistAPI.getRankDisplay(UUID))
             }
 
@@ -62,24 +67,23 @@ class OnlineStaffCommand : BaseCommand() {
         }
 
 
-        for(msg in msgs){
+        for (msg in msgs) {
             player.sendMessage(Chat.format(msg))
         }
     }
 
-    fun getStaffMembers(server: UniqueServer): List<UUID>{
+    fun getStaffMembers(server: UniqueServer): List<UUID> {
         val pList = server.players
         val sList = mutableListOf<UUID>()
 
-        for (uuid in pList){
-            if(AlchemistAPI.findRank(uuid).staff){
+        for (uuid in pList) {
+            if (AlchemistAPI.findRank(uuid).staff) {
                 sList.add(uuid)
             }
         }
 
         return sList
     }
-
 
 
 }
