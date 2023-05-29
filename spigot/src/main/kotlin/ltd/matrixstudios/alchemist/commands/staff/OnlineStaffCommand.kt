@@ -32,41 +32,28 @@ class OnlineStaffCommand : BaseCommand() {
     @CommandAlias("onlinestaff|globalstaff|sl|stafflist")
     @CommandPermission("alchemist.staff.list")
     fun onlineStaff(player: Player) {
+        val allPlayers = mutableListOf<UUID>()
+        val servers = UniqueServerService.getValues()
         val msgs = mutableListOf<String>()
 
-        val connectedServers = UniqueServerService.getValues()
-        val visibleServers = mutableListOf<UniqueServer>()
-
-        for (server in connectedServers) {
-            if (server.lockedWithRank) {
-                val lockedRank = RankService.byId(server.lockRank)
-                if (lockedRank != null) {
-                    if (AlchemistAPI.findRank(player.uniqueId).weight > lockedRank.weight || player.hasPermission("alchemist.owner")) {
-                        visibleServers.add(server)
-                    }
+        for (server in servers)
+        {
+            for (player1 in server.players)
+            {
+                if (!allPlayers.contains(player1)) {
+                    allPlayers.add(player1)
                 }
-            } else {
-                visibleServers.add(server)
-
             }
         }
 
-        for (server in visibleServers) {
-            val uncoloredStaffList = getStaffMembers(server)
-            val coloredStaffList = ArrayList<String>()
+        for (player2 in allPlayers) {
+            val profile = AlchemistAPI.syncFindProfile(player2) ?: continue
+            val serverName = UniqueServerService.byId(profile.metadata.get("server").asString.lowercase())?.displayName ?: "&cUnknown"
 
-            for (UUID in uncoloredStaffList) {
-                coloredStaffList.add(AlchemistAPI.getRankDisplay(UUID))
-            }
+            msgs.add(Chat.format("&7- " + AlchemistAPI.getRankDisplay(profile.uuid) + " &eis currently &aonline &eat &f" + serverName))
 
-            val coloredStaffString = coloredStaffList.joinToString(
-                "&7, ",
-            )
-
-            msgs.add(Chat.format("&e&l" + server.displayName + "&7 (ID: " + server.id + "&7) " + coloredStaffString))
         }
-
-
+        player.sendMessage(Chat.format("&e&lOnline Staff Members&7:"))
         for (msg in msgs) {
             player.sendMessage(Chat.format(msg))
         }
