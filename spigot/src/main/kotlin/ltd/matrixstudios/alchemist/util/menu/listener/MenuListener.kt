@@ -7,15 +7,32 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import java.util.*
 
 class MenuListener : Listener {
+
+    val timestamps = mutableMapOf<UUID, Long>()
 
     @EventHandler
     fun onPaginatedMenuClick(event: InventoryClickEvent) {
         val menu = MenuController.paginatedMenuMap.get(event.whoClicked.uniqueId)
+        val player = event.whoClicked
         if (menu != null) {
             val slot = event.slot
             val click = event.click
+
+            if (timestamps.containsKey(player.uniqueId)) {
+                val time = timestamps[player.uniqueId]
+
+                if (System.currentTimeMillis().minus(time!!) < 300) {
+                    event.isCancelled = true
+                    timestamps.remove(player.uniqueId)
+
+                    return
+                }
+            }
+
+            timestamps[player.uniqueId] = System.currentTimeMillis()
 
             event.isCancelled = true
             if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
@@ -60,10 +77,24 @@ class MenuListener : Listener {
     @EventHandler
     fun onMenuClick(event: InventoryClickEvent) {
         val menu = MenuController.menuMap[event.whoClicked.uniqueId]
+        val player = event.whoClicked
 
         if (menu != null) {
             val slot = event.slot
             val click = event.click
+
+            if (timestamps.containsKey(player.uniqueId)) {
+                val time = timestamps[player.uniqueId]
+
+                if (System.currentTimeMillis().minus(time!!) < 300) {
+                    event.isCancelled = true
+                    timestamps.remove(player.uniqueId)
+
+                    return
+                }
+            }
+
+            timestamps[player.uniqueId] = System.currentTimeMillis()
 
             if (!menu.stealable) {
                 event.isCancelled = true

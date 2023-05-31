@@ -104,7 +104,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val profileStart = System.currentTimeMillis()
         BukkitProfileAdaptation.loadAllPreLoginEvents()
 
-        Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &d" + System.currentTimeMillis().minus(profileStart) + "ms")
+        Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(profileStart) + "ms")
 
 
         val themeStart = System.currentTimeMillis()
