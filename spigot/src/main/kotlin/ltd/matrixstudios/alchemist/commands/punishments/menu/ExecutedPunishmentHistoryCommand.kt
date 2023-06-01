@@ -4,8 +4,11 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import co.aikar.commands.annotation.Optional
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.punishments.menu.executed.ExecutedPunishmentHistoryMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
 /**
@@ -18,9 +21,19 @@ import org.bukkit.entity.Player
 class ExecutedPunishmentHistoryCommand : BaseCommand() {
 
     @CommandAlias("staffhist|staffhistory|executedhistory")
-    @CommandPermission("alchemist.punishments.check.others")
-    fun checkOthers(player: Player, @Name("target") profile: GameProfile)
+    @CommandPermission("alchemist.punishments.check")
+    fun checkOthers(player: Player,  @Name("target") @Optional profile: GameProfile?)
     {
-        ExecutedPunishmentHistoryMenu(player, profile).openMenu()
+        if (!player.hasPermission("alchemist.punishments.check.others")) {
+            val profile1 = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return
+            ExecutedPunishmentHistoryMenu(player, profile1).openMenu()
+        } else {
+            if (profile == null) {
+                player.sendMessage(Chat.format("&cYou must provide a valid profile!"))
+                return
+            }
+
+            ExecutedPunishmentHistoryMenu(player, profile).openMenu()
+        }
     }
 }
