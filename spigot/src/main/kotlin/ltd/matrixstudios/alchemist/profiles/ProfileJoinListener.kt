@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
 import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -14,6 +15,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -69,14 +71,13 @@ class ProfileJoinListener : Listener {
     @EventHandler
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
-        val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
-        val startPerms = System.currentTimeMillis()
-        CompletableFuture.runAsync {
-            AccessiblePermissionHandler.update(player, profile.getPermissions())
+        val allCallbacks = mutableListOf<(Player) -> Unit>().also {
+            it.addAll(BukkitPostLoginConnection.allCallbacks + BukkitPostLoginConnection.allLazyCallbacks)
         }
 
-        MetricService.addMetric("Permission Handler", Metric("Permission Handler", System.currentTimeMillis().minus(startPerms), System.currentTimeMillis()))
+        for (cback in allCallbacks) cback.invoke(player)
+
     }
 
     @EventHandler

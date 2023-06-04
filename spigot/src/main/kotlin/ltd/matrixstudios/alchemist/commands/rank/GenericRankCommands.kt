@@ -28,6 +28,7 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/rank list"))
         sender.sendMessage(Chat.format("&e/rank editor"))
         sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
+        sender.sendMessage(Chat.format("&e/rank inheritance &f<rank>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 
