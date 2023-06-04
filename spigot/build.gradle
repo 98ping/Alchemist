@@ -7,6 +7,11 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
+
+    maven {
+        name = "gravemc-repo"
+        url = "https://repo.gravemc.net/releases/"
+    }
 }
 
 dependencies {
@@ -17,6 +22,7 @@ dependencies {
     implementation "net.kyori:adventure-api:4.11.0"
     compileOnly 'me.clip:placeholderapi:2.11.2'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    implementation 'dev.iiahmed:ModernDisguise:1.8'
 
 }
 
