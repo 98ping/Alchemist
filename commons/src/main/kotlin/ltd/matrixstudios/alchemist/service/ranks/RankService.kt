@@ -50,6 +50,26 @@ object RankService : GeneralizedService {
         return ranks.values.stream().sorted { o1, o2 ->  o2.weight - o1.weight }.collect(Collectors.toList())
     }
 
+    fun getAllInheritanceWithProvidingRank(rank: Rank) : HashMap<String, Rank> {
+        val ranks = hashMapOf<String, Rank>()
+        var next: Rank? = rank
+
+        while (next != null)
+        {
+            val inh = next.parents
+
+            val elements = inh.map { byId(it)!! }
+
+            for (rank2 in elements) {
+                ranks[rank2.id] = rank2
+            }
+
+            next = elements.firstOrNull()
+        }
+
+        return ranks
+    }
+
     fun findFirstAvailableDefaultRank() : Rank? {
         return getValues().firstOrNull { it.default }
     }

@@ -28,6 +28,29 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/rank list"))
         sender.sendMessage(Chat.format("&e/rank editor"))
         sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
+        sender.sendMessage(Chat.format("&e/rank inheritance &f<rank>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
+    @Subcommand("inheritance")
+    @CommandPermission("rank.admin")
+    fun inheritance(sender: CommandSender, @Name("name") name: String) {
+        if (RankService.byId(name.toLowerCase()) == null) {
+            sender.sendMessage(Chat.format("&cThis rank doesn't exist"))
+            return
+        }
+
+        val rank = RankService.byId(name.toLowerCase())!!
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format(rank.color + rank.displayName + " &eInheritance"))
+        sender.sendMessage(" ")
+        val inheritance = RankService.getAllInheritanceWithProvidingRank(rank)
+
+        for (rank2 in inheritance.values)
+        {
+            sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
+        }
+
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
 

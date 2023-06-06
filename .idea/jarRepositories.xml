@@ -61,5 +61,10 @@
       <option name="name" value="maven8" />
       <option name="url" value="https://repo.extendedclip.com/content/repositories/placeholderapi/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="gravemc-repo" />
+      <option name="name" value="gravemc-repo" />
+      <option name="url" value="https://repo.gravemc.net/releases/" />
+    </remote-repository>
   </component>
 </project>
