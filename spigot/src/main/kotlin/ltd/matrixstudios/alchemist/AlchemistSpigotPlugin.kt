@@ -6,13 +6,13 @@ import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
-import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
+import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -30,6 +30,7 @@ import ltd.matrixstudios.alchemist.util.NetworkUtil
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import org.bukkit.Bukkit
+import org.bukkit.conversations.ConversationFactory
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
 
@@ -42,6 +43,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
     lateinit var globalServer: UniqueServer
     lateinit var commandManager: PaperCommandManager
+    val conversationFactory = ConversationFactory(this)
 
     override fun onEnable() {
         saveDefaultConfig()

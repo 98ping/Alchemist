@@ -20,6 +20,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 
 /**
@@ -31,6 +32,9 @@ import java.util.logging.Level
  */
 object BukkitProfileAdaptation
 {
+
+    val lockedPlayers = mutableListOf<UUID>()
+
     fun loadAllPreLoginEvents()
     {
         BukkitPreLoginConnection.registerNewCallback { event ->
