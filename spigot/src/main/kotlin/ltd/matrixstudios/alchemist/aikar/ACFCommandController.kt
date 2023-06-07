@@ -66,15 +66,14 @@ object ACFCommandController {
             }
             if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())
+                registerCommand(GrantCommand())
+                registerCommand(GrantsCommand())
+                registerCommand(CGrantCommand())
             }
 
             if (config.getBoolean("modules.themeCommands")) {
                 registerCommand(ThemeSelectCommand())
             }
-
-            registerCommand(GrantCommand())
-            registerCommand(GrantsCommand())
-            registerCommand(CGrantCommand())
 
             if (config.getBoolean("modules.staffmode")) {
                 registerCommand(VanishCommands())

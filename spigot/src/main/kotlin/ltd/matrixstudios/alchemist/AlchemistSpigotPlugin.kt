@@ -5,6 +5,7 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
+import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
@@ -155,6 +156,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
+        (ServerReleaseTask()).runTaskTimer(this, 0L, 20L)
         (SyncTask()).runTaskTimer(this, 0L, 60 * 20L)
 
         if (config.getBoolean("modules.parties")) {
@@ -172,6 +174,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 true,
                 1024,
                 config.getString("server.id"),
+                -1L,
                 false,
                 "",
                 System.currentTimeMillis()

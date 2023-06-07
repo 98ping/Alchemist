@@ -30,7 +30,7 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             Chat.format("&6Restart " + server.displayName)
         ).setBody { player, i, clickType ->
             AsynchronousRedisSender.send(ServerShutdownPacket(server.id))
-            player.sendMessage(Chat.format("&8[&eMonitor&8] &fSent remote shutdown request to " + server.id))
+            player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSent remote shutdown request to " + server.id))
         }
 
         buttons[11] = SkullButton(
@@ -47,7 +47,7 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             Chat.format("&6Whitelist " + server.displayName)
         ).setBody { player, i, clickType ->
             AsynchronousRedisSender.send(ServerWhitelistPacket(server.id))
-            player.sendMessage(Chat.format("&8[&eMonitor&8] &fServer has been whitelisted forcefully"))
+            player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fServer has been whitelisted forcefully"))
         }
 
         buttons[13] = SkullButton(
@@ -63,9 +63,9 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
 
             if (other)
             {
-                player.sendMessage(Chat.format("&8[&eMonitor&8] &fSet rank lock status of " + server.id + " to true"))
+                player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to true"))
             } else {
-                player.sendMessage(Chat.format("&8[&eMonitor&8] &fSet rank lock status of " + server.id + " to false"))
+                player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to false"))
             }
 
         }

@@ -37,6 +37,7 @@ data class GameProfile(
     var activePrefix: String? = null,
     var permissions: MutableList<String> = ArrayList(),
     var lastSeenAt: Long,
+    var coins: Int = 0,
     val notes: MutableList<ProfileNote> = ArrayList(),
 ) {
 
