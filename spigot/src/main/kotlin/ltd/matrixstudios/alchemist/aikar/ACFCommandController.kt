@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.aikar.context.PunishmentTypeResolver
 import ltd.matrixstudios.alchemist.aikar.context.RankContextResolver
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
+import ltd.matrixstudios.alchemist.commands.gems.CoinsCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
@@ -70,6 +71,8 @@ object ACFCommandController {
                 registerCommand(GrantsCommand())
                 registerCommand(CGrantCommand())
             }
+
+            registerCommand(CoinsCommand())
 
             if (config.getBoolean("modules.themeCommands")) {
                 registerCommand(ThemeSelectCommand())
