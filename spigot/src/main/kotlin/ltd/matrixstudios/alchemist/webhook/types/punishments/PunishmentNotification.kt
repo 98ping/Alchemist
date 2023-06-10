@@ -14,7 +14,7 @@ class PunishmentNotification(val punishment: Punishment) : WebhookInformation() 
     override fun getEmbed(): WebhookEmbed {
         val embed = WebhookEmbedBuilder()
             .setColor(Color.RED.asRGB())
-            .setTitle(WebhookEmbed.EmbedTitle("Alchemist Notification", WebhookService.PUNISHMENT_ICON))
+            .setTitle(WebhookEmbed.EmbedTitle("Alchemist Punishment Notification", WebhookService.PUNISHMENT_ICON))
             .addField(
                 WebhookEmbed.EmbedField(
                     true,
