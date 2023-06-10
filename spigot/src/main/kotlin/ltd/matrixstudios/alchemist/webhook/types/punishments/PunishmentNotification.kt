@@ -24,10 +24,7 @@ class PunishmentNotification(val punishment: Punishment) : WebhookInformation() 
                 + "\n**Type**: " + punishment.getGrantable().niceName
                 + "\n**Actor**: " + punishment.actor.actorType.name
                 + "\n**Duration**: " + if (punishment.expirable.duration != Long.MAX_VALUE) TimeUtil.formatDuration(punishment.expirable.duration) else "Permanent"
-
-            )
-
-            .build()
+            ).build()
 
 
         return embed

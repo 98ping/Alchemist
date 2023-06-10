@@ -22,6 +22,7 @@ object WebhookService {
             thread.isDaemon = true
             thread
         }
+
         builder.setWait(true)
         this.punishmentClient = builder.build()
     }
