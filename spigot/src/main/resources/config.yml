@@ -22,6 +22,7 @@ redis:
 server:
   id: "server1"
 
+#information for sending notifications using Discord
 discord:
   enabled: false
   punishments:
