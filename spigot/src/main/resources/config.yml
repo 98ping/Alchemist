@@ -24,7 +24,8 @@ server:
 
 discord:
   enabled: false
-  notificationWebhookUrl: "URL_HERE"
+  punishments:
+    webhookLink: "LINK_HERE"
 
 
 #theme info

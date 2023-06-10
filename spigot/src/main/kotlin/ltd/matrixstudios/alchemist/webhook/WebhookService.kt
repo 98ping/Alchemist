@@ -9,28 +9,28 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder
 
 object WebhookService {
 
-    lateinit var notificationClient: WebhookClient
+    lateinit var punishmentClient: WebhookClient
 
     val PUNISHMENT_ICON: String = "https://static.wikia.nocookie.net/minecraft/images/8/8d/BarrierNew.png"
 
-    fun createNotificationClient(uri: String) {
+    fun createPunishmentClient(uri: String) {
         val builder = WebhookClientBuilder(uri)
 
         builder.setThreadFactory { job ->
             val thread = Thread(job)
-            thread.name = "Alchemist - Notification Webhook"
+            thread.name = "Alchemist - Punishment Payload"
             thread.isDaemon = true
             thread
         }
         builder.setWait(true)
-        this.notificationClient = builder.build()
+        this.punishmentClient = builder.build()
     }
 
-    fun sendNotificationEmbed(info: WebhookInformation) {
+    fun sendInformation(info: WebhookInformation, client: WebhookClient) {
         val builder = WebhookMessageBuilder()
         builder.setUsername("Alchemist Notifications") // use this username
 
         builder.addEmbeds(info.getEmbed())
-        notificationClient.send(builder.build())
+        client.send(builder.build())
     }
 }

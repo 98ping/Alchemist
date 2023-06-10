@@ -217,7 +217,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         if (config.getBoolean("discord.enabled")) {
 
-            WebhookService.createNotificationClient(config.getString("discord.notificationWebhookUrl"))
+            WebhookService.createPunishmentClient(config.getString("discord.punishments.webhookLink"))
         }
 
         Chat.sendConsoleMessage(
