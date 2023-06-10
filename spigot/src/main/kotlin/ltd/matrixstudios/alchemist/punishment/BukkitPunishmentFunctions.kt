@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.UpdatePunishmentsRequest
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
+import ltd.matrixstudios.alchemist.webhook.types.punishments.PunishmentNotification
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -35,6 +36,8 @@ object BukkitPunishmentFunctions {
         AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent))
         AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
         AsynchronousRedisSender.send(UpdatePunishmentsRequest(punishment.target))
+
+        PunishmentNotification(punishment).send()
 
         PunishmentService.save(punishment)
     }

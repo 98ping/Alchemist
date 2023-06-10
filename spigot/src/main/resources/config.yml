@@ -22,6 +22,11 @@ redis:
 server:
   id: "server1"
 
+discord:
+  enabled: false
+  notificationWebhookUrl: "URL_HERE"
+
+
 #theme info
 defaultTheme: "MMC"
 

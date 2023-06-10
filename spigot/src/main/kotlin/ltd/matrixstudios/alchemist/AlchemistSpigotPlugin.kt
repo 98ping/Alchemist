@@ -30,6 +30,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
+import ltd.matrixstudios.alchemist.webhook.WebhookService
 import org.bukkit.Bukkit
 import org.bukkit.conversations.ConversationFactory
 import org.bukkit.plugin.java.JavaPlugin
@@ -210,6 +211,17 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         Chat.sendConsoleMessage(
             "&b[Placeholders] &fAll placeholders loaded in &b" + System.currentTimeMillis().minus(papiStart) + "ms"
+        )
+
+        val discordStart = System.currentTimeMillis()
+
+        if (config.getBoolean("discord.enabled")) {
+
+            WebhookService.createNotificationClient(config.getString("discord.notificationWebhookUrl"))
+        }
+
+        Chat.sendConsoleMessage(
+            "&5[Discord] &fAll commands registered in &5" + System.currentTimeMillis().minus(discordStart) + "ms"
         )
 
         val commandsStart = System.currentTimeMillis()
