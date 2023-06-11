@@ -28,6 +28,15 @@ discord:
   punishments:
     webhookLink: "LINK_HERE"
 
+coinshop:
+  schema:
+    - "&7&m---------------"
+    - "&ePrice: &2$&a<price>"
+    - " "
+    - "&eClick Here To Purchase"
+    - "&7&m---------------"
+
+
 
 #theme info
 defaultTheme: "MMC"
@@ -39,6 +48,7 @@ modules:
   parties: true
   friends: true
   prefixes: true
+  coins: true
   filters: true
   chatcolors: true
   notes: true
