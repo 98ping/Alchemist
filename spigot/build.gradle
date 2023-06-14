@@ -23,6 +23,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.2'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     implementation "club.minnced:discord-webhooks:0.8.2"
+    compileOnly 'net.luckperms:api:5.4'
 
 }
 

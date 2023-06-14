@@ -44,9 +44,9 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&7&m-------------------------"))
         sender.sendMessage(Chat.format(rank.color + rank.displayName + " &eInheritance"))
         sender.sendMessage(" ")
-        val inheritance = RankService.getAllInheritanceWithProvidingRank(rank)
+        val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
 
-        for (rank2 in inheritance.values)
+        for (rank2 in parents)
         {
             sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
         }

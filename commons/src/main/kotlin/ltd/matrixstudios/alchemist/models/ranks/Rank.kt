@@ -1,8 +1,9 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import sun.audio.AudioPlayer.player
 import java.util.*
-import kotlin.collections.ArrayList
+import java.util.stream.Collectors
 
 
 class Rank(
@@ -29,11 +30,11 @@ class Rank(
         {
             val rank = RankService.byId(parent) ?: continue
 
-            for (perm in rank.getAllPermissions())
+            for (permission in rank.permissions)
             {
-                if (!perms.contains(perm))
+                if (!perms.contains(permission))
                 {
-                    perms.add(perm)
+                    perms.add(permission)
                 }
             }
         }

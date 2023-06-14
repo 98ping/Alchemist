@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.aikar.context.GameProfileContextResolver
 import ltd.matrixstudios.alchemist.aikar.context.PunishmentTypeResolver
 import ltd.matrixstudios.alchemist.aikar.context.RankContextResolver
+import ltd.matrixstudios.alchemist.aikar.context.UUIDContextResolver
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.gems.CoinsCommand
@@ -38,6 +39,7 @@ import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
+import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -48,6 +50,7 @@ import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
 import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
 import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
+import java.util.UUID
 
 object ACFCommandController {
 
@@ -60,6 +63,7 @@ object ACFCommandController {
             this.commandContexts.registerContext(GameProfile::class.java, GameProfileContextResolver())
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
             this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
+            this.commandContexts.registerContext(UUID::class.java, UUIDContextResolver())
 
 
             this.commandCompletions.registerCompletion("gameprofile") {
@@ -70,6 +74,8 @@ object ACFCommandController {
                 registerCommand(GrantCommand())
                 registerCommand(GrantsCommand())
                 registerCommand(CGrantCommand())
+                registerCommand(NonModelGrantCommand())
+                registerCommand(LuckPermsConverterCommand())
             }
 
             registerCommand(CoinsCommand())
