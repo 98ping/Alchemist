@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPool
 import java.util.concurrent.ForkJoinPool
 import kotlin.concurrent.thread
 
-object  RedisPacketManager {
+object RedisPacketManager {
 
     lateinit var pool: JedisPool
 

@@ -27,7 +27,9 @@ class WipeGrantsCommand : BaseCommand() {
         RankGrantService.findByTarget(gameProfile.uuid).thenAcceptAsync { collection ->
             for (found in collection) RankGrantService.remove(found)
 
-            sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player"))
+            RankGrantService.recalculatePlayer(gameProfile).apply {
+                sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player"))
+            }
         }
     }
 }

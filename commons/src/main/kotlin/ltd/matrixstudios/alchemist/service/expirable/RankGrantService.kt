@@ -49,8 +49,10 @@ object RankGrantService : ExpiringService<RankGrant>() {
         findByTarget(gameProfile).thenApply { playerGrants[gameProfile] = it }
     }
 
-    fun remove(grant: RankGrant) = handler.delete(grant.uuid).also {
-        playerGrants[grant.target]?.remove(grant)
+    fun remove(grant: RankGrant) {
+        handler.delete(grant.uuid).also {
+            playerGrants[grant.target]?.remove(grant)
+        }
     }
 
 

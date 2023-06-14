@@ -33,7 +33,7 @@ class NonModelGrantCommand : BaseCommand() {
 
     @CommandAlias("nmgrant")
     @CommandPermission("alchemist.grants.admin")
-    fun ogrant(sender: CommandSender, @Name("uuid")uuid: UUID, @Name("rank")rank: Rank, @Name("duration")duration: String, @Name("reason")reason: String) {
+    fun nmgrant(sender: CommandSender, @Name("uuid")uuid: UUID, @Name("rank")rank: Rank, @Name("duration")duration: String, @Name("reason")reason: String) {
         val rankGrant = RankGrant(
             rank.id,
             uuid,

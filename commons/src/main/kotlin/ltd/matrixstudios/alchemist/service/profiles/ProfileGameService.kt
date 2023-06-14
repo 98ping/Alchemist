@@ -28,10 +28,11 @@ object ProfileGameService : GeneralizedService {
     {
         val grants = RankGrantService.getFromCache(uuid)
 
-        grants.stream().sorted { o1, o2 ->  o2.getGrantable()!!.weight - o1.getGrantable()!!.weight }.collect(Collectors.toList())
+        grants.stream().sorted { o1, o2 ->  o2.getGrantable().weight - o1.getGrantable().weight }.collect(Collectors.toList())
 
         return grants.firstOrNull()
     }
+
     fun byId(uuid: UUID) : GameProfile? {
         return cache.computeIfAbsent(uuid) {
             return@computeIfAbsent handler.retrieve(it)
