@@ -68,7 +68,7 @@ class mCore : Theme(
 
     override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
         val desc = mutableListOf<String>()
-        desc.add(Chat.format("&eRank: &f" + punishment.getGrantable()!!.color + punishment.getGrantable()!!.niceName))
+        desc.add(Chat.format("&eType: &f" + punishment.getGrantable()!!.color + punishment.getGrantable()!!.niceName))
         desc.add(Chat.format("&eDate: &f" + Date(punishment.expirable.addedAt)))
         desc.add(Chat.format("&eExecutor: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
         if (punishment.expirable.duration != Long.MAX_VALUE)

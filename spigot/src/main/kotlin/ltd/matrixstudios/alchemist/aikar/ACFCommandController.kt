@@ -76,6 +76,7 @@ object ACFCommandController {
                 registerCommand(CGrantCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(LuckPermsConverterCommand())
+                registerCommand(WipeGrantsCommand())
             }
 
             registerCommand(CoinsCommand())

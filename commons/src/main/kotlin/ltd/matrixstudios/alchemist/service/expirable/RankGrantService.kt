@@ -14,7 +14,7 @@ object RankGrantService : ExpiringService<RankGrant>() {
 
     val collection = Alchemist.MongoConnectionPool.getCollection("rankgrant") //need this here because honey doesnt have a way to get raw collection
 
-    var playerGrants = hashMapOf<UUID, Collection<RankGrant>>()
+    var playerGrants = hashMapOf<UUID, MutableList<RankGrant>>()
 
     fun getValues() : CompletableFuture<Collection<RankGrant>> {
         return handler.retrieveAllAsync()
@@ -49,12 +49,16 @@ object RankGrantService : ExpiringService<RankGrant>() {
         findByTarget(gameProfile).thenApply { playerGrants[gameProfile] = it }
     }
 
+    fun remove(grant: RankGrant) = handler.delete(grant.uuid).also {
+        playerGrants[grant.target]?.remove(grant)
+    }
+
 
     fun save(rankGrant: RankGrant) {
         handler.storeAsync(rankGrant.uuid, rankGrant)
     }
 
-    fun findByTarget(target: UUID) : CompletableFuture<Collection<RankGrant>> {
+    fun findByTarget(target: UUID) : CompletableFuture<MutableList<RankGrant>> {
         return CompletableFuture.supplyAsync {
             val sorted = collection.find(Document("target", target.toString()))
 

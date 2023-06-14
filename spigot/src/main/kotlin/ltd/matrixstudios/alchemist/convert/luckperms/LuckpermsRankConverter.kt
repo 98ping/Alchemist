@@ -78,7 +78,7 @@ object LuckpermsRankConverter : IRankConverter {
                         // check if a rank by an id of the user's primary group exists
                         if (rank != null) {
 
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "nmgrant ${user.uniqueId} ${user.primaryGroup} perm Rank Conversion")
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "nmgrant ${user.uniqueId} ${user.primaryGroup} perm Rank Conversion (LuckPerms)")
                         }
                     }
                 }
