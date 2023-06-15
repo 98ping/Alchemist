@@ -24,11 +24,12 @@ class WipeGrantsCommand : BaseCommand() {
     @CommandPermission("alchemist.profiles.admin")
     fun wipeGrants(sender: CommandSender, @Name("target") gameProfile: GameProfile)
     {
+        val ms = System.currentTimeMillis()
         RankGrantService.findByTarget(gameProfile.uuid).thenAcceptAsync { collection ->
             for (found in collection) RankGrantService.remove(found)
 
             RankGrantService.recalculatePlayer(gameProfile).apply {
-                sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player"))
+                sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player in &f${System.currentTimeMillis().minus(ms)}ms"))
             }
         }
     }
