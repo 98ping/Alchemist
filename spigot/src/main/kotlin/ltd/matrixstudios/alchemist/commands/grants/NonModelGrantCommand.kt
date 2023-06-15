@@ -12,6 +12,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.caches.redis.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -48,6 +49,7 @@ class NonModelGrantCommand : BaseCommand() {
 
         RankGrantService.save(rankGrant)
         AsynchronousRedisSender.send(PermissionUpdatePacket(uuid))
+        AsynchronousRedisSender.send(UpdateGrantCacheRequest(uuid))
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + uuid.toString() + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
         sender.sendMessage(Chat.format("&aGranted " + uuid.toString() + " the rank "  + rank.color + rank.displayName))
     }
