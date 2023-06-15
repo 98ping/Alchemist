@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
 import ltd.matrixstudios.alchemist.service.ranks.RankService
-import sun.audio.AudioPlayer.player
 import java.util.*
 import java.util.stream.Collectors
 
