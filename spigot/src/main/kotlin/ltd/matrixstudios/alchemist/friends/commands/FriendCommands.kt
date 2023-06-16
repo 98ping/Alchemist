@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import java.util.UUID
 
 @CommandAlias("friend|friends")
 class FriendCommands : BaseCommand() {
@@ -27,7 +28,6 @@ class FriendCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/friend list"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
     }
-
     @Subcommand("add")
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target") gameProfile: GameProfile) {

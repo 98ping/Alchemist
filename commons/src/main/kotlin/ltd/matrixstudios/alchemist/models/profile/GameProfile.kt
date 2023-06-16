@@ -220,7 +220,7 @@ data class GameProfile(
     }
 
     fun getCurrentRank(): Rank? {
-        var currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
+        val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
 
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
             it.expirable.isActive()
@@ -228,7 +228,7 @@ data class GameProfile(
 
         if (filteredRank == null
             ||
-            filteredRank.getGrantable().weight < currentGrant!!.weight
+            filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0)
         )
         {
             return currentGrant

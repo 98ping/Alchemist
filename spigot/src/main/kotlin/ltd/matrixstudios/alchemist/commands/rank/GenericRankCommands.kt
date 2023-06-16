@@ -78,7 +78,7 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&7&m--------------------------"))
         sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.getValues().size + ")"))
         for (rank in RankService.getRanksInOrder()) {
-            val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "]"
+            val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "] &7(" + rank.id + ")"
 
             sender.sendMessage(Chat.format(message))
         }
@@ -201,6 +201,15 @@ class GenericRankCommands : BaseCommand() {
 
                 sender.sendMessage(Chat.format("&aUpdated the permissions of &f" + rank.color + rank.displayName))
             }
+
+            "default" -> {
+                rank.default = arg.toBoolean()
+                RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
+
+                sender.sendMessage(Chat.format("&aUpdated the default status of &f" + rank.color + rank.displayName))
+            }
+
 
             "staff" -> {
                 rank.staff = arg.toBoolean()

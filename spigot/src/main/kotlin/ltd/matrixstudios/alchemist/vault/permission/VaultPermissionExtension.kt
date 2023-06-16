@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.vault.permission
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -103,7 +104,7 @@ class VaultPermissionExtension : Permission() {
     override fun getPrimaryGroup(p0: String?, p1: String?): String {
         val profile = ProfileGameService.byUsername(p1!!.toLowerCase()) ?: return "Unknown"
 
-        return profile.getCurrentRank()!!.displayName
+        return profile.getCurrentRank()?.displayName ?: return "Unknown"
     }
 
     override fun getGroups(): Array<String> {

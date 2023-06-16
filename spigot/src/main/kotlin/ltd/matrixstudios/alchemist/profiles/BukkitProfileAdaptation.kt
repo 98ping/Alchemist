@@ -33,8 +33,6 @@ import java.util.logging.Level
 object BukkitProfileAdaptation
 {
 
-    val lockedPlayers = mutableListOf<UUID>()
-
     fun loadAllPreLoginEvents()
     {
         BukkitPreLoginConnection.registerNewCallback { event ->

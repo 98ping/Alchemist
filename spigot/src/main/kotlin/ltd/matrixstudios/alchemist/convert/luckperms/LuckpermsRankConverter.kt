@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.convert.luckperms
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.convert.IRankConverter
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -9,6 +10,8 @@ import net.luckperms.api.model.group.Group
 import net.luckperms.api.query.QueryOptions
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
 
 /**
  * Class created on 6/13/2023
@@ -18,14 +21,14 @@ import org.bukkit.ChatColor
  * @website https://solo.to/redis
  */
 object LuckpermsRankConverter : IRankConverter {
-    override fun convert() {
+    override fun convert(player: Player) {
         val provider = Bukkit.getServicesManager().getRegistration(LuckPerms::class.java).provider
 
         if (provider != null) {
 
             val weightedGroups = provider.groupManager.loadedGroups.sortedByDescending { group -> group.weight.orElse(0) }
 
-            Chat.sendConsoleMessage(Chat.format("&aDiscovered ${weightedGroups.size} groups"))
+            player.sendMessage(Chat.format("&aDiscovered ${weightedGroups.size} groups"))
 
             val rankToGroup = hashMapOf<Rank, Group>()
 
@@ -37,7 +40,7 @@ object LuckpermsRankConverter : IRankConverter {
                     orderIndex, ArrayList<String>().also{ arrayList -> arrayList.addAll(group.nodes.map { it.key }) },
                     arrayListOf(),
                     group.cachedData.getMetaData(QueryOptions.defaultContextualOptions()).prefix ?: "",
-                    getLastColors(group.cachedData.getMetaData(QueryOptions.defaultContextualOptions()).prefix ?: "")
+                    getLastColors(group.cachedData.getMetaData(QueryOptions.defaultContextualOptions()).prefix ?: "&f")
                 )
 
                 rankToGroup[rank] = group
@@ -67,7 +70,7 @@ object LuckpermsRankConverter : IRankConverter {
             }
 
 
-            Chat.sendConsoleMessage(Chat.format("&aSaved ${rankToGroup.size} ranks"))
+            player.sendMessage(Chat.format("&aSaved ${rankToGroup.size} ranks"))
 
             // apply ranks to users from their groups
             provider.userManager.uniqueUsers.thenAcceptAsync { userSet ->
@@ -78,11 +81,21 @@ object LuckpermsRankConverter : IRankConverter {
                         // check if a rank by an id of the user's primary group exists
                         if (rank != null) {
 
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "nmgrant ${user.uniqueId} ${user.primaryGroup} perm Rank Conversion (LuckPerms)")
+                            object : BukkitRunnable() {
+                                override fun run() {
+                                    Bukkit.dispatchCommand(
+                                        Bukkit.getConsoleSender(),
+                                        "nmgrant ${user.uniqueId} ${user.primaryGroup} perm Rank Conversion (LuckPerms)"
+                                    )
+                                }
+                            }.runTask(AlchemistSpigotPlugin.instance)
                         }
                     }
                 }
             }
+
+            player.sendMessage(Chat.format("&e&lCAUTION! &cYou may need to set a default rank because Alchemist cannot directly identify"))
+            player.sendMessage(Chat.format("&cwhich rank should be default. Do this by executing /rank module <rank> default <boolean>"))
         }
     }
 

@@ -19,14 +19,9 @@ class LuckPermsConverterCommand : BaseCommand() {
 
     @CommandAlias("convertluckperms")
     @CommandPermission("alchemist.owner")
-    fun convert(sender: CommandSender) {
-        if (sender !is Player) {
-            sender.sendMessage(Chat.format("&cYou must be in console to execute this"))
-            return
-        }
-
+    fun convert(sender: Player) {
         if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
-            LuckpermsRankConverter.convert()
+            LuckpermsRankConverter.convert(sender)
         } else {
             sender.sendMessage(Chat.format("&cYou must be running &aLuck&2Perms &cto execute this!"))
         }

@@ -1,15 +1,30 @@
 package ltd.matrixstudios.alchemist.util
 
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.DyeColor
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 object Chat {
 
     @JvmStatic
-    fun format(string: String) : String {
-        return ChatColor.translateAlternateColorCodes('&', string)
+    fun format(message: String): String {
+        val HEX_PATTERN: Pattern = Pattern.compile("&#(\\w{5}[0-9a-f])")
+        val matcher: Matcher = HEX_PATTERN.matcher(message)
+        val buffer = StringBuffer()
+        while (matcher.find()) {
+            try {
+                matcher.appendReplacement(
+                    buffer,
+                    ChatColor.of("#" + matcher.group(1)).toString()
+                )
+            } catch (e: NoSuchMethodError) {
+                return message
+            }
+        }
+        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString())
     }
 
     fun sendConsoleMessage(line: String) {
@@ -34,7 +49,9 @@ object Chat {
         if (str.contains("&a")) return DyeColor.LIME
         if (str.contains("&b")) return DyeColor.LIGHT_BLUE
         if (str.contains("&d")) return DyeColor.PINK
-        return if (str.contains("&e")) DyeColor.YELLOW else DyeColor.WHITE
+        if (str.contains("&e")) return DyeColor.YELLOW
+
+        return DyeColor.WHITE
     }
 
 }

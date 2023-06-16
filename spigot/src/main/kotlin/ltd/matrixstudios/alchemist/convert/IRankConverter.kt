@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.convert
 
+import org.bukkit.entity.Player
+
 /**
  * Class created on 6/13/2023
 
@@ -9,5 +11,5 @@ package ltd.matrixstudios.alchemist.convert
  */
 interface IRankConverter {
 
-    fun convert()
+    fun convert(player: Player)
 }

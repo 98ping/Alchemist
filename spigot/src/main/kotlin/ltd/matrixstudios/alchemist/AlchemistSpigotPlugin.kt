@@ -45,7 +45,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
     lateinit var globalServer: UniqueServer
     lateinit var commandManager: PaperCommandManager
-    val conversationFactory = ConversationFactory(this)
 
     override fun onEnable() {
         saveDefaultConfig()
