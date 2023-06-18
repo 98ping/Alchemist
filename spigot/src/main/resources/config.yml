@@ -40,13 +40,15 @@ autobroadcast:
   interval: 60 #seconds
   messages:
     alchemist:
-      - "&eAlchemist Rank Core"
       - " "
-      - "&7Available at github.com/98ping/Alchemist"
+      - "&8[&5&lGitHub&8] &8» &dAlchemist &f is available on &5GitHub!"
+      - "&fHead to &7github.com/98ping/Alchemist"
+      - " "
     mcmarket:
-      - "&eAlchemist Rank Core"
       - " "
-      - "&7Available on McMarket!"
+      - "&8[&9&lBuiltByBit&8] &8» &bAlchemist &f is available on &9BuiltByBit!"
+      - "&fHead builtbybit.com/resources/alchemist-rank-core-completely-free.24657/"
+      - " "
 
 #theme info
 defaultTheme: "MMC"
