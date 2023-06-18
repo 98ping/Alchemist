@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
+import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
@@ -45,6 +46,21 @@ class TempBanCommand : BaseCommand() {
         {
             sender.sendMessage(Chat.format("&cPlayer is already banned!"))
             return
+        }
+
+        if (sender is Player) {
+
+            val canExecute =
+                PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
+
+            if (!canExecute) {
+                sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
+                sender.sendMessage(Chat.format("&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(sender.uniqueId)))
+
+                return
+            }
+
+            PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))

@@ -15,6 +15,7 @@ import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
+import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -110,6 +111,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(profileStart) + "ms")
 
+        val punishmentStart = System.currentTimeMillis()
+
+        PunishmentLimitationUnderstander.load()
+
+        Chat.sendConsoleMessage("&6[Punishments] &fAll profile events loaded in &6" + System.currentTimeMillis().minus(punishmentStart) + "ms")
 
         val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
@@ -150,7 +156,9 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val broadcastStart = System.currentTimeMillis()
 
-        BroadcastService.loadMessages()
+        if (config.getBoolean("autobroadcast.enabled")) {
+            BroadcastService.loadMessages()
+        }
 
         Chat.sendConsoleMessage(
             "&2[Broadcasts] &fAll permissions loaded in &9" + System.currentTimeMillis().minus(broadcastStart) + "ms"

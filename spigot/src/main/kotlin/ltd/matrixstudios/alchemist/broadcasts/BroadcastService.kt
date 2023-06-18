@@ -40,6 +40,8 @@ object BroadcastService {
         runnable = object : BukkitRunnable() {
             override fun run() {
 
+                if (messages.size == 0) return
+
                 if (messages.size == 1)
                 {
                     for (line in messages[0].lines) {

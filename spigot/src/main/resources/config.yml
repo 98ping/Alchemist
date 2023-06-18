@@ -37,6 +37,7 @@ coinshop:
     - "&7&m---------------"
 
 autobroadcast:
+  enabled: true
   interval: 60 #seconds
   messages:
     alchemist:
