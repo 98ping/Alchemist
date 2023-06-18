@@ -36,7 +36,17 @@ coinshop:
     - "&eClick Here To Purchase"
     - "&7&m---------------"
 
-
+autobroadcast:
+  interval: 60 #seconds
+  messages:
+    alchemist:
+      - "&eAlchemist Rank Core"
+      - " "
+      - "&7Available at github.com/98ping/Alchemist"
+    mcmarket:
+      - "&eAlchemist Rank Core"
+      - " "
+      - "&7Available on McMarket!"
 
 #theme info
 defaultTheme: "MMC"

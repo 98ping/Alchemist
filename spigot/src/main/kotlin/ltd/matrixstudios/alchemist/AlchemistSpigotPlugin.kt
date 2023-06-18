@@ -5,6 +5,7 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
+import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
@@ -146,6 +147,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         Chat.sendConsoleMessage(
             "&e[Listeners] &fListeners loaded in &e" + System.currentTimeMillis().minus(listenerStart) + "ms"
         )
+
+        val broadcastStart = System.currentTimeMillis()
+
+        BroadcastService.loadMessages()
+
+        Chat.sendConsoleMessage(
+            "&2[Broadcasts] &fAll permissions loaded in &9" + System.currentTimeMillis().minus(broadcastStart) + "ms"
+        )
+
 
         val permissionStart = System.currentTimeMillis()
         AccessiblePermissionHandler.load()
