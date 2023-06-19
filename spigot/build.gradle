@@ -12,11 +12,12 @@ repositories {
         url = 'https://libraries.minecraft.net'
     }
 
-
     maven {
         name = "gravemc-repo"
         url = "https://repo.gravemc.net/releases/"
     }
+
+
 }
 
 dependencies {

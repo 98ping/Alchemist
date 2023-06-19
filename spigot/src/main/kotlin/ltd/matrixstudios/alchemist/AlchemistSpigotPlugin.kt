@@ -35,7 +35,6 @@ import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import ltd.matrixstudios.alchemist.webhook.WebhookService
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
-import org.bukkit.conversations.ConversationFactory
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
 

@@ -25,19 +25,5 @@ class SudoCommand : BaseCommand() {
 
         sender.sendMessage(Chat.format("&aSudo'ed every person online to say &f$message"))
     }
-
-    @CommandAlias("createprofiles")
-    @CommandPermission("alchemist.owner")
-    fun createProfiles(sender: CommandSender)
-    {
-        for (int in 0 until 100000)
-        {
-            val profile = GameProfile(UUID.randomUUID(), "funny_player_$int", "funny_player_$int", JsonObject(), "", arrayListOf(), arrayListOf(), null, null, mutableListOf(),  System.currentTimeMillis())
-
-            ProfileGameService.save(profile)
-        }
-
-        sender.sendMessage(Chat.format("&aCreated profiles!"))
-    }
     
 }

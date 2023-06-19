@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -40,12 +41,13 @@ class ProfileJoinListener : Listener {
 
             val msgs = AlchemistSpigotPlugin.instance.config.getStringList("muted-chat")
 
-            msgs.replaceAll { it.replace("<reason>", mute!!.reason) }
-            msgs.replaceAll { it.replace("<expires>", if (mute!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(mute.expirable.addedAt + mute.expirable.duration - System.currentTimeMillis())) }
+            msgs.replaceAll { it.replace("<reason>", mute.reason) }
+            msgs.replaceAll { it.replace("<expires>", if (mute.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(mute.expirable.addedAt + mute.expirable.duration - System.currentTimeMillis())) }
 
             msgs.forEach { event.player.sendMessage(Chat.format(it)) }
             return
         }
+
 
         var colorString = ""
 
