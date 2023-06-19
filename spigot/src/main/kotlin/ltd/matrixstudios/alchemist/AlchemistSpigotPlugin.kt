@@ -33,6 +33,7 @@ import ltd.matrixstudios.alchemist.util.NetworkUtil
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import ltd.matrixstudios.alchemist.webhook.WebhookService
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.conversations.ConversationFactory
 import org.bukkit.plugin.java.JavaPlugin
@@ -47,6 +48,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
     lateinit var globalServer: UniqueServer
     lateinit var commandManager: PaperCommandManager
+    lateinit var audience: BukkitAudiences
 
     override fun onEnable() {
         saveDefaultConfig()
@@ -105,6 +107,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         Chat.sendConsoleMessage("&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis().minus(startMongo) + "ms")
+
+        audience = BukkitAudiences.create(this)
 
         val profileStart = System.currentTimeMillis()
         BukkitProfileAdaptation.loadAllPreLoginEvents()

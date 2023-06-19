@@ -28,12 +28,12 @@ object BukkitPunishmentFunctions {
     }
 
     fun remove(executor: UUID, punishment: Punishment, silent: Boolean) {
-        AsynchronousRedisSender.send(PunishmentRemovePacket(punishment.getGrantable(), punishment.target, executor, silent))
+        AsynchronousRedisSender.send(PunishmentRemovePacket(punishment.getGrantable(), punishment.target, executor, silent, punishment.reason))
         PunishmentService.save(punishment)
     }
 
     fun dispatch(punishment: Punishment, silent: Boolean) {
-        AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent))
+        AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent, punishment.reason))
         AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
         AsynchronousRedisSender.send(UpdatePunishmentsRequest(punishment.target))
 
