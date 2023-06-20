@@ -18,11 +18,17 @@ class GeneralTagButton(var tag: Tag) : Button() {
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = arrayListOf<String>()
 
-        desc.add(Chat.format("&7&m------------------------"))
-        desc.add(Chat.format("&eName: &c" + tag.menuName))
-        desc.add(Chat.format("&ePurchasable: &c" + tag.purchasable))
-        desc.add(Chat.format("&ePrefix: &c" + tag.prefix))
-        desc.add(Chat.format("&7&m------------------------"))
+        desc.add(Chat.format("&7&m---------------------------"))
+        desc.add(Chat.format("&eTag&7: &f" + tag.prefix))
+        desc.add(Chat.format("&eDisplay&7: &f" + (tag.prefix + AlchemistAPI.getRankDisplay(player.uniqueId) + "&7: &fHello, World!")))
+        desc.add(Chat.format("&ePosition&7: &dPrefix"))
+        desc.add(" ")
+        if (tag.purchasable) {
+            desc.add(Chat.format("&7Purchase at &c" + AlchemistAPI.SERVER_NAME))
+        } else {
+            desc.add(Chat.format("&7Not Available for Purchase"))
+        }
+        desc.add(Chat.format("&7&m---------------------------"))
 
         return desc
     }
