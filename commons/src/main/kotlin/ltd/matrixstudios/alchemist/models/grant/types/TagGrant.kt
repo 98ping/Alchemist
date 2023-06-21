@@ -14,7 +14,7 @@ class TagGrant(
     addedBy: UUID,
     addedReason: String,
     duration: Long,
-    actor: DefaultActor
+    actor: DefaultActor,
 ) :
     Grantable<Tag>(
         UUID.randomUUID(),

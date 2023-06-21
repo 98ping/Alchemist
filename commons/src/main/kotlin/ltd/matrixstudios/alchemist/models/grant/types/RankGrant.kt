@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.models.grant.types
 
 import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -16,7 +17,8 @@ class RankGrant(
     addedBy: UUID,
     addedReason: String,
     duration: Long,
-    actor: DefaultActor
+    actor: DefaultActor,
+    scope: GrantScope = GrantScope("Defaulted Grant Scope (Global)", mutableListOf(), true)
 ) :
     Grantable<Rank>(
         UUID.randomUUID(),
