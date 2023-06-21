@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.staff.requests.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
@@ -39,7 +40,7 @@ class ReportCommand : BaseCommand() {
         }
 
 
-        val currentServer = AlchemistSpigotPlugin.instance.globalServer.displayName
+        val currentServer = Alchemist.globalServer.displayName
         val display = AlchemistAPI.getRankDisplay(player.uniqueId)
         val otherDisplay = AlchemistAPI.getRankDisplay(target.uniqueId)
 

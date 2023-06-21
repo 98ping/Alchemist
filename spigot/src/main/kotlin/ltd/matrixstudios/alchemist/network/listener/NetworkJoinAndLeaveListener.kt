@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.network.listener
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -38,7 +39,7 @@ class NetworkJoinAndLeaveListener : Listener {
         AlchemistAPI.quickFindProfile(e.uniqueId).thenApply {
             if (it != null) {
 
-                it.metadata.addProperty("server", AlchemistSpigotPlugin.instance.globalServer.id)
+                it.metadata.addProperty("server", Alchemist.globalServer.id)
 
                 it.lastSeenAt = System.currentTimeMillis()
 

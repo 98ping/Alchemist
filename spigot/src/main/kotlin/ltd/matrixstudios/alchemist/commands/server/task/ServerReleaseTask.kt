@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.server.task
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.Async
 class ServerReleaseTask : BukkitRunnable() {
 
     override fun run() {
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
 
         if (server.setToRelease != -1L && (server.setToRelease - System.currentTimeMillis()) <= 0L) {
             AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&8[&eServer Monitor&8] &fInstance &a" + server.displayName + " &fhas been automatically &eunwhitelisted")))

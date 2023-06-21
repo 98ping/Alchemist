@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.profiles
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
@@ -62,7 +63,7 @@ object BukkitProfileAdaptation
 
         val hostAddress = event.address.hostAddress
         val output = SHA.toHexString(hostAddress)!!
-        val currentServer = AlchemistSpigotPlugin.instance.globalServer
+        val currentServer = Alchemist.globalServer
 
         profile.lastSeenAt = System.currentTimeMillis()
         profile.ip = output

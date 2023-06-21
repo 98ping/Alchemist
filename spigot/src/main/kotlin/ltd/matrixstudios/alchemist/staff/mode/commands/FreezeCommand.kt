@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
@@ -28,7 +29,7 @@ class FreezeCommand : BaseCommand() {
         }
 
         val frozen = target.hasMetadata("frozen")
-        val server = AlchemistSpigotPlugin.instance.globalServer.displayName
+        val server = Alchemist.globalServer.displayName
         val displayExec = AlchemistAPI.getRankDisplay(player.uniqueId)
         val displayTarget = AlchemistAPI.getRankDisplay(target.uniqueId)
 

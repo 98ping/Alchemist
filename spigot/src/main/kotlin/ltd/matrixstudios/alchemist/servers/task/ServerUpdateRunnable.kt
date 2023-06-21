@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.task
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import org.bukkit.Bukkit
@@ -9,7 +10,7 @@ import java.util.concurrent.TimeUnit
 object ServerUpdateRunnable : BukkitRunnable() {
 
     override fun run() {
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
 
         server.players = Bukkit.getOnlinePlayers().map { it.uniqueId }.toCollection(arrayListOf())
 

@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.listener
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -12,7 +13,7 @@ class ServerLockListener : Listener {
 
     @EventHandler
     fun asyncJoin(event: AsyncPlayerPreLoginEvent) {
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
 
         if (server.lockedWithRank) {
             val rank = RankService.byId(server.lockRank)

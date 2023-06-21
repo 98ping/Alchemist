@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.metrics.menu.buttons
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -25,7 +26,7 @@ class HeartbeatButton : Button() {
             desc.add(Chat.format("&eRoundtrip ms: &cN/A"))
         }
         desc.add(Chat.format("&eLast Error: &aNever :3"))
-        desc.add(Chat.format("&eMongo Synced: &r" + if (AlchemistSpigotPlugin.instance.globalServer.online) "&aYes!" else "&cNo..."))
+        desc.add(Chat.format("&eMongo Synced: &r" + if (Alchemist.globalServer.online) "&aYes!" else "&cNo..."))
         desc.add(Chat.format("&7&m-------------------"))
 
         return desc

@@ -45,7 +45,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         lateinit var instance: AlchemistSpigotPlugin
     }
 
-    lateinit var globalServer: UniqueServer
     lateinit var commandManager: PaperCommandManager
     lateinit var audience: BukkitAudiences
 
@@ -206,10 +205,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             updateUniqueServer(server)
         } else {
-            globalServer = UniqueServerService.byId(config.getString("server.id"))!!
-            globalServer.online = true
+            val server = UniqueServerService.byId(config.getString("server.id"))!!
+            server.online = true
 
-            updateUniqueServer(globalServer)
+            updateUniqueServer(server)
         }
 
         NetworkUtil.load()
@@ -274,7 +273,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
     }
 
     fun updateUniqueServer(server: UniqueServer) {
-        this.globalServer = server
         Alchemist.globalServer = server
     }
 

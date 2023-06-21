@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.servers.menu.UniqueServerOverviewMenu
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -41,7 +42,7 @@ class ServerEnvironmentCommand : BaseCommand() {
         player.sendMessage(" ")
         player.sendMessage(Chat.format("&eServer Monitor"))
         player.sendMessage(" ")
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
         player.sendMessage(Chat.format("&eName: &f" + server.displayName))
         player.sendMessage(Chat.format("&eLocked: &f" + server.lockedWithRank))
         player.sendMessage(" ")
@@ -49,7 +50,7 @@ class ServerEnvironmentCommand : BaseCommand() {
 
     @Subcommand("checkrelease")
     fun check(player: CommandSender) {
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
 
         if (server.setToRelease == -1L) {
             player.sendMessage(Chat.format("&cThere is no set time that this server is going to release!"))
@@ -62,7 +63,7 @@ class ServerEnvironmentCommand : BaseCommand() {
     @Subcommand("releasetimer")
     fun release(sender: CommandSender, @Name("duration") time: String) {
         val actualTime = TimeUtil.parseTime(time).toLong() * 1000L
-        val server = AlchemistSpigotPlugin.instance.globalServer
+        val server = Alchemist.globalServer
 
         server.setToRelease = (System.currentTimeMillis().plus(actualTime))
         UniqueServerService.save(server)

@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.listeners.filter
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
@@ -54,7 +55,7 @@ object FilterListener : Listener {
             BukkitPunishmentFunctions.dispatch(punishment, true)
         }
 
-        val uniqueServer = AlchemistSpigotPlugin.instance.globalServer
+        val uniqueServer = Alchemist.globalServer
 
         AsynchronousRedisSender.send(StaffGeneralMessagePacket("&e[Filter] &7[${uniqueServer.displayName}] &c(${AlchemistAPI.getRankDisplay(player.uniqueId)} &e-> " + event.message + "&c)"))
     }
