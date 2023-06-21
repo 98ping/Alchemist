@@ -46,6 +46,7 @@ class NonModelGrantCommand : BaseCommand() {
                 if (sender !is Player) Executor.CONSOLE else Executor.PLAYER,
                 ActorType.GAME
             ),
+            scope
         )
 
         RankGrantService.save(rankGrant)
