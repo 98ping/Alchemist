@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.caches.redis.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
@@ -27,7 +28,7 @@ class CGrantCommand : BaseCommand() {
     @CommandAlias("cgrant")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun ogrant(sender: CommandSender, @Name("target")gameProfile: GameProfile, @Name("rank")rank: Rank, @Name("duration")duration: String, @Name("reason")reason: String) {
+    fun ogrant(sender: CommandSender, @Name("target")gameProfile: GameProfile, @Name("rank")rank: Rank, @Name("duration")duration: String, @Name("scope")scope: GrantScope, @Name("reason")reason: String) {
         val rankGrant = RankGrant(
             rank.id,
             gameProfile.uuid,
@@ -37,7 +38,7 @@ class CGrantCommand : BaseCommand() {
             DefaultActor(
                 if (sender !is Player) Executor.CONSOLE else Executor.PLAYER,
                 ActorType.GAME
-            )
+            ),
         )
 
         RankGrantService.save(rankGrant)

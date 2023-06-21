@@ -6,19 +6,20 @@ import ltd.matrixstudios.alchemist.models.grant.Grantable
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 
 
-class RankGrant(
-    rankId: String,
-    addedTo: UUID,
-    addedBy: UUID,
-    addedReason: String,
-    duration: Long,
-    actor: DefaultActor,
-    scope: GrantScope = GrantScope("Defaulted Grant Scope (Global)", mutableListOf(), true)
+data class RankGrant(
+    val rankId: String,
+    val addedTo: UUID,
+    val addedBy: UUID,
+    val addedReason: String,
+    val duration: Long,
+    val actor: DefaultActor,
+    val constructorScope: GrantScope? = null
 ) :
     Grantable<Rank>(
         UUID.randomUUID(),
@@ -32,6 +33,14 @@ class RankGrant(
 
     var internalActor: DefaultActor = actor
     var rank: String = rankId
+    var scope: GrantScope? = constructorScope
+
+
+    fun verifyGrantScope() : GrantScope {
+        if (scope == null) return RankGrantService.global
+
+        return scope!!
+    }
 
     fun getIssuedByName() : String
     {

@@ -204,11 +204,12 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             println("[Alchemist] [Debug] Created a new server instance because none was found")
             UniqueServerService.save(server)
 
-            globalServer = server
+            updateUniqueServer(server)
         } else {
             globalServer = UniqueServerService.byId(config.getString("server.id"))!!
-
             globalServer.online = true
+
+            updateUniqueServer(globalServer)
         }
 
         NetworkUtil.load()
@@ -270,6 +271,11 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 "&7&m--------------------------------",
             )
         )
+    }
+
+    fun updateUniqueServer(server: UniqueServer) {
+        this.globalServer = server
+        Alchemist.globalServer = server
     }
 
 

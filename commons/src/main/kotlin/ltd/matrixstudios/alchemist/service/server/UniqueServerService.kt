@@ -20,6 +20,7 @@ object UniqueServerService : GeneralizedService {
 
     fun save(server: UniqueServer) {
         handler.storeAsync(server.id, server)
+        Alchemist.globalServer = server
     }
 
     fun byId(id: String) : UniqueServer? {

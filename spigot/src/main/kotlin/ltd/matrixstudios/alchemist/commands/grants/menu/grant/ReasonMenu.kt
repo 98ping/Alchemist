@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope.ScopeSelectionMenu
 import ltd.matrixstudios.alchemist.packets.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
@@ -80,21 +81,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                                 } else {
                                     val internalreason = input
 
-                                    Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                                        val rankGrant = RankGrant(rank.id, target.uuid, player.uniqueId, internalreason, duration, DefaultActor(Executor.PLAYER, ActorType.GAME))
-
-                                        RankGrantService.save(rankGrant)
-                                        player.sendMessage(
-                                            Chat.format(
-                                                "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
-                                            )
-                                        )
-
-                                        AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
-
-                                        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + internalreason))
-                                        AsynchronousRedisSender.send(NetworkMessagePacket(target.uuid, Chat.format(AlchemistSpigotPlugin.instance.config.getString("grant-message").replace("<rank>", rank.displayName))))
-                                    }, 1L)
+                                    ScopeSelectionMenu(player, rank, target, duration, internalreason, mutableListOf(), false).updateMenu()
                                     return Prompt.END_OF_CONVERSATION
                                 }
                             }
@@ -103,22 +90,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                 val con: Conversation = factory.buildConversation(player)
                 player.beginConversation(con)
             } else {
-                Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                    val rankGrant = RankGrant(rank.id, target.uuid, player.uniqueId, reason, duration, DefaultActor(Executor.PLAYER, ActorType.GAME))
-
-                    RankGrantService.save(rankGrant)
-                    player.sendMessage(
-                        Chat.format(
-                            "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
-                        )
-                    )
-
-                    AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
-                    AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
-
-                    AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
-                }, 1L)
-                player.closeInventory()
+                ScopeSelectionMenu(player, rank, target, duration, reason, mutableListOf(), false).updateMenu()
             }
         }
 

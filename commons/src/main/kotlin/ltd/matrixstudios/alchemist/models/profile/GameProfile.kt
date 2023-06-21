@@ -6,7 +6,6 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
-import ltd.matrixstudios.alchemist.models.profile.disguise.DisguiseAttributes
 import ltd.matrixstudios.alchemist.models.profile.notes.ProfileNote
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
@@ -222,9 +221,19 @@ data class GameProfile(
 
     fun getCurrentRank(): Rank? {
         val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
+        val globalServer = Alchemist.globalServer
 
+
+
+        /*
+            Get a total collection of all active grants and then
+            we make a full collection of grants that are global (apply
+            on every server) and scope specific ranks. From here we can just
+            check which one comes out on top
+         */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
-            it.expirable.isActive()
+
+            it.expirable.isActive() && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
         }.sortedBy { it.getGrantable().weight }.reversed().firstOrNull()
 
         if (filteredRank == null

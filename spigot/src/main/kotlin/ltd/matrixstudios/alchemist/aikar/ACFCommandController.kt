@@ -2,14 +2,11 @@ package ltd.matrixstudios.alchemist.aikar
 
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.aikar.context.*
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
-import ltd.matrixstudios.alchemist.aikar.context.GameProfileContextResolver
-import ltd.matrixstudios.alchemist.aikar.context.PunishmentTypeResolver
-import ltd.matrixstudios.alchemist.aikar.context.RankContextResolver
-import ltd.matrixstudios.alchemist.aikar.context.UUIDContextResolver
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.gems.CoinsCommand
@@ -40,6 +37,7 @@ import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
 import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
@@ -64,6 +62,7 @@ object ACFCommandController {
             this.commandContexts.registerContext(Rank::class.java, RankContextResolver())
             this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
             this.commandContexts.registerContext(UUID::class.java, UUIDContextResolver())
+            this.commandContexts.registerContext(GrantScope::class.java, GrantScopeContextResolver())
 
 
             this.commandCompletions.registerCompletion("gameprofile") {

@@ -11,6 +11,10 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
  */
 data class GrantScope(
     var scopeReason: String,
-    var servers: MutableList<UniqueServer>,
+    var servers: MutableList<String>,
     var global: Boolean
-)
+) {
+
+    fun appliesOn(server: UniqueServer) : Boolean = servers.contains(server.id)
+
+}

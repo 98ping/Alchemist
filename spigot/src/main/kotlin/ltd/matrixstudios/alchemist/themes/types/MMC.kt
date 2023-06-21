@@ -37,9 +37,14 @@ class MMC : Theme(
             desc.add(Chat.format("&eRemaining: &f" + TimeUtil.formatDuration((rankGrant.expirable.addedAt + rankGrant.expirable.duration) - System.currentTimeMillis())))
         }
         desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eActor:"))
-        desc.add(Chat.format("&7- &eType: &c" + rankGrant.internalActor.actorType.name))
-        desc.add(Chat.format("&7- &eExecuted From: &c" + rankGrant.internalActor.executor.name))
+        desc.add(Chat.format("&eScopes:"))
+        if (rankGrant.verifyGrantScope().global) {
+            desc.add(Chat.format("&7- &aglobal"))
+        } else {
+            for (server in rankGrant.verifyGrantScope().servers) {
+                desc.add(Chat.format("&7- &a$server"))
+            }
+        }
         desc.add(Chat.format("&6&m--------------------"))
         desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
         desc.add(Chat.format("&eIssued Reason: &f" + rankGrant.reason))

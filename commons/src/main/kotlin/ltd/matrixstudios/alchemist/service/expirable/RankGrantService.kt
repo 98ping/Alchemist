@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.service.expirable
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import org.bson.Document
 import java.util.*
@@ -15,6 +16,9 @@ object RankGrantService : ExpiringService<RankGrant>() {
     val collection = Alchemist.MongoConnectionPool.getCollection("rankgrant") //need this here because honey doesnt have a way to get raw collection
 
     var playerGrants = hashMapOf<UUID, MutableList<RankGrant>>()
+
+    //default grant scope for use in models
+    val global: GrantScope = GrantScope("Defaulted Grant Scope (Global)", mutableListOf(), true)
 
     fun getValues() : CompletableFuture<Collection<RankGrant>> {
         return handler.retrieveAllAsync()
