@@ -15,6 +15,7 @@ import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MMC : Theme(
     "MMC",
@@ -59,7 +60,19 @@ class MMC : Theme(
     }
 
     override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
-        return (if (rankGrant.expirable.isActive()) DyeColor.GREEN.woolData.toShort() else DyeColor.RED.woolData.toShort())
+        if (rankGrant.expirable.isActive()) {
+            return DyeColor.GREEN.woolData.toShort()
+        }
+
+        if (!rankGrant.expirable.isActive())
+        {
+            if (rankGrant.expirable.duration != Long.MAX_VALUE && (rankGrant.removedReason != null && rankGrant.removedReason.equals("Expired", ignoreCase = true)))
+            {
+                return DyeColor.GRAY.woolData.toShort()
+            }
+        }
+
+        return DyeColor.RED.woolData.toShort()
     }
 
 
