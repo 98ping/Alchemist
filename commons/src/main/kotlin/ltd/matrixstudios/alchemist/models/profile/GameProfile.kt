@@ -150,6 +150,10 @@ data class GameProfile(
         return getPunishments().filter { it.getGrantable() == type && it.expirable.isActive() }
     }
 
+    fun getPunishments(type: PunishmentType): Collection<Punishment> {
+        return getPunishments().filter { it.getGrantable() == type }
+    }
+
     fun getPermissionsAsList(): MutableList<String> {
         val allPerms = arrayListOf<String>()
 

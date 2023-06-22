@@ -7,7 +7,7 @@ import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
-import ltd.matrixstudios.alchemist.listeners.filter.FilterListener
+import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
