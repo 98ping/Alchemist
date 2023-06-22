@@ -45,16 +45,26 @@ class MMC : Theme(
                 desc.add(Chat.format("&7- &a$server"))
             }
         }
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
         desc.add(Chat.format("&eIssued Reason: &f" + rankGrant.reason))
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         if (!rankGrant.expirable.isActive())
         {
             desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
             desc.add(Chat.format("&eRemoved Reason: &f" + rankGrant.removedReason!!))
-            desc.add(Chat.format("&6&m--------------------"))
+            desc.add(Chat.format("&6&m-------------------------------------"))
         }
+        if (!player.hasPermission("alchemist.grants.remove") && rankGrant.getGrantable().weight >= ((AlchemistAPI.syncFindProfile(player.uniqueId)?.getCurrentRank()?.weight) ?: 0)) {
+            desc.add(Chat.format("&cYou don't have permission to remove this grant"))
+        } else if (player.hasPermission("alchemist.grants.remove")) {
+            desc.add(Chat.format("&aRight-Click to remove this grant from &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
+        }
+
+        if (player.hasPermission("alchemist.grants.scopes.audit")) {
+            desc.add(Chat.format("&aLeft-Click to edit the scopes of this grant"))
+        }
+        desc.add(Chat.format("&6&m-------------------------------------"))
 
 
         return desc
