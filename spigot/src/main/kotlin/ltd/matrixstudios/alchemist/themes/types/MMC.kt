@@ -28,7 +28,7 @@ class MMC : Theme(
     override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
         val desc = arrayListOf<String>()
 
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
         desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable()!!.color + rankGrant.getGrantable()!!.displayName))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(rankGrant.expirable.duration)))
@@ -36,7 +36,7 @@ class MMC : Theme(
         {
             desc.add(Chat.format("&eRemaining: &f" + TimeUtil.formatDuration((rankGrant.expirable.addedAt + rankGrant.expirable.duration) - System.currentTimeMillis())))
         }
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eScopes:"))
         if (rankGrant.verifyGrantScope().global) {
             desc.add(Chat.format("&7- &aglobal"))
