@@ -10,12 +10,14 @@ import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
+import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
@@ -210,6 +212,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
             updateUniqueServer(server)
         }
+
+        AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "...")))
 
         NetworkUtil.load()
 
