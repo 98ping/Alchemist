@@ -1,5 +1,5 @@
 name: Alchemist
-version: 2.09
+version: 2.2
 main: ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 author: 98ping
 softdepend:
