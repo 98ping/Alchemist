@@ -10,7 +10,6 @@ import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
-import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
@@ -21,6 +20,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
+import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
@@ -39,6 +39,7 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
+import kotlin.math.roundToInt
 
 
 class AlchemistSpigotPlugin : JavaPlugin() {
@@ -194,7 +195,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 config.getString("server.id"),
                 arrayListOf(),
                 true,
-                1024,
+                (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt(),
                 config.getString("server.id"),
                 -1L,
                 false,
@@ -208,12 +209,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             updateUniqueServer(server)
         } else {
             val server = UniqueServerService.byId(config.getString("server.id"))!!
+            server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
             server.online = true
 
             updateUniqueServer(server)
         }
 
-        AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "...")))
+        AsynchronousRedisSender.send(ServerStatusChangePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."), Alchemist.globalServer))
 
         NetworkUtil.load()
 
