@@ -25,8 +25,6 @@ object StaffSuiteManager {
         player.gameMode = GameMode.SURVIVAL
         player.inventory.clear()
 
-        player.spigot().collidesWithEntities = true
-
         if (modInventories.containsKey(player.uniqueId)) {
             val items = modInventories[player.uniqueId]!!
 
