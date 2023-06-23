@@ -82,9 +82,6 @@ object StaffSuiteManager {
 
         StaffItems.equip(player)
 
-        //makes it so arrows dont hit you when you are in staff mode
-        player.spigot().collidesWithEntities = false
-
         player.updateInventory()
 
         StaffSuiteVisibilityHandler.onEnableVisibility(player)
