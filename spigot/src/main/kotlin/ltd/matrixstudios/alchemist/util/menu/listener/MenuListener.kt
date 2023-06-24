@@ -24,7 +24,7 @@ class MenuListener : Listener {
             if (timestamps.containsKey(player.uniqueId)) {
                 val time = timestamps[player.uniqueId]
 
-                if (System.currentTimeMillis().minus(time!!) < 300) {
+                if (System.currentTimeMillis().minus(time!!) < 150) {
                     event.isCancelled = true
                     timestamps.remove(player.uniqueId)
 
