@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.models.vouchers.VoucherGrant
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -57,7 +58,16 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
+            val completed = voucher.completed
+            if (!completed) {
+                val command = voucher.template.commandToExecute
 
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("/", ""))
+                voucher.completed = true
+                player.sendMessage(Chat.format("&eYou have redeemed a ${voucher.template.whatFor} &evoucher!"))
+            } else {
+                player.sendMessage(Chat.format("&cYou have already completed this voucher!"))
+            }
         }
 
     }
