@@ -23,6 +23,7 @@ import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
+import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.GenericStaffmodePreventionListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.StaffmodeFunctionalityListener
@@ -39,7 +40,6 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
-import kotlin.math.roundToInt
 
 
 class AlchemistSpigotPlugin : JavaPlugin() {
@@ -231,6 +231,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         Chat.sendConsoleMessage(
             "&6[Vault] &fHooked in &6" + System.currentTimeMillis().minus(vaultStart) + "ms"
         )
+
+        val voucherStart = System.currentTimeMillis()
+        VoucherService.loadVoucherGrants()
+        VoucherService.loadVoucherTemplates()
+
+        Chat.sendConsoleMessage(
+            "&5[Vouchers] &fAll placeholders loaded in &5" + System.currentTimeMillis().minus(voucherStart) + "ms"
+        )
+
 
         val papiStart = System.currentTimeMillis()
         registerExpansion()

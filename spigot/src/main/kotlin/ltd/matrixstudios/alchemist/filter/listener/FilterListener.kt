@@ -60,11 +60,12 @@ object FilterListener : Listener {
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId)  ?: return
 
         AsynchronousRedisSender.send(FilterBroadcastWithTooltipPacket(
-            "&e[Filter] &7[${uniqueServer.displayName}] &c(${AlchemistAPI.getRankDisplay(player.uniqueId)} &e-> " + event.message + "&c)",
-            AlchemistAPI.getRankDisplay(player.uniqueId),
+            uniqueServer,
+            player.uniqueId,
             profile.getPunishments(PunishmentType.MUTE).size,
-            profile.getPunishments(PunishmentType.MUTE).size,
-            filter.shouldPunish)
+            profile.getPunishments(PunishmentType.BAN).size,
+            filter.shouldPunish,
+            event.message)
         )
     }
 }

@@ -35,7 +35,7 @@ object FilterService : GeneralizedService {
 
     fun byWord(word: String): Filter? {
         val filter = Document("word", word)
-        val finder = collection.find(filter).first()
+        val finder = collection.find(filter).first() ?: return null
 
         return Alchemist.gson.fromJson(finder.toJson(), Filter::class.java)
     }

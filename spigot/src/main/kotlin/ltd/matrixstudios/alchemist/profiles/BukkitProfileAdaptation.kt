@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.TimeUtil
