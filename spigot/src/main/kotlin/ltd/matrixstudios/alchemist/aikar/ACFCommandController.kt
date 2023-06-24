@@ -36,6 +36,7 @@ import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
+import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -77,6 +78,8 @@ object ACFCommandController {
                 registerCommand(LuckPermsConverterCommand())
                 registerCommand(WipeGrantsCommand())
             }
+
+            registerCommand(VoucherCommand())
 
             registerCommand(CoinsCommand())
 

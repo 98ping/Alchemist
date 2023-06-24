@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.util.menu.pagination
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.MenuController
+import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -52,6 +53,7 @@ abstract class PaginatedMenu(
         }
 
     }
+
 
     fun getPageNavigationButtons() : MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()

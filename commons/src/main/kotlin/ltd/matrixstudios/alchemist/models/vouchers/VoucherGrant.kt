@@ -7,5 +7,7 @@ data class VoucherGrant(
     var template: VoucherTemplate,
     var mustRedeemByTime: Boolean,
     var redeemByDuration: Long,
+    var completed: Boolean,
+    var executedBy: UUID,
     var givenTo: UUID
 )

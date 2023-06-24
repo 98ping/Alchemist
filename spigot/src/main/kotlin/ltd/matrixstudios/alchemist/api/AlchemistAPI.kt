@@ -28,6 +28,19 @@ object AlchemistAPI {
         return finalString
     }
 
+    fun getRankWithPrefix(uuid: UUID) : String {
+        var finalString = "&cConsole"
+
+        val profile = quickFindProfile(uuid).get()
+
+        if (profile != null) {
+            val rank = profile.getCurrentRank()!!
+            finalString = rank.prefix + rank.color + profile.username
+        }
+
+        return finalString
+    }
+
     fun quickFindProfile(uuid: UUID) : CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync { ProfileGameService.byId(uuid) }
     }
