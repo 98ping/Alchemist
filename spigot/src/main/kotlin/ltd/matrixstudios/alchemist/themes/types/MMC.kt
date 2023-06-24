@@ -113,6 +113,10 @@ class MMC : Theme(
     }
 
     override fun getGrantData(player: Player, rank: Rank): Short {
+        if (rank.woolColor != null) {
+            return AlchemistAPI.getWoolColor(rank.woolColor!!).woolData.toShort()
+        }
+
         return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
     }
 

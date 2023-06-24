@@ -167,6 +167,14 @@ class GenericRankCommands : BaseCommand() {
                 sender.sendMessage(Chat.format("&aUpdated the weight of &f" + rank.color + rank.displayName))
             }
 
+            "woolcolor" -> {
+                rank.woolColor = arg
+                RankService.save(rank)
+                AsynchronousRedisSender.send(RefreshRankPacket())
+
+                sender.sendMessage(Chat.format("&aUpdated the wool color of &f" + rank.color + rank.displayName))
+            }
+
             "parent" -> {
                 if (rank.parents.contains(arg)) {
                     rank.parents.remove(arg)

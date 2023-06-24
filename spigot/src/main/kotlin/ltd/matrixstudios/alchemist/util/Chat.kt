@@ -1,7 +1,9 @@
 package ltd.matrixstudios.alchemist.util
 
-import net.md_5.bungee.api.ChatColor
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.DyeColor
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -18,7 +20,7 @@ object Chat {
             try {
                 matcher.appendReplacement(
                     buffer,
-                    ChatColor.of("#" + matcher.group(1)).toString()
+                    net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1)).toString()
                 )
             } catch (e: NoSuchMethodError) {
                 return message
@@ -35,6 +37,16 @@ object Chat {
         for (line in `in`) {
             Bukkit.getServer().consoleSender.sendMessage(format(line))
         }
+    }
+
+    fun findTextColorFromString(string: String) : TextColor? {
+        return TextColor.fromHexString(string.replace("&", "")) ?: (getNamedTextColorFromBukkitColor(string) ?: NamedTextColor.WHITE)
+    }
+
+    fun getNamedTextColorFromBukkitColor(color: String) : NamedTextColor? {
+        val names = NamedTextColor.NAMES
+
+        return names.value(org.bukkit.ChatColor.getByChar(color.replace("&", "")).name.lowercase())
     }
 
     fun getDyeColor(str: String): DyeColor {

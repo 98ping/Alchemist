@@ -63,7 +63,11 @@ class mCore : Theme(
     }
 
     override fun getGrantData(player: Player, rank: Rank): Short {
-        return Chat.getDyeColor(rank.color).woolData.toShort()
+        if (rank.woolColor != null) {
+            return AlchemistAPI.getWoolColor(rank.woolColor!!).woolData.toShort()
+        }
+
+        return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
     }
 
     override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {

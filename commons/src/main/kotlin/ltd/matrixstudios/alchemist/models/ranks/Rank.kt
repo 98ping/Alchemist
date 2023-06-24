@@ -17,7 +17,8 @@ class Rank(
     var prefix: String,
     var color: String,
     var staff: Boolean = false,
-    var default: Boolean = false
+    var default: Boolean = false,
+    var woolColor: String? = null
 ) {
 
     fun getAllPermissions() : MutableList<String> {

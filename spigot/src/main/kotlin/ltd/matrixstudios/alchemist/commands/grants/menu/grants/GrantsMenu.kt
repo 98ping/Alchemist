@@ -20,9 +20,6 @@ class GrantsMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMe
             buttons[index++] = GrantsButton(grant)
         }
 
-
-        println("Menu " + this.javaClass.simpleName + " took " + System.currentTimeMillis().minus(time) + "ms to open")
-
         return buttons
     }
 
