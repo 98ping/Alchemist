@@ -55,6 +55,9 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
         }
 
         override fun getData(player: Player): Short {
+            if (rank.woolColor != null) {
+                Chat.getDyeColor(rank.woolColor!!).dyeData.toShort()
+            }
             return Chat.getDyeColor(rank.color).dyeData.toShort()
         }
 
