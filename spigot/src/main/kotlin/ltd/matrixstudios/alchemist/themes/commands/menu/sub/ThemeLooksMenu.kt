@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.themes.commands.menu.sub
 
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.themes.Theme
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.themes.commands.menu.sub.module.GrantThemeButton
@@ -37,7 +38,7 @@ class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player) {
 
         buttons[10] = GrantsThemeButton(theme, player)
         buttons[11] = PunishmentsButton(theme, player)
-        buttons[12] = HistoryPlaceholderButton(theme, player)
+        buttons[12] = HistoryPlaceholderButton(theme, player, ProfileGameService.byId(player.uniqueId)!!)
         buttons[13] = GrantThemeButton(theme, player)
         return buttons
     }

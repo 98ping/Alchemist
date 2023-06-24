@@ -20,7 +20,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, ProfileGameService.byId(player.uniqueId)!!, punishmentType).map { Chat.format(it) }.toMutableList()
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, gameProfile, punishmentType).map { Chat.format(it) }.toMutableList()
     }
 
     override fun getDisplayName(player: Player): String? {

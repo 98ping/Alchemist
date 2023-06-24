@@ -164,7 +164,7 @@ class MMC : Theme(
         punishment: PunishmentType
     ): MutableList<String> {
         val desc = arrayListOf<String>()
-        val punishments = profile.getPunishments().filter { it.getGrantable() == punishment }
+        val punishments = profile.getPunishments(punishment)
         desc.addAll(
             listOf(
                 "&7Viewing statistics for the",
@@ -173,7 +173,7 @@ class MMC : Theme(
                 " &7Total: &f${punishments.size}",
                 " &7Active: &a${punishments.filter { it.expirable.isActive() }.size}",
                 " &7Inactive: &c${
-                    punishments.filter { p ->
+                    punishments.filter {    p ->
                         !p.expirable.isActive()
                     }.size
                 }",

@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.themes.commands.menu.sub.module
 
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
@@ -15,7 +16,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class HistoryPlaceholderButton(val theme: Theme, val player: Player) : Button() {
+class HistoryPlaceholderButton(val theme: Theme, val player: Player, val target: GameProfile) : Button() {
 
     var type = PunishmentType.BAN
 
@@ -24,15 +25,15 @@ class HistoryPlaceholderButton(val theme: Theme, val player: Player) : Button() 
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        return theme.getHistoryPlaceholderLore(player, ProfileGameService.byId(player.uniqueId)!!, type).map { Chat.format(it) }.toMutableList()
+        return theme.getHistoryPlaceholderLore(player, target, type).map { Chat.format(it) }.toMutableList()
     }
 
     override fun getDisplayName(player: Player): String? {
-        return theme.getHistoryPlaceholderName(player, ProfileGameService.byId(player.uniqueId)!!, type)
+        return theme.getHistoryPlaceholderName(player, target, type)
     }
 
     override fun getData(player: Player): Short {
-        return theme.getHistoryPlaceholderData(player, ProfileGameService.byId(player.uniqueId)!!, type)
+        return theme.getHistoryPlaceholderData(player, target, type)
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
