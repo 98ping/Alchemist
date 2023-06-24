@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -56,9 +57,9 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
 
         override fun getData(player: Player): Short {
             if (rank.woolColor != null) {
-                Chat.getDyeColor(rank.woolColor!!).dyeData.toShort()
+                return AlchemistAPI.getWoolColor(rank.woolColor!!).dyeData.toShort()
             }
-            return Chat.getDyeColor(rank.color).dyeData.toShort()
+            return AlchemistAPI.getWoolColor(rank.color).dyeData.toShort()
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
