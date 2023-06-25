@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
+import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
@@ -55,15 +56,12 @@ object AlchemistAPI {
         return profile.getCurrentRank()!!
     }
 
-    fun supplyColoredNames() : CompletableFuture<String> {
+    fun supplyColoredNames() : CompletableFuture<List<Player>> {
         return CompletableFuture.supplyAsync {
             Bukkit.getOnlinePlayers()
                 .sortedBy {
                         syncFindProfile(it.uniqueId)?.getCurrentRank()!!.weight
                 }.reversed()
-                .joinToString(", ") {
-                    it.displayName
-                }
         }
     }
 

@@ -17,11 +17,21 @@ class ListCommand : BaseCommand() {
     fun list(sender: CommandSender) {
         ForkJoinPool.commonPool().execute {
             sender.sendMessage(Chat.format(" "))
-            sender.sendMessage(Chat.format(RankService.getRanksInOrder().joinToString(", ") { it.color + it.displayName }))
+            sender.sendMessage(Chat.format(RankService.getRanksInOrder().joinToString("&f, ") { it.color + it.displayName }))
 
-            AlchemistAPI.supplyColoredNames().thenAccept {
-                sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) $it"))
-                sender.sendMessage(Chat.format(" "))
+            AlchemistAPI.supplyColoredNames().thenAccept { players ->
+                if (players.size >= 350) {
+                    sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) ${
+                        players.take(
+                            350
+                        ).joinToString("&f, ") { it.displayName }
+                    }"))
+                    sender.sendMessage(Chat.format("&cOnly showing first 350 entries..."))
+                    sender.sendMessage(" ")
+                } else {
+                    sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) ${players.joinToString("&f, ") { it.displayName }}"))
+                    sender.sendMessage(" ")
+                }
             }
         }
     }

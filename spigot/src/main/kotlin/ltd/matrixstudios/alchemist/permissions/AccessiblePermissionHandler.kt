@@ -48,6 +48,6 @@ object AccessiblePermissionHandler {
         }
 
         val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
-        player.displayName = format(profile.getCurrentRank()?.color + player.name)
+        player.displayName = format((profile.getCurrentRank()?.color ?: "&7") + player.name)
     }
 }
