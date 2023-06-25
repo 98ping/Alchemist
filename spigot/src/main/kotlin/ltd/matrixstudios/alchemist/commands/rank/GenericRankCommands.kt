@@ -228,7 +228,7 @@ class GenericRankCommands : BaseCommand() {
             }
 
             else -> {
-                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix, or displayname."))
+                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix, woolcolor, or displayname."))
             }
 
         }

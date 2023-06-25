@@ -31,8 +31,10 @@ class ServerEnvironmentCommand : BaseCommand() {
         player.sendMessage(Chat.format("&6&lServer Commands"))
         player.sendMessage(" ")
         player.sendMessage(Chat.format("&e/senv dump"))
-        player.sendMessage(Chat.format("&e/senv checkrelease"))
-        player.sendMessage(Chat.format("&e/senv releasetimer &f<duration>"))
+        if (player.hasPermission("alchemist.servers.admin")) {
+            player.sendMessage(Chat.format("&e/senv checkrelease"))
+            player.sendMessage(Chat.format("&e/senv releasetimer &f<duration>"))
+        }
         player.sendMessage(Chat.format("&e/senv menu"))
         player.sendMessage(Chat.format("&7&m-------------------"))
     }
@@ -49,6 +51,7 @@ class ServerEnvironmentCommand : BaseCommand() {
     }
 
     @Subcommand("checkrelease")
+    @CommandPermission("alchemist.servers.admin")
     fun check(player: CommandSender) {
         val server = Alchemist.globalServer
 
@@ -61,6 +64,7 @@ class ServerEnvironmentCommand : BaseCommand() {
     }
 
     @Subcommand("releasetimer")
+    @CommandPermission("alchemist.servers.admin")
     fun release(sender: CommandSender, @Name("duration") time: String) {
         val actualTime = TimeUtil.parseTime(time).toLong() * 1000L
         val server = Alchemist.globalServer
