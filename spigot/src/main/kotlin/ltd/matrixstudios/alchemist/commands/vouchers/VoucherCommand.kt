@@ -19,7 +19,6 @@ import org.bukkit.entity.Player
 import java.util.*
 
 @CommandAlias("voucher|vouchers")
-@CommandPermission("alchemist.vouchers.admin")
 class VoucherCommand : BaseCommand() {
 
     @Default
@@ -28,6 +27,7 @@ class VoucherCommand : BaseCommand() {
     }
 
     @Subcommand("template setprize")
+    @CommandPermission("alchemist.vouchers.admin")
     fun create(sender: CommandSender, @Name("id")id: String, @Name("prize")prize: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
@@ -42,6 +42,7 @@ class VoucherCommand : BaseCommand() {
     }
 
     @Subcommand("issue")
+    @CommandPermission("alchemist.vouchers.admin")
     fun issue(sender: CommandSender, @Name("id")id: String, @Name("target")target: GameProfile, @Name("duration")duration: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
         if (template == null) {
@@ -54,6 +55,7 @@ class VoucherCommand : BaseCommand() {
     }
 
     @Subcommand("template create")
+    @CommandPermission("alchemist.vouchers.admin")
     fun create(sender: CommandSender, @Name("id")id: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
@@ -68,6 +70,7 @@ class VoucherCommand : BaseCommand() {
     }
 
     @Subcommand("template delete")
+    @CommandPermission("alchemist.vouchers.admin")
     fun delete(sender: CommandSender, @Name("id")id: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 

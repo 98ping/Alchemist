@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.metrics
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.metrics.menu.MetricsMenu
 import ltd.matrixstudios.alchemist.metric.Metric
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player
 class MetricCommand : BaseCommand() {
 
     @CommandAlias("metrics|mylaggyserver")
+    @CommandPermission("alchemist.metrics")
     fun metrics(player: Player)
     {
         val startMs = System.currentTimeMillis()

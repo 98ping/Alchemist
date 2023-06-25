@@ -36,6 +36,6 @@ class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: Punish
     }
 
     override fun getTitle(player: Player): String {
-        return Chat.format(punishmentType.color + punishmentType.id + "s")
+        return Chat.format(punishmentType.color + punishmentType.niceName + "s")
     }
 }
