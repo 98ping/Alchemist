@@ -26,10 +26,10 @@ class GeneralTagButton(var tag: Tag) : Button() {
 
         desc.add(Chat.format(" "))
         desc.add(Chat.format("&eCategory:"))
-        desc.add(Chat.format("&❚ &f" + (tag.category ?: "Text")))
+        desc.add(Chat.format("&e│ &f" + (tag.category ?: "Text")))
         desc.add(" ")
         desc.add(Chat.format("&eShows as:"))
-        desc.add(Chat.format("&❚ &f" + (tag.prefix) + (rank!!.prefix) + (player.displayName)))
+        desc.add(Chat.format("&e│ &f" + (tag.prefix) + (rank!!.prefix) + (player.displayName)))
         desc.add(Chat.format(" "))
         if (profile.canUse(tag)) {
             desc.add(Chat.format("&aClick to apply tag"))

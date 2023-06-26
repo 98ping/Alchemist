@@ -1,8 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.tags.grants.menu.grant
 
-import ltd.matrixstudios.alchemist.commands.grants.menu.grant.GrantButton
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu

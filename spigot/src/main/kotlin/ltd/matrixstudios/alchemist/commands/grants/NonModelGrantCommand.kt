@@ -9,13 +9,11 @@ package ltd.matrixstudios.alchemist.commands.grants
  */
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.caches.redis.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions

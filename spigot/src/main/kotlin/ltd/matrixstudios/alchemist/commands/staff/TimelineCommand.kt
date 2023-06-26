@@ -32,7 +32,7 @@ class TimelineCommand : BaseCommand() {
 
         for (grant in grants)
         {
-            val rank = grant.getGrantable()!!
+            val rank = grant.getGrantable()
 
             if (alreadyShownRanks.contains(rank))
             {

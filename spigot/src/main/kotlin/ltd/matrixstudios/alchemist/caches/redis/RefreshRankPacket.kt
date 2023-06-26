@@ -1,8 +1,6 @@
 package ltd.matrixstudios.alchemist.caches.redis
 
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacket
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 
 class RefreshRankPacket : RedisPacket("refresh-rank") {

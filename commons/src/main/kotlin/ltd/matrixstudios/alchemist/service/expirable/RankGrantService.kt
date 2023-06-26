@@ -41,7 +41,9 @@ object RankGrantService : ExpiringService<RankGrant>() {
     }
 
     fun getFromCache(uuid: UUID): Collection<RankGrant> {
-        return playerGrants.getOrDefault(uuid, findByTarget(uuid).get())
+        return if (playerGrants.containsKey(uuid)) {
+            playerGrants[uuid]!!
+        } else findByTarget(uuid).get()
     }
 
     fun recalculatePlayer(gameProfile: GameProfile) {

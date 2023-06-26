@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.listener
 
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat

@@ -33,20 +33,23 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
     class ChatColorButton(val chatColor: ChatColor, val player: Player) : Button()
     {
         override fun getMaterial(player: Player): Material {
-            return Material.INK_SACK
+            return Material.WOOL
         }
 
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m------------------"))
-            desc.add(Chat.format("&eColor: &f" + chatColor.chatColor + chatColor.displayname))
-            desc.add(Chat.format("&eExample: &f" + AlchemistAPI.getRankDisplay(player.uniqueId) + "&7: &f" + chatColor.chatColor + "Hi!"))
+            desc.add(Chat.format("&eColor:"))
+            desc.add(Chat.format("&e│ &r" + chatColor.chatColor + ChatColorLoader.proper(chatColor)))
+            desc.add(" ")
+            desc.add(Chat.format("&eExample:"))
+            desc.add(Chat.format("&e│ &r" + AlchemistAPI.getRankWithPrefix(player.uniqueId) + "&7: &f" + chatColor.chatColor + "Hi!"))
             desc.add(" ")
             if (player.hasPermission(chatColor.permission))
             {
-                desc.add(Chat.format("&aClick to Select!"))
+                desc.add(Chat.format("&aClick to select this color"))
             } else {
-                desc.add(Chat.format("&cNo permission!"))
+                desc.add(Chat.format("&cYou do not own this color"))
             }
             desc.add(Chat.format("&6&m------------------"))
 
@@ -54,7 +57,7 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
         }
 
         override fun getDisplayName(player: Player): String? {
-            return Chat.format(chatColor.chatColor + chatColor.displayname)
+            return Chat.format(chatColor.chatColor + ChatColorLoader.proper(chatColor))
         }
 
         override fun getData(player: Player): Short {

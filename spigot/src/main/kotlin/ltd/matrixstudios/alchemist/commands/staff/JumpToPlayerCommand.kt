@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil

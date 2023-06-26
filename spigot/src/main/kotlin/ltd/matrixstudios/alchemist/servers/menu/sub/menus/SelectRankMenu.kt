@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.servers.menu.sub.menus
 
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.service.ranks.RankService

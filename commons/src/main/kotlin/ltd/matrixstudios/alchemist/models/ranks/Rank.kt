@@ -2,7 +2,6 @@ package ltd.matrixstudios.alchemist.models.ranks
 
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
-import java.util.stream.Collectors
 
 
 class Rank(

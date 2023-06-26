@@ -1,10 +1,5 @@
 package ltd.matrixstudios.alchemist.themes.commands.menu.sub.module
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
-import ltd.matrixstudios.alchemist.punishments.actor.ActorType
-import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
-import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.themes.Theme

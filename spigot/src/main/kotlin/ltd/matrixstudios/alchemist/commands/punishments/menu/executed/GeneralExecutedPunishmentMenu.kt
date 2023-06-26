@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.commands.punishments.menu.executed
 
-import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryMenu
 import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.GeneralPunishmentButton
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType

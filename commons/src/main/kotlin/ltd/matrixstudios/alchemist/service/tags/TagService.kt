@@ -2,11 +2,9 @@ package ltd.matrixstudios.alchemist.service.tags
 
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.concurrent.CompletableFuture
-import java.util.stream.Collectors
 
 object TagService : GeneralizedService {
 

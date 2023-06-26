@@ -5,6 +5,8 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.util.Chat.format
 import org.bukkit.entity.Player
+import org.bukkit.metadata.FixedMetadataValue
+import org.bukkit.metadata.MetadataValue
 import org.bukkit.permissions.PermissibleBase
 import org.bukkit.permissions.PermissionAttachment
 import java.lang.reflect.Field
@@ -37,6 +39,12 @@ object AccessiblePermissionHandler {
         permissionAttachmentMap.remove(player.uniqueId)
     }
 
+    fun findRankWeight(player: Player) : Int {
+        return if (player.hasMetadata("AlchemistRankWeight")) {
+            player.getMetadata("AlchemistRankWeight").first().asInt()
+        } else 0
+    }
+
     fun update(player: Player, perms: Map<String?, Boolean?>?) {
         permissionAttachmentMap.putIfAbsent(player.uniqueId, player.addAttachment(AlchemistSpigotPlugin.instance))
         try {
@@ -48,6 +56,11 @@ object AccessiblePermissionHandler {
         }
 
         val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
+        //set metadata values
+        player.removeMetadata("AlchemistRankWeight", AlchemistSpigotPlugin.instance)
+        player.setMetadata("AlchemistRankWeight", FixedMetadataValue(AlchemistSpigotPlugin.instance, (profile.getCurrentRank()?.weight ?: 0)))
+
+        //apply display name
         player.displayName = format((profile.getCurrentRank()?.color ?: "&7") + player.name)
     }
 }

@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.api
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
@@ -60,7 +61,7 @@ object AlchemistAPI {
         return CompletableFuture.supplyAsync {
             Bukkit.getOnlinePlayers()
                 .sortedBy {
-                        syncFindProfile(it.uniqueId)?.getCurrentRank()!!.weight
+                    AccessiblePermissionHandler.findRankWeight(it)
                 }.reversed()
         }
     }

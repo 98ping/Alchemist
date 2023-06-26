@@ -26,7 +26,7 @@ class ListCommand : BaseCommand() {
                             350
                         ).joinToString("&f, ") { it.displayName }
                     }"))
-                    sender.sendMessage(Chat.format("&cOnly showing first 350 entries..."))
+                    sender.sendMessage(Chat.format("&c(Only showing first 350 entries...)"))
                     sender.sendMessage(" ")
                 } else {
                     sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) ${players.joinToString("&f, ") { it.displayName }}"))

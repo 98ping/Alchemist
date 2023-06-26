@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.service.expirable
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
-import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
@@ -29,7 +28,9 @@ object PunishmentService : ExpiringService<Punishment>() {
     }
 
     fun getFromCache(uuid: UUID): Collection<Punishment> {
-        return grants.getOrDefault(uuid, findByTarget(uuid).get())
+        return if (grants.containsKey(uuid)) {
+            grants[uuid]!!
+        } else findByTarget(uuid).get()
     }
 
     fun recalculatePlayer(gameProfile: GameProfile) {

@@ -15,7 +15,8 @@ object RankService : GeneralizedService {
 
     fun loadRanks() {
         if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
-            save(Rank(
+            save(
+                Rank(
                 "default",
                 "Default",
                 "Default",
