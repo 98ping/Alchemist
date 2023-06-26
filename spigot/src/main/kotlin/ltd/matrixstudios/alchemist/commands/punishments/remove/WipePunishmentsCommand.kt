@@ -59,6 +59,6 @@ class WipePunishmentsCommand : BaseCommand() {
             entry.value.removeIf { it.getGrantable() == foundType }
         }
 
-        player.sendMessage(Chat.format("&aWiped all " + foundType!!.niceName + "'s"))
+        player.sendMessage(Chat.format("&aWiped all " + foundType.niceName + "'s"))
     }
 }

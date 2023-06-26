@@ -61,6 +61,10 @@ class TempMuteCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
+        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                + "&aYou've temporarily muted " + gameProfile.username + " for &f"
+                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
+                + TimeUtil.formatDuration(punishment.expirable.duration)))
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }

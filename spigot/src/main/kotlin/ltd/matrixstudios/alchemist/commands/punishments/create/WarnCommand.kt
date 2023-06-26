@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -54,6 +55,10 @@ class WarnCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
+        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                + "&aYou've warned " + gameProfile.username + " for &f"
+                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
+                + TimeUtil.formatDuration(punishment.expirable.duration)))
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }

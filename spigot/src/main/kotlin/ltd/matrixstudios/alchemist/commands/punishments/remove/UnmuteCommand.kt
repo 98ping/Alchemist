@@ -31,6 +31,9 @@ class UnmuteCommand : BaseCommand() {
         punishment.removedBy = BukkitPunishmentFunctions.getSenderUUID(sender)
         punishment.removedReason = reason
 
+        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                + "&aYou've unmuted " + gameProfile.username + " for &f"
+                + BukkitPunishmentFunctions.parseReason(reason)))
         BukkitPunishmentFunctions.remove(BukkitPunishmentFunctions.getSenderUUID(sender), punishment, true)
 
     }

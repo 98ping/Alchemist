@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
@@ -31,6 +32,9 @@ class UnbanCommand  : BaseCommand() {
         punishment.removedBy = BukkitPunishmentFunctions.getSenderUUID(sender)
         punishment.removedReason = reason
 
+        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                + "&aYou've unbanned " + gameProfile.username + " for &f"
+                + BukkitPunishmentFunctions.parseReason(reason)))
         BukkitPunishmentFunctions.remove(BukkitPunishmentFunctions.getSenderUUID(sender), punishment, true)
 
     }
