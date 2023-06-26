@@ -12,29 +12,36 @@ import org.bukkit.event.inventory.ClickType
 class GeneralTagButton(var tag: Tag) : Button() {
 
     override fun getMaterial(player: Player): Material {
-        return Material.INK_SACK
+        if (tag.displayItem == null) {
+            return Material.NAME_TAG
+        }
+
+        return Material.getMaterial(tag.displayItem!!.uppercase())
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = arrayListOf<String>()
+        val profile = AlchemistAPI.syncFindProfile(player.uniqueId)!!
+        val rank = profile.getCurrentRank()
 
-        desc.add(Chat.format("&7&m---------------------------"))
-        desc.add(Chat.format("&eTag&7: &f" + tag.prefix))
-        desc.add(Chat.format("&eDisplay&7: &f" + (tag.prefix + AlchemistAPI.getRankDisplay(player.uniqueId) + "&7: &fHello, World!")))
-        desc.add(Chat.format("&ePosition&7: &dPrefix"))
+        desc.add(Chat.format(" "))
+        desc.add(Chat.format("&eCategory:"))
+        desc.add(Chat.format("&❚ &f" + (tag.category ?: "Text")))
         desc.add(" ")
-        if (tag.purchasable) {
-            desc.add(Chat.format("&7Purchase at &c" + AlchemistAPI.SERVER_NAME))
+        desc.add(Chat.format("&eShows as:"))
+        desc.add(Chat.format("&❚ &f" + (tag.prefix) + (rank!!.prefix) + (player.displayName)))
+        desc.add(Chat.format(" "))
+        if (profile.canUse(tag)) {
+            desc.add(Chat.format("&aClick to apply tag"))
         } else {
-            desc.add(Chat.format("&7Not Available for Purchase"))
+            desc.add(Chat.format("&cYou don't own this tag"))
         }
-        desc.add(Chat.format("&7&m---------------------------"))
 
         return desc
     }
 
     override fun getDisplayName(player: Player): String? {
-        return Chat.format(tag.menuName)
+        return Chat.format("&e" + tag.menuName)
     }
 
     override fun getData(player: Player): Short {

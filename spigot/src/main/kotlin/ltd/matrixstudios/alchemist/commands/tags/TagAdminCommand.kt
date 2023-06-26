@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.commands.tags.menu.TagCustomizationMenu
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -25,7 +26,7 @@ class TagAdminCommand : BaseCommand() {
             return
         }
 
-        TagService.save(Tag(name, "&7$name", true, ""))
+        TagService.save(Tag(name, "&7$name", true, "", "Text", Material.NAME_TAG.name))
         sender.sendMessage(Chat.format("&aCreated a new tag"))
     }
 
