@@ -42,14 +42,9 @@ class MenuListener : Listener {
                     menu.getHeaderItems(event.whoClicked as Player)[slot]!!.onClick(event.whoClicked as Player, slot, click)
                 }
 
-                if (menu.getButtonsInRange().get()[slot] != null)
+                if (menu.getButtonsInRange(event.whoClicked as Player)[slot] != null)
                 {
-                    menu.getButtonsInRange().get()[slot]!!.onClick(event.whoClicked as Player, slot, click)
-                }
-
-                if (menu.getPageNavigationButtons()[slot] != null)
-                {
-                    menu.getPageNavigationButtons()[slot]!!.onClick(event.whoClicked as Player, slot, click)
+                    menu.getButtonsInRange(event.whoClicked as Player)[slot]!!.onClick(event.whoClicked as Player, slot, click)
                 }
             }
         }
