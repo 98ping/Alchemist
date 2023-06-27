@@ -45,7 +45,6 @@ abstract class PaginatedMenu(
             buttons[slot] = button
         }
 
-        val time = System.currentTimeMillis()
 
         val minIndex = ((currentPage - 1) * getButtonsPerPage())
         val maxIndex = (currentPage * getButtonsPerPage())

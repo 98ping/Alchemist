@@ -14,7 +14,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-class OnlineStaffMenu(val player: Player) : PaginatedMenu(9, player) {
+class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player) {
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
         var index = 0

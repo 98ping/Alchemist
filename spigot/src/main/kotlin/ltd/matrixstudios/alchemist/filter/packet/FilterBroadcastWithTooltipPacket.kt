@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.filter.packet
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
