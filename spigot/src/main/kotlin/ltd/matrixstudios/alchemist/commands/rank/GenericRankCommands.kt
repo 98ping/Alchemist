@@ -7,6 +7,8 @@ import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
+import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
+import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
@@ -83,6 +85,9 @@ class GenericRankCommands : BaseCommand() {
             sender.sendMessage(Chat.format(message))
         }
         sender.sendMessage(Chat.format("&7&m--------------------------"))
+        if (sender is Player) {
+            RankListMenu(sender, RankService.getRanksInOrder().toMutableList(), RankListFilter.ALL).updateMenu()
+        }
     }
 
     @Subcommand("editor")

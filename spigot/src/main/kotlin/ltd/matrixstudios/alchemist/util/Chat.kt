@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.util
 
+import ltd.matrixstudios.alchemist.util.skull.SkullConstants
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
@@ -47,6 +48,23 @@ object Chat {
         val names = NamedTextColor.NAMES
 
         return names.value(org.bukkit.ChatColor.getByChar(color.replace("&", "")).name.lowercase())
+    }
+
+    fun mapChatColorToSkullTexture(str: String) : String {
+        if (str.contains("&1") || str.contains("&9")) return SkullConstants.BLUE
+        if (str.contains("&2")) return SkullConstants.DARK_GREEN
+        if (str.contains("&3")) return SkullConstants.AQUA
+        if (str.contains("&4") || str.contains("&c")) return SkullConstants.RED
+        if (str.contains("&5")) return SkullConstants.PURPLE
+        if (str.contains("&6")) return SkullConstants.ORANGE
+        if (str.contains("&7")) return SkullConstants.LIGHT_GRAY
+        if (str.contains("&8")) return SkullConstants.SILVER
+        if (str.contains("&a")) return SkullConstants.LIME
+        if (str.contains("&b")) return SkullConstants.LIGHT_BLUE
+        if (str.contains("&d")) return SkullConstants.PINK
+        if (str.contains("&e")) return SkullConstants.YELLOW
+
+        return SkullConstants.WHITE
     }
 
     fun getDyeColor(str: String): DyeColor {
