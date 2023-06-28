@@ -60,12 +60,12 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
 
                 if (next > limit)
                 {
-                    RankListMenu(player, getRanksBasedOnFilter(rankListFilter), values[0]).updateMenu()
+                    RankListMenu(player, getRanksBasedOnFilter(values[0]), values[0]).updateMenu()
 
                     return@setBody
                 }
 
-                RankListMenu(player, getRanksBasedOnFilter(rankListFilter), values[next]).updateMenu()
+                RankListMenu(player, getRanksBasedOnFilter(values[next]), values[next]).updateMenu()
             },
 
             27 to SkullButton(
