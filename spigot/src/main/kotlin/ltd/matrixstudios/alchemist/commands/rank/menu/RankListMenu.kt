@@ -118,9 +118,9 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         {
             if (rankListFilter == filter)
             {
-                desc.add(Chat.format("&7- &a" + rankListFilter.displayName))
+                desc.add(Chat.format("&7- &a" + filter.displayName))
             } else {
-                desc.add(Chat.format("&7- &7" + rankListFilter.displayName))
+                desc.add(Chat.format("&7- &7" + filter.displayName))
             }
         }
         desc.add(" ")
@@ -139,8 +139,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         desc.add(Chat.format("&eDefault: &6${rank.default}"))
         desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
         desc.add(Chat.format("&eMongo Id: &6" + rank.id))
-        desc.add(Chat.format("&ePermissions: &6" + rank.permissions))
-        desc.add(Chat.format("&eParents: &6" + rank.parents))
+        desc.add(Chat.format("&ePermissions: &6" + rank.permissions.size))
+        desc.add(Chat.format("&eParents: &6" + rank.parents.size))
         if (rank.woolColor != null) {
             desc.add(Chat.format("&eWool Color: &r" + rank.woolColor!! + "This"))
         }
