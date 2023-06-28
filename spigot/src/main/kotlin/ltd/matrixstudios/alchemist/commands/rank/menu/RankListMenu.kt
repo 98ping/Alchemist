@@ -31,14 +31,14 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
-            3 to Button.placeholder(),
             4 to Button.placeholder(),
-            5 to Button.placeholder(),
             6 to Button.placeholder(),
             7 to Button.placeholder(),
+            9 to Button.placeholder(),
             17 to Button.placeholder(),
             18 to Button.placeholder(),
             26 to Button.placeholder(),
+            27 to Button.placeholder(),
             35 to Button.placeholder(),
             36 to Button.placeholder(),
             37 to Button.placeholder(),
@@ -49,7 +49,7 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
             42 to Button.placeholder(),
             43 to Button.placeholder(),
             44 to Button.placeholder(),
-            9 to SkullButton(
+            3 to SkullButton(
                 "ewogICJ0aW1lc3RhbXAiIDogMTY4NzkyNjU3ODkzMCwKICAicHJvZmlsZUlkIiA6ICIzOTg5OGFiODFmMjU0NmQxOGIyY2ExMTE1MDRkZGU1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICI4YjJjYTExMTUwNGRkZTUwIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2M4OTMwY2M1OTQ2OWU2M2Y4MzhjMTJmMjY4ZjMxMjJiMTllZjQxMTcwNmVkMzE5Mzc1YTc4MzI1OTE1OGVlNmYiCiAgICB9CiAgfQp9",
                 generateRankListFilterLore(),
                 "&eClick to switch &6Rank Filter").setBody { player, i, clickType ->
@@ -68,7 +68,7 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
                 RankListMenu(player, getRanksBasedOnFilter(values[next]), values[next]).updateMenu()
             },
 
-            27 to SkullButton(
+            5 to SkullButton(
                 "eyJ0aW1lc3RhbXAiOjE1NzEzMTYzMzY1MjgsInByb2ZpbGVJZCI6IjVkZTZlMTg0YWY4ZDQ5OGFiYmRlMDU1ZTUwNjUzMzE2IiwicHJvZmlsZU5hbWUiOiJBc3Nhc2luSmlhbmVyMjUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzlhNmUwYzE2ZGYwMTMzNDE4OGVhNjliNzVjN2M4Y2IxOGVmODZmMjZhMTVjYTk2YTJkYTI1MWVhZGQ5NDU1NTkifX19",
                 mutableListOf(" ",
                     "&eClick to query every &6rank",
