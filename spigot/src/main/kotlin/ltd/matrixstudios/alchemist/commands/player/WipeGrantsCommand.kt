@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class WipeGrantsCommand : BaseCommand() {
+object WipeGrantsCommand : BaseCommand() {
 
     @CommandAlias("wipegrants")
     @CommandCompletion("@gameprofile")

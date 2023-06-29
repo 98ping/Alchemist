@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.player.menu
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
+import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.commands.notes.menu.PlayerNotesMenu
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryMenu
 import ltd.matrixstudios.alchemist.commands.punishments.menu.executed.ExecutedPunishmentHistoryMenu
@@ -11,6 +12,7 @@ import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
 import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.serialize.Serializers
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -79,7 +81,7 @@ class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(
             Chat.format("&7user!"),
             " "
         ), "&6Rank Grants", 13).setBody {
-                player, i, clickType ->  GrantsMenu(player, target).updateMenu()
+                player, i, clickType ->  GrantsMenu(player, target, RankGrantService.getFromCache(target.uuid).toMutableList(), GrantFilter.ALL).updateMenu()
         }
 
         buttons[37] = SimpleActionButton(Material.PAPER, mutableListOf(
