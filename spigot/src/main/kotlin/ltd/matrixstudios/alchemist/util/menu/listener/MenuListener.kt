@@ -15,16 +15,16 @@ class MenuListener : Listener {
 
     @EventHandler
     fun onPaginatedMenuClick(event: InventoryClickEvent) {
-        val menu = MenuController.paginatedMenuMap.get(event.whoClicked.uniqueId)
+        val menu = MenuController.paginatedMenuMap[event.whoClicked.uniqueId]
         val player = event.whoClicked
         if (menu != null) {
+            println("Paginated click 1")
             val slot = event.slot
             val click = event.click
 
-            if (timestamps.containsKey(player.uniqueId)) {
-                val time = timestamps[player.uniqueId]
-
-                if (System.currentTimeMillis().minus(time!!) < 150) {
+            val time = timestamps[player.uniqueId]
+            if (time != null) {
+                if (System.currentTimeMillis().minus(time) < 300L) {
                     event.isCancelled = true
                     timestamps.remove(player.uniqueId)
 
@@ -37,11 +37,6 @@ class MenuListener : Listener {
             event.isCancelled = true
             if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
             {
-                if (menu.getHeaderItems(event.whoClicked as Player)[slot] != null)
-                {
-                    menu.getHeaderItems(event.whoClicked as Player)[slot]!!.onClick(event.whoClicked as Player, slot, click)
-                }
-
                 if (menu.getButtonsInRange(event.whoClicked as Player)[slot] != null)
                 {
                     menu.getButtonsInRange(event.whoClicked as Player)[slot]!!.onClick(event.whoClicked as Player, slot, click)

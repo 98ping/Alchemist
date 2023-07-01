@@ -19,7 +19,6 @@ class LocalPacketPubSub : JedisPubSub() {
             return
         }
         val packet = RedisPacketManager.gson.fromJson(messageJson, packetClass) as RedisPacket
-        println("[Packet] [${packetClass.simpleName}] Entire packet was ran in " + System.currentTimeMillis().minus(start) + "ms")
         Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance, packet::action)
     }
 }

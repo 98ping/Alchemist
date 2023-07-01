@@ -32,60 +32,65 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ScopeSelectionMenu(val player: Player,
-                         val rank: Rank,
-                         val target: GameProfile,
-                         val duration: Long,
-                         val reason: String,
-                         val equipped: MutableList<String>,
-                         val global: Boolean
+class ScopeSelectionMenu(
+    val player: Player,
+    val rank: Rank,
+    val target: GameProfile,
+    val duration: Long,
+    val reason: String,
+    val equipped: MutableList<String>,
+    val global: Boolean
 ) : PaginatedMenu(36, player) {
 
     override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[3] = SimpleActionButton(Material.DIAMOND_SWORD, mutableListOf(
-            Chat.format("&6&m----------------------"),
-            Chat.format("&eClick to make this grant &6global"),
-            Chat.format(" "),
-            Chat.format("&eCurrently&7: &f" + if (global) "&aGlobal" else "&cLocal"),
-            Chat.format("&6&m----------------------")
-        ), Chat.format("&6Global Status"), 0).setBody { player, i, clickType -> 
+        buttons[3] = SimpleActionButton(
+            Material.DIAMOND_SWORD, mutableListOf(
+                Chat.format("&6&m----------------------"),
+                Chat.format("&eClick to make this grant &6global"),
+                Chat.format(" "),
+                Chat.format("&eCurrently&7: &f" + if (global) "&aGlobal" else "&cLocal"),
+                Chat.format("&6&m----------------------")
+            ), Chat.format("&6Global Status"), 0
+        ).setBody { player, i, clickType ->
             ScopeSelectionMenu(player, rank, target, duration, reason, equipped, !global).updateMenu()
         }
 
-        buttons[5] = SimpleActionButton(Material.PAPER, mutableListOf(
-            Chat.format("&6&m----------------------"),
-            Chat.format("&eClick to &6finalize &ethis grant"),
-            Chat.format("&6&m----------------------")
-        ), Chat.format("&6Finalize"), 0).setBody { player, i, clickType ->
+        buttons[5] = SimpleActionButton(
+            Material.PAPER, mutableListOf(
+                Chat.format("&6&m----------------------"),
+                Chat.format("&eClick to &6finalize &ethis grant"),
+                Chat.format("&6&m----------------------")
+            ), Chat.format("&6Finalize"), 0
+        ).setBody { player, i, clickType ->
             if (!global && equipped.isEmpty()) {
                 player.sendMessage(Chat.format("&cYou must select a scope to add this grant to"))
                 return@setBody
             }
 
-            Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
-                val rankGrant = RankGrant(rank.id,
-                    target.uuid,
-                    player.uniqueId,
-                    reason, duration,
-                    DefaultActor(Executor.PLAYER, ActorType.GAME),
-                    GrantScope("Manual Grant", equipped, global)
+            val rankGrant = RankGrant(
+                rank.id,
+                target.uuid,
+                player.uniqueId,
+                reason, duration,
+                DefaultActor(Executor.PLAYER, ActorType.GAME),
+                GrantScope("Manual Grant", equipped, global)
+            )
+
+            println("finished grantt")
+            RankGrantService.save(rankGrant)
+            player.sendMessage(
+                Chat.format(
+                    "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
                 )
+            )
 
-                RankGrantService.save(rankGrant)
-                player.sendMessage(
-                    Chat.format(
-                        "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
-                    )
-                )
+            AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
+            AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
 
-                AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
-                AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
-
-                AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
-                player.closeInventory()
-            }, 1L)
+            AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
+            player.closeInventory()
         }
 
         return buttons
@@ -107,13 +112,15 @@ class ScopeSelectionMenu(val player: Player,
         return "Select Scopes To Add"
     }
 
-    class ScopeButton(val uniqueServer: UniqueServer,
-                      val target: GameProfile,
-                      val rank: Rank,
-                      val duration: Long,
-                      val reason: String,
-                      val global: Boolean,
-                      val equipped: MutableList<String>) : Button() {
+    class ScopeButton(
+        val uniqueServer: UniqueServer,
+        val target: GameProfile,
+        val rank: Rank,
+        val duration: Long,
+        val reason: String,
+        val global: Boolean,
+        val equipped: MutableList<String>
+    ) : Button() {
         override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
@@ -148,7 +155,7 @@ class ScopeSelectionMenu(val player: Player,
                     equipped.remove(uniqueServer.id)
                 }
 
-                ScopeSelectionMenu(player, rank, target, duration, reason,  equipped, global).updateMenu()
+                ScopeSelectionMenu(player, rank, target, duration, reason, equipped, global).updateMenu()
             } else {
                 player.sendMessage(Chat.format("&eYou have the &6global &escope selected and cannot add any more"))
             }
