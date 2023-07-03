@@ -78,7 +78,7 @@ class GenericRankCommands : BaseCommand() {
     @CommandPermission("rank.admin")
     fun list(sender: CommandSender) {
         sender.sendMessage(Chat.format("&7&m--------------------------"))
-        sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.getValues().size + ")"))
+        sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.ranks.size + ")"))
         for (rank in RankService.getRanksInOrder()) {
             val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "] &7(" + rank.id + ")"
 

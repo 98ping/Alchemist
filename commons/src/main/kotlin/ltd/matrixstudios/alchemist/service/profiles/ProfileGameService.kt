@@ -24,8 +24,7 @@ object ProfileGameService : GeneralizedService {
 
     var cache = hashMapOf<UUID, GameProfile?>()
 
-    fun getHighestGrant(uuid: UUID) : RankGrant?
-    {
+    fun getHighestGrant(uuid: UUID) : RankGrant? {
         val grants = RankGrantService.getFromCache(uuid)
 
         grants.stream().sorted { o1, o2 ->  o2.getGrantable().weight - o1.getGrantable().weight }.collect(Collectors.toList())
@@ -35,15 +34,14 @@ object ProfileGameService : GeneralizedService {
 
     fun byId(uuid: UUID) : GameProfile? {
         return cache.computeIfAbsent(uuid) {
-            return@computeIfAbsent handler.retrieve(it)
+            return@computeIfAbsent handler.retrieveAsync(it).get()
         }
     }
 
     fun byUsername(name: String) : GameProfile? {
         val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
 
-        if (cacheProfile != null)
-        {
+        if (cacheProfile != null) {
             return cacheProfile
         }
 
@@ -64,16 +62,11 @@ object ProfileGameService : GeneralizedService {
 
     fun loadProfile(uuid: UUID, username: String) : GameProfile
     {
-        val cached = cache[uuid] ?: handler.retrieve(uuid)
+        val cached = cache[uuid] ?: handler.retrieveAsync(uuid).get()
 
-        return if (cached != null)
-        {
-            cached
-        } else
-        {
-            GameProfile(
+        return cached
+            ?: GameProfile(
                 uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, mutableListOf(), System.currentTimeMillis()
             )
-        }
     }
 }

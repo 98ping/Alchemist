@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.util.menu.pagination
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.MenuController
-import ltd.matrixstudios.alchemist.util.menu.sound.MenuSound
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -12,7 +11,6 @@ import org.bukkit.event.inventory.ClickType
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 abstract class PaginatedMenu(
     private val displaySize: Int,
@@ -116,7 +114,7 @@ abstract class PaginatedMenu(
             }
 
             override fun getDisplayName(player: Player): String? {
-                return ChatColor.translateAlternateColorCodes('&', "&cPrevious Page &7(&e$currentPage&7/&e$maxPages")
+                return ChatColor.translateAlternateColorCodes('&', "&cPrevious Page &7(&e$currentPage&7/&e$maxPages&7)")
             }
 
             override fun getData(player: Player): Short {
@@ -131,12 +129,10 @@ abstract class PaginatedMenu(
                             "&cYou are already on the first page!"
                         )
                     )
-                    MenuSound.playFail(player)
                     return
                 }
                 currentPage -= 1
                 updateMenu()
-                MenuSound.playNeutral(player)
             }
         }
 
@@ -155,7 +151,7 @@ abstract class PaginatedMenu(
             }
 
             override fun getDisplayName(player: Player): String? {
-                return ChatColor.translateAlternateColorCodes('&', "&aNext page &7(&e$currentPage&7/&e$maxPages")
+                return ChatColor.translateAlternateColorCodes('&', "&aNext page &7(&e$currentPage&7/&e$maxPages&7)")
             }
 
             override fun getData(player: Player): Short {
@@ -165,12 +161,10 @@ abstract class PaginatedMenu(
             override fun onClick(player: Player, slot: Int, type: ClickType) {
                 if (currentPage >= maxPages) {
                     player.sendMessage("${ChatColor.RED}You have already reached the last page!")
-                    MenuSound.playFail(player)
                     return
                 }
 
                 currentPage += 1
-                MenuSound.playNeutral(player)
                 updateMenu()
             }
         }

@@ -71,14 +71,13 @@ object RankGrantService : ExpiringService<RankGrant>() {
             val sorted = collection.find(Document("target", target.toString()))
 
             val toReturn = mutableListOf<RankGrant>()
+            val cursor = sorted.cursor()
 
-            for (rawDoc in sorted)
-            {
-                val json = rawDoc.toJson()
+            while (cursor.hasNext()) {
+                val document = cursor.next()
+                val json = Alchemist.gson.fromJson(document.toJson(), RankGrant::class.java)
 
-                val gson = Alchemist.gson.fromJson(json, RankGrant::class.java)
-
-                toReturn.add(gson)
+                toReturn.add(json)
             }
 
             return@supplyAsync toReturn

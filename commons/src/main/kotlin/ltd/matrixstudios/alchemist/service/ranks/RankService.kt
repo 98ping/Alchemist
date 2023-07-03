@@ -4,6 +4,7 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.GeneralizedService
+import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
@@ -31,14 +32,15 @@ object RankService : GeneralizedService {
         }
 
         //since there are only a limited amount of ranks we can just load on startup
-        for (rank in getValues())
-        {
-            ranks[rank.id] = rank
+        getValues().thenAccept {
+            for (rank in it) {
+                ranks[rank.id] = rank
+            }
         }
     }
 
-    fun getValues() : Collection<Rank> {
-        return handler.retrieveAll()
+    fun getValues() : CompletableFuture<Collection<Rank>> {
+        return handler.retrieveAllAsync()
     }
 
     fun save(rank: Rank) {
@@ -53,15 +55,37 @@ object RankService : GeneralizedService {
 
 
     fun findFirstAvailableDefaultRank() : Rank? {
-        return getValues().firstOrNull { it.default }
+        val future: CompletableFuture<Rank?> = getValues().thenApply {
+            for (rank in it)
+            {
+                if (rank.default)
+                {
+                    return@thenApply rank
+                }
+            }
+
+            return@thenApply null
+        }
+
+        return future.get()
     }
 
     fun byId(id: String) : Rank? {
-        if (ranks.containsKey(id))
-        {
+        if (ranks.containsKey(id)) {
             return ranks[id]
         }
+        val future: CompletableFuture<Rank?> = getValues().thenApply {
+            for (rank in it)
+            {
+                if (rank.name.equals(id, ignoreCase = true))
+                {
+                    return@thenApply rank
+                }
+            }
 
-        return getValues().firstOrNull { it.name.equals(id, ignoreCase = true) }
+            return@thenApply null
+        }
+
+        return future.get()
     }
 }
