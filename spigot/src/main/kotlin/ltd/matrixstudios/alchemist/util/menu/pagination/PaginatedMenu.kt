@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.util.menu.pagination
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.MenuController
+import ltd.matrixstudios.alchemist.util.menu.sound.MenuSound
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -102,20 +103,20 @@ abstract class PaginatedMenu(
     fun getPreviousPageButton(): Button {
         val button = object : Button() {
             override fun getMaterial(player: Player): Material {
-                return Material.FEATHER
+                return Material.MELON
             }
 
             override fun getDescription(player: Player): MutableList<String>? {
                 return Collections.singletonList(
                     ChatColor.translateAlternateColorCodes(
                         '&',
-                        "&cNavigate to previous page"
+                        "&eNavigate to previous page"
                     )
                 )
             }
 
             override fun getDisplayName(player: Player): String? {
-                return ChatColor.translateAlternateColorCodes('&', "&cCurrent Page: &f$currentPage")
+                return ChatColor.translateAlternateColorCodes('&', "&cPrevious Page &7(&e$currentPage&7/&e$maxPages")
             }
 
             override fun getData(player: Player): Short {
@@ -130,10 +131,12 @@ abstract class PaginatedMenu(
                             "&cYou are already on the first page!"
                         )
                     )
+                    MenuSound.playFail(player)
                     return
                 }
                 currentPage -= 1
                 updateMenu()
+                MenuSound.playNeutral(player)
             }
         }
 
@@ -144,15 +147,15 @@ abstract class PaginatedMenu(
     fun getNextPageButton(): Button {
         val button = object : Button() {
             override fun getMaterial(player: Player): Material {
-                return Material.FEATHER
+                return Material.MELON
             }
 
             override fun getDescription(player: Player): MutableList<String>? {
-                return Collections.singletonList(ChatColor.translateAlternateColorCodes('&', "&cNavigate to next page"))
+                return Collections.singletonList(ChatColor.translateAlternateColorCodes('&', "&eNavigate to next page"))
             }
 
             override fun getDisplayName(player: Player): String? {
-                return ChatColor.translateAlternateColorCodes('&', "&cCurrent Page: &f$currentPage")
+                return ChatColor.translateAlternateColorCodes('&', "&aNext page &7(&e$currentPage&7/&e$maxPages")
             }
 
             override fun getData(player: Player): Short {
@@ -162,10 +165,12 @@ abstract class PaginatedMenu(
             override fun onClick(player: Player, slot: Int, type: ClickType) {
                 if (currentPage >= maxPages) {
                     player.sendMessage("${ChatColor.RED}You have already reached the last page!")
+                    MenuSound.playFail(player)
                     return
                 }
 
                 currentPage += 1
+                MenuSound.playNeutral(player)
                 updateMenu()
             }
         }
