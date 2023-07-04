@@ -3,8 +3,10 @@ package ltd.matrixstudios.alchemist.commands.punishments.menu
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.GeneralPunishmentMenu
+import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.filter.PunishmentFilter
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
@@ -32,7 +34,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        GeneralPunishmentMenu(gameProfile, punishmentType, player).updateMenu()
+        GeneralPunishmentMenu(gameProfile, punishmentType, PunishmentService.getFromCache(player.uniqueId).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
     }
 
 

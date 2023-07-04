@@ -86,7 +86,7 @@ class GrantsMenu(val player: Player, val gameProfile: GameProfile, val grants: M
                     " ",
                     Chat.format("&aCurrently totaling &f" + RankGrantService.getFromCache(gameProfile.uuid).size + " &aentries"),
                     " "
-                ), Chat.format("&eWipe Grants")).setBody { player, i, clickType -> WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile) },
+                ), Chat.format("&eWipe Grants")).setBody { player, i, clickType -> if (player.hasPermission("alchemist.owner")) WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile) else player.sendMessage(Chat.format("&cYou must be a server operator to do this")) },
             11 to Button.placeholder(),
             20 to Button.placeholder(),
             29 to Button.placeholder(),

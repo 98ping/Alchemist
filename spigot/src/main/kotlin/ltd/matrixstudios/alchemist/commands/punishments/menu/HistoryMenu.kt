@@ -11,15 +11,16 @@ import org.bukkit.entity.Player
 class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(player) {
 
     init {
-        staticSize = 9
+        staticSize = 27
+        placeholder = true
     }
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        buttons[1] = HistoryPlaceholderButton(PunishmentType.WARN, gameprofile)
-        buttons[3] = HistoryPlaceholderButton(PunishmentType.MUTE, gameprofile)
-        buttons[5] = HistoryPlaceholderButton(PunishmentType.BAN, gameprofile)
-        buttons[7] = HistoryPlaceholderButton(PunishmentType.BLACKLIST, gameprofile)
+        buttons[10] = HistoryPlaceholderButton(PunishmentType.WARN, gameprofile)
+        buttons[12] = HistoryPlaceholderButton(PunishmentType.MUTE, gameprofile)
+        buttons[14] = HistoryPlaceholderButton(PunishmentType.BAN, gameprofile)
+        buttons[16] = HistoryPlaceholderButton(PunishmentType.BLACKLIST, gameprofile)
 
         return buttons
     }

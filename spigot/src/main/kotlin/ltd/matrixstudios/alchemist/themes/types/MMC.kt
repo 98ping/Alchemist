@@ -164,18 +164,18 @@ class MMC : Theme(
         val punishments = profile.getPunishments(punishment)
         desc.addAll(
             listOf(
-                "&7Viewing statistics for the",
-                "&7${punishment.niceName} category:",
+                "&eViewing statistics for the",
+                "&6${punishment.niceName} &ecategory:",
                 "",
-                " &7Total: &f${punishments.size}",
-                " &7Active: &a${punishments.filter { it.expirable.isActive() }.size}",
-                " &7Inactive: &c${
+                " &eTotal: &f${punishments.size}",
+                " &eActive: &a${punishments.filter { it.expirable.isActive() }.size}",
+                " &eInactive: &c${
                     punishments.filter {    p ->
                         !p.expirable.isActive()
                     }.size
                 }",
                 "",
-                "&eClick to view more!"
+                "&a&lClick to view more!"
             )
         )
         return desc

@@ -116,7 +116,7 @@ object ACFCommandController {
                 registerCommand(UnblacklistCommand())
                 registerCommand(PunishmentLookupCommands())
 
-                registerCommand(WipePunishmentsCommand())
+                registerCommand(WipePunishmentsCommand)
                 registerCommand(ExecutedPunishmentHistoryCommand())
             }
 

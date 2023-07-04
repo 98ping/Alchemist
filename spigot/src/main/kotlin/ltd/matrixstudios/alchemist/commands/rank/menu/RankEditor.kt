@@ -37,16 +37,16 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
 
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
-            desc.add(Chat.format("&6&m---------------------"))
+            desc.add(Chat.format("&7&m---------------------"))
             desc.add(Chat.format("&6Metadata:"))
-            desc.add(Chat.format("&e- Prefix: &f" + rank.prefix))
-            desc.add(Chat.format("&e- Permissions: &f" + rank.permissions.size))
-            desc.add(Chat.format("&e- Weight: &f" + rank.weight))
+            desc.add(Chat.format("&e→ &fPrefix: &e" + rank.prefix))
+            desc.add(Chat.format("&e→ &fPermissions: &e" + rank.permissions.size))
+            desc.add(Chat.format("&e→ &fWeight: &e" + rank.weight))
             desc.add(" ")
             desc.add(Chat.format("&6Looks:"))
-            desc.add(Chat.format("&e- Player List: &f" + rank.color + player.name))
-            desc.add(Chat.format("&e- Chat Format: &f" + rank.prefix + player.name))
-            desc.add(Chat.format("&6&m---------------------"))
+            desc.add(Chat.format("&e→ &fPlayer List: &f" + rank.color + player.name))
+            desc.add(Chat.format("&e→ &fChat Format: &f" + rank.prefix + rank.color + player.name))
+            desc.add(Chat.format("&7&m---------------------"))
 
             return desc
         }

@@ -18,7 +18,6 @@ class MenuListener : Listener {
         val menu = MenuController.paginatedMenuMap[event.whoClicked.uniqueId]
         val player = event.whoClicked
         if (menu != null) {
-            println("Paginated click 1")
             val slot = event.slot
             val click = event.click
 

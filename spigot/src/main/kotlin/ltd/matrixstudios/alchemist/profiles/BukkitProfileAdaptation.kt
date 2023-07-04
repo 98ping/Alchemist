@@ -6,10 +6,12 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
+import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
 import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -50,10 +52,13 @@ object BukkitProfileAdaptation
         BukkitPostLoginConnection.registerNewCallback { player ->
             dispatchPermissionAttatchment(player)
         }
+
+        BukkitPostLoginConnection.registerNewLazyCallback { player ->
+            ensurePlayerIsNotBanEvading(player.uniqueId)
+        }
     }
 
-    fun loadAndEquipProfile(event: AsyncPlayerPreLoginEvent)
-    {
+    fun loadAndEquipProfile(event: AsyncPlayerPreLoginEvent) {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
@@ -82,8 +87,7 @@ object BukkitProfileAdaptation
         MetricService.addMetric("Permission Handler", Metric("Permission Handler", System.currentTimeMillis().minus(startPerms), System.currentTimeMillis()))
     }
 
-    fun handlePunishmentsUsingEvent(profileId: UUID, event: AsyncPlayerPreLoginEvent)
-    {
+    fun handlePunishmentsUsingEvent(profileId: UUID, event: AsyncPlayerPreLoginEvent) {
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
         if (profile.hasActivePunishment(PunishmentType.BAN) || profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
@@ -109,8 +113,20 @@ object BukkitProfileAdaptation
         }
     }
 
-    fun calculateAndPostGrantables(profileId: UUID)
-    {
+    fun ensurePlayerIsNotBanEvading(profileId: UUID) {
+        val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
+        val alts = CompletableFuture.supplyAsync {
+            return@supplyAsync profile.getAltAccounts()
+        }.get()
+
+        val isBanEvading = alts.size >= 1 && alts.any { it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(PunishmentType.BLACKLIST) }
+
+        if (isBanEvading) {
+            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${AlchemistAPI.getRankWithPrefix(profileId)} &3may be using an alt to evade a punishment!"))
+        }
+    }
+
+    fun calculateAndPostGrantables(profileId: UUID) {
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
         val startGrants = System.currentTimeMillis()

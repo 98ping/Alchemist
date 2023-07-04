@@ -26,6 +26,19 @@ class VoucherCommand : BaseCommand() {
         VoucherGrantsMenu(player, VoucherService.allGrantsFromPlayer(player.uniqueId)).updateMenu()
     }
 
+    @Subcommand("help")
+    @CommandPermission("alchemist.vouchers.admin")
+    fun help(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&6&lVoucher Help"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&e/voucher template setprize &f<id> <prize>"))
+        sender.sendMessage(Chat.format("&e/voucher issue &f<id> <target> <duration>"))
+        sender.sendMessage(Chat.format("&e/voucher template create &f<id>"))
+        sender.sendMessage(Chat.format("&e/voucher template delete &f<id>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
     @Subcommand("template setprize")
     @CommandPermission("alchemist.vouchers.admin")
     fun create(sender: CommandSender, @Name("id")id: String, @Name("prize")prize: String) {

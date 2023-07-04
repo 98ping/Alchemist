@@ -104,7 +104,7 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
                 generateRankButtonDesc(rank),
                 "&r${rank.color}${rank.displayName}"
             ).setBody { player, i, clickType ->
-
+                RankEditor(player).updateMenu()
             }
         }
 
