@@ -54,6 +54,21 @@ class VoucherCommand : BaseCommand() {
         sender.sendMessage(Chat.format("&aSet the prize of &f$id &ato &f$prize"))
     }
 
+    @Subcommand("template setcommand")
+    @CommandPermission("alchemist.vouchers.admin")
+    fun setcommand(sender: CommandSender, @Name("id")id: String, @Name("command")command: String) {
+        val template = VoucherService.findVoucherTemplate(id.lowercase())
+
+        if (template == null) {
+            sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
+            return
+        }
+
+        template.commandToExecute = command
+        VoucherService.insertTemplate(template)
+        sender.sendMessage(Chat.format("&aSet the command of &f$id &ato &f$command"))
+    }
+
     @Subcommand("issue")
     @CommandPermission("alchemist.vouchers.admin")
     fun issue(sender: CommandSender, @Name("id")id: String, @Name("target")target: GameProfile, @Name("duration")duration: String) {
