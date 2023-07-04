@@ -122,7 +122,7 @@ class MMC : Theme(
     override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
         val desc = arrayListOf<String>()
         desc.add(Chat.format("&6&m--------------------"))
-        desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(punishment.executor)))
+        desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(punishment.target)))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(punishment.expirable.duration)))
         if (punishment.expirable.duration != Long.MAX_VALUE && punishment.expirable.isActive())
         {
