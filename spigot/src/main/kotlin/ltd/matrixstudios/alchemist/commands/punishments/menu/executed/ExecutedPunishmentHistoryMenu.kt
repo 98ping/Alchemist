@@ -46,7 +46,7 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
 
         override fun setCustomAmount(player: Player): Int {
             val number = PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == type }.size
-            return if (number > 64) 64 else (if (number == 0) 1 else number)
+            return if (number > 64) 64 else (if (number == 0) 1 else 0)
         }
         override fun getMaterial(player: Player): Material {
             return Material.PAPER
@@ -71,7 +71,7 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-            GeneralPunishmentMenu(target, this.type, PunishmentService.getFromCache(player.uniqueId).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
+            GeneralPunishmentMenu(target, this.type, PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == this.type }.toMutableList(), PunishmentFilter.ALL, player).updateMenu()
         }
 
     }
