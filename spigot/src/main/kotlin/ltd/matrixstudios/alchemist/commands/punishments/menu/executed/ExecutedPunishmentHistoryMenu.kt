@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.commands.punishments.menu.executed
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.GeneralPunishmentMenu
+import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.filter.PunishmentFilter
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
@@ -44,7 +46,7 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
 
         override fun setCustomAmount(player: Player): Int {
             val number = PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == type }.size
-            return if (number > 64) 64 else number
+            return if (number > 64) 64 else (if (number == 0) 1 else number)
         }
         override fun getMaterial(player: Player): Material {
             return Material.PAPER
@@ -69,7 +71,7 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-            GeneralExecutedPunishmentMenu(target, this.type, player).updateMenu()
+            GeneralPunishmentMenu(target, this.type, PunishmentService.getFromCache(player.uniqueId).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
         }
 
     }

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class StaffmodeFunctionalityListener : Listener {
+    val timestamps = mutableMapOf<UUID, Long>()
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun interact(e: PlayerInteractEvent) {
@@ -33,6 +34,17 @@ class StaffmodeFunctionalityListener : Listener {
 
                 val itemInHand = player.itemInHand
 
+                val time = timestamps[player.uniqueId]
+                if (time != null) {
+                    if (System.currentTimeMillis().minus(time) < 300L) {
+                        e.isCancelled = true
+                        timestamps.remove(player.uniqueId)
+
+                        return
+                    }
+                }
+
+                timestamps[player.uniqueId] = System.currentTimeMillis()
 
                 if (itemInHand.isSimilar(StaffItems.RANDOMTP))
                 {
