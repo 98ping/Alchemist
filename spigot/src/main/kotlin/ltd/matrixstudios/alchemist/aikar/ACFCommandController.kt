@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.aikar
 
+import co.aikar.commands.BukkitMessageFormatter
+import co.aikar.commands.MessageType
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.context.*
@@ -9,7 +11,7 @@ import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
-import ltd.matrixstudios.alchemist.commands.gems.CoinsCommand
+import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
@@ -28,6 +30,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.WipePunishmentsCo
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
+import ltd.matrixstudios.alchemist.commands.sibling.SiblingCommands
 import ltd.matrixstudios.alchemist.commands.staff.JumpToPlayerCommand
 import ltd.matrixstudios.alchemist.commands.staff.OnlineStaffCommand
 import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
@@ -49,6 +52,7 @@ import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
 import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
 import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
+import org.bukkit.ChatColor
 import java.util.UUID
 
 object ACFCommandController {
@@ -69,6 +73,12 @@ object ACFCommandController {
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion AlchemistSpigotPlugin.instance.server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
             }
+
+            this.enableUnstableAPI("help")
+
+            this.setFormat(MessageType.SYNTAX, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.WHITE))
+            this.setFormat(MessageType.HELP, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.WHITE))
+
             if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())
                 registerCommand(GrantCommand())
@@ -79,7 +89,11 @@ object ACFCommandController {
                 registerCommand(WipeGrantsCommand)
             }
 
-            registerCommand(VoucherCommand())
+            if (config.getBoolean("modules.vouchers")) {
+                registerCommand(VoucherCommand())
+            }
+
+            registerCommand(SiblingCommands())
 
             registerCommand(CoinsCommand())
 

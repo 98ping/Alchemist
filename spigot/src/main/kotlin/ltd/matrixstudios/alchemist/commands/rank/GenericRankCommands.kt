@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.rank
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -48,8 +49,7 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(" ")
         val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
 
-        for (rank2 in parents)
-        {
+        for (rank2 in parents) {
             sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
         }
 
@@ -92,8 +92,7 @@ class GenericRankCommands : BaseCommand() {
 
     @Subcommand("editor")
     @CommandPermission("rank.admin")
-    fun editor(player: Player)
-    {
+    fun editor(player: Player) {
         RankEditor(player).updateMenu()
     }
 
@@ -139,7 +138,12 @@ class GenericRankCommands : BaseCommand() {
 
     @Subcommand("module")
     @CommandPermission("rank.admin")
-    fun module(sender: CommandSender, @Name("rank") name: String, @Name("module")module: String, @Name("argument")arg: String) {
+    fun module(
+        sender: CommandSender,
+        @Name("rank") name: String,
+        @Name("module") module: String,
+        @Name("argument") arg: String
+    ) {
         if (RankService.byId(name.toLowerCase()) == null) {
             sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
             return
@@ -183,14 +187,17 @@ class GenericRankCommands : BaseCommand() {
             "parent" -> {
                 if (rank.parents.contains(arg)) {
                     rank.parents.remove(arg)
-                } else rank.parents.add(arg)
+                    sender.sendMessage(Chat.format("&cRemoved the parent &f$arg &cfrom the rank " + rank.color + rank.displayName))
+                } else {
+                    rank.parents.add(arg)
+                    sender.sendMessage(Chat.format("&aAdded the parent &f$arg &ato the rank " + rank.color + rank.displayName))
+                }
 
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
                 AsynchronousRedisSender.send(RefreshRankPacket())
 
-                sender.sendMessage(Chat.format("&aUpdated the parents of &f" + rank.color + rank.displayName))
             }
 
             "displayname" -> {
@@ -205,14 +212,16 @@ class GenericRankCommands : BaseCommand() {
             "permission" -> {
                 if (rank.permissions.contains(arg)) {
                     rank.permissions.remove(arg)
-                } else rank.permissions.add(arg)
+                    sender.sendMessage(Chat.format("&cRemoved the permission &f$arg &cfrom the rank " + rank.color + rank.displayName))
+                } else {
+                    rank.permissions.add(arg)
+                    sender.sendMessage(Chat.format("&aAdded the permission &f$arg &cto the rank " + rank.color + rank.displayName))
+                }
 
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
                 AsynchronousRedisSender.send(RefreshRankPacket())
-
-                sender.sendMessage(Chat.format("&aUpdated the permissions of &f" + rank.color + rank.displayName))
             }
 
             "default" -> {
@@ -237,8 +246,6 @@ class GenericRankCommands : BaseCommand() {
             }
 
         }
-
-
 
 
     }
