@@ -39,13 +39,30 @@ data class GameProfile(
     var lastSeenAt: Long,
     var coins: Int = 0,
     val notes: MutableList<ProfileNote> = ArrayList(),
+    var siblings: MutableList<UUID> = ArrayList()
 ) {
 
     @Transient
     var currentSession: Session? = null
 
+    fun getAllSiblings() : MutableList<UUID> {
+        if (siblings == null) {
+            this.siblings = mutableListOf()
+
+            return siblings
+        }
+
+        return siblings
+    }
+
     fun getPunishments(): Collection<Punishment> {
         return PunishmentService.getFromCache(uuid)
+    }
+
+    fun getRankDisplay() : String {
+        val rank = getCurrentRank()
+
+        return (rank?.color ?: "&f") + username
     }
 
     fun getActivePunishments() : Collection<Punishment> {

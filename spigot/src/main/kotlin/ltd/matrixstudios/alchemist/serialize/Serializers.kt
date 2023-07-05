@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.serialize
 
 import com.google.gson.*
+import org.bukkit.inventory.ItemStack
+
 object Serializers {
      val GSON: Gson = GsonBuilder()
          .serializeNulls()

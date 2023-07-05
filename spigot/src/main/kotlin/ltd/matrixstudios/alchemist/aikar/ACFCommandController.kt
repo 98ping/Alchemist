@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
-import ltd.matrixstudios.alchemist.commands.gems.CoinsCommand
+import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
@@ -28,6 +28,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.remove.WipePunishmentsCo
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
+import ltd.matrixstudios.alchemist.commands.sibling.SiblingCommands
 import ltd.matrixstudios.alchemist.commands.staff.JumpToPlayerCommand
 import ltd.matrixstudios.alchemist.commands.staff.OnlineStaffCommand
 import ltd.matrixstudios.alchemist.commands.staff.StaffchatCommand
@@ -79,7 +80,11 @@ object ACFCommandController {
                 registerCommand(WipeGrantsCommand)
             }
 
-            registerCommand(VoucherCommand())
+            if (config.getBoolean("modules.vouchers")) {
+                registerCommand(VoucherCommand())
+            }
+
+            registerCommand(SiblingCommands())
 
             registerCommand(CoinsCommand())
 
