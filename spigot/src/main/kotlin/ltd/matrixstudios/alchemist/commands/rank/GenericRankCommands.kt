@@ -183,14 +183,17 @@ class GenericRankCommands : BaseCommand() {
             "parent" -> {
                 if (rank.parents.contains(arg)) {
                     rank.parents.remove(arg)
-                } else rank.parents.add(arg)
+                    sender.sendMessage(Chat.format("&cRemoved the parent &f$arg &cfrom the rank " + rank.color + rank.displayName))
+                } else {
+                    rank.parents.add(arg)
+                    sender.sendMessage(Chat.format("&aAdded the parent &f$arg &ato the rank " + rank.color + rank.displayName))
+                }
 
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
                 AsynchronousRedisSender.send(RefreshRankPacket())
 
-                sender.sendMessage(Chat.format("&aUpdated the parents of &f" + rank.color + rank.displayName))
             }
 
             "displayname" -> {
@@ -205,14 +208,16 @@ class GenericRankCommands : BaseCommand() {
             "permission" -> {
                 if (rank.permissions.contains(arg)) {
                     rank.permissions.remove(arg)
-                } else rank.permissions.add(arg)
+                    sender.sendMessage(Chat.format("&cRemoved the permission &f$arg &cfrom the rank " + rank.color + rank.displayName))
+                } else {
+                    rank.permissions.add(arg)
+                    sender.sendMessage(Chat.format("&aAdded the permission &f$arg &cto the rank " + rank.color + rank.displayName))
+                }
 
                 RankService.save(rank)
 
                 AsynchronousRedisSender.send(PermissionUpdateAllPacket())
                 AsynchronousRedisSender.send(RefreshRankPacket())
-
-                sender.sendMessage(Chat.format("&aUpdated the permissions of &f" + rank.color + rank.displayName))
             }
 
             "default" -> {

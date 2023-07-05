@@ -1,8 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.metrics.menu
 
-import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.GrantsMetricButton
-import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.HeartbeatButton
-import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.ProfileMetricButton
+import ltd.matrixstudios.alchemist.commands.metrics.menu.buttons.*
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import org.bukkit.entity.Player
@@ -20,6 +18,8 @@ class MetricsMenu(val player: Player) : Menu(player) {
         buttons[4] = HeartbeatButton()
         buttons[10] = ProfileMetricButton()
         buttons[11] = GrantsMetricButton()
+        buttons[12] = PunishmentMetricButton()
+        buttons[13] = PermissionMetricButton()
 
         return buttons
     }
