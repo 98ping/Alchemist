@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.aikar
 
+import co.aikar.commands.BukkitMessageFormatter
+import co.aikar.commands.MessageType
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.context.*
@@ -50,6 +52,7 @@ import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
 import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
 import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
+import org.bukkit.ChatColor
 import java.util.UUID
 
 object ACFCommandController {
@@ -70,6 +73,12 @@ object ACFCommandController {
             this.commandCompletions.registerCompletion("gameprofile") {
                 return@registerCompletion AlchemistSpigotPlugin.instance.server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
             }
+
+            this.enableUnstableAPI("help")
+
+            this.setFormat(MessageType.SYNTAX, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.WHITE))
+            this.setFormat(MessageType.HELP, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.WHITE))
+
             if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())
                 registerCommand(GrantCommand())
