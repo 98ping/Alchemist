@@ -17,6 +17,7 @@ class UnbanCommand  : BaseCommand() {
 
     @CommandAlias("unban|unb")
     @CommandPermission("alchemist.punishments.unban")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishments = gameProfile.getActivePunishments(PunishmentType.BAN)
 

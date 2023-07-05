@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.punishments.menu
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.punishments.menu.executed.ExecutedPunishmentHistoryMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -22,6 +19,7 @@ class ExecutedPunishmentHistoryCommand : BaseCommand() {
 
     @CommandAlias("staffhist|staffhistory|executedhistory")
     @CommandPermission("alchemist.punishments.check")
+    @CommandCompletion("@gameprofile")
     fun checkOthers(player: Player,  @Name("target") @Optional profile: GameProfile?)
     {
         if (!player.hasPermission("alchemist.punishments.check.others")) {

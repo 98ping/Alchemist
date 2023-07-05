@@ -16,6 +16,7 @@ class UnmuteCommand : BaseCommand() {
 
     @CommandAlias("unmute|unm")
     @CommandPermission("alchemist.punishments.unmute")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishments = gameProfile.getActivePunishments(PunishmentType.MUTE)
 

@@ -16,6 +16,7 @@ class UnblacklistCommand  : BaseCommand() {
 
     @CommandAlias("unblacklist|unbl")
     @CommandPermission("alchemist.punishments.unblacklist")
+    @CommandCompletion("@gameprofile")
     fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishments = gameProfile.getActivePunishments(PunishmentType.BLACKLIST)
 
