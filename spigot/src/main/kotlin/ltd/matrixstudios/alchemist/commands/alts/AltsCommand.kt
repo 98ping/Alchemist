@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.alts
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
@@ -18,6 +19,7 @@ class AltsCommand : BaseCommand() {
 
     @CommandAlias("alts")
     @CommandPermission("alchemist.alts")
+    @CommandCompletion("@gameprofile")
     fun listAll(player: Player, @Name("target") profile: GameProfile) {
         ForkJoinPool.commonPool().run {
             val ms = System.currentTimeMillis()

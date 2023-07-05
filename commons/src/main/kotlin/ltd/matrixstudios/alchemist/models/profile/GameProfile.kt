@@ -69,6 +69,16 @@ data class GameProfile(
         return getPunishments().filter { it.expirable.isActive() }
     }
 
+    fun getActivePunishmentsFilteredByImportance() : Collection<Punishment> {
+        val bindings = hashMapOf<PunishmentType, Int>(
+            PunishmentType.BLACKLIST to 4,
+            PunishmentType.BAN to 3,
+            PunishmentType.WARN to 1,
+            PunishmentType.MUTE to 2
+        )
+        return getActivePunishments().sortedByDescending { bindings[it.getGrantable()]!! }
+    }
+
     fun getAltAccounts(): MutableList<GameProfile> {
         val finalAccounts = arrayListOf<GameProfile>()
         val targetDocuments = ProfileGameService.collection.find(Document("ip", ip))

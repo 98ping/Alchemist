@@ -47,7 +47,7 @@ class AltsMenu(var player: Player, var target: GameProfile, var alts: MutableLis
                 desc.add(Chat.format("&aCurrently matching ${AlchemistAPI.getRankDisplay(target.uuid)}"))
             }
 
-            val punishments = target.getActivePunishments()
+            val punishments = target.getActivePunishmentsFilteredByImportance()
             if (!punishments.isEmpty())
             {
                 val firstPunishment = punishments.first()

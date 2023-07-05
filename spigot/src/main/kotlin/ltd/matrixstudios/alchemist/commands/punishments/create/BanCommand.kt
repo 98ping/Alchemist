@@ -3,16 +3,19 @@ package ltd.matrixstudios.alchemist.commands.punishments.create
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.packets.OwnershipMessagePacket
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
@@ -64,6 +67,7 @@ class BanCommand : BaseCommand() {
 
             if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
+                AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return
             }
 
