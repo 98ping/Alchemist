@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.sibling
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.commands.sibling.menu.SiblingCheckMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -22,6 +19,17 @@ import org.bukkit.entity.Player
 @CommandAlias("sibling")
 @CommandPermission("alchemist.siblings")
 class SiblingCommands : BaseCommand() {
+
+    @HelpCommand
+    fun help(sender: CommandSender) {
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+        sender.sendMessage(Chat.format("&6&lSibling Help"))
+        sender.sendMessage(" ")
+        sender.sendMessage(Chat.format("&e/sibling add &f<target> <sibling>"))
+        sender.sendMessage(Chat.format("&e/sibling check &f<target>"))
+        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
 
     @Subcommand("add")
     fun add(sender: CommandSender, @Name("target")target: GameProfile, @Name("sibling")sibling: GameProfile) {
