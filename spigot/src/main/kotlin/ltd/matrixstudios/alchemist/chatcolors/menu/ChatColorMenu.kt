@@ -61,7 +61,7 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
         }
 
         override fun getData(player: Player): Short {
-            return Chat.getDyeColor(chatColor.chatColor).dyeData.toShort()
+            return Chat.getDyeColor(chatColor.chatColor).woolData.toShort()
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
