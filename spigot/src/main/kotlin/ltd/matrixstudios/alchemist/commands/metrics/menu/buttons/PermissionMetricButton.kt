@@ -18,7 +18,7 @@ import org.bukkit.event.inventory.ClickType
 class PermissionMetricButton : Button() {
 
     override fun getMaterial(player: Player): Material {
-        return Material.REDSTONE
+        return Material.BEACON
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
