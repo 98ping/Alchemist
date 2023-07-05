@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.punishment.packets.PunishmentRemovePacket
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.UpdatePunishmentsRequest
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.webhook.types.punishments.PunishmentNotification
 import org.bukkit.command.CommandSender
@@ -48,6 +49,13 @@ object BukkitPunishmentFunctions {
         }
 
         return true
+    }
+
+    fun playerCanPunishOther(executor: GameProfile, target: GameProfile) : Boolean {
+        val rankWeightExec = executor.getCurrentRank()?.weight ?: 1
+        val rankWeightTarget = target.getCurrentRank()?.weight ?: 1
+
+        return (rankWeightExec >= rankWeightTarget)
     }
 
     fun parseReason(

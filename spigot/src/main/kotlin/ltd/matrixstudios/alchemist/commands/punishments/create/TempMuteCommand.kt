@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.punishments.create
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -48,6 +49,7 @@ class TempMuteCommand : BaseCommand() {
 
         if (sender is Player) {
 
+            val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
@@ -55,6 +57,11 @@ class TempMuteCommand : BaseCommand() {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
                 sender.sendMessage(Chat.format("&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(sender.uniqueId)))
 
+                return
+            }
+
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
+                sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 return
             }
 
