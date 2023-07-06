@@ -41,6 +41,9 @@ abstract class PaginatedMenu(
             buttons[slot] = button
         }
 
+        buttons[getPageButtonPositions().first] = getPreviousPageButton()
+        buttons[getPageButtonPositions().second] = getNextPageButton()
+
 
         val minIndex = ((currentPage - 1) * getButtonsPerPage())
         val maxIndex = (currentPage * getButtonsPerPage())
@@ -189,9 +192,6 @@ abstract class PaginatedMenu(
         val buttons = getButtonsInRange(player)
 
         val inventory = Bukkit.createInventory(null, (displaySize + 9), Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player))
-
-        inventory.setItem(getPageButtonPositions().first, getPreviousPageButton().constructItemStack(player))
-        inventory.setItem(getPageButtonPositions().second, getNextPageButton().constructItemStack(player))
 
         CompletableFuture.runAsync {
             for (entry in buttons) {
