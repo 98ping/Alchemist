@@ -1,7 +1,8 @@
 package ltd.matrixstudios.alchemist.placeholder
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
@@ -19,16 +20,33 @@ class AlchemistExpansion : PlaceholderExpansion() {
         return "1.0.0"
     }
 
-    override fun onPlaceholderRequest(player: Player?, params: String): String? {
-        val rank = AlchemistAPI.findRank(player!!.uniqueId)
+    override fun onPlaceholderRequest(player: Player, params: String): String {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return ""
 
         when (params) {
             "rankDisplay" -> {
+                var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+
+                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
+                    val disguiseRank = profile.rankDisguiseAttribute!!
+                    rank = RankService.byId(disguiseRank.rank)!!
+                } else if (profile.getCurrentRank() != null) {
+                    rank = profile.getCurrentRank()!!
+                }
+
                 return Chat.format(rank.color + rank.displayName)
             }
 
             "rankPrefix" -> {
+                var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+
+                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
+                    val disguiseRank = profile.rankDisguiseAttribute!!
+                    rank = RankService.byId(disguiseRank.rank)!!
+                } else if (profile.getCurrentRank() != null) {
+                    rank = profile.getCurrentRank()!!
+                }
+
                 return Chat.format(rank.prefix)
             }
 

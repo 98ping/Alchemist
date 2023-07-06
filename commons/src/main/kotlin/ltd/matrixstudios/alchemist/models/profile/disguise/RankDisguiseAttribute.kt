@@ -7,11 +7,8 @@ package ltd.matrixstudios.alchemist.models.profile.disguise
  * @project Alchemist
  * @website https://solo.to/redis
  */
-data class DisguiseAttributes(
-    var texture: String,
-    var signature: String,
-    var fakeName: String,
+data class RankDisguiseAttribute(
     var rank: String,
-    var crossServer: Boolean
+    var multiServer: Boolean
 ) {
 }

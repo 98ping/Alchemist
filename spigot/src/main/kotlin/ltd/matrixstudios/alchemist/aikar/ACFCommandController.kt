@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
+import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.commands.grants.*
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
@@ -100,6 +101,8 @@ object ACFCommandController {
             if (config.getBoolean("modules.themeCommands")) {
                 registerCommand(ThemeSelectCommand())
             }
+
+            registerCommand(RankDisguiseCommand())
 
             if (config.getBoolean("modules.staffmode")) {
                 registerCommand(VanishCommands())

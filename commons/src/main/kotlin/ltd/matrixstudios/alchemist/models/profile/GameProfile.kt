@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.profile.disguise.RankDisguiseAttribute
 import ltd.matrixstudios.alchemist.models.profile.notes.ProfileNote
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
@@ -37,6 +38,7 @@ data class GameProfile(
     var activePrefix: String? = null,
     var permissions: MutableList<String> = ArrayList(),
     var lastSeenAt: Long,
+    var rankDisguiseAttribute: RankDisguiseAttribute? = null,
     var coins: Int = 0,
     val notes: MutableList<ProfileNote> = ArrayList(),
     var siblings: MutableList<UUID> = ArrayList()

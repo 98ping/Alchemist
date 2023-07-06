@@ -30,6 +30,13 @@ object AlchemistAPI {
         return finalString
     }
 
+    fun getRankWeight(uuid: UUID) : Int {
+        val profile = syncFindProfile(uuid) ?: return 1
+        val currentRank = profile.getCurrentRank() ?: return 1
+
+        return currentRank.weight
+    }
+
     fun getRankWithPrefix(uuid: UUID) : String {
         var finalString = "&cConsole"
 

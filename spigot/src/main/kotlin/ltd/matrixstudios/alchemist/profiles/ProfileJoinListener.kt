@@ -2,10 +2,12 @@ package ltd.matrixstudios.alchemist.profiles
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
 import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.entity.Player
@@ -50,14 +52,20 @@ class ProfileJoinListener : Listener {
             }
         }
 
-        if (profile.activeColor != null)
-        {
+        if (profile.activeColor != null) {
             colorString = profile.activeColor!!.chatColor
         }
 
+        var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+
+        if (profile.rankDisguiseAttribute != null) {
+            rank = RankService.byId(profile.rankDisguiseAttribute!!.rank)!!
+        } else if (profile.getCurrentRank() != null) {
+            rank = profile.getCurrentRank()!!
+        }
 
 
-        event.format = Chat.format((prefixString) + profile.getCurrentRank()!!.prefix + profile.getCurrentRank()!!.color + "%1\$s&7: &r${colorString}%2\$s")
+        event.format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
     }
 
     @EventHandler
