@@ -10,5 +10,4 @@ package ltd.matrixstudios.alchemist.models.profile.disguise
 data class RankDisguiseAttribute(
     var rank: String,
     var multiServer: Boolean
-) {
-}
+)
