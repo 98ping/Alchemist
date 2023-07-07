@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.staff.settings.toggle.menu
 
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.staff.settings.toggle.types.CanSeeOtherStaffSetting
-import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleModModeOnJoinSetting
-import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleRequestsSetting
-import ltd.matrixstudios.alchemist.staff.settings.toggle.types.ToggleStaffChatSetting
+import ltd.matrixstudios.alchemist.staff.settings.toggle.types.*
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import org.bukkit.entity.Player
@@ -25,6 +22,7 @@ class SettingsMenu(val player: Player) : Menu(player) {
         buttons[11] = ToggleStaffChatSetting(profile)
         buttons[12] = ToggleModModeOnJoinSetting(profile)
         buttons[13] = CanSeeOtherStaffSetting(profile)
+        buttons[14] = AllMessagesAreStaffSetting(profile)
 
         return buttons
     }

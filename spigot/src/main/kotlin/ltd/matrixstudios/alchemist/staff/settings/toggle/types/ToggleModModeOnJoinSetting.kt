@@ -18,6 +18,10 @@ class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button() {
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = mutableListOf<String>()
         desc.add(" ")
+        desc.add(Chat.format("&7Toggle this setting to make it so"))
+        desc.add(Chat.format("&7every time you join you are put into"))
+        desc.add(Chat.format("&aMod Mode"))
+        desc.add("")
         val hasMetadata = profile.hasMetadata("toggleMM")
         if (hasMetadata)
         {

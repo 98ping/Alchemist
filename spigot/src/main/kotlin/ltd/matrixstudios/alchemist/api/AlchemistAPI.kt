@@ -30,6 +30,16 @@ object AlchemistAPI {
         return finalString
     }
 
+
+    fun getPlayerRankString(uuid: UUID) : String {
+        val current = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+
+        val profile = syncFindProfile(uuid) ?: return (current.color + current.displayName)
+        val rank = profile.getCurrentRank() ?: return (current.color + current.displayName)
+
+        return rank.color + rank.displayName
+    }
+
     fun getRankWeight(uuid: UUID) : Int {
         val profile = syncFindProfile(uuid) ?: return 1
         val currentRank = profile.getCurrentRank() ?: return 1

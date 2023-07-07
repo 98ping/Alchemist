@@ -1,12 +1,15 @@
 package ltd.matrixstudios.alchemist.profiles
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
 import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -26,6 +29,14 @@ class ProfileJoinListener : Listener {
         var prefixString = ""
 
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
+
+        if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
+            event.isCancelled = true
+            val message = event.message
+            AsynchronousRedisSender.send(StaffMessagePacket(message, Alchemist.globalServer.displayName, event.player.uniqueId))
+
+            return
+        }
 
         if (profile.hasActivePunishment(PunishmentType.MUTE)) {
             val mute = profile.getActivePunishments(PunishmentType.MUTE).first()

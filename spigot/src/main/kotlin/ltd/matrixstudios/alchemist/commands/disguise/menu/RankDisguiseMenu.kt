@@ -7,8 +7,10 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 /**
@@ -24,7 +26,18 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
-            4 to Button.placeholder(),
+            4 to SimpleActionButton(
+                Material.NETHER_STAR,
+                mutableListOf(" ", Chat.format("&eClick here to reset your active &6disguise."), Chat.format("&eYou will now look like " + AlchemistAPI.getPlayerRankString(player.uniqueId)), " "),
+                "&eReset &6Rank Disguise",
+                0
+            ).setBody { player, i, clickType ->
+                val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return@setBody
+                profile.rankDisguiseAttribute = null
+
+                ProfileGameService.save(profile)
+                player.sendMessage(Chat.format("&aYou have reset your rank disguise! Now looking like " + AlchemistAPI.getPlayerRankString(player.uniqueId)))
+            },
             6 to Button.placeholder(),
             7 to Button.placeholder(),
             9 to Button.placeholder(),

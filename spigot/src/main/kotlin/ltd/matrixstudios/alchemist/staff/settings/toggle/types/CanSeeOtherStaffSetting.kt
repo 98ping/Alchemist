@@ -18,6 +18,10 @@ class CanSeeOtherStaffSetting(val profile: GameProfile) : Button() {
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = mutableListOf<String>()
         desc.add(" ")
+        desc.add(Chat.format("&7Toggle this setting to make it so"))
+        desc.add(Chat.format("&7you can see or not see any other"))
+        desc.add(Chat.format("&6Staff Members"))
+        desc.add("")
         val hasMetadata = profile.hasMetadata("seeOtherStaff")
         if (hasMetadata)
         {

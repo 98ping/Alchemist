@@ -17,6 +17,10 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
     override fun getDescription(player: Player): MutableList<String>? {
         val desc = mutableListOf<String>()
         desc.add(" ")
+        desc.add(Chat.format("&7Toggle this setting to make it so"))
+        desc.add(Chat.format("&7you are unable to see requests and reports."))
+        desc.add(Chat.format("&7Great for &5Streamers &7and &cYou&fTubers"))
+        desc.add("")
         val hasMetadata = profile.hasMetadata("toggleRequests")
         if (hasMetadata)
         {
