@@ -86,6 +86,7 @@ object ACFCommandController {
                 registerCommand(GrantsCommand())
                 registerCommand(CGrantCommand())
                 registerCommand(NonModelGrantCommand())
+                registerCommand(GrantHistoryCommand())
                 registerCommand(LuckPermsConverterCommand())
                 registerCommand(WipeGrantsCommand)
             }
@@ -146,7 +147,6 @@ object ACFCommandController {
 
             registerCommand(AltsCommand())
             registerCommand(HistoryCommand())
-            registerCommand(GrantHistoryCommand())
 
             if (config.getBoolean("modules.notes")) {
                 registerCommand(PlayerNotesCommands())
