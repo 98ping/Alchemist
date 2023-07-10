@@ -115,14 +115,14 @@ object BukkitProfileAdaptation
 
     fun ensurePlayerIsNotBanEvading(profileId: UUID) {
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
-        val alts = CompletableFuture.supplyAsync {
+        CompletableFuture.supplyAsync {
             return@supplyAsync profile.getAltAccounts()
-        }.get()
+        }.thenApply { alts ->
+            val isBanEvading = alts.size >= 1 && alts.any { it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(PunishmentType.BLACKLIST) }
 
-        val isBanEvading = alts.size >= 1 && alts.any { it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(PunishmentType.BLACKLIST) }
-
-        if (isBanEvading) {
-            AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${AlchemistAPI.getRankWithPrefix(profileId)} &3may be using an alt to evade a punishment!"))
+            if (isBanEvading) {
+                AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${AlchemistAPI.getRankWithPrefix(profileId)} &3may be using an alt to evade a punishment!"))
+            }
         }
     }
 
