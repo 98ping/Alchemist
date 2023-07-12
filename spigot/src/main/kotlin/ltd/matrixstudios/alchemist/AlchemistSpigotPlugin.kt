@@ -237,7 +237,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         VoucherService.loadVoucherTemplates()
 
         Chat.sendConsoleMessage(
-            "&5[Vouchers] &fAll placeholders loaded in &5" + System.currentTimeMillis().minus(voucherStart) + "ms"
+            "&5[Vouchers] &fAll vouchers loaded in &5" + System.currentTimeMillis().minus(voucherStart) + "ms"
         )
 
 
@@ -256,7 +256,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         }
 
         Chat.sendConsoleMessage(
-            "&5[Discord] &fAll commands registered in &5" + System.currentTimeMillis().minus(discordStart) + "ms"
+            "&5[Discord] &fAll modules registered in &5" + System.currentTimeMillis().minus(discordStart) + "ms"
         )
 
         val commandsStart = System.currentTimeMillis()
