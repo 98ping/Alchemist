@@ -55,6 +55,10 @@ object RankService : GeneralizedService {
 
 
     fun findFirstAvailableDefaultRank() : Rank? {
+        val cachedDefault = ranks.values.firstOrNull { it.default }
+
+        if (cachedDefault != null) return cachedDefault
+
         val future: CompletableFuture<Rank?> = getValues().thenApply {
             for (rank in it)
             {
@@ -74,6 +78,7 @@ object RankService : GeneralizedService {
         if (ranks.containsKey(id)) {
             return ranks[id]
         }
+
         val future: CompletableFuture<Rank?> = getValues().thenApply {
             for (rank in it)
             {
