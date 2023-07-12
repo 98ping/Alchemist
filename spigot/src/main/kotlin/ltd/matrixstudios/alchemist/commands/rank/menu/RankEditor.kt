@@ -26,7 +26,7 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
     }
 
     override fun getTitle(player: Player): String {
-        return "Editing Ranks"
+        return Chat.format("&7[Editor] &eRanks")
     }
 
     class RankButton(val player: Player, val rank: Rank) : Button()

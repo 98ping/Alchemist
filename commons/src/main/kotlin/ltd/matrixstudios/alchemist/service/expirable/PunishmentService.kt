@@ -75,7 +75,6 @@ object PunishmentService : ExpiringService<Punishment>() {
             for (rawDoc in sorted)
             {
                 val json = rawDoc.toJson()
-
                 val gson = Alchemist.gson.fromJson(json, Punishment::class.java)
 
                 toReturn.add(gson)

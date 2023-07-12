@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.rank.menu.sub
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
+import ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission.PermissionEditorMenu
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -26,8 +27,12 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             Material.LADDER,
             mutableListOf(
                 " ",
-                Chat.format("&eChange the priority of the rank"),
+                Chat.format("&7Change the priority of the rank."),
+                Chat.format("&7This change will affect display order and"),
+                Chat.format("&7server punishment/grant handling"),
+                " ",
                 Chat.format("&eCurrently: &f" + rank.weight),
+                " "
             ),
             "&eChange Priority", 0
         ).setBody { player, slot, clicktype ->
@@ -56,8 +61,13 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             Material.NETHER_STAR,
             mutableListOf(
                 " ",
-                Chat.format("&eChange staff status"),
-                Chat.format("&eCurrently: &f" + if (rank.staff) "&aTrue" else "&cFalse")
+                Chat.format("&7Change staff status of this rank."),
+                Chat.format("&7Ranks with staff status are handled"),
+                Chat.format("&7differently than other ranks and given"),
+                Chat.format("&7more permission."),
+                " ",
+                Chat.format("&eCurrently: &f" + if (rank.staff) "&aTrue" else "&cFalse"),
+                " "
             ),
             "&eChange Staff Status", 0
         ).setBody { player, slot, clicktype ->
@@ -73,8 +83,12 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             Material.BOOK,
             mutableListOf(
                 " ",
-                Chat.format("&eChange the prefix of the rank"),
+                Chat.format("&7Change the prefix of this rank."),
+                Chat.format("&7This prefix will show in public chat"),
+                Chat.format("&7as well as some display parts of the server"),
+                " ",
                 Chat.format("&eCurrently: &f" + rank.prefix),
+                " "
             ),
             "&eChange Prefix", 0
         ).setBody { player, slot, clicktype ->
@@ -93,8 +107,12 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             Material.EXP_BOTTLE,
             mutableListOf(
                 " ",
-                Chat.format("&eChange the color of the rank"),
+                Chat.format("&7Change the display color of this rank."),
+                Chat.format("&7This color will show in /list"),
+                Chat.format("&7and menu aspects."),
+                " ",
                 Chat.format("&eCurrently: &f" + rank.color + "This"),
+                " "
             ),
             "&eChange Color", 0
         ).setBody { player, slot, clicktype ->
@@ -113,8 +131,13 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
             Material.NAME_TAG,
             mutableListOf(
                 " ",
-                Chat.format("&eChange the display name of the rank"),
+                Chat.format("&7Change the display name of this rank."),
+                Chat.format("&7Changing the display name causes"),
+                Chat.format("&7parts of the plugin use the display name"),
+                Chat.format("&7instead of just the regular rank id"),
+                " ",
                 Chat.format("&eCurrently: &f" + rank.displayName),
+                " "
             ),
             "&eChange Display Name", 0
         ).setBody { player, slot, clicktype ->
@@ -129,10 +152,54 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 }.start(player)
         }
 
+        buttons[15] = SimpleActionButton(
+            Material.DIAMOND,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the wool color of this rank."),
+                Chat.format("&7This is used for custom hex codes"),
+                Chat.format("&7and showing their respective colors"),
+                Chat.format("&7in rank-based menus."),
+                " ",
+                Chat.format("&cNormal color codes do not need this addition!"),
+                Chat.format("&eCurrently: &f" + rank.color + "This"),
+                " "
+            ),
+            "&eChange Wool Color", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new wool color for this rank!"))
+                .acceptInput {
+                    rank.woolColor = it
+                    RankService.save(rank)
+                    AsynchronousRedisSender.send(RefreshRankPacket())
+                    player.sendMessage(Chat.format("&aUpdated the wool color of " + rank.color + rank.displayName))
+                    RankEditPropertiesMenu(player, rank).openMenu()
+                }.start(player)
+        }
+
+        buttons[16] = SimpleActionButton(
+            Material.EMERALD,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the permissions of this"),
+                Chat.format("&7rank. Permissions are used to give"),
+                Chat.format("&7this rank command and features for anyone"),
+                Chat.format("&7with this rank granted."),
+                " ",
+                Chat.format("&eCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1)"" else "s"}"),
+                " "
+            ),
+            "&eChange Wool Color", 0
+        ).setBody { player, slot, clicktype ->
+            PermissionEditorMenu(player, rank).updateMenu()
+        }
+
         return buttons
     }
 
+
     override fun getTitle(player: Player): String {
-        return "Editing: ${rank.displayName}"
+        return Chat.format("&7[Editor] ${rank.color + rank.displayName}")
     }
 }
