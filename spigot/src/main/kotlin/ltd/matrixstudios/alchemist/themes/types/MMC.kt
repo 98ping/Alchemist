@@ -121,29 +121,29 @@ class MMC : Theme(
 
     override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
         val desc = arrayListOf<String>()
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(punishment.target)))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(punishment.expirable.duration)))
         if (punishment.expirable.duration != Long.MAX_VALUE && punishment.expirable.isActive())
         {
             desc.add(Chat.format("&eRemaining: &f" + TimeUtil.formatDuration((punishment.expirable.addedAt + punishment.expirable.duration) - System.currentTimeMillis())))
         }
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eActor:"))
         desc.add(Chat.format("&7- &eType: &c" + punishment.actor.actorType.name))
         desc.add(Chat.format("&7- &eExecuted From: &c" + punishment.actor.executor.name))
         desc.add(Chat.format("&6&m--------------------"))
         desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
         desc.add(Chat.format("&eIssued Reason: &f" + punishment.reason))
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         if (!punishment.expirable.isActive())
         {
             desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(punishment.removedBy!!)))
             desc.add(Chat.format("&eRemoved Reason: &f" + punishment.removedReason!!))
-            desc.add(Chat.format("&6&m--------------------"))
+            desc.add(Chat.format("&6&m-------------------------------------"))
         }
         desc.add(Chat.format("&aLeft-Click to view Proof Menu"))
-        desc.add(Chat.format("&6&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
         return desc
     }
 

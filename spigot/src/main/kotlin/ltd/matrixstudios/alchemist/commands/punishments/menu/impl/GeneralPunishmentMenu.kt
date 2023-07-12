@@ -37,20 +37,36 @@ class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: Punish
     }
 
     override fun getButtonPositions(): List<Int> {
-        return listOf(12, 13, 14, 15, 16,
-            21, 22, 23, 24, 25,
-            30, 31, 32, 33, 34)
+        return listOf(
+            10, 11, 12, 13, 14, 15, 16,
+            19, 20, 21, 22, 23, 24, 25,
+            28, 29, 30, 31, 32, 33, 34)
     }
 
     override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
-            3 to Button.placeholder(),
-            4 to SimpleActionButton(Material.PAPER, mutableListOf(), "&cGo Back", 0).setBody { player, slot, click ->
+            4 to Button.placeholder(),
+            3 to SimpleActionButton(Material.PAPER, mutableListOf(), "&cGo Back", 0).setBody { player, slot, click ->
                 HistoryMenu(profile, player).openMenu()
             },
-            5 to Button.placeholder(),
+            5 to SkullButton("eyJ0aW1lc3RhbXAiOjE1MTA5MzU0NTkwMTMsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2VlMWFjMzk4MmI4MTk5MzE1MmNhZDVmZWI1NmE3NWM4MzA3MmE1NjU1ZGMwNzEzN2ZkNjVkMWZmODk1MjI4MSJ9fX0=",
+            getFilterDesc(), Chat.format("&eFilter Punishments")).setBody { player, i, clickType ->
+            val values = PunishmentFilter.values()
+            val index = values.indexOf(punishmentFilter)
+            val next = (index + 1)
+            val limit = values.size - 1
+
+            if (next > limit)
+            {
+                GeneralPunishmentMenu(profile, punishmentType, values[0].lambda.invoke(PunishmentService.getFromCache(profile.uuid)).toMutableList(), values[0], player).updateMenu()
+
+                return@setBody
+            }
+
+            GeneralPunishmentMenu(profile, punishmentType, values[next].lambda.invoke(PunishmentService.getFromCache(profile.uuid)).toMutableList(), values[next], player).updateMenu()
+        },
             6 to Button.placeholder(),
             7 to Button.placeholder(),
             17 to Button.placeholder(),
@@ -68,27 +84,6 @@ class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: Punish
             44 to Button.placeholder(),
             9 to Button.placeholder(),
             27 to Button.placeholder(),
-            19 to SkullButton("eyJ0aW1lc3RhbXAiOjE1MTA5MzU0NTkwMTMsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2VlMWFjMzk4MmI4MTk5MzE1MmNhZDVmZWI1NmE3NWM4MzA3MmE1NjU1ZGMwNzEzN2ZkNjVkMWZmODk1MjI4MSJ9fX0=",
-                getFilterDesc(), Chat.format("&eFilter Punishments")).setBody { player, i, clickType ->
-                val values = PunishmentFilter.values()
-                val index = values.indexOf(punishmentFilter)
-                val next = (index + 1)
-                val limit = values.size - 1
-
-                if (next > limit)
-                {
-                    GeneralPunishmentMenu(profile, punishmentType, values[0].lambda.invoke(PunishmentService.getFromCache(profile.uuid)).toMutableList(), values[0], player).updateMenu()
-
-                    return@setBody
-                }
-
-                GeneralPunishmentMenu(profile, punishmentType, values[next].lambda.invoke(PunishmentService.getFromCache(profile.uuid)).toMutableList(), values[next], player).updateMenu()
-            },
-            10 to Button.placeholder(),
-            28 to Button.placeholder(),
-            11 to Button.placeholder(),
-            20 to Button.placeholder(),
-            29 to Button.placeholder(),
         )
     }
 
