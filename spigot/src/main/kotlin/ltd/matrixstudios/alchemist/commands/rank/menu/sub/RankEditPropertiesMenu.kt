@@ -190,7 +190,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 Chat.format("&eCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1)"" else "s"}"),
                 " "
             ),
-            "&eChange Wool Color", 0
+            "&eChange Permission", 0
         ).setBody { player, slot, clicktype ->
             PermissionEditorMenu(player, rank).updateMenu()
         }
