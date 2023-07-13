@@ -30,6 +30,10 @@ object QueueService : GeneralizedService {
         }
     }
 
+    fun playerAlreadyQueued(uuid: UUID) : QueueModel? {
+        return cache.values.firstOrNull { it.containsPlayer(uuid) }
+    }
+
     fun byId(id: String) : CompletableFuture<QueueModel?> {
         if (cache.containsKey(id)) return CompletableFuture.completedFuture(cache[id])
 

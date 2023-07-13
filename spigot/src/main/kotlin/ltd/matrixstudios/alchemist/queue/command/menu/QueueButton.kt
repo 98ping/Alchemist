@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.queue.command.menu
 
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
+import ltd.matrixstudios.alchemist.queue.command.menu.sub.QueueEditAttributesMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
@@ -49,7 +50,7 @@ class QueueButton(val queue: QueueModel) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        player.sendMessage("Hi")
+        QueueEditAttributesMenu(player, queue).openMenu()
     }
 
 }
