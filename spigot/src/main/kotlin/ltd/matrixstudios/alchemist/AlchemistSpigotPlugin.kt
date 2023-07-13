@@ -16,6 +16,7 @@ import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
+import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -267,6 +268,13 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             "&3[Commands] &fAll commands registered in &3" + System.currentTimeMillis().minus(commandsStart) + "ms"
         )
 
+        val queueStart = System.currentTimeMillis()
+
+        BukkitQueueHandler.load()
+
+        Chat.sendConsoleMessage(
+            "&e[Queue] &fAll queues registered in &e" + System.currentTimeMillis().minus(queueStart) + "ms"
+        )
     }
 
     fun sendStartupMSG()

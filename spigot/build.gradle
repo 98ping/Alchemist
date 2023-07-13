@@ -37,4 +37,5 @@ dependencies {
 
 shadowJar {
     relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated'
+    relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated'
 }

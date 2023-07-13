@@ -1,12 +1,14 @@
 package ltd.matrixstudios.alchemist.service.queue
 
 import com.google.gson.reflect.TypeToken
+import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.lang.reflect.Type
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 7/12/2023
@@ -18,22 +20,24 @@ import java.util.*
 object QueueService : GeneralizedService {
 
     var cache = hashMapOf<String, QueueModel>()
-    val type: Type = object : TypeToken<List<QueueModel>>() {}.type
+    val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(DataStoreType.MONGO)
 
     fun loadAllQueues() {
-        RedisPacketManager.pool.use {
-            val resource = it.resource
-
-            val list = resource.get("Alchemist:Queues")
-            val serialize = Alchemist.gson.fromJson<List<QueueModel>>(list, type)
-
-            for (entry in serialize) {
-                cache[entry.id] = entry
+        handler.retrieveAllAsync().thenAccept {
+            for (queue in it) {
+                cache[queue.id] = queue
             }
         }
     }
 
-    fun saveQueue(model: QueueModel) {
+    fun byId(id: String) : CompletableFuture<QueueModel?> {
+        if (cache.containsKey(id)) return CompletableFuture.completedFuture(cache[id])
 
+        return handler.retrieveAsync(id)
+    }
+
+    fun saveQueue(model: QueueModel) {
+        cache[model.id] = model
+        handler.storeAsync(model.id, model)
     }
 }

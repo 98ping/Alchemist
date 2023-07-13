@@ -46,6 +46,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.queue.command.QueueCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.FreezeCommand
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.VanishCommands
@@ -102,6 +103,8 @@ object ACFCommandController {
             if (config.getBoolean("modules.themeCommands")) {
                 registerCommand(ThemeSelectCommand())
             }
+
+            registerCommand(QueueCommands())
 
             registerCommand(RankDisguiseCommand())
 
