@@ -19,7 +19,7 @@ object AlchemistAPI {
     var AC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.adminChat")
 
     fun getRankDisplay(uuid: UUID) : String {
-        var finalString = "&cConsole"
+        var finalString = "&c&lConsole"
 
         val profile = quickFindProfile(uuid).get()
 

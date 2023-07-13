@@ -6,14 +6,11 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import java.util.*
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
-import javax.security.auth.callback.Callback
 
 object ProfileGameService : GeneralizedService {
 
@@ -36,6 +33,13 @@ object ProfileGameService : GeneralizedService {
         return cache.computeIfAbsent(uuid) {
             return@computeIfAbsent handler.retrieveAsync(it).get()
         }
+    }
+
+    fun getHighestRank(uuid: UUID): Rank {
+        val current = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        val profile = byId(uuid) ?: return current
+
+        return profile.getCurrentRank() ?: return current
     }
 
     fun byUsername(name: String) : GameProfile? {
