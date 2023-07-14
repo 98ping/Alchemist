@@ -95,6 +95,14 @@ freeRank:
 # Message sent to player after granting them something
 grant-message: "&aYou have been granted the &r<rank> &arank."
 
+#Reminder for people who are stuck in a queue
+queue-message:
+  - " "
+  - "&dYou are position &e#<pos> &din the &e<queue_name> &dqueue,"
+  - "&bYour &f<colored_rank> &brank has placed you in front of <front> players."
+  - "&6To leave the queue, use /leavequeue"
+  - " "
+
 # Message to be sent to player when they are blacklisted from the server
 blacklist-message:
   - "&cYou are blacklisted from this server."

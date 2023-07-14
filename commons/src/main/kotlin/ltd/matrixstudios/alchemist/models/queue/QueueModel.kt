@@ -35,7 +35,7 @@ data class QueueModel(
             return ProfileGameService.getHighestRank(uuid).staff
         }
 
-        return status !== QueueStatus.CLOSED
+        return status != QueueStatus.CLOSED
     }
 
 

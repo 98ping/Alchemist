@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.queue
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.queue.task.QueueRemindUsersTask
 import ltd.matrixstudios.alchemist.queue.task.QueueSendTask
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 
@@ -14,12 +15,16 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
 object BukkitQueueHandler {
 
     fun load() {
-        for (queue in QueueService.cache.values) {
-            QueueSendTask(queue).runTaskTimer(
-                AlchemistSpigotPlugin.instance,
-                queue.sendDelay * 20L,
-                queue.sendDelay * 20L
-            )
-        }
+        QueueSendTask().runTaskTimerAsynchronously(
+            AlchemistSpigotPlugin.instance,
+            2 * 20L,
+            2 * 20L
+        )
+
+        QueueRemindUsersTask().runTaskTimerAsynchronously(
+            AlchemistSpigotPlugin.instance,
+            15 * 20L,
+            15 * 20L
+        )
     }
 }

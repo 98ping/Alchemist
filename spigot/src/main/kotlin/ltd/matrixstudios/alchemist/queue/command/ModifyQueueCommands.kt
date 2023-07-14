@@ -44,6 +44,23 @@ class ModifyQueueCommands : BaseCommand() {
         }
     }
 
+    @CommandAlias("checkqueue")
+    fun checkQueue(player: Player) {
+        val current = QueueService.playerAlreadyQueued(player.uniqueId)
+
+        if (current == null) {
+            player.sendMessage(Chat.format("&cYou are not in a queue!"))
+            return
+        }
+
+        player.sendMessage(Chat.format("&e&lQueue Status"))
+        player.sendMessage(Chat.format("&7&m---------------------------------"))
+        player.sendMessage(Chat.format("&eName: &f" + current.displayName))
+        player.sendMessage(Chat.format("&eSlots: &f" + current.playersInQueue.size + "/" + current.limit))
+        player.sendMessage(Chat.format("&eYour Position: &f#" + current.getPosition(player.uniqueId)))
+        player.sendMessage(Chat.format("&7&m---------------------------------"))
+    }
+
     @CommandAlias("leavequeue|lq|queueleave")
     fun leaveQueue(player: Player) {
         val current = QueueService.playerAlreadyQueued(player.uniqueId)

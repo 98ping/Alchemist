@@ -19,30 +19,32 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class QueueSendTask(val queue: QueueModel) : BukkitRunnable() {
+class QueueSendTask : BukkitRunnable() {
 
     override fun run() {
-        if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null || Bukkit.getPlayer(queue.getPlayerAt(1)!!.id) == null) {
-            return
-        }
+        for (queue in QueueService.cache.values) {
+            if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null || Bukkit.getPlayer(queue.getPlayerAt(1)!!.id) == null) {
+                return
+            }
 
-        if (UniqueServerService.byId(queue.uniqueServerId)!!.players.size <= queue.playersInQueue.size) return
+            if (UniqueServerService.byId(queue.uniqueServerId)!!.players.size < queue.playersInQueue.size) return
 
-        val firstPlayer = queue.getPlayerAt(1)!!
-        val uuid = firstPlayer.id
+            val firstPlayer = queue.getPlayerAt(1)!!
+            val uuid = firstPlayer.id
 
-        if (!queue.isAvailable(uuid)) return
+            if (!queue.isAvailable(uuid)) return
 
-        val bukkitPlayer = Bukkit.getPlayer(uuid)
+            val bukkitPlayer = Bukkit.getPlayer(uuid)
 
-        queue.lastPull = System.currentTimeMillis()
+            queue.lastPull = System.currentTimeMillis()
 
-        if (bukkitPlayer == null) {
-            AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
-        } else {
-            //send
-            bukkitPlayer.sendMessage(Chat.format("&eYou are being sent..."))
-            AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
+            if (bukkitPlayer == null) {
+                AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
+            } else {
+                //send
+                bukkitPlayer.sendMessage(Chat.format("&eYou are being sent..."))
+                AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
+            }
         }
     }
 }
