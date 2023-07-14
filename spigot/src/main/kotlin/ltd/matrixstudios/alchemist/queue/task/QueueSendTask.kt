@@ -24,16 +24,16 @@ class QueueSendTask : BukkitRunnable() {
 
     override fun run() {
         for (queue in QueueService.cache.values) {
-            if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null || Bukkit.getPlayer(queue.getPlayerAt(1)!!.id) == null) {
-                return
+            if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null) {
+                continue
             }
 
-            if (UniqueServerService.byId(queue.uniqueServerId)!!.players.size < queue.playersInQueue.size) return
+            if (UniqueServerService.byId(queue.uniqueServerId)!!.players.size < queue.playersInQueue.size) continue
 
             val firstPlayer = queue.getPlayerAt(1)!!
             val uuid = firstPlayer.id
 
-            if (!queue.isAvailable(uuid)) return
+            if (!queue.isAvailable(uuid)) continue
 
             queue.lastPull = System.currentTimeMillis()
 
