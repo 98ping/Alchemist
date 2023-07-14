@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.queue.task
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
 import ltd.matrixstudios.alchemist.models.queue.QueueStatus
 import ltd.matrixstudios.alchemist.queue.packet.QueueRemovePlayerPacket
+import ltd.matrixstudios.alchemist.queue.packet.QueueSendPlayerPacket
 import ltd.matrixstudios.alchemist.queue.packet.QueueUpdatePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.queue.QueueService
@@ -34,17 +35,9 @@ class QueueSendTask : BukkitRunnable() {
 
             if (!queue.isAvailable(uuid)) return
 
-            val bukkitPlayer = Bukkit.getPlayer(uuid)
-
             queue.lastPull = System.currentTimeMillis()
 
-            if (bukkitPlayer == null) {
-                AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
-            } else {
-                //send
-                bukkitPlayer.sendMessage(Chat.format("&eYou are being sent..."))
-                AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
-            }
+            AsynchronousRedisSender.send(QueueSendPlayerPacket(uuid, queue.id))
         }
     }
 }
