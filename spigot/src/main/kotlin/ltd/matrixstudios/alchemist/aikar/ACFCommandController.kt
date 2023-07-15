@@ -105,8 +105,10 @@ object ACFCommandController {
                 registerCommand(ThemeSelectCommand())
             }
 
-            registerCommand(QueueCommands())
-            registerCommand(ModifyQueueCommands())
+            if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue")) {
+                registerCommand(QueueCommands())
+                registerCommand(ModifyQueueCommands())
+            }
 
             registerCommand(RankDisguiseCommand())
 

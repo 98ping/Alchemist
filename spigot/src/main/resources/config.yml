@@ -67,6 +67,7 @@ modules:
   prefixes: true
   coins: true
   filters: true
+  queue: true
   chatcolors: true
   notes: true
   staffmode: true

@@ -28,7 +28,7 @@ class UniqueServerButton(var server: UniqueServer) : Button() {
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eLocked: &f" + server.lockedWithRank))
         desc.add(Chat.format("&eLock Rank: &f" + server.lockRank))
-        desc.add(Chat.format("&7&m--------------------"))
+        desc.add(Chat.format("&6&m-------------------------------------"))
 
         return desc
     }

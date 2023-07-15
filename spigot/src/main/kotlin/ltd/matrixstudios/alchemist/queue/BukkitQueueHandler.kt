@@ -15,16 +15,19 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
 object BukkitQueueHandler {
 
     fun load() {
-        QueueSendTask().runTaskTimerAsynchronously(
-            AlchemistSpigotPlugin.instance,
-            2 * 20L,
-            2 * 20L
-        )
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue")) {
+            QueueSendTask().runTaskTimerAsynchronously(
+                AlchemistSpigotPlugin.instance,
+                2 * 20L,
+                2 * 20L
+            )
 
-        QueueRemindUsersTask().runTaskTimerAsynchronously(
-            AlchemistSpigotPlugin.instance,
-            15 * 20L,
-            15 * 20L
-        )
+            QueueRemindUsersTask().runTaskTimerAsynchronously(
+                AlchemistSpigotPlugin.instance,
+                15 * 20L,
+                15 * 20L
+            )
+        }
     }
+
 }
