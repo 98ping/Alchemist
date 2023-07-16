@@ -32,6 +32,10 @@ class PunishmentExecutePacket(
             } else if (punishmentType == PunishmentType.WARN) {
                 AlchemistSpigotPlugin.instance.config.getStringList("warn-message")
                     .map { it.replace("<reason>", reason) }.forEach { player.sendMessage(Chat.format(it)) }
+            } else if (punishmentType == PunishmentType.KICK) {
+                val msgs = AlchemistSpigotPlugin.instance.config.getStringList("kick-message")
+
+                player.kickPlayer(msgs.map { Chat.format(it).replace("<reason>", reason) }.joinToString("\n"))
             }
 
             if (punishmentType == PunishmentType.BAN) {

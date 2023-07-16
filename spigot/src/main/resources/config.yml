@@ -118,6 +118,10 @@ mute-message:
     - "&cYou are muted on this server."
     - "&cReason: &r<reason>"
 
+kick-message:
+  - "&cYou were kicked from this server."
+  - "&cReason: &r<reason>"
+
 warn-message:
     - "&cYou have been warned on this server."
     - "&cReason: &r<reason>"

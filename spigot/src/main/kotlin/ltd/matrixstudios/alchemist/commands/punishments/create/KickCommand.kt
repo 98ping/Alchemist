@@ -22,8 +22,8 @@ import java.util.*
 
 class KickCommand : BaseCommand() {
 
-    @CommandAlias("mute|pmute")
-    @CommandPermission("alchemist.punishments.mute")
+    @CommandAlias("kick")
+    @CommandPermission("alchemist.punishments.kick")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
     fun kick(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
