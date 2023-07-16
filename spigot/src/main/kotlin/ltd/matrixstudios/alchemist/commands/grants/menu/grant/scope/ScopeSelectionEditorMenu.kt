@@ -41,22 +41,29 @@ class ScopeSelectionEditorMenu(
 
         buttons[3] = SimpleActionButton(
             Material.DIAMOND_SWORD, mutableListOf(
-                Chat.format("&6&m----------------------"),
-                Chat.format("&eClick to make this grant &6global"),
                 Chat.format(" "),
-                Chat.format("&eCurrently&7: &f" + if (global) "&aGlobal" else "&cLocal"),
-                Chat.format("&6&m----------------------")
-            ), Chat.format("&6Global Status"), 0
+                Chat.format("&7Click to make this grant global."),
+                Chat.format("&7Making this a global grant means that"),
+                Chat.format("&7this grant will apply on every scope."),
+                Chat.format(" "),
+                Chat.format("&7Currently&7: &f" + if (global) "&aGlobal" else "&cLocal"),
+                Chat.format("&e&lLeft-Click &eto change the global status of this grant"),
+                Chat.format(" ")
+            ), Chat.format("&e&lGlobal Status"), 0
         ).setBody { player, i, clickType ->
             ScopeSelectionEditorMenu(player, rank, target, duration, reason, equipped, grant, !global).updateMenu()
         }
 
         buttons[5] = SimpleActionButton(
             Material.PAPER, mutableListOf(
-                Chat.format("&6&m----------------------"),
-                Chat.format("&eClick to &6finalize &ethis grant"),
-                Chat.format("&6&m----------------------")
-            ), Chat.format("&6Finalize"), 0
+                Chat.format(" "),
+                Chat.format("&7Click to finalize this grant"),
+                Chat.format("&7using all the scopes that are"),
+                Chat.format("&7currently selected."),
+                Chat.format(" "),
+                Chat.format("&e&lLeft-Click &eto finalize"),
+                Chat.format(" ")
+            ), Chat.format("&a&lFinalize"), 0
         ).setBody { player, i, clickType ->
             if (!global && equipped.isEmpty()) {
                 player.sendMessage(Chat.format("&cYou must select a scope to add this grant to"))
@@ -99,29 +106,27 @@ class ScopeSelectionEditorMenu(
         val equipped: MutableList<String>
     ) : Button() {
         override fun getMaterial(player: Player): Material {
-            return Material.WOOL
+            return Material.PAPER
         }
 
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
-            desc.add(Chat.format("&6&m----------------------"))
-            desc.add(Chat.format("&eServer&7: &f" + uniqueServer.displayName))
             desc.add(Chat.format(" "))
-            desc.add(Chat.format("&6Equipped&7: &f" + if (equipped.contains(uniqueServer.id)) "&aYes" else "&cNo"))
-            desc.add(Chat.format("&eClick here to " + if (equipped.contains(uniqueServer.id)) "&cunselect" else "&aselect" + " &ethis server"))
-            desc.add(Chat.format("&6&m----------------------"))
+            desc.add(Chat.format("&7Click to " + if (equipped.contains(uniqueServer.id)) "&aadd" else "&cremove" + " &f${uniqueServer.displayName}"))
+            desc.add(Chat.format("&7to the active scope list."))
+            desc.add(Chat.format(" "))
+            desc.add(Chat.format("&e&lLeft-Click &eto " + if (equipped.contains(uniqueServer.id)) "unselect" else "select" + " this server"))
+            desc.add(Chat.format(" "))
 
             return desc
         }
 
         override fun getDisplayName(player: Player): String? {
-            return Chat.format("&6" + uniqueServer.displayName)
+            return Chat.format("&a&l" + uniqueServer.displayName)
         }
 
         override fun getData(player: Player): Short {
-            if (equipped.contains(uniqueServer.id)) {
-                return DyeColor.LIME.woolData.toShort()
-            } else return DyeColor.RED.woolData.toShort()
+            return 0
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
