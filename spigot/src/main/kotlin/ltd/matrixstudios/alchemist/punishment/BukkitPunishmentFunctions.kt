@@ -42,6 +42,12 @@ object BukkitPunishmentFunctions {
 
         PunishmentService.save(punishment)
     }
+
+    fun dispatchKick(punishment: Punishment, silent: Boolean) {
+        AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent, punishment.reason))
+        AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
+    }
+
     fun isSilent(reason: String) : Boolean {
         if (reason.endsWith("-a", ignoreCase = true) || reason.startsWith("-a", ignoreCase = true))
         {

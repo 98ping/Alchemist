@@ -134,6 +134,7 @@ object ACFCommandController {
                 registerCommand(BlacklistCommand())
                 registerCommand(TempBanCommand())
                 registerCommand(TempMuteCommand())
+                registerCommand(KickCommand())
                 registerCommand(WarnCommand())
 
                 registerCommand(UnbanCommand())

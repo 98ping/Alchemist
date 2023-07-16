@@ -29,7 +29,7 @@ class WarnCommand : BaseCommand() {
     @CommandPermission("alchemist.punishments.warn")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
+    fun warn(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.WARN.name,
             UUID.randomUUID().toString().substring(0, 4),

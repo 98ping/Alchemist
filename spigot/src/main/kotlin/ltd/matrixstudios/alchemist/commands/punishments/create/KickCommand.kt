@@ -16,40 +16,30 @@ import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class TempMuteCommand : BaseCommand() {
+class KickCommand : BaseCommand() {
 
-    @CommandAlias("tempmute|tmute")
-    @CommandPermission("alchemist.punishments.tempmute")
+    @CommandAlias("mute|pmute")
+    @CommandPermission("alchemist.punishments.mute")
     @CommandCompletion("@gameprofile")
-    @Syntax("<target> <duration> [-a] <reason>")
-    fun mute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")duration: String, @Name("reason") reason: String) {
+    @Syntax("<target> [-a] <reason>")
+    fun kick(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
-            PunishmentType.MUTE.name,
+            PunishmentType.KICK.name,
             UUID.randomUUID().toString().substring(0, 4),
             mutableListOf<ProofEntry>(),
             gameProfile.uuid,
             BukkitPunishmentFunctions.getSenderUUID(sender),
-            BukkitPunishmentFunctions.parseReason(reason), TimeUtil.parseTime(duration).toLong() * 1000L,
+            BukkitPunishmentFunctions.parseReason(reason, "Unspecified"), Long.MAX_VALUE,
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                ActorType.GAME
-            )
+                ActorType.GAME)
+
         )
-
-        val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.MUTE)
-
-        if (hasPunishment)
-        {
-            sender.sendMessage(Chat.format("&cPlayer is already muted!"))
-            return
-        }
-
         if (sender is Player) {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
@@ -72,11 +62,11 @@ class TempMuteCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
-        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
-                + "&aYou've temporarily muted " + gameProfile.username + " for &f"
-                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
-                + TimeUtil.formatDuration(punishment.expirable.duration)))
-        BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
+        sender.sendMessage(
+            Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                + "&aYou've kicked " + gameProfile.username + " for &f"
+                + BukkitPunishmentFunctions.parseReason(reason)))
+        BukkitPunishmentFunctions.dispatchKick(punishment, BukkitPunishmentFunctions.isSilent(reason))
 
     }
 
