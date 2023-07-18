@@ -29,7 +29,7 @@ class GeneralPunishmentMenu(var profile: GameProfile, var punishmentType: Punish
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (punishment in punishments) {
+        for (punishment in punishments.filter { it.getGrantable() == punishmentType }) {
             buttons[index++] = GeneralPunishmentButton(punishment)
         }
 

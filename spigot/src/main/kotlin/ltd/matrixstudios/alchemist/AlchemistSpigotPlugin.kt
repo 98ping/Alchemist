@@ -66,7 +66,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             val connectionPool = URIMongoConnectionPool().apply {
                 this.databaseName = config.getString("mongo.database")
                 this.uri = uri
-
             }
 
             Alchemist.start(connectionPool,

@@ -24,7 +24,7 @@ object AlchemistAPI {
         val profile = quickFindProfile(uuid).get()
 
         if (profile != null) {
-            finalString = profile.getCurrentRank()!!.color + profile.username
+            finalString = (profile.getCurrentRank()?.color ?: "&f") + profile.username
         }
 
         return finalString

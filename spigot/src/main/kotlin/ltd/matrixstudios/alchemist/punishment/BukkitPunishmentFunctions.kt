@@ -34,18 +34,17 @@ object BukkitPunishmentFunctions {
     }
 
     fun dispatch(punishment: Punishment, silent: Boolean) {
-        AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent, punishment.reason))
-        AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
-        AsynchronousRedisSender.send(UpdatePunishmentsRequest(punishment.target))
-
+        PunishmentService.save(punishment)
         PunishmentNotification(punishment).send()
 
-        PunishmentService.save(punishment)
+        AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent, punishment.reason))
+        AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason, punishment))
+        AsynchronousRedisSender.send(UpdatePunishmentsRequest(punishment.target))
     }
 
     fun dispatchKick(punishment: Punishment, silent: Boolean) {
         AsynchronousRedisSender.send(PunishmentDispatchPacket(punishment.getGrantable(), punishment.target, punishment.executor, silent, punishment.reason))
-        AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason))
+        AsynchronousRedisSender.send(PunishmentExecutePacket(punishment.getGrantable(), punishment.target, punishment.reason, punishment))
     }
 
     fun isSilent(reason: String) : Boolean {

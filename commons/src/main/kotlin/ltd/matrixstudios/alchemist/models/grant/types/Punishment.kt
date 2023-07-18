@@ -25,8 +25,7 @@ class Punishment(
         addedBy,
         addedReason,
         Expirable(false, System.currentTimeMillis(), duration, 0L),
-        null,
-        null
+        null, null
     ) {
 
     var punishmentType: String = punishmentType

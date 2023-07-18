@@ -15,7 +15,7 @@ object TagGrantService : ExpiringService<TagGrant>() {
     var handler = Alchemist.dataHandler.createStoreType<UUID, TagGrant>(DataStoreType.MONGO)
 
 
-    fun getValues() : CompletableFuture<Collection<TagGrant>> {
+    fun getValues(): CompletableFuture<Collection<TagGrant>> {
         return handler.retrieveAllAsync()
     }
 
@@ -24,14 +24,7 @@ object TagGrantService : ExpiringService<TagGrant>() {
     }
 
     override fun clearOutModels() {
-        getValues().get().forEach {
-            if (!it.expirable.isActive() && it.removedBy == null) {
-                it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
-                it.removedReason = "Expired"
-
-                save(it)
-            }
-        }
+        getValues().get().forEach { it.expirable.isActive() }
     }
 
 }

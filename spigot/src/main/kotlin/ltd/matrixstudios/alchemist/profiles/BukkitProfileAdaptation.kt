@@ -89,6 +89,7 @@ object BukkitProfileAdaptation
 
     fun handlePunishmentsUsingEvent(profileId: UUID, event: AsyncPlayerPreLoginEvent) {
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
+        PunishmentService.recalculateUUID(profileId)
 
         if (profile.hasActivePunishment(PunishmentType.BAN) || profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
             val option = profile.hasActivePunishment(PunishmentType.BAN)

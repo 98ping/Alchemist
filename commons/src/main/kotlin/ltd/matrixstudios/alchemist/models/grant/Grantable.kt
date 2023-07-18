@@ -10,7 +10,7 @@ abstract class Grantable<T>(
     var reason: String,
     var expirable: Expirable,
     var removedBy: UUID?,
-    var removedReason: String?
+    var removedReason: String?,
 ){
 
     abstract fun getGrantable(): T?

@@ -22,8 +22,7 @@ class TagGrant(
         addedBy,
         addedReason,
         Expirable(false, System.currentTimeMillis(), duration, 0L),
-        null,
-        null
+        null, null
     ) {
 
     var internalActor: DefaultActor = actor

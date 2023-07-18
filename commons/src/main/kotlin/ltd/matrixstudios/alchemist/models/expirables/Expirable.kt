@@ -1,10 +1,11 @@
 package ltd.matrixstudios.alchemist.models.expirables
 
+import java.util.*
+
 class Expirable(
     var expired: Boolean,
     var addedAt: Long,
     var duration: Long,
-
     var removedAt: Long
 ) {
     fun isActive() : Boolean {
