@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id 'org.jetbrains.kotlin.kapt' version '1.6.10'
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
 allprojects {
@@ -27,13 +28,20 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "org.jetbrains.kotlin.kapt"
     apply plugin: "com.github.johnrengelman.shadow"
+    apply plugin: 'kotlinx-serialization'
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
+        //lombok
         compileOnly 'org.projectlombok:lombok:1.18.22'
         kapt 'org.projectlombok:lombok:1.18.22'
 
+        //mongo
+        implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+        implementation 'org.litote.kmongo:kmongo-serialization:4.9.0'
+
+        //local
         implementation fileTree(include: ['*.jar'], dir: 'lib')
     }
 

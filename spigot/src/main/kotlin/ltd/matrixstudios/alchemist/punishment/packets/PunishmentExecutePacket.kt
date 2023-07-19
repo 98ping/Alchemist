@@ -44,7 +44,7 @@ class PunishmentExecutePacket(
 
                 val msgs = AlchemistSpigotPlugin.instance.config.getStringList("banned-join")
 
-                msgs.replaceAll { it.replace("<reason>", punishment?.reason) }
+                msgs.replaceAll { it.replace("<reason>", punishment.reason) }
                 msgs.replaceAll {
                     it.replace(
                         "<expires>",

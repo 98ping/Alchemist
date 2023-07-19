@@ -3,11 +3,10 @@ package ltd.matrixstudios.alchemist
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
-import com.mongodb.MongoClientSettings
-import com.mongodb.client.MongoDatabase
 import io.github.nosequel.data.DataHandler
 import io.github.nosequel.data.connection.mongo.MongoConnectionPool
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.queue.QueueService
@@ -28,6 +27,10 @@ object Alchemist {
         this.MongoConnectionPool = mongoConnectionPool
 
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
+
+        MongoManager.load(
+            mongoConnectionPool.databaseName ?: "Alchemist"
+        )
 
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
         RankService.loadRanks()

@@ -23,7 +23,10 @@ repositories {
 dependencies {
     implementation project(":commons")
 
+    //bukkit
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
+
+    //apis
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "net.kyori:adventure-platform-bukkit:4.3.0"
     compileOnly 'me.clip:placeholderapi:2.11.2'
