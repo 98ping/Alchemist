@@ -37,4 +37,8 @@ subprojects {
         implementation fileTree(include: ['*.jar'], dir: 'lib')
     }
 
+    shadowJar {
+        relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated'
+    }
+
 }
