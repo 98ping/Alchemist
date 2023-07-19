@@ -134,7 +134,7 @@ class ScopeSelectionMenu(
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
             desc.add(Chat.format(" "))
-            desc.add(Chat.format("&7Click to " + if (equipped.contains(uniqueServer.id)) "&aadd" else "&cremove" + " &7${uniqueServer.displayName}"))
+            desc.add(Chat.format("&7Click to " + if (equipped.contains(uniqueServer.id)) "&cremove" else "&aadd" + " &7${uniqueServer.displayName}"))
             desc.add(Chat.format("&7to the active scope list."))
             desc.add(Chat.format(" "))
             desc.add(Chat.format("&e&lLeft-Click &eto " + if (equipped.contains(uniqueServer.id)) "unselect" else "select" + " this server"))
