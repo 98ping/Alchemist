@@ -70,8 +70,13 @@ class ProfileJoinListener : Listener {
         var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
 
         if (profile.rankDisguiseAttribute != null) {
-            rank = RankService.byId(profile.rankDisguiseAttribute!!.rank)!!
-        } else if (profile.getCurrentRank() != null) {
+            val curr = RankService.byId(profile.rankDisguiseAttribute!!.rank)
+            if (curr != null) {
+                rank = curr
+            }
+        }
+
+        if (profile.getCurrentRank() != null) {
             rank = profile.getCurrentRank()!!
         }
 
