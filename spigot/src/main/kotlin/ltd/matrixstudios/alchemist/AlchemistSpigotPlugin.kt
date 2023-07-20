@@ -62,7 +62,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val startMongo = System.currentTimeMillis()
         val authEnabled = config.getBoolean("mongo.auth")
         val uri = config.getString("uri")
-        var connectionPool: MongoConnectionPool = NoAuthMongoConnectionPool()
+        var connectionPool: MongoConnectionPool
 
         if (uri != "") {
             connectionPool = URIMongoConnectionPool().apply {

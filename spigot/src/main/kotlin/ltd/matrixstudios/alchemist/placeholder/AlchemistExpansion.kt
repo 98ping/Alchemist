@@ -27,12 +27,22 @@ class AlchemistExpansion : PlaceholderExpansion() {
             "rankDisplay" -> {
                 var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
 
-                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
-                    val disguiseRank = profile.rankDisguiseAttribute!!
-                    rank = RankService.byId(disguiseRank.rank)!!
-                } else if (profile.getCurrentRank() != null) {
-                    rank = profile.getCurrentRank()!!
+                val disguiseProfile = profile.rankDisguiseAttribute
+
+                if (disguiseProfile != null) {
+                    val disguiseRank = RankService.byId(disguiseProfile.rank)
+
+                    if (disguiseRank != null) {
+                       return Chat.format(disguiseRank.color + disguiseRank.displayName)
+                    }
                 }
+
+                val curr = profile.getCurrentRank()
+
+                if (curr != null) {
+                    return Chat.format(curr.color + curr.displayName)
+                }
+
 
                 return Chat.format(rank.color + rank.displayName)
             }

@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.permissions
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.util.Chat.format
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
@@ -55,12 +56,14 @@ object AccessiblePermissionHandler {
             e.printStackTrace()
         }
 
-        val profile: GameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
+        val profile: GameProfile = player.getProfile() ?: return
+
+        //apply display name
+        player.displayName = format((profile.getCurrentRank()?.color ?: "&7") + player.name)
+
         //set metadata values
         player.removeMetadata("AlchemistRankWeight", AlchemistSpigotPlugin.instance)
         player.setMetadata("AlchemistRankWeight", FixedMetadataValue(AlchemistSpigotPlugin.instance, (profile.getCurrentRank()?.weight ?: 0)))
 
-        //apply display name
-        player.displayName = format((profile.getCurrentRank()?.color ?: "&7") + player.name)
     }
 }
