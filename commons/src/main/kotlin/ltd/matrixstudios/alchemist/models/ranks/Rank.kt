@@ -6,9 +6,8 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 
 
-@Serializable
 class Rank(
-    @SerialName("_id") var id: String,
+    var id: String,
     var name: String,
     var displayName: String,
 

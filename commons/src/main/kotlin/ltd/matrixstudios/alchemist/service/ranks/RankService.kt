@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.service.ranks
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
@@ -12,13 +11,12 @@ import kotlin.collections.ArrayList
 object RankService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
-    val repo = MongoManager.createRepository<String, Rank>()
 
     var ranks = mutableMapOf<String, Rank>()
 
     fun loadRanks() {
-        if (repo.search("default") == null /*findFirstAvailableDefaultRank() == null*/) {
-            repo.saveEntry("default",
+        if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
+            save(
                 Rank(
                 "default",
                 "Default",
@@ -34,7 +32,7 @@ object RankService : GeneralizedService {
         }
 
         //since there are only a limited amount of ranks we can just load on startup
-        repo.lookupAll().also {
+        getValues().thenAccept {
             for (rank in it) {
                 ranks[rank.id] = rank
             }
