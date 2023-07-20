@@ -20,6 +20,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -46,6 +47,8 @@ class CGrantCommand : BaseCommand() {
         AsynchronousRedisSender.send(PermissionUpdatePacket(gameProfile.uuid))
         AsynchronousRedisSender.send(UpdateGrantCacheRequest(gameProfile.uuid))
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
+        GrantsNotification(rankGrant).send()
+
         sender.sendMessage(Chat.format("&aGranted " + gameProfile.username + " the rank "  + rank.color + rank.displayName))
     }
 }

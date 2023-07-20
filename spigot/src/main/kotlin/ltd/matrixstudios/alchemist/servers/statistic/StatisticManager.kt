@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.statistic
+package ltd.matrixstudios.alchemist.servers.statistic
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -14,7 +14,7 @@ object StatisticManager {
     {
         val pluginId = 16260
 
-        this.metrics = Metric(AlchemistSpigotPlugin.instance, pluginId)
+        metrics = Metric(AlchemistSpigotPlugin.instance, pluginId)
     }
 
 }

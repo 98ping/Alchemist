@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.statistic
+package ltd.matrixstudios.alchemist.servers.statistic
 
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.YamlConfiguration

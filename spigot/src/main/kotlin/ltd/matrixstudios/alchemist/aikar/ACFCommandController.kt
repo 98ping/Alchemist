@@ -24,6 +24,7 @@ import ltd.matrixstudios.alchemist.commands.punishments.create.*
 import ltd.matrixstudios.alchemist.commands.punishments.menu.ExecutedPunishmentHistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.commands.punishments.menu.PunishmentLookupCommands
+import ltd.matrixstudios.alchemist.commands.punishments.redo.RebanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnbanCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnblacklistCommand
 import ltd.matrixstudios.alchemist.commands.punishments.remove.UnmuteCommand
@@ -137,10 +138,13 @@ object ACFCommandController {
                 registerCommand(KickCommand())
                 registerCommand(WarnCommand())
 
+                registerCommand(HistoryCommand())
+
                 registerCommand(UnbanCommand())
                 registerCommand(UnmuteCommand())
                 registerCommand(UnblacklistCommand())
                 registerCommand(PunishmentLookupCommands())
+                registerCommand(RebanCommand())
 
                 registerCommand(WipePunishmentsCommand)
                 registerCommand(ExecutedPunishmentHistoryCommand())
@@ -154,7 +158,6 @@ object ACFCommandController {
             registerCommand(AuditCommand)
 
             registerCommand(AltsCommand())
-            registerCommand(HistoryCommand())
 
             if (config.getBoolean("modules.notes")) {
                 registerCommand(PlayerNotesCommands())

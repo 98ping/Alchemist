@@ -35,7 +35,7 @@ import java.util.logging.Level
 object BukkitProfileAdaptation
 {
 
-    fun loadAllPreLoginEvents()
+    fun loadAllEvents()
     {
         BukkitPreLoginConnection.registerNewCallback { event ->
             loadAndEquipProfile(event)

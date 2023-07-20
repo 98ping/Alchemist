@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist
 
 import co.aikar.commands.PaperCommandManager
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
+import io.github.nosequel.data.connection.mongo.MongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
@@ -28,7 +29,7 @@ import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.GenericStaffmodePreventionListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.StaffmodeFunctionalityListener
-import ltd.matrixstudios.alchemist.statistic.StatisticManager
+import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
@@ -61,21 +62,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val startMongo = System.currentTimeMillis()
         val authEnabled = config.getBoolean("mongo.auth")
         val uri = config.getString("uri")
+        var connectionPool: MongoConnectionPool = NoAuthMongoConnectionPool()
 
         if (uri != "") {
-            val connectionPool = URIMongoConnectionPool().apply {
+            connectionPool = URIMongoConnectionPool().apply {
                 this.databaseName = config.getString("mongo.database")
                 this.uri = uri
             }
-
-            Alchemist.start(connectionPool,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
         } else if (authEnabled) {
-            val connectionPool = AuthenticatedMongoConnectionPool().apply {
+            connectionPool = AuthenticatedMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
                 password = config.getString("mongo.password")
                 username = config.getString("mongo.username")
@@ -83,36 +78,27 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 databaseName = config.getString("mongo.database")
                 authDb = config.getString("mongo.authDB")
             }
-
-            Alchemist.start(
-                connectionPool,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
         } else {
-            val connectionPool = NoAuthMongoConnectionPool().apply {
+            connectionPool = NoAuthMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
                 port = config.getInt("mongo.port")
                 databaseName = config.getString("mongo.database")
             }
-
-            Alchemist.start(
-                connectionPool,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
         }
+
+        Alchemist.start(connectionPool,
+            config.getString("redis.host"),
+            config.getInt("redis.port"),
+            (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
+            (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+        )
 
         Chat.sendConsoleMessage("&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis().minus(startMongo) + "ms")
 
         audience = BukkitAudiences.create(this)
 
         val profileStart = System.currentTimeMillis()
-        BukkitProfileAdaptation.loadAllPreLoginEvents()
+        BukkitProfileAdaptation.loadAllEvents()
 
         Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(profileStart) + "ms")
 
@@ -250,9 +236,14 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val discordStart = System.currentTimeMillis()
 
-        if (config.getBoolean("discord.enabled")) {
+        if (config.getBoolean("discord.punishments.enabled")) {
 
             WebhookService.createPunishmentClient(config.getString("discord.punishments.webhookLink"))
+        }
+
+        if (config.getBoolean("discord.grants.enabled")) {
+
+            WebhookService.createPunishmentClient(config.getString("discord.grants.webhookLink"))
         }
 
         Chat.sendConsoleMessage(
@@ -305,6 +296,5 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         {
             AlchemistExpansion().register()
         }
-
     }
 }

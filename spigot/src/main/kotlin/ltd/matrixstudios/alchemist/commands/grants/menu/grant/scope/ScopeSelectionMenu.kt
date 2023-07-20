@@ -19,6 +19,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
+import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
 import org.bukkit.Material
@@ -84,7 +85,6 @@ class ScopeSelectionMenu(
                 GrantScope("Manual Grant", equipped, global)
             )
 
-            println("finished grantt")
             RankGrantService.save(rankGrant)
             player.sendMessage(
                 Chat.format(
@@ -94,6 +94,7 @@ class ScopeSelectionMenu(
 
             AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
             AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
+            GrantsNotification(rankGrant).send()
 
             AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
             player.closeInventory()

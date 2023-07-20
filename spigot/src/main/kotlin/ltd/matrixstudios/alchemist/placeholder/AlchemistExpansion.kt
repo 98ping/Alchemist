@@ -37,6 +37,12 @@ class AlchemistExpansion : PlaceholderExpansion() {
                 return Chat.format(rank.color + rank.displayName)
             }
 
+            "vanishStatus" -> {
+                if (player.hasMetadata("vanish")) return "&aYes"
+
+                return "&cNo"
+            }
+
             "rankPrefix" -> {
                 var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
 

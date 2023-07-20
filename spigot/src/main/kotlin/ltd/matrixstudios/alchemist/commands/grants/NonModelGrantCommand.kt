@@ -25,6 +25,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.UUID
@@ -50,6 +51,7 @@ class NonModelGrantCommand : BaseCommand() {
         RankGrantService.save(rankGrant)
         AsynchronousRedisSender.send(PermissionUpdatePacket(uuid))
         AsynchronousRedisSender.send(UpdateGrantCacheRequest(uuid))
+        GrantsNotification(rankGrant).send()
 
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + uuid.toString() + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
         sender.sendMessage(Chat.format("&aGranted " + uuid.toString() + " the rank "  + rank.color + rank.displayName))

@@ -10,6 +10,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder
 object WebhookService {
 
     lateinit var punishmentClient: WebhookClient
+    lateinit var rankGrantClient: WebhookClient
 
     val PUNISHMENT_ICON: String = "https://static.wikia.nocookie.net/minecraft/images/8/8d/BarrierNew.png"
 
@@ -26,6 +27,21 @@ object WebhookService {
         builder.setWait(true)
         this.punishmentClient = builder.build()
     }
+
+    fun createRankGrantClient(uri: String) {
+        val builder = WebhookClientBuilder(uri)
+
+        builder.setThreadFactory { job ->
+            val thread = Thread(job)
+            thread.name = "Alchemist - RankGrant Payload"
+            thread.isDaemon = true
+            thread
+        }
+
+        builder.setWait(true)
+        this.rankGrantClient = builder.build()
+    }
+
 
     fun sendInformation(info: WebhookInformation, client: WebhookClient) {
         val builder = WebhookMessageBuilder()

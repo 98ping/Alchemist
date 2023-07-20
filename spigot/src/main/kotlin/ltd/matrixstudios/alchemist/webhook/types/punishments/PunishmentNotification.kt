@@ -31,7 +31,7 @@ class PunishmentNotification(val punishment: Punishment) : WebhookInformation() 
     }
 
     override fun send() {
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.enabled")) {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.punishments.enabled")) {
             WebhookService.sendInformation(this, WebhookService.punishmentClient)
         }
     }

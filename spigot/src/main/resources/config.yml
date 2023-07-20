@@ -24,8 +24,11 @@ server:
 
 #information for sending notifications using Discord
 discord:
-  enabled: false
   punishments:
+    enabled: false
+    webhookLink: "LINK_HERE"
+  grants:
+    enabled: false
     webhookLink: "LINK_HERE"
 
 coinshop:
