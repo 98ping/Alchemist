@@ -10,9 +10,10 @@ import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.module.PluginModuleHandler
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
-import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
@@ -26,10 +27,10 @@ import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
+import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.GenericStaffmodePreventionListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.StaffmodeFunctionalityListener
-import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
@@ -97,16 +98,15 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         audience = BukkitAudiences.create(this)
 
-        val profileStart = System.currentTimeMillis()
-        BukkitProfileAdaptation.loadAllEvents()
+        val commandsStart = System.currentTimeMillis()
 
-        Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(profileStart) + "ms")
+        ACFCommandController.registerAll()
 
-        val punishmentStart = System.currentTimeMillis()
+        Chat.sendConsoleMessage(
+            "&3[Commands] &fAll commands registered in &3" + System.currentTimeMillis().minus(commandsStart) + "ms"
+        )
 
-        PunishmentLimitationUnderstander.load()
-
-        Chat.sendConsoleMessage("&6[Punishments] &fAll profile events loaded in &6" + System.currentTimeMillis().minus(punishmentStart) + "ms")
+        PluginModuleHandler.loadModules()
 
         val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
@@ -250,13 +250,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             "&5[Discord] &fAll modules registered in &5" + System.currentTimeMillis().minus(discordStart) + "ms"
         )
 
-        val commandsStart = System.currentTimeMillis()
-
-        ACFCommandController.registerAll()
-
-        Chat.sendConsoleMessage(
-            "&3[Commands] &fAll commands registered in &3" + System.currentTimeMillis().minus(commandsStart) + "ms"
-        )
 
         val queueStart = System.currentTimeMillis()
 

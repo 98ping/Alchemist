@@ -5,9 +5,9 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
-import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
-import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
-import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
+import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginConnection
+import ltd.matrixstudios.alchemist.profiles.connection.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.ranks.RankService

@@ -3,7 +3,7 @@ package ltd.matrixstudios.alchemist.commands.grants.menu.grants
 import com.google.common.base.Stopwatch
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
-import ltd.matrixstudios.alchemist.commands.player.WipeGrantsCommand
+import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant

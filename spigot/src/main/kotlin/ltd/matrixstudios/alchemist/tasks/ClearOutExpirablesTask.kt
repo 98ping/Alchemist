@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.tasks
 
-import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
+import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService

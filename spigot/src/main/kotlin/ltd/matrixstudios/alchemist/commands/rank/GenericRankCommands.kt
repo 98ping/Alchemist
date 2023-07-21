@@ -5,7 +5,7 @@ import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdateAllPacket
+import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu

@@ -15,22 +15,16 @@ class ServerLockListener : Listener {
         val server = Alchemist.globalServer
 
         if (server.lockedWithRank) {
-            val rank = RankService.byId(server.lockRank)
+            val rank = RankService.byId(server.lockRank) ?: return
 
-            if (rank != null) {
-                val it = AlchemistAPI.syncFindProfile(event.uniqueId)
+            val it = AlchemistAPI.syncFindProfile(event.uniqueId) ?: return
 
-                if (it != null) {
-                    val theirRank = it.getCurrentRank()
+            val theirRank = it.getCurrentRank()
 
-                    if (theirRank == null || theirRank.weight < rank.weight) {
-                        event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
-                        event.kickMessage =
-                            Chat.format("&cThis server is currently locked.\nTo bypass, you must have ${rank.color}${rank.displayName}&c!")
-                    }
-                }
+            if (theirRank == null || theirRank.weight < rank.weight) {
+                event.loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
+                event.kickMessage = Chat.format("&cThis server is currently locked.\nTo bypass, you must have ${rank.color}${rank.displayName}&c!")
             }
-
         }
     }
 }

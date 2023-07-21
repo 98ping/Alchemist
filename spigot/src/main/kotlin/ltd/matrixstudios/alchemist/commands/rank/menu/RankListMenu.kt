@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.commands.punishments.menu.impl.proof.sub.ProofInputLinkMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry

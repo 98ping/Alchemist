@@ -7,9 +7,9 @@ import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
-import ltd.matrixstudios.alchemist.permissions.AccessiblePermissionHandler
-import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginConnection
-import ltd.matrixstudios.alchemist.profiles.prelog.BukkitPreLoginConnection
+import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
+import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginConnection
+import ltd.matrixstudios.alchemist.profiles.connection.prelog.BukkitPreLoginConnection
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService

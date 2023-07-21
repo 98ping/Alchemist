@@ -5,7 +5,7 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope.ScopeSelectionEditorMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope.ScopeSelectionMenu
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
-import ltd.matrixstudios.alchemist.permissions.packet.PermissionUpdatePacket
+import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.themes.ThemeLoader

@@ -20,11 +20,10 @@ class NetworkJoinAndLeaveListener : Listener {
 
                 it.lastSeenAt = System.currentTimeMillis()
 
-                if (it.currentSession != null)
-                {
+                if (it.currentSession != null) {
                     it.currentSession!!.leftAt = System.currentTimeMillis()
                     SessionService.save(it.currentSession!!)
-                    
+
                     it.currentSession = null
                 }
 
@@ -36,16 +35,11 @@ class NetworkJoinAndLeaveListener : Listener {
 
     @EventHandler
     fun asyncJoin(e: AsyncPlayerPreLoginEvent) {
-        AlchemistAPI.quickFindProfile(e.uniqueId).thenApply {
-            if (it != null) {
+        val profile = AlchemistAPI.syncFindProfile(e.uniqueId) ?: return
 
-                it.metadata.addProperty("server", Alchemist.globalServer.id)
+        profile.metadata.addProperty("server", Alchemist.globalServer.id)
+        profile.lastSeenAt = System.currentTimeMillis()
 
-                it.lastSeenAt = System.currentTimeMillis()
-
-                ProfileGameService.save(it)
-            }
-        }
+        ProfileGameService.save(profile)
     }
-
 }
