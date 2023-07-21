@@ -145,7 +145,7 @@ class StaffmodeFunctionalityListener : Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun join(event: PlayerJoinEvent)
     {
         val player = event.player

@@ -121,6 +121,10 @@ mute-message:
     - "&cYou are muted on this server."
     - "&cReason: &r<reason>"
 
+muted-chat:
+  - "&cYou are muted on this server."
+  - "&cReason: &r<reason>"
+
 kick-message:
   - "&cYou were kicked from this server."
   - "&cReason: &r<reason>"

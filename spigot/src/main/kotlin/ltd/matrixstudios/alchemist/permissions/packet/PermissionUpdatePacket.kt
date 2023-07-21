@@ -15,7 +15,9 @@ class PermissionUpdatePacket(var player: UUID) : RedisPacket("permission-update"
 
         val player = Bukkit.getPlayer(player) ?: return
 
-        RankGrantService.recalculatePlayer(gameProfile)
+        val grants = RankGrantService.findByTarget(player.uniqueId).join()
+        RankGrantService.playerGrants[player.uniqueId] = grants
+
         AccessiblePermissionHandler.update(player, gameProfile.getPermissions())
      }
 }

@@ -34,7 +34,7 @@ class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfi
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        GeneralPunishmentMenu(gameProfile, punishmentType, PunishmentService.getFromCache(player.uniqueId).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
+        GeneralPunishmentMenu(gameProfile, punishmentType, PunishmentService.getFromCache(gameProfile.uuid).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
     }
 
 

@@ -15,6 +15,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
@@ -84,7 +85,7 @@ class ProfileJoinListener : Listener {
         event.format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
@@ -96,7 +97,7 @@ class ProfileJoinListener : Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun join(event: AsyncPlayerPreLoginEvent) {
         val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
             it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
@@ -105,7 +106,7 @@ class ProfileJoinListener : Listener {
         for (cback in allCallbacks) cback.invoke(event)
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun leave(event: PlayerQuitEvent)
     {
         val player = event.player
