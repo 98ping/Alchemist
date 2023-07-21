@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.profiles.postlog.tasks
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.profiles.postlog.BukkitPostLoginTask
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
@@ -32,9 +33,10 @@ object SendStaffWelcome : BukkitPostLoginTask {
                     player.sendMessage(Chat.format("&eIt is currently &d" + dateFormat.format(Date(System.currentTimeMillis()))))
                     player.sendMessage(Chat.format("&eEdit your mod mode with &a/editmodmode"))
                     player.sendMessage(" ")
+
                 }
 
-                if (StaffSuiteManager.isModModeOnJoin(player))
+                if (StaffSuiteManager.isModModeOnJoin(player) && AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode"))
                 {
                     player.sendMessage(Chat.format("&7&oYou have been put into ModMode automatically"))
                     StaffSuiteManager.setStaffMode(player)
