@@ -25,7 +25,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
 
         when (params) {
             "rankDisplay" -> {
-                var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+                val rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
 
                 val disguiseProfile = profile.rankDisguiseAttribute
 
