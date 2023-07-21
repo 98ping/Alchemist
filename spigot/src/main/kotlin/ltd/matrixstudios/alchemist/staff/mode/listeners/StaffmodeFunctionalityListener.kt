@@ -144,29 +144,4 @@ class StaffmodeFunctionalityListener : Listener {
             }
         }
     }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    fun join(event: PlayerJoinEvent)
-    {
-        val player = event.player
-        val config = AlchemistSpigotPlugin.instance.config
-        val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
-
-        if (player.hasPermission("alchemist.staff")) {
-
-            if (config.getBoolean("staffmode.sendWelcomeMessage")) {
-                player.sendMessage(" ")
-                player.sendMessage(Chat.format("&eWelcome back, " + AlchemistAPI.getRankDisplay(player.uniqueId)))
-                player.sendMessage(Chat.format("&eIt is currently &d" + dateFormat.format(Date(System.currentTimeMillis()))))
-                player.sendMessage(Chat.format("&eEdit your mod mode with &a/editmodmode"))
-                player.sendMessage(" ")
-            }
-
-            if (StaffSuiteManager.isModModeOnJoin(player))
-            {
-                player.sendMessage(Chat.format("&7&oYou have been put into ModMode automatically"))
-                StaffSuiteManager.setStaffMode(player)
-            }
-        }
-    }
 }

@@ -83,24 +83,6 @@ class GenericStaffmodePreventionListener : Listener {
     }
 
     @EventHandler
-    fun moveItem(e: InventoryClickEvent)
-    {
-        val player = e.whoClicked
-
-        if (player is Player)
-        {
-
-            if (StaffSuiteManager.isModMode(player))
-            {
-                if (!player.hasPermission("alchemist.staffmode.edit"))
-                {
-                    e.isCancelled = true
-                }
-            }
-        }
-    }
-
-    @EventHandler
     fun pickup(e: PlayerPickupItemEvent)
     {
         if (StaffSuiteManager.isModMode(e.player))

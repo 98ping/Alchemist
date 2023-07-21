@@ -53,7 +53,7 @@ class ScopeSelectionMenu(
                 Chat.format("&7Making this a global grant means that"),
                 Chat.format("&7this grant will apply on every scope."),
                 Chat.format(" "),
-                Chat.format("&e&lLeft-Click &eto change global status to " + if (global) "&cfalse" else "&atrue" + "&e."),
+                Chat.format("&e&lLeft-Click &eto change global status to " + (if (global) "&cfalse" else "&atrue") + "&e."),
                 Chat.format(" ")
             ), Chat.format("&e&lGlobal Status"), 0
         ).setBody { player, i, clickType ->
@@ -135,10 +135,10 @@ class ScopeSelectionMenu(
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
             desc.add(Chat.format(" "))
-            desc.add(Chat.format("&7Click to " + if (equipped.contains(uniqueServer.id)) "&cremove" else "&aadd" + " &7${uniqueServer.displayName}"))
+            desc.add(Chat.format("&7Click to " + (if (equipped.contains(uniqueServer.id)) "&cremove" else "&aadd") + " &7${uniqueServer.displayName}"))
             desc.add(Chat.format("&7to the active scope list."))
             desc.add(Chat.format(" "))
-            desc.add(Chat.format("&e&lLeft-Click &eto " + if (equipped.contains(uniqueServer.id)) "unselect" else "select" + " this server"))
+            desc.add(Chat.format("&e&lLeft-Click &eto " + (if (equipped.contains(uniqueServer.id)) "unselect" else "select") + " this server"))
             desc.add(Chat.format(" "))
 
             return desc

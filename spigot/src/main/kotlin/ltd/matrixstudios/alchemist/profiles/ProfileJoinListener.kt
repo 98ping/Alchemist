@@ -93,8 +93,9 @@ class ProfileJoinListener : Listener {
             it.addAll(BukkitPostLoginConnection.allCallbacks + BukkitPostLoginConnection.allLazyCallbacks)
         }
 
-        for (cback in allCallbacks) cback.invoke(player)
-
+        for (cback in allCallbacks) {
+            cback.invoke(player)
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -103,7 +104,9 @@ class ProfileJoinListener : Listener {
             it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
         }
 
-        for (cback in allCallbacks) cback.invoke(event)
+        for (cback in allCallbacks) {
+            cback.invoke(event)
+        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
