@@ -22,11 +22,11 @@ object CalculateGrantables : BukkitPreLoginTask {
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
         val startGrants = System.currentTimeMillis()
-        RankGrantService.recalculatePlayer(profile)
+        RankGrantService.recalculatePlayerSync(profile)
         MetricService.addMetric("Grants Service", Metric("Grants Service", System.currentTimeMillis().minus(startGrants), System.currentTimeMillis()))
 
         val startPunishments = System.currentTimeMillis()
-        PunishmentService.recalculatePlayer(profile)
+        PunishmentService.recalculatePlayerSync(profile)
         MetricService.addMetric("Punishment Service", Metric("Punishment Service", System.currentTimeMillis().minus(startPunishments), System.currentTimeMillis()))
     }
 

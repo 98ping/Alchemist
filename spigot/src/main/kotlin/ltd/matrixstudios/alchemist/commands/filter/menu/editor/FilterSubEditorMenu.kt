@@ -3,7 +3,7 @@ package ltd.matrixstudios.alchemist.commands.filter.menu.editor
 import ltd.matrixstudios.alchemist.commands.filter.menu.editor.punishments.PunishmentTypeSelectionMenu
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.caches.redis.RefreshFiltersPacket
+import ltd.matrixstudios.alchemist.profiles.cache.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt

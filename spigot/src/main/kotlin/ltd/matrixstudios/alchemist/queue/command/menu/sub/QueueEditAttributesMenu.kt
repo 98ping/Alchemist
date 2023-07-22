@@ -1,13 +1,9 @@
 package ltd.matrixstudios.alchemist.queue.command.menu.sub
 
-import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
-import ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission.PermissionEditorMenu
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
 import ltd.matrixstudios.alchemist.queue.packet.QueueUpdatePacket
 import ltd.matrixstudios.alchemist.service.queue.QueueService
-import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button

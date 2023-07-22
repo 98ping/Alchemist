@@ -37,6 +37,12 @@ object PunishmentService : ExpiringService<Punishment>() {
         findByTarget(gameProfile.uuid).thenApply { grants[gameProfile.uuid] = it }
     }
 
+    fun recalculatePlayerSync(gameProfile: GameProfile) {
+        val punishments = findByTarget(gameProfile.uuid).get()
+
+        grants[gameProfile.uuid] = punishments
+    }
+
     fun recalculateUUID(playerId: UUID) {
         findByTarget(playerId).thenApply { grants[playerId] = it }
     }

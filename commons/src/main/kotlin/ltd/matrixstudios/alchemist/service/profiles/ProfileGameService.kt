@@ -64,6 +64,11 @@ object ProfileGameService : GeneralizedService {
         handler.storeAsync(gameProfile.uuid, gameProfile)
     }
 
+    fun saveSync(gameProfile: GameProfile) {
+        cache[gameProfile.uuid] = gameProfile
+        handler.store(gameProfile.uuid, gameProfile)
+    }
+
     fun loadProfile(uuid: UUID, username: String) : GameProfile
     {
         val cached = cache[uuid] ?: handler.retrieveAsync(uuid).get()

@@ -156,13 +156,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         )
 
 
-        val permissionStart = System.currentTimeMillis()
-        AccessiblePermissionHandler.load()
-
-        Chat.sendConsoleMessage(
-            "&9[Permissions] &fAll permissions loaded in &9" + System.currentTimeMillis().minus(permissionStart) + "ms"
-        )
-
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
         (ServerReleaseTask()).runTaskTimer(this, 0L, 20L)

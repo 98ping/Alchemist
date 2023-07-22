@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope
 
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.caches.redis.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.profiles.cache.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -20,8 +19,6 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
-import org.bukkit.Bukkit
-import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

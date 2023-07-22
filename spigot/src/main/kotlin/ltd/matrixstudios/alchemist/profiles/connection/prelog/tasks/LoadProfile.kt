@@ -33,7 +33,7 @@ object LoadProfile : BukkitPreLoginTask {
         profile.ip = output
         profile.currentSession = profile.createNewSession(currentServer)
 
-        ProfileGameService.save(profile)
+        ProfileGameService.saveSync(profile)
     }
 
     override fun shouldBeLazy(): Boolean {

@@ -6,7 +6,7 @@ import ltd.matrixstudios.alchemist.punishment.packets.PunishmentExecutePacket
 import ltd.matrixstudios.alchemist.punishment.packets.PunishmentRemovePacket
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.caches.redis.UpdatePunishmentsRequest
+import ltd.matrixstudios.alchemist.profiles.cache.UpdatePunishmentsRequest
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.webhook.types.punishments.PunishmentNotification

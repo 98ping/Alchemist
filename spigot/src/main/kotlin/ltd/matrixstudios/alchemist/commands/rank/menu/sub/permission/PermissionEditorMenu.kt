@@ -1,8 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission
 
-import ltd.matrixstudios.alchemist.caches.redis.RefreshRankPacket
-import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
-import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
+import ltd.matrixstudios.alchemist.profiles.cache.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -11,7 +9,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player

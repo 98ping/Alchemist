@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.module
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.profiles.ProfileModule
+import ltd.matrixstudios.alchemist.profiles.permissions.PermissionModule
 import ltd.matrixstudios.alchemist.punishment.PunishmentModule
 import ltd.matrixstudios.alchemist.staff.StaffModeModule
 
@@ -18,7 +19,8 @@ object PluginModuleHandler {
     private val modules = listOf(
         ProfileModule,
         StaffModeModule,
-        PunishmentModule
+        PunishmentModule,
+        PermissionModule
     )
 
     fun loadModules() {

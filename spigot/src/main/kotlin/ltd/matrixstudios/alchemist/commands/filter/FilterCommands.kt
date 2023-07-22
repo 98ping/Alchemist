@@ -6,9 +6,8 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
-import ltd.matrixstudios.alchemist.caches.redis.RefreshFiltersPacket
+import ltd.matrixstudios.alchemist.profiles.cache.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.commands.filter.menu.FilterEditorMenu
-import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat

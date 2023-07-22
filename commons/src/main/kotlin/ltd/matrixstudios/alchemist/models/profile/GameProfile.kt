@@ -101,10 +101,10 @@ data class GameProfile(
     fun alternateAccountHasBlacklist() : Boolean {
         val alts = getAltAccounts()
 
-        for (acc in alts)
-        {
+        for (acc in alts) {
             if (acc.hasActivePunishment(PunishmentType.BLACKLIST)) return true
         }
+
         return false
     }
 

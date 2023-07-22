@@ -50,6 +50,12 @@ object RankGrantService : ExpiringService<RankGrant>() {
         findByTarget(gameProfile.uuid).thenApply { playerGrants[gameProfile.uuid] = it }
     }
 
+    fun recalculatePlayerSync(gameProfile: GameProfile) {
+        val grants = findByTarget(gameProfile.uuid).get()
+
+        playerGrants[gameProfile.uuid] = grants
+    }
+
     fun recalculateUUID(gameProfile: UUID) {
         findByTarget(gameProfile).thenApply { playerGrants[gameProfile] = it }
     }

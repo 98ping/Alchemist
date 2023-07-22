@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.packets.PlayerKickPacket
-import ltd.matrixstudios.alchemist.caches.redis.RemoveProfileCachePacket
+import ltd.matrixstudios.alchemist.profiles.cache.RemoveProfileCachePacket
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
