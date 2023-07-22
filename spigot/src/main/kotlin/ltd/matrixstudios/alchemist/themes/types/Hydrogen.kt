@@ -21,7 +21,7 @@ class Hydrogen : Theme("hydrogen", "&bHydrogen", mutableListOf(" ", "&eSelect th
         desc.add(Chat.format("&7&m-------------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
         desc.add(Chat.format("&eReason: &c" + rankGrant.reason))
-        desc.add(Chat.format("&eActor: &c" + rankGrant.internalActor.actorType.name + " &e: &c" + rankGrant.internalActor.executor.name))
+        desc.add(Chat.format("&eActor: &c" +  Chat.enumToDisplay(rankGrant.internalActor.actorType.name) + " &e: &c" + Chat.enumToDisplay(rankGrant.internalActor.executor.name)))
         desc.add(Chat.format("&eRank: &f" + rankGrant.getGrantable()!!.color + rankGrant.getGrantable()!!.displayName))
         desc.add(Chat.format("&7&m-------------------------"))
         val expirable = rankGrant.expirable

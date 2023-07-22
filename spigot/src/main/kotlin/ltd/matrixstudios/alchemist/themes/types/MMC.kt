@@ -129,9 +129,8 @@ class MMC : Theme(
             desc.add(Chat.format("&eRemaining: &f" + TimeUtil.formatDuration((punishment.expirable.addedAt + punishment.expirable.duration) - System.currentTimeMillis())))
         }
         desc.add(Chat.format("&6&m-------------------------------------"))
-        desc.add(Chat.format("&eActor:"))
-        desc.add(Chat.format("&7- &eType: &c" + punishment.actor.actorType.name))
-        desc.add(Chat.format("&7- &eExecuted From: &c" + punishment.actor.executor.name))
+        desc.add(Chat.format("&eType: &f" + Chat.enumToDisplay(punishment.actor.actorType.name)))
+        desc.add(Chat.format("&eExecuted From: &f" +  Chat.enumToDisplay(punishment.actor.executor.name)))
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
         desc.add(Chat.format("&eIssued Reason: &f" + punishment.reason))

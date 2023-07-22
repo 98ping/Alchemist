@@ -40,6 +40,24 @@ object Chat {
         }
     }
 
+    fun enumToDisplay(string: String) : String {
+        val name = string
+        return if (name.contains("_")) {
+            val split = name.split("_")
+            val p1 = split[0]
+            val p2 = split[1]
+            var n = ""
+
+            n = (n + p1.lowercase().replaceFirstChar { p1[0].uppercase() })
+            n = ("$n ")
+            n = (n + p2.lowercase().replaceFirstChar { p2[0].uppercase() })
+
+            n
+        } else {
+            name.lowercase().replaceFirstChar { name[0].uppercase() }
+        }
+    }
+
     fun findTextColorFromString(string: String) : TextColor? {
         return TextColor.fromHexString(string.replace("&", "")) ?: (getNamedTextColorFromBukkitColor(string) ?: NamedTextColor.WHITE)
     }
