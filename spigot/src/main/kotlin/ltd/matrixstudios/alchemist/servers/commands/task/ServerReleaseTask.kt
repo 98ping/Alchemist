@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.server.task
+package ltd.matrixstudios.alchemist.servers.commands.task
 
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin

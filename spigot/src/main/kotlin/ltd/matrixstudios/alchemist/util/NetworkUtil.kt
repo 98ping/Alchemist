@@ -89,8 +89,7 @@ object NetworkUtil : PluginMessageListener {
         }
     }
 
-    fun getPlayerCount(server: String)
-    {
+    fun getPlayerCount(server: String) {
         val out = ByteStreams.newDataOutput()
         out.writeUTF("PlayerCount")
         out.writeUTF(server)

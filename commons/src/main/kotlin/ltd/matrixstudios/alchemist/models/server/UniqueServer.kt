@@ -12,7 +12,7 @@ data class UniqueServer(
     var ramAllocated: Int,
     var bungeeName: String,
     var setToRelease: Long = -1L,
-    var lockedWithRank: Boolean,
+    var lockedWithRank: Boolean = false,
     var lockRank: String,
     var lastHeartbeat: Long,
 )

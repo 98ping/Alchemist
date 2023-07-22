@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.server
+package ltd.matrixstudios.alchemist.servers.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
@@ -34,8 +34,8 @@ class ServerEnvironmentCommand : BaseCommand() {
         if (player.hasPermission("alchemist.servers.admin")) {
             player.sendMessage(Chat.format("&e/senv checkrelease"))
             player.sendMessage(Chat.format("&e/senv releasetimer &f<duration>"))
+            player.sendMessage(Chat.format("&e/senv menu"))
         }
-        player.sendMessage(Chat.format("&e/senv menu"))
         player.sendMessage(Chat.format("&7&m-------------------"))
     }
 

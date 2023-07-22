@@ -7,7 +7,7 @@ import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
-import ltd.matrixstudios.alchemist.commands.server.task.ServerReleaseTask
+import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.module.PluginModuleHandler
@@ -165,43 +165,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
         }
 
-        val serversStart = System.currentTimeMillis()
-
-        if (UniqueServerService.byId(config.getString("server.id")) == null) {
-            val server = UniqueServer(
-                config.getString("server.id").lowercase(),
-                config.getString("server.id"),
-                config.getString("server.id"),
-                arrayListOf(),
-                true,
-                (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt(),
-                config.getString("server.id"),
-                -1L,
-                false,
-                "",
-                System.currentTimeMillis()
-            )
-
-            println("[Alchemist] [Debug] Created a new server instance because none was found")
-            UniqueServerService.save(server)
-
-            updateUniqueServer(server)
-        } else {
-            val server = UniqueServerService.byId(config.getString("server.id"))!!
-            server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
-            server.online = true
-
-            updateUniqueServer(server)
-        }
-
-        AsynchronousRedisSender.send(ServerStatusChangePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."), Alchemist.globalServer))
-
-        NetworkUtil.load()
-
-        Chat.sendConsoleMessage(
-            "&6[Servers] &fServer instance loaded in &6" + System.currentTimeMillis().minus(serversStart) + "ms"
-        )
-
         StatisticManager.loadStats()
 
         val vaultStart = System.currentTimeMillis()
@@ -270,11 +233,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             )
         )
     }
-
-    fun updateUniqueServer(server: UniqueServer) {
-        Alchemist.globalServer = server
-    }
-
 
     fun registerExpansion()
     {

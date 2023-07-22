@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.profiles.ProfileModule
 import ltd.matrixstudios.alchemist.profiles.permissions.PermissionModule
 import ltd.matrixstudios.alchemist.punishment.PunishmentModule
+import ltd.matrixstudios.alchemist.servers.ServerModule
 import ltd.matrixstudios.alchemist.staff.StaffModeModule
 
 /**
@@ -20,7 +21,8 @@ object PluginModuleHandler {
         ProfileModule,
         StaffModeModule,
         PunishmentModule,
-        PermissionModule
+        PermissionModule,
+        ServerModule
     )
 
     fun loadModules() {

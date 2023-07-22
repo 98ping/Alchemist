@@ -19,7 +19,7 @@ import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
-import ltd.matrixstudios.alchemist.commands.server.ServerEnvironmentCommand
+import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
