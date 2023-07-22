@@ -74,7 +74,7 @@ class Hydrogen : Theme("hydrogen", "&bHydrogen", mutableListOf(" ", "&eSelect th
         desc.add(Chat.format("&7&m-------------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
         desc.add(Chat.format("&eReason: &c" + punishment.reason))
-        desc.add(Chat.format("&eActor: &c" + punishment.actor.actorType.name + " &e: &c" + punishment.actor.executor.name))
+        desc.add(Chat.format("&eActor: &c" + Chat.enumToDisplay(punishment.actor.actorType.name) + " &e: &c" + Chat.enumToDisplay(punishment.actor.executor.name)))
         desc.add(Chat.format("&7&m-------------------------"))
         val expirable = punishment.expirable
 
