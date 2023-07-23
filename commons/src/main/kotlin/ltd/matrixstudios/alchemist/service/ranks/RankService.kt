@@ -14,6 +14,8 @@ object RankService : GeneralizedService {
 
     var ranks = mutableMapOf<String, Rank>()
 
+    var FALLBACK_RANK = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
+
     fun loadRanks() {
         if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
             save(

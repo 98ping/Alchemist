@@ -62,7 +62,7 @@ class PunishmentExecutePacket(
                 msgs.replaceAll {
                     it.replace(
                         "<expires>",
-                        if (punishment!!.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(
+                        if (punishment.expirable.duration == Long.MAX_VALUE) "Never" else TimeUtil.formatDuration(
                             punishment.expirable.addedAt + punishment.expirable.duration - System.currentTimeMillis()
                         )
                     )

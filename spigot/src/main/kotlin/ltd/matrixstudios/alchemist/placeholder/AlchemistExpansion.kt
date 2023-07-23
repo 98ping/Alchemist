@@ -25,7 +25,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
 
         when (params) {
             "rankDisplay" -> {
-                val rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+                val rank = RankService.FALLBACK_RANK
 
                 val disguiseProfile = profile.rankDisguiseAttribute
 
@@ -54,7 +54,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
             }
 
             "rankPrefix" -> {
-                var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+                var rank = RankService.FALLBACK_RANK
 
                 if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
                     val disguiseRank = profile.rankDisguiseAttribute!!

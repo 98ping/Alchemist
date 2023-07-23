@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 import java.util.stream.Collectors
 
@@ -36,7 +37,7 @@ object ProfileGameService : GeneralizedService {
     }
 
     fun getHighestRank(uuid: UUID): Rank {
-        val current = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        val current = RankService.FALLBACK_RANK
         val profile = byId(uuid) ?: return current
 
         return profile.getCurrentRank() ?: return current

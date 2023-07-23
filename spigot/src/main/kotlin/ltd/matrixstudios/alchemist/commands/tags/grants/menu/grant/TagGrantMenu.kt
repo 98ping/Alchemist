@@ -20,6 +20,6 @@ class TagGrantMenu(val player: Player, val gameProfile: GameProfile) : Paginated
     }
 
     override fun getTitle(player: Player): String {
-        return "TagGranting " + gameProfile.username
+        return "Tag Granting " + gameProfile.username
     }
 }

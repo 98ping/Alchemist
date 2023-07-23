@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bukkit.Bukkit
 import org.bukkit.DyeColor
 import org.bukkit.entity.Player
@@ -32,7 +33,7 @@ object AlchemistAPI {
 
 
     fun getPlayerRankString(uuid: UUID) : String {
-        val current = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        val current = RankService.FALLBACK_RANK
 
         val profile = syncFindProfile(uuid) ?: return (current.color + current.displayName)
         val rank = profile.getCurrentRank() ?: return (current.color + current.displayName)
@@ -69,7 +70,7 @@ object AlchemistAPI {
     }
 
     fun findRank(uuid: UUID) : Rank {
-        val profile = ProfileGameService.byId(uuid) ?: return Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        val profile = ProfileGameService.byId(uuid) ?: return RankService.FALLBACK_RANK
 
         return profile.getCurrentRank()!!
     }

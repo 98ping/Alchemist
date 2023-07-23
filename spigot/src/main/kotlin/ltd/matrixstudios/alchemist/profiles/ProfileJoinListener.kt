@@ -68,7 +68,7 @@ class ProfileJoinListener : Listener {
             colorString = profile.activeColor!!.chatColor
         }
 
-        var rank = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        var rank = RankService.FALLBACK_RANK
 
         if (profile.rankDisguiseAttribute != null) {
             val curr = RankService.byId(profile.rankDisguiseAttribute!!.rank)

@@ -252,10 +252,9 @@ data class GameProfile(
         return filteredRank
     }
 
-    fun getCurrentRank(): Rank? {
+    fun getCurrentRank(): Rank {
         val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
         val globalServer = Alchemist.globalServer
-
 
 
         /*
@@ -265,16 +264,12 @@ data class GameProfile(
             check which one comes out on top
          */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
-
             it.expirable.isActive() && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
-        }.sortedBy { it.getGrantable().weight }.reversed().firstOrNull()
+        }.sortedByDescending { it.getGrantable().weight }.firstOrNull()
 
-        if (filteredRank == null
-            ||
-            filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0)
-        )
+        if (filteredRank == null || filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0))
         {
-            return currentGrant
+            return currentGrant ?: RankService.FALLBACK_RANK
         }
 
         return filteredRank.getGrantable()

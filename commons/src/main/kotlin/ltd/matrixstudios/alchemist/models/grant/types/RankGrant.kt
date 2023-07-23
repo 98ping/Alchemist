@@ -43,11 +43,7 @@ data class RankGrant(
 
     fun getIssuedByName() : String
     {
-        val profile = ProfileGameService.byId(this.executor)
-        if (profile == null)
-        {
-            return "Console"
-        }
+        val profile = ProfileGameService.byId(this.executor) ?: return "Console"
 
         return profile.username
     }
@@ -55,12 +51,11 @@ data class RankGrant(
     override fun getGrantable(): Rank {
        val optional = RankService.byId(rank)
 
-        if (optional != null)
-        {
+        if (optional != null) {
             return optional
         }
 
-        return Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f")
+        return RankService.FALLBACK_RANK
     }
 
 }
