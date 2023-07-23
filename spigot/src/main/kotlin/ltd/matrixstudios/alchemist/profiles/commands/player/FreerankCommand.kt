@@ -29,14 +29,17 @@ class FreerankCommand : BaseCommand()
             return
         }
 
-        if (!WebUtil.playerHasLiked(player.uniqueId))
-        {
-            for (line in AlchemistSpigotPlugin.instance.config.getStringList("freeRank.message"))
-            {
-                player.sendMessage(Chat.format(line))
+        WebUtil.playerHasLiked(player.uniqueId).thenApply {
+            if (!it) {
+                for (line in AlchemistSpigotPlugin.instance.config.getStringList("freeRank.message"))
+                {
+                    player.sendMessage(Chat.format(line))
+                }
+
+                return@thenApply
             }
-            return
         }
+
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), AlchemistSpigotPlugin.instance.config.getString("freeRank.command").replace("<target>", player.name))
         player.sendMessage(Chat.format("&aRedeemed your free rank!"))

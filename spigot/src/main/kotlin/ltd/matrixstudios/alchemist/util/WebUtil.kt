@@ -9,12 +9,13 @@ import java.io.InputStreamReader
 import java.net.URL
 import java.net.URLConnection
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
 
 
 object WebUtil {
 
-    fun playerHasLiked(uuid: UUID) : Boolean {
-        try {
+    fun playerHasLiked(uuid: UUID): CompletableFuture<Boolean> {
+        return CompletableFuture.supplyAsync {
             val serverLikes = URL("https://api.namemc.com/server/${AlchemistAPI.SERVER_NAME}/likes")
             val urlConn: URLConnection = serverLikes.openConnection()
             urlConn.setRequestProperty(
@@ -25,15 +26,12 @@ object WebUtil {
             BufferedReader(InputStreamReader(urlConn.getInputStream())).use { reader ->
                 val obj = Alchemist.gson.fromJson(reader, Array<String>::class.java)
 
-                if (obj.contains(uuid.toString()))
-                {
-                    return true
+                if (obj.contains(uuid.toString())) {
+                    return@supplyAsync true
                 }
             }
-        } catch (ex: IOException) {
-            return false
-        }
 
-        return false
+            return@supplyAsync false
+        }
     }
 }

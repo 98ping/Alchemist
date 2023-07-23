@@ -36,7 +36,11 @@ object SendStaffWelcome : BukkitPostLoginTask {
 
                 }
 
-                if (StaffSuiteManager.isModModeOnJoin(player) && AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode"))
+                if (AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.autoEquipOnJoin")
+                    &&
+                    StaffSuiteManager.isModModeOnJoin(player)
+                    &&
+                    AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode"))
                 {
                     player.sendMessage(Chat.format("&7&oYou have been put into ModMode automatically"))
                     StaffSuiteManager.setStaffMode(player)

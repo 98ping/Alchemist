@@ -39,6 +39,10 @@ coinshop:
     - "&a&lClick Here To Purchase"
     - "&6&m---------------"
 
+chat:
+  slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"
+  muteChatMessage: "&cChat is currently muted! You may not talk right now"
+
 autobroadcast:
   enabled: true
   interval: 60 #seconds
@@ -75,11 +79,13 @@ modules:
   chatcolors: true
   notes: true
   staffmode: true
+  chat: true
   vouchers: true
   themeCommands: true
 
 staffmode:
   sendWelcomeMessage: true
+  autoEquipOnJoin: false
 
 #for general server information to use in command messages
 details:

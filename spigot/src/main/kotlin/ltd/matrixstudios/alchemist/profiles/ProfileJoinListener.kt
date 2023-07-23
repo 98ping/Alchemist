@@ -3,7 +3,8 @@ package ltd.matrixstudios.alchemist.profiles
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.chat.ChatService
+import ltd.matrixstudios.alchemist.chat.commands.ChatCommands
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginConnection
@@ -50,6 +51,45 @@ class ProfileJoinListener : Listener {
 
             msgs.forEach { event.player.sendMessage(Chat.format(it)) }
             return
+        }
+
+        if (ChatService.muted) {
+            if (!event.player.hasPermission("alchemist.mtuechat.bypass")) {
+                val message = ChatService.MUTE_MESSAGE
+
+                event.player.sendMessage(Chat.format(message))
+
+                event.isCancelled = true
+
+                return
+            }
+        }
+
+
+
+        if (ChatService.slowed) {
+            if (!event.player.hasPermission("alchemist.slowchat.bypass")) {
+                val message = ChatService.SLOW_MESSAGE
+
+                if (ChatService.isOnCooldown(event.player)) {
+                    val rem = ChatService.getCooldownRemaining(event.player)
+                    if (rem != 0) {
+                        event.player.sendMessage(
+                            Chat.format(
+                                message.replace(
+                                    "<seconds>",
+                                    rem.toString()
+                                )
+                            )
+                        )
+                        event.isCancelled = true
+
+                        return
+                    }
+                } else {
+                    ChatService.addCooldown(event.player)
+                }
+            }
         }
 
 
