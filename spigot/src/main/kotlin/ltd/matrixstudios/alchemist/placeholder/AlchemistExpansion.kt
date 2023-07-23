@@ -54,7 +54,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
             }
 
             "nametagPrefix" -> {
-                var rank = RankService.FALLBACK_RANK
+                val rank: Rank
 
                 if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
                     val disguiseRank = profile.rankDisguiseAttribute!!

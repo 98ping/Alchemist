@@ -6,6 +6,10 @@ import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.profiles.commands.sibling.SiblingCommands
+import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
+import ltd.matrixstudios.alchemist.staff.commands.OnlineStaffCommand
+import ltd.matrixstudios.alchemist.staff.commands.StaffchatCommand
+import ltd.matrixstudios.alchemist.staff.commands.TimelineCommand
 import ltd.matrixstudios.alchemist.util.Chat
 
 /**
@@ -38,6 +42,11 @@ object ProfileModule : PluginModule {
         list.add(WipeGrantsCommand)
         list.add(WipeProfileCommand())
         list.add(SiblingCommands())
+
+        list.add(JumpToPlayerCommand())
+        list.add(OnlineStaffCommand())
+        list.add(StaffchatCommand())
+        list.add(TimelineCommand())
 
         return list
     }

@@ -31,11 +31,6 @@ object StaffModeModule : PluginModule {
     override fun getCommands(): MutableList<BaseCommand> {
         val list = mutableListOf<BaseCommand>()
 
-        list.add(JumpToPlayerCommand())
-        list.add(OnlineStaffCommand())
-        list.add(StaffchatCommand())
-        list.add(TimelineCommand())
-
         list.add(FreezeCommand())
         list.add(StaffCommands())
         list.add(VanishCommands())
