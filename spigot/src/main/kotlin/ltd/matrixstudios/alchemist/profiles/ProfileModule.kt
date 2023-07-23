@@ -10,6 +10,9 @@ import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
 import ltd.matrixstudios.alchemist.staff.commands.OnlineStaffCommand
 import ltd.matrixstudios.alchemist.staff.commands.StaffchatCommand
 import ltd.matrixstudios.alchemist.staff.commands.TimelineCommand
+import ltd.matrixstudios.alchemist.staff.requests.commands.ReportCommand
+import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
+import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
 import ltd.matrixstudios.alchemist.util.Chat
 
 /**
@@ -47,6 +50,11 @@ object ProfileModule : PluginModule {
         list.add(OnlineStaffCommand())
         list.add(StaffchatCommand())
         list.add(TimelineCommand())
+
+        list.add(ReportCommand())
+        list.add(RequestCommand())
+
+        list.add(SettingsCommand())
 
         return list
     }

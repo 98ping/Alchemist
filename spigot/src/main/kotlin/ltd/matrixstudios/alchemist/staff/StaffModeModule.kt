@@ -35,10 +35,6 @@ object StaffModeModule : PluginModule {
         list.add(StaffCommands())
         list.add(VanishCommands())
 
-        list.add(ReportCommand())
-        list.add(RequestCommand())
-
-        list.add(SettingsCommand())
         list.add(EditModModeCommand())
 
         return list
