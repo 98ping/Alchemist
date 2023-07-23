@@ -62,7 +62,7 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
             if (!completed) {
                 val command = voucher.template.commandToExecute
 
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("/", ""))
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("/", "").replace("<target>", player.name))
                 voucher.completed = true
                 player.sendMessage(Chat.format("&eYou have redeemed a ${voucher.template.whatFor} &evoucher!"))
             } else {
