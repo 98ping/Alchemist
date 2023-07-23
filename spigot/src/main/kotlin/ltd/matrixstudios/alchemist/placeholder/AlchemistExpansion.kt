@@ -53,6 +53,23 @@ class AlchemistExpansion : PlaceholderExpansion() {
                 return "&cNo"
             }
 
+            "nametagPrefix" -> {
+                var rank = RankService.FALLBACK_RANK
+
+                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
+                    val disguiseRank = profile.rankDisguiseAttribute!!
+                    rank = RankService.byId(disguiseRank.rank)!!
+                } else {
+                    rank = profile.getCurrentRank()
+                }
+
+                if (player.hasMetadata("vanish")) {
+                    return Chat.format("&7[S] ")
+                }
+
+                return Chat.format(rank.color)
+            }
+
             "rankPrefix" -> {
                 var rank = RankService.FALLBACK_RANK
 
