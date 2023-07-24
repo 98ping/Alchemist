@@ -53,7 +53,7 @@ class DecayingPartyTask : BukkitRunnable() {
 
             if (changed)
             {
-                PartyService.handler.storeAsync(party.id, party)
+                PartyService.handler.store(party.id, party)
             }
 
         }

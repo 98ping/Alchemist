@@ -162,7 +162,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         (SyncTask()).runTaskTimer(this, 0L, 60L * 20L)
 
         if (config.getBoolean("modules.parties")) {
-            (DecayingPartyTask()).runTaskTimer(this, 0L, 40L)
+            (DecayingPartyTask()).runTaskTimerAsynchronously(this, 0L, 40L)
         }
 
         StatisticManager.loadStats()
