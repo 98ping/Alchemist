@@ -3,6 +3,8 @@ package ltd.matrixstudios.alchemist.commands.tags.menu
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.tags.Tag
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.RefreshTagsPacket
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -57,6 +59,7 @@ class TagCustomizationButton(var tag: Tag) : Button() {
                 tag.purchasable = !tag.purchasable
                 player.sendMessage(Chat.format("&aUpdated the purchasable status of " + tag.id ))
 
+                AsynchronousRedisSender.send(RefreshTagsPacket())
                 TagService.save(tag)
             }
 
@@ -82,6 +85,7 @@ class TagCustomizationButton(var tag: Tag) : Button() {
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
                                 tag.prefix = input
                                 TagService.save(tag)
+                                AsynchronousRedisSender.send(RefreshTagsPacket())
                                 player.sendMessage(Chat.format("&aUpdated the prefix of ${tag.menuName}"))
                             }, 1L)
                             END_OF_CONVERSATION
@@ -111,6 +115,7 @@ class TagCustomizationButton(var tag: Tag) : Button() {
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
                                 tag.menuName = input
                                 TagService.save(tag)
+                                AsynchronousRedisSender.send(RefreshTagsPacket())
                                 player.sendMessage(Chat.format("&aUpdated the menuname of ${tag.menuName}"))
                             }, 1L)
                             END_OF_CONVERSATION

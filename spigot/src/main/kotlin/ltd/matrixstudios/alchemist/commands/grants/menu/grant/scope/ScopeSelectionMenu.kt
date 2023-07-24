@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope
 
-import ltd.matrixstudios.alchemist.profiles.cache.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.redis.cache.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile

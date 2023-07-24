@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.profiles.cache
+package ltd.matrixstudios.alchemist.redis.cache
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacket
@@ -9,8 +9,7 @@ class RemoveProfileCachePacket(val gameprofile: GameProfile) : RedisPacket("remo
     override fun action() {
         val cache = ProfileGameService.cache
 
-        if (cache.containsKey(gameprofile.uuid))
-        {
+        if (cache.containsKey(gameprofile.uuid)) {
             cache.remove(gameprofile.uuid)
         }
     }

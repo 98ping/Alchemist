@@ -9,17 +9,42 @@ import java.util.concurrent.CompletableFuture
 object TagService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Tag>(DataStoreType.MONGO)
+    var cache = mutableMapOf<String, Tag>()
+
+    fun loadTags() {
+        getValues().thenAccept {
+            for (tag in it) {
+                cache[tag.id] = tag
+            }
+        }
+    }
 
     fun getValues() : CompletableFuture<Collection<Tag>> {
         return handler.retrieveAllAsync()
     }
 
     fun save(tag: Tag) {
+        cache[tag.id] = tag
         handler.storeAsync(tag.id, tag)
     }
 
 
-    fun byId(id: String?) : Tag? {
-        return getValues().get().firstOrNull { it.id.equals(id, ignoreCase = true) }
+    fun byId(id: String) : Tag? {
+        if (cache.containsKey(id)) {
+            return cache[id]
+        }
+
+        val future = getValues().thenApply {
+            for (tag in it) {
+                if (tag.id.equals(id, ignoreCase = true))
+                {
+                    return@thenApply tag
+                }
+            }
+
+            return@thenApply null
+        }
+
+        return future.get()
     }
 }

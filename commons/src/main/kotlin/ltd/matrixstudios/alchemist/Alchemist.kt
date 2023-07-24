@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.service.tags.TagService
 
 object Alchemist {
 
@@ -29,6 +30,7 @@ object Alchemist {
 
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
         RankService.loadRanks()
+        TagService.loadTags()
         QueueService.loadAllQueues()
         FilterService.loadIntoCache()
     }

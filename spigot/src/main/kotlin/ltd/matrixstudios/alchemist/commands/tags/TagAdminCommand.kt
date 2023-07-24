@@ -7,6 +7,8 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.commands.tags.menu.TagCustomizationMenu
 import ltd.matrixstudios.alchemist.models.tags.Tag
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.RefreshTagsPacket
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Material
@@ -27,6 +29,7 @@ class TagAdminCommand : BaseCommand() {
         }
 
         TagService.save(Tag(name, "&7$name", true, "", "Text", Material.NAME_TAG.name))
+        AsynchronousRedisSender.send(RefreshTagsPacket())
         sender.sendMessage(Chat.format("&aCreated a new tag"))
     }
 
@@ -42,6 +45,7 @@ class TagAdminCommand : BaseCommand() {
         }
 
         TagService.handler.delete(tag.id)
+        AsynchronousRedisSender.send(RefreshTagsPacket())
         sender.sendMessage(Chat.format("&cDeleted this tag!"))
     }
 

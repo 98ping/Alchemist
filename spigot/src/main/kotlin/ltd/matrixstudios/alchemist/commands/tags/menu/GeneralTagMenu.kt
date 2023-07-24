@@ -14,7 +14,7 @@ class GeneralTagMenu(var player: Player) : PaginatedMenu(18, player) {
 
         var index = 0
 
-        for (tag in TagService.getValues().get()) {
+        for (tag in TagService.cache.values) {
             buttons[index++] = GeneralTagButton(tag)
         }
 

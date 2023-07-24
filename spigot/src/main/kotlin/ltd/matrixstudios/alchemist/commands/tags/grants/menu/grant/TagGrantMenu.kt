@@ -12,7 +12,7 @@ class TagGrantMenu(val player: Player, val gameProfile: GameProfile) : Paginated
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (tag in TagService.getValues().get()) {
+        for (tag in TagService.cache.values) {
             buttons[index++] = TagGrantButton(tag, gameProfile)
         }
 

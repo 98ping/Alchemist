@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.profiles.cache
+package ltd.matrixstudios.alchemist.redis.cache
 
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService

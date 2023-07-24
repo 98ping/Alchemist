@@ -6,7 +6,7 @@ import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdateAllPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.profiles.cache.RefreshRankPacket
+import ltd.matrixstudios.alchemist.redis.cache.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.service.ranks.RankService
