@@ -39,6 +39,8 @@ dependencies {
 }
 
 shadowJar {
-    relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated'
-    relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated'
+    relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated.redis'
+    relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated.kotlin'
+    relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated.mongo'
+    relocate 'org.bson', 'ltd.matrixstudios.alchemist.relocated.bson'
 }

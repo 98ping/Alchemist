@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id 'org.jetbrains.kotlin.kapt' version '1.6.10'
     id "com.github.johnrengelman.shadow" version "7.1.2"
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
 allprojects {
@@ -17,7 +16,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://repo.enonic.com/public/' }
         maven { url "https://oss.sonatype.org/content/groups/public/" }
-        maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+        maven { url "https://repo.aikar.co/content/groups/aikar/" }
         maven { url 'https://papermc.io/repo/repository/maven-public/' }
         maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
 
@@ -28,7 +27,6 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "org.jetbrains.kotlin.kapt"
     apply plugin: "com.github.johnrengelman.shadow"
-    apply plugin: 'kotlinx-serialization'
 
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib"
@@ -37,16 +35,8 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.22'
         kapt 'org.projectlombok:lombok:1.18.22'
 
-        //mongo
-        implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
-        implementation 'org.litote.kmongo:kmongo-serialization:4.9.0'
 
         //local
         implementation fileTree(include: ['*.jar'], dir: 'lib')
     }
-
-    shadowJar {
-        relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated'
-    }
-
 }

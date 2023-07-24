@@ -1,7 +1,5 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 
