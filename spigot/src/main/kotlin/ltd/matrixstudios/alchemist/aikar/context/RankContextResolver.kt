@@ -11,7 +11,7 @@ class RankContextResolver : ContextResolver<Rank, BukkitCommandExecutionContext>
     override fun getContext(c: BukkitCommandExecutionContext?): Rank? {
         val firstArg = c!!.popFirstArg() ?: return null
 
-        val rank = RankService.byId(firstArg)
+        val rank = RankService.byId(firstArg.toLowerCase())
             ?: throw InvalidCommandArgument("No rank by this name found")
 
         return rank

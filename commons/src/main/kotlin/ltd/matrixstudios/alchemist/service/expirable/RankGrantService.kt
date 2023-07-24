@@ -5,9 +5,12 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executors
+import java.util.concurrent.ForkJoinPool
 
 object RankGrantService : ExpiringService<RankGrant>() {
 
@@ -61,14 +64,16 @@ object RankGrantService : ExpiringService<RankGrant>() {
     }
 
     fun remove(grant: RankGrant) {
-        handler.delete(grant.uuid).also {
+        handler.deleteAsync(grant.uuid).also {
             playerGrants[grant.target]?.remove(grant)
         }
     }
 
 
     fun save(rankGrant: RankGrant) {
-        handler.storeAsync(rankGrant.uuid, rankGrant)
+        CompletableFuture.runAsync {
+            handler.store(rankGrant.uuid, rankGrant)
+        }
     }
 
     fun findByTarget(target: UUID) : CompletableFuture<MutableList<RankGrant>> {

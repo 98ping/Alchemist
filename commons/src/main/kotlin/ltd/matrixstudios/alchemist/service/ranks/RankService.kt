@@ -5,39 +5,41 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.concurrent.CompletableFuture
-import java.util.stream.Collectors
-import kotlin.collections.ArrayList
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.Executors
+import java.util.concurrent.ForkJoinPool
+
 
 object RankService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
 
-    var ranks = mutableMapOf<String, Rank>()
+    var ranks = ConcurrentHashMap<String, Rank>()
 
     var FALLBACK_RANK = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
 
     fun loadRanks() {
-        if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
-            save(
-                Rank(
-                "default",
-                "Default",
-                "Default",
-                1,
-                ArrayList(),
-                ArrayList(),
-                "",
-                "&7",
-                staff = false,
-                default = true)
-            )
-        }
-
         //since there are only a limited amount of ranks we can just load on startup
         getValues().thenAccept {
             for (rank in it) {
                 ranks[rank.id] = rank
             }
+        }
+
+        if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
+            save(
+                Rank(
+                    "default",
+                    "Default",
+                    "Default",
+                    1,
+                    ArrayList(),
+                    ArrayList(),
+                    "",
+                    "&7",
+                    staff = false,
+                    default = true)
+            )
         }
     }
 
@@ -48,11 +50,13 @@ object RankService : GeneralizedService {
     fun save(rank: Rank) {
         ranks[rank.id] = rank
 
-        handler.storeAsync(rank.id, rank)
+        CompletableFuture.runAsync {
+            handler.store(rank.id, rank)
+        }
     }
 
     fun getRanksInOrder() : Collection<Rank> {
-        return ranks.values.stream().sorted { o1, o2 ->  o2.weight - o1.weight }.collect(Collectors.toList())
+        return ranks.values.sortedByDescending { it.weight }
     }
 
 
@@ -73,7 +77,7 @@ object RankService : GeneralizedService {
             return@thenApply null
         }
 
-        return future.get()
+            return future.get()
     }
 
     fun byId(id: String) : Rank? {
@@ -81,18 +85,6 @@ object RankService : GeneralizedService {
             return ranks[id]
         }
 
-        val future: CompletableFuture<Rank?> = getValues().thenApply {
-            for (rank in it)
-            {
-                if (rank.name.equals(id, ignoreCase = true))
-                {
-                    return@thenApply rank
-                }
-            }
-
-            return@thenApply null
-        }
-
-        return future.get()
+        return null
     }
 }

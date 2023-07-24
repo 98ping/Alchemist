@@ -11,7 +11,11 @@ import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executors
+import java.util.concurrent.ForkJoinPool
 import java.util.stream.Collectors
+
 
 object ProfileGameService : GeneralizedService {
 
@@ -62,7 +66,10 @@ object ProfileGameService : GeneralizedService {
 
     fun save(gameProfile: GameProfile) {
         cache[gameProfile.uuid] = gameProfile
-        handler.storeAsync(gameProfile.uuid, gameProfile)
+
+        CompletableFuture.runAsync {
+            handler.store(gameProfile.uuid, gameProfile)
+        }
     }
 
     fun saveSync(gameProfile: GameProfile) {
