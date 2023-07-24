@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist
 
 import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
+import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.listeners.BungeeListener
 import net.md_5.bungee.api.plugin.Plugin
 import net.md_5.bungee.config.Configuration
@@ -41,6 +42,8 @@ class AlchemistBungee : Plugin() {
             configuration.set("mongo.database", "Alchemist")
             configuration.set("mongo.auth", false)
 
+            configuration.set("uri", "")
+
             configuration.set("redis.host", "127.0.0.1")
             configuration.set("redis.port", 6379)
             configuration.set("redis.username", "")
@@ -56,7 +59,19 @@ class AlchemistBungee : Plugin() {
 
         println(authEnabled)
 
-        if (authEnabled) {
+        if (configuration.getString("uri") != "") {
+            val connectionPool = URIMongoConnectionPool().apply {
+                this.databaseName = configuration.getString("mongo.database")
+                this.uri = configuration.getString("uri")
+            }
+
+            Alchemist.start(connectionPool,
+                configuration.getString("redis.host"),
+                configuration.getInt("redis.port"),
+                (if (configuration.getString("redis.username") == "") null else configuration.getString("redis.username")),
+                (if (configuration.getString("redis.password") == "") null else configuration.getString("redis.password"))
+            )
+        } else if (authEnabled) {
             val connectionPool = AuthenticatedMongoConnectionPool().apply {
                 hostname = configuration.getString("mongo.host")
                 password = configuration.getString("mongo.password")

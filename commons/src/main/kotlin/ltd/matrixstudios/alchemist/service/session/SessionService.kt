@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.models.sessions.Session
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 object SessionService : GeneralizedService {
 
@@ -16,7 +17,9 @@ object SessionService : GeneralizedService {
     var cache = hashMapOf<UUID, List<Session>>()
 
     fun save(session: Session) {
-        handler.storeAsync(session.randomId, session)
+        CompletableFuture.runAsync {
+            handler.store(session.randomId, session)
+        }
     }
 
 
