@@ -10,9 +10,10 @@ class RefreshFiltersPacket : RedisPacket("refresh-filters") {
 
         cache.clear()
 
-        for (filter in FilterService.getValues())
-        {
-            cache[filter.word] = filter
+        FilterService.handler.retrieveAllAsync().thenAccept {
+            for (item in it) {
+                cache[item.word] = item
+            }
         }
     }
 }
