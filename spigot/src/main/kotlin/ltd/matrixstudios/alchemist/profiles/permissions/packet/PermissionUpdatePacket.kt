@@ -11,13 +11,15 @@ import java.util.*
 class PermissionUpdatePacket(var player: UUID) : RedisPacket("permission-update") {
 
     override fun action() {
-        val gameProfile = AlchemistAPI.quickFindProfile(player).get() ?: return
+        AlchemistAPI.quickFindProfile(player).thenAcceptAsync {
+            if (it == null) return@thenAcceptAsync
 
-        val player = Bukkit.getPlayer(player) ?: return
+            val player = Bukkit.getPlayer(player) ?: return@thenAcceptAsync
 
-        val grants = RankGrantService.findByTarget(player.uniqueId).join()
-        RankGrantService.playerGrants[player.uniqueId] = grants
+            val grants = RankGrantService.findByTarget(player.uniqueId).join()
+            RankGrantService.playerGrants[player.uniqueId] = grants
 
-        AccessiblePermissionHandler.update(player, gameProfile.getPermissions())
+            AccessiblePermissionHandler.update(player, it.getPermissions())
+        }
      }
 }
