@@ -10,8 +10,7 @@ class ThemeSelectCommand : BaseCommand() {
 
     @CommandAlias("themes|theme|selecttheme")
     @CommandPermission("alchemist.themes")
-    fun theme(player: Player)
-    {
+    fun theme(player: Player) {
         ThemeSelectMenu(player).openMenu()
     }
 }

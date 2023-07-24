@@ -29,7 +29,7 @@ class AltsCommand : BaseCommand() {
             {
                 override fun run() {
                     AltsMenu(player, profile, alts).updateMenu()
-                    player.sendMessage(Chat.format("&aran in ${System.currentTimeMillis().minus(ms)}ms!"))
+                    player.sendMessage(Chat.format("&aRan in ${System.currentTimeMillis().minus(ms)}ms!"))
                 }
 
             }.runTask(AlchemistSpigotPlugin.instance)

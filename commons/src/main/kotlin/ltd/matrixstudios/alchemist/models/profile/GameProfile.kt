@@ -64,7 +64,7 @@ data class GameProfile(
     fun getRankDisplay() : String {
         val rank = getCurrentRank()
 
-        return (rank?.color ?: "&f") + username
+        return rank.color + username
     }
 
     fun getActivePunishments() : Collection<Punishment> {
@@ -72,7 +72,7 @@ data class GameProfile(
     }
 
     fun getActivePunishmentsFilteredByImportance() : Collection<Punishment> {
-        val bindings = hashMapOf<PunishmentType, Int>(
+        val bindings = hashMapOf(
             PunishmentType.BLACKLIST to 4,
             PunishmentType.BAN to 3,
             PunishmentType.WARN to 1,
