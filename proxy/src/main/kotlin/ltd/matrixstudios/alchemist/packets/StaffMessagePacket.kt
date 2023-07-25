@@ -12,7 +12,7 @@ class StaffMessagePacket(val message: String) : RedisPacket("staff-message-bunge
 
     override fun action() {
         AlchemistBungee.instance.proxy.players.filter {
-            ProfileGameService.byId(it.uniqueId)?.getCurrentRank()!!.staff
+            ProfileGameService.byId(it.uniqueId)?.getHighestGlobalRank()!!.staff
         }.forEach {
             it.sendMessage(TextComponent(ChatColor.translateAlternateColorCodes('&', message)))
         }
