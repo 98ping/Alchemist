@@ -67,6 +67,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
                     return Chat.format("&7[S] ")
                 }
 
+
                 return Chat.format(rank.color)
             }
 

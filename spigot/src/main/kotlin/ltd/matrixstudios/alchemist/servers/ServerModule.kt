@@ -48,7 +48,7 @@ object ServerModule : PluginModule {
 
             updateUniqueServer(server)
         } else {
-            val server = UniqueServerService.byId(config.getString("server.id"))!!
+            val server = UniqueServerService.byId(config.getString("server.id").toLowerCase())!!
             server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
             server.online = true
 

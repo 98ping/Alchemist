@@ -27,15 +27,16 @@ object ProfileGameService : GeneralizedService {
 
     var cache = ConcurrentHashMap<UUID, GameProfile?>()
 
-    fun getHighestGrant(uuid: UUID) : RankGrant? {
+    fun getHighestGrant(uuid: UUID): RankGrant? {
         val grants = RankGrantService.getFromCache(uuid)
 
-        grants.stream().sorted { o1, o2 ->  o2.getGrantable().weight - o1.getGrantable().weight }.collect(Collectors.toList())
+        grants.stream().sorted { o1, o2 -> o2.getGrantable().weight - o1.getGrantable().weight }
+            .collect(Collectors.toList())
 
         return grants.firstOrNull()
     }
 
-    fun byId(uuid: UUID) : GameProfile? {
+    fun byId(uuid: UUID): GameProfile? {
         return cache.computeIfAbsent(uuid) {
             return@computeIfAbsent handler.retrieveAsync(it).get()
         }
@@ -48,7 +49,7 @@ object ProfileGameService : GeneralizedService {
         return profile.getCurrentRank() ?: return current
     }
 
-    fun byUsername(name: String) : GameProfile? {
+    fun byUsername(name: String): GameProfile? {
         val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
 
         if (cacheProfile != null) {
@@ -57,8 +58,7 @@ object ProfileGameService : GeneralizedService {
 
         val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase())).firstOrNull()
 
-        if (mongoProfile != null)
-        {
+        if (mongoProfile != null) {
             return Alchemist.gson.fromJson(mongoProfile.toJson(), GameProfile::class.java)
         }
 
@@ -78,13 +78,22 @@ object ProfileGameService : GeneralizedService {
         handler.store(gameProfile.uuid, gameProfile)
     }
 
-    fun loadProfile(uuid: UUID, username: String) : GameProfile
-    {
-        val cached = cache[uuid] ?: handler.retrieveAsync(uuid).get()
+    fun loadProfile(uuid: UUID, username: String): GameProfile {
+        val cached = cache[uuid] ?: handler.retrieve(uuid)
 
         return cached
             ?: GameProfile(
-                uuid, username, username.toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, mutableListOf(), System.currentTimeMillis()
+                uuid,
+                username,
+                username.toLowerCase(),
+                JsonObject(),
+                "",
+                arrayListOf(),
+                arrayListOf(),
+                null,
+                null,
+                mutableListOf(),
+                System.currentTimeMillis()
             )
     }
 }

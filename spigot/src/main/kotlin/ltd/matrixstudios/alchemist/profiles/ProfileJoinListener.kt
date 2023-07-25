@@ -125,7 +125,7 @@ class ProfileJoinListener : Listener {
         event.format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
@@ -138,7 +138,7 @@ class ProfileJoinListener : Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent) {
         val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
             it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
@@ -149,7 +149,7 @@ class ProfileJoinListener : Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     fun leave(event: PlayerQuitEvent)
     {
         val player = event.player
