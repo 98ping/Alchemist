@@ -27,7 +27,7 @@ class BungeeListener : Listener {
     fun switch(event: ServerSwitchEvent) {
         val player = event.player.uniqueId
 
-        val playerRank = ProfileGameService.byId(player)?.getCurrentRank() ?: return
+        val playerRank = ProfileGameService.byId(player)?.getHighestGlobalRank() ?: return
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff && event.from != null) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + event.player.name + " &3joined &b" + event.player.server.info.name + " &3from &b" + event.from.name).action()
@@ -39,7 +39,7 @@ class BungeeListener : Listener {
     fun login(event: LoginEvent) {
         val player = event.connection.uniqueId
 
-        val playerRank = ProfileGameService.byId(player)?.getCurrentRank() ?: return
+        val playerRank = ProfileGameService.byId(player)?.getHighestGlobalRank() ?: return
 
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff) {
@@ -57,7 +57,7 @@ class BungeeListener : Listener {
 
         RankGrantService.recalculatePlayer(profile)
 
-        val playerRank = profile.getCurrentRank() ?: return
+        val playerRank = profile.getHighestGlobalRank()
 
         AlchemistBungee.instance.proxy.scheduler.schedule(AlchemistBungee.instance, {
             if (playerRank.staff) {
