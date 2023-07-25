@@ -11,6 +11,8 @@ import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,11 +29,43 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/rank info &f<rank>"))
         sender.sendMessage(Chat.format("&e/rank create &f<rank>"))
         sender.sendMessage(Chat.format("&e/rank delete &f<rank>"))
+        sender.sendMessage(Chat.format("&e/rank rename-id &f<rank> <new-id>"))
         sender.sendMessage(Chat.format("&e/rank list"))
         sender.sendMessage(Chat.format("&e/rank editor"))
         sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
         sender.sendMessage(Chat.format("&e/rank inheritance &f<rank>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
+    @Subcommand("rename-id")
+    @CommandPermission("rank.admin")
+    fun renameId(sender: CommandSender, @Name("rank")rank: Rank, @Name("new-id") id: String) {
+        //rank logic
+        RankService.delete(rank)
+        val oldId = rank.id
+        sender.sendMessage(Chat.format("&eOld id: &f$oldId"))
+        rank.id = id
+        sender.sendMessage(Chat.format("&eNew id: &f$id"))
+
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        //grants
+        RankGrantService.findByRank(oldId).whenComplete { g, e ->
+            for (grant in g) {
+                grant.rankId = id
+                grant.rank = id
+
+                //only if they are in the cache to prevent loading every single grant into this list
+                if (RankGrantService.playerGrants.containsKey(grant.target)) {
+                    AsynchronousRedisSender.send(UpdateGrantCacheRequest(grant.target))
+                }
+
+                RankGrantService.save(grant)
+            }
+
+            sender.sendMessage(Chat.format("&aChanged the id of &f" + g.size + " &agrants"))
+        }
     }
 
     @Subcommand("inheritance")

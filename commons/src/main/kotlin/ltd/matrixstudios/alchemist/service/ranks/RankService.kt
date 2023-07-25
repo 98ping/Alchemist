@@ -54,6 +54,14 @@ object RankService : GeneralizedService {
         }
     }
 
+    fun delete(rank: Rank) {
+        ranks.remove(rank.id)
+
+        CompletableFuture.runAsync {
+            handler.delete(rank.id)
+        }
+    }
+
     fun getRanksInOrder() : Collection<Rank> {
         return ranks.values.sortedByDescending { it.weight }
     }

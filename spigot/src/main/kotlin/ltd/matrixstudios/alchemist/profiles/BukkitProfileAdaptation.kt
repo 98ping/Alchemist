@@ -6,12 +6,16 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
+import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
 import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginConnection
 import ltd.matrixstudios.alchemist.profiles.connection.prelog.BukkitPreLoginConnection
+import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -52,6 +56,15 @@ object BukkitProfileAdaptation {
             BukkitPostLoginConnection.registerNewCallback {
                 task.run(it)
             }
+        }
+    }
+
+    fun initializeGrant(rankGrant: RankGrant, uuid: UUID) {
+        RankGrantService.save(rankGrant).whenComplete { g, e ->
+            val profile = ProfileGameService.byId(uuid) ?: return@whenComplete
+
+            AsynchronousRedisSender.send(PermissionUpdatePacket(profile.uuid))
+            AsynchronousRedisSender.send(UpdateGrantCacheRequest(profile.uuid))
         }
     }
 }

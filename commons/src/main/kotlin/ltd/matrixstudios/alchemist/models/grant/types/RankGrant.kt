@@ -13,7 +13,7 @@ import java.util.*
 
 
 data class RankGrant(
-    val rankId: String,
+    var rankId: String,
     val addedTo: UUID,
     val addedBy: UUID,
     val addedReason: String,

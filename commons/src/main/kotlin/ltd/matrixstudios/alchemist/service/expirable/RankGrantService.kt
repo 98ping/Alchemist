@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bson.Document
 import java.util.*
@@ -43,6 +44,24 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return finalGrants
     }
 
+    fun findByRank(id: String) : CompletableFuture<MutableList<RankGrant>>
+    {
+        return CompletableFuture.supplyAsync {
+            val filter = Document("rankId", id)
+            val documents = collection.find(filter).iterator()
+            val finalized = mutableListOf<RankGrant>()
+
+            while (documents.hasNext()) {
+                val next = documents.next()
+                val obj = Alchemist.gson.fromJson(next.toJson(), RankGrant::class.java)
+
+                finalized.add(obj)
+            }
+
+            finalized
+        }
+    }
+
     fun getFromCache(uuid: UUID): Collection<RankGrant> {
         return if (playerGrants.containsKey(uuid)) {
             playerGrants[uuid]!!
@@ -66,16 +85,21 @@ object RankGrantService : ExpiringService<RankGrant>() {
     }
 
     fun remove(grant: RankGrant) {
-        handler.deleteAsync(grant.uuid).also {
-            playerGrants[grant.target]?.remove(grant)
+        CompletableFuture.runAsync {
+            handler.delete(grant.uuid)
+        }.whenComplete {
+                v, t -> playerGrants[grant.target]?.remove(grant)
         }
     }
 
-
-    fun save(rankGrant: RankGrant) {
-        CompletableFuture.runAsync {
+    fun save(rankGrant: RankGrant) : CompletableFuture<RankGrant> {
+        val future = CompletableFuture.supplyAsync {
             handler.store(rankGrant.uuid, rankGrant)
+
+            rankGrant
         }
+
+        return future
     }
 
     fun findByTarget(target: UUID): CompletableFuture<MutableList<RankGrant>> {

@@ -19,6 +19,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
+import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
@@ -44,13 +45,7 @@ class CGrantCommand : BaseCommand() {
             scope
         )
 
-        RankGrantService.save(rankGrant)
-
-        //give current grant a little bit of a buffer
-        AlchemistSpigotPlugin.instance.server.scheduler.runTaskLater(AlchemistSpigotPlugin.instance, {
-            AsynchronousRedisSender.send(PermissionUpdatePacket(gameProfile.uuid))
-            AsynchronousRedisSender.send(UpdateGrantCacheRequest(gameProfile.uuid))
-        }, 5L)
+        BukkitProfileAdaptation.initializeGrant(rankGrant, gameProfile.uuid)
 
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
         GrantsNotification(rankGrant).send()
