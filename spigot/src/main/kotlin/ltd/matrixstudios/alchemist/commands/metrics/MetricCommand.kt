@@ -4,14 +4,18 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import com.google.common.base.Stopwatch
+import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.metrics.menu.MetricsMenu
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.profiles.getProfile
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class MetricCommand : BaseCommand() {
@@ -26,6 +30,19 @@ class MetricCommand : BaseCommand() {
         MetricService.addMetric("Heartbeat", Metric("Heartbeat", System.currentTimeMillis().minus(startMs), System.currentTimeMillis()))
 
         MetricsMenu(player).openMenu()
+    }
+
+    @CommandAlias("decoyprofiles")
+    @CommandPermission("alchemist.owner")
+    fun decoy(player: Player, amt: Int) {
+        for (int in 0 until amt) {
+            val profile = GameProfile(
+                UUID.randomUUID(), "Profile_${int}", "Profile_${int}".toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, mutableListOf(), System.currentTimeMillis()
+            )
+
+            ProfileGameService.save(profile)
+            player.sendMessage(Chat.format("&aMade a new profile"))
+        }
     }
 
     @CommandAlias("performancetest")
