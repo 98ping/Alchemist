@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.commands.tags.menu.TagCustomizationMenu
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.cache.RefreshTagsPacket
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshTagsPacket
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Material

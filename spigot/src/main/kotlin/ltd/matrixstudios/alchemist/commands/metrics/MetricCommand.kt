@@ -35,13 +35,13 @@ class MetricCommand : BaseCommand() {
         player.sendMessage(" ")
         val startProfile = Stopwatch.createStarted()
         val profile = player.getProfile()
-        player.sendMessage(Chat.format("&eProfile Fetch &7- &f" + startProfile.elapsed(TimeUnit.NANOSECONDS) +"ns")).also {
+        player.sendMessage(Chat.format("&eProfile Fetch &7- &f" + startProfile.elapsed(TimeUnit.MILLISECONDS) +"ms")).also {
             startProfile.stop()
         }
 
         val startGrantSort = Stopwatch.createStarted()
         val highestRank = profile!!.getCurrentRank()
-        player.sendMessage(Chat.format("&eCurrent Grant Sort &7- &f" + startGrantSort.elapsed(TimeUnit.NANOSECONDS) +"ns")).also {
+        player.sendMessage(Chat.format("&eCurrent Grant Sort &7- &f" + startGrantSort.elapsed(TimeUnit.MILLISECONDS) +"ms")).also {
             startGrantSort.stop()
         }
         player.sendMessage(" ")

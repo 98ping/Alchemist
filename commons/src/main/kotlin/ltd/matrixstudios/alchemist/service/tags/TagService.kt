@@ -5,11 +5,12 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 
 object TagService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Tag>(DataStoreType.MONGO)
-    var cache = mutableMapOf<String, Tag>()
+    var cache = ConcurrentHashMap<String, Tag>()
 
     fun loadTags() {
         getValues().thenAccept {

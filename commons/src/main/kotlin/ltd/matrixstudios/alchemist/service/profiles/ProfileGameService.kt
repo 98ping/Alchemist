@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
 import java.util.stream.Collectors
@@ -24,7 +25,7 @@ object ProfileGameService : GeneralizedService {
 
     val collection = Alchemist.MongoConnectionPool.getCollection("gameprofile")
 
-    var cache = hashMapOf<UUID, GameProfile?>()
+    var cache = ConcurrentHashMap<UUID, GameProfile?>()
 
     fun getHighestGrant(uuid: UUID) : RankGrant? {
         val grants = RankGrantService.getFromCache(uuid)

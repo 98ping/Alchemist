@@ -3,6 +3,8 @@ package ltd.matrixstudios.alchemist.servers.menu.sub.menus
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -53,6 +55,7 @@ class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMe
 
             UniqueServerService.save(server)
             Alchemist.globalServer = server
+            AsynchronousRedisSender.send(RefreshServersPacket())
 
             player.sendMessage(Chat.format("&aUpdated the lock rank of " + server.id + " to " + rank.color + rank.displayName))
         }

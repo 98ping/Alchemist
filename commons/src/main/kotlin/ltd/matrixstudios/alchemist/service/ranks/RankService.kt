@@ -24,11 +24,9 @@ object RankService : GeneralizedService {
             for (rank in it) {
                 ranks[rank.id] = rank
             }
-        }
 
-        if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
-            save(
-                Rank(
+            if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
+                save(Rank(
                     "default",
                     "Default",
                     "Default",
@@ -39,7 +37,8 @@ object RankService : GeneralizedService {
                     "&7",
                     staff = false,
                     default = true)
-            )
+                )
+            }
         }
     }
 
@@ -61,23 +60,7 @@ object RankService : GeneralizedService {
 
 
     fun findFirstAvailableDefaultRank() : Rank? {
-        val cachedDefault = ranks.values.firstOrNull { it.default }
-
-        if (cachedDefault != null) return cachedDefault
-
-        val future: CompletableFuture<Rank?> = getValues().thenApply {
-            for (rank in it)
-            {
-                if (rank.default)
-                {
-                    return@thenApply rank
-                }
-            }
-
-            return@thenApply null
-        }
-
-            return future.get()
+        return ranks.values.firstOrNull { it.default }
     }
 
     fun byId(id: String) : Rank? {

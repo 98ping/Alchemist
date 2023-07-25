@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope
 
-import ltd.matrixstudios.alchemist.redis.cache.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -89,8 +90,10 @@ class ScopeSelectionMenu(
                 )
             )
 
-            AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
-            AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
+            AlchemistSpigotPlugin.instance.server.scheduler.runTaskLater(AlchemistSpigotPlugin.instance, {
+                AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
+                AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
+            }, 5L)
             GrantsNotification(rankGrant).send()
 
             AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))

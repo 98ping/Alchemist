@@ -8,6 +8,8 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.menu.UniqueServerOverviewMenu
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -71,6 +73,7 @@ class ServerEnvironmentCommand : BaseCommand() {
 
         server.setToRelease = (System.currentTimeMillis().plus(actualTime))
         UniqueServerService.save(server)
+        AsynchronousRedisSender.send(RefreshServersPacket())
 
         sender.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet a release timer for &e" + TimeUtil.formatDuration(actualTime)))
     }

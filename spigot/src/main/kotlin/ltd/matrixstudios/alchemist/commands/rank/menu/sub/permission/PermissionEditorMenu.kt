@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission
 
-import ltd.matrixstudios.alchemist.redis.cache.RefreshRankPacket
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender

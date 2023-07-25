@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 
 object PunishmentService : ExpiringService<Punishment>() {
 
@@ -16,7 +17,7 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     val collection = Alchemist.MongoConnectionPool.getCollection("punishment")
 
-    var grants = mutableMapOf<UUID, MutableList<Punishment>>()
+    var grants = ConcurrentHashMap<UUID, MutableList<Punishment>>()
 
     fun getValues() : CompletableFuture<Collection<Punishment>> {
         return handler.retrieveAllAsync()

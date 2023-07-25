@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.redis.cache
+package ltd.matrixstudios.alchemist.redis.cache.mutate
 
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.RedisPacket

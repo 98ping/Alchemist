@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -24,7 +25,7 @@ object ServerModule : PluginModule {
         val config = AlchemistSpigotPlugin.instance.config
         val serversStart = System.currentTimeMillis()
 
-        if (UniqueServerService.byId(config.getString("server.id")) == null) {
+        if (UniqueServerService.byId(config.getString("server.id").toLowerCase()) == null) {
             val server = UniqueServer(
                 config.getString("server.id").lowercase(),
                 config.getString("server.id"),
@@ -77,5 +78,6 @@ object ServerModule : PluginModule {
 
     fun updateUniqueServer(server: UniqueServer) {
         Alchemist.globalServer = server
+        AsynchronousRedisSender.send(RefreshServersPacket())
     }
 }

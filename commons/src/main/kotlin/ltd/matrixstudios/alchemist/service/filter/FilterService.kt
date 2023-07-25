@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 object FilterService : GeneralizedService {
 
@@ -13,13 +14,13 @@ object FilterService : GeneralizedService {
     var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(DataStoreType.MONGO)
     val collection = Alchemist.MongoConnectionPool.getCollection("filter")
 
-    val cache = mutableMapOf<String, Filter>()
+    val cache = ConcurrentHashMap<String, Filter>()
 
-    fun loadIntoCache()
-    {
-        for (value in getValues())
-        {
-            cache[value.word] = value
+    fun loadIntoCache() {
+        handler.retrieveAllAsync().thenAccept {
+            for (value in it) {
+                cache[value.word] = value
+            }
         }
     }
 

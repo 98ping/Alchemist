@@ -8,11 +8,12 @@ import ltd.matrixstudios.alchemist.models.vouchers.VoucherTemplate
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 object VoucherService : GeneralizedService {
 
-    val voucherGrants: MutableMap<UUID, MutableList<VoucherGrant>> = mutableMapOf()
-    val voucherTemplates: MutableMap<String, VoucherTemplate> = mutableMapOf()
+    val voucherGrants: ConcurrentHashMap<UUID, MutableList<VoucherGrant>> = ConcurrentHashMap()
+    val voucherTemplates: ConcurrentHashMap<String, VoucherTemplate> = ConcurrentHashMap()
 
     val handler = Alchemist.dataHandler.createStoreType<UUID, VoucherGrant>(DataStoreType.MONGO)
     val handlerTemplates = Alchemist.dataHandler.createStoreType<String, VoucherTemplate>(DataStoreType.MONGO)

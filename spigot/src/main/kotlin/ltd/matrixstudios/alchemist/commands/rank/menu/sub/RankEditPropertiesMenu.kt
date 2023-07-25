@@ -2,7 +2,7 @@ package ltd.matrixstudios.alchemist.commands.rank.menu.sub
 
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.cache.RefreshRankPacket
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission.PermissionEditorMenu
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat

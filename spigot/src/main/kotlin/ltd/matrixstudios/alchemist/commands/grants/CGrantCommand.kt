@@ -5,7 +5,8 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
-import ltd.matrixstudios.alchemist.redis.cache.UpdateGrantCacheRequest
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -44,8 +45,13 @@ class CGrantCommand : BaseCommand() {
         )
 
         RankGrantService.save(rankGrant)
-        AsynchronousRedisSender.send(PermissionUpdatePacket(gameProfile.uuid))
-        AsynchronousRedisSender.send(UpdateGrantCacheRequest(gameProfile.uuid))
+
+        //give current grant a little bit of a buffer
+        AlchemistSpigotPlugin.instance.server.scheduler.runTaskLater(AlchemistSpigotPlugin.instance, {
+            AsynchronousRedisSender.send(PermissionUpdatePacket(gameProfile.uuid))
+            AsynchronousRedisSender.send(UpdateGrantCacheRequest(gameProfile.uuid))
+        }, 5L)
+
         AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
         GrantsNotification(rankGrant).send()
 

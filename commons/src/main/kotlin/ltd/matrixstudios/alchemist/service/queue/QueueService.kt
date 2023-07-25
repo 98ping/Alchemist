@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.lang.reflect.Type
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Class created on 7/12/2023
@@ -19,7 +20,7 @@ import java.util.concurrent.CompletableFuture
  */
 object QueueService : GeneralizedService {
 
-    var cache = hashMapOf<String, QueueModel>()
+    var cache = ConcurrentHashMap<String, QueueModel>()
     val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(DataStoreType.MONGO)
 
     fun loadAllQueues() {

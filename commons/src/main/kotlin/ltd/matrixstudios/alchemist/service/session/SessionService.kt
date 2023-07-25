@@ -8,13 +8,14 @@ import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
 
 object SessionService : GeneralizedService {
 
     var handler = Alchemist.dataHandler.createStoreType<String, Session>(DataStoreType.MONGO)
     private val rawCollection = Alchemist.MongoConnectionPool.getCollection("session")
 
-    var cache = hashMapOf<UUID, List<Session>>()
+    var cache = ConcurrentHashMap<UUID, List<Session>>()
 
     fun save(session: Session) {
         CompletableFuture.runAsync {

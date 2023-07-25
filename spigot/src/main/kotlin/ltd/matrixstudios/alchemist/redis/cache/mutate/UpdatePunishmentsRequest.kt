@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.redis.cache
+package ltd.matrixstudios.alchemist.redis.cache.mutate
 
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService

@@ -59,7 +59,7 @@ object AccessiblePermissionHandler {
         val profile: GameProfile = player.getProfile() ?: return
 
         //apply display name
-        player.displayName = format((profile.getCurrentRank()?.color ?: "&7") + player.name)
+        player.displayName = format(profile.getCurrentRank().color + player.name)
 
         //set metadata values
         player.removeMetadata("AlchemistRankWeight", AlchemistSpigotPlugin.instance)

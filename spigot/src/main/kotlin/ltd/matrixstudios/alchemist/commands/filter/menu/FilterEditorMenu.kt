@@ -4,7 +4,7 @@ import ltd.matrixstudios.alchemist.commands.filter.menu.editor.FilterSubEditorMe
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.cache.RefreshFiltersPacket
+import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -46,7 +46,7 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player) {
         val buttons = hashMapOf<Int, Button>()
         var index = 0
 
-        for (filter in FilterService.getValues())
+        for (filter in FilterService.cache.values)
         {
             buttons[index++] = FilterButton(filter)
         }
