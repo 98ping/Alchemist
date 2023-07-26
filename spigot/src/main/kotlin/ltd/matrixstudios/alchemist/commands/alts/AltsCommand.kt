@@ -20,21 +20,10 @@ class AltsCommand : BaseCommand() {
     @CommandAlias("alts")
     @CommandPermission("alchemist.alts")
     @CommandCompletion("@gameprofile")
-    fun listAll(player: Player, @Name("target") profile: GameProfile) {
-        ForkJoinPool.commonPool().run {
-            val ms = System.currentTimeMillis()
-            val alts = profile.getAltAccounts()
-
-            object : BukkitRunnable()
-            {
-                override fun run() {
-                    AltsMenu(player, profile, alts).updateMenu()
-                    player.sendMessage(Chat.format("&aRan in ${System.currentTimeMillis().minus(ms)}ms!"))
-                }
-
-            }.runTask(AlchemistSpigotPlugin.instance)
-        }
-
-
-    }
+    fun listAll(player: Player, @Name("target") profile: GameProfile) =
+        profile.getAltAccounts()
+            .thenAccept { alts ->
+                AltsMenu(player, profile, alts).updateMenu()
+//                player.sendMessage(Chat.format("&aRan in ${System.currentTimeMillis().minus(ms)}ms!"))
+            }
 }

@@ -54,7 +54,7 @@ class ProfileJoinListener : Listener {
         }
 
         if (ChatService.muted) {
-            if (!event.player.hasPermission("alchemist.mtuechat.bypass")) {
+            if (!event.player.hasPermission("alchemist.mutechat.bypass")) {
                 val message = ChatService.MUTE_MESSAGE
 
                 event.player.sendMessage(Chat.format(message))

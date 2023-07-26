@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.util.menu.pagination
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.MenuController
@@ -188,22 +189,37 @@ abstract class PaginatedMenu(
         return mutableMapOf()
     }
 
-    fun updateMenu() {
+    fun updateMenu(): CompletableFuture<Void> {
         val buttons = getButtonsInRange(player)
 
         val inventory = Bukkit.createInventory(null, (displaySize + 9), Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player))
 
-        CompletableFuture.runAsync {
-            for (entry in buttons) {
-                inventory.setItem(entry.key, entry.value.constructItemStack(player))
+        return CompletableFuture
+            .runAsync {
+                for (entry in buttons) {
+                    inventory.setItem(entry.key, entry.value.constructItemStack(player))
+                }
             }
-        }
+            .whenComplete { _, throwable ->
+                if (throwable != null) {
+                    throwable.printStackTrace()
+                    player.sendMessage(
+                        "${ChatColor.RED}Failed to open menu."
+                    )
+                    return@whenComplete
+                }
 
-        player.openInventory(inventory)
-        player.updateInventory()
-        MenuController.paginatedMenuMap[player.uniqueId] = this
+                Bukkit.getScheduler()
+                    .runTaskAsynchronously(
+                        AlchemistSpigotPlugin.instance
+                    ) {
+                        player.openInventory(inventory)
+                        player.updateInventory()
+
+                        MenuController.paginatedMenuMap[player.uniqueId] = this
+                    }
+            }
     }
-
 }
 
 
