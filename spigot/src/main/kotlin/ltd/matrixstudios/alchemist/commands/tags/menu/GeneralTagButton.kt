@@ -45,7 +45,7 @@ class GeneralTagButton(var tag: Tag) : Button() {
     }
 
     override fun getData(player: Player): Short {
-        return AlchemistAPI.getWoolColor(tag.menuName).dyeData.toShort()
+        return 0
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
