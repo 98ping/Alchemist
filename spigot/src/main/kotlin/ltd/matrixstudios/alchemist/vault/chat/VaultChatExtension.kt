@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.vault.chat
 
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.permission.Permission
 import org.bukkit.plugin.Plugin
@@ -17,9 +18,15 @@ class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
     }
 
     override fun getPlayerPrefix(p0: String?, p1: String?): String {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()) ?: return ""
+        var prefix = RankService.FALLBACK_RANK.prefix
+        ProfileGameService.byUsername(p1!!.toLowerCase()).whenComplete { p, t ->
+            if (p == null) return@whenComplete
 
-        return profile.getCurrentRank()!!.prefix
+            val curr = p.getCurrentRank()
+            prefix = curr.prefix
+        }
+
+        return prefix
     }
 
     override fun setPlayerPrefix(p0: String?, p1: String?, p2: String?) {

@@ -49,22 +49,25 @@ object ProfileGameService : GeneralizedService {
         return profile.getCurrentRank() ?: return current
     }
 
-    fun byUsername(name: String): GameProfile? {
-        val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
+    fun byUsername(name: String): CompletableFuture<GameProfile?> {
+        return CompletableFuture.supplyAsync {
+            val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
 
-        if (cacheProfile != null) {
-            return cacheProfile
+            if (cacheProfile != null) {
+                return@supplyAsync cacheProfile
+            }
+
+            // TODO: https://www.mongodb.com/docs/manual/core/index-case-insensitive/ :)
+            val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase())).firstOrNull()
+
+            if (mongoProfile != null) {
+                return@supplyAsync Alchemist.gson.fromJson(mongoProfile.toJson(), GameProfile::class.java)
+            }
+
+            null
         }
-
-        // TODO: https://www.mongodb.com/docs/manual/core/index-case-insensitive/ :)
-        val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase())).firstOrNull()
-
-        if (mongoProfile != null) {
-            return Alchemist.gson.fromJson(mongoProfile.toJson(), GameProfile::class.java)
-        }
-
-        return null
     }
+
 
     fun save(gameProfile: GameProfile) {
         cache[gameProfile.uuid] = gameProfile

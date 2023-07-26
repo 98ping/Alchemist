@@ -53,35 +53,35 @@ class PartyCommands : BaseCommand() {
 
         val party = PartyService.getParty(player.uniqueId)!!
 
-        val targetProfile = ProfileGameService.byUsername(target)
+        ProfileGameService.byUsername(target).whenComplete { targetProfile, t ->
+            if (targetProfile == null) {
+                player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
+                return@whenComplete
+            }
 
-        if (targetProfile == null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
-            return
+            if (PartyService.getParty(targetProfile.uuid) == null) {
+                player.sendMessage(Chat.format("&cPlayer '$target' is not in a party!"))
+                return@whenComplete
+            }
+
+            if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
+                player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
+                return@whenComplete
+            }
+
+            val targetParty = PartyService.getParty(targetProfile.uuid)
+
+            if (targetParty!!.id.toString() != party.id.toString()) {
+                player.sendMessage(Chat.format("&cThis player is not in your party!"))
+                return@whenComplete
+            }
+
+            party.members.forEach {
+                AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(targetProfile.uuid)} &fhas been &ckicked &ffrom your party!")))
+            }
+            party.removeMember(targetProfile.uuid)
+            PartyService.handler.storeAsync(party.id, party)
         }
-
-        if (PartyService.getParty(targetProfile.uuid) == null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is not in a party!"))
-            return
-        }
-
-        if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
-            player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
-            return
-        }
-
-        val targetParty = PartyService.getParty(targetProfile.uuid)
-
-        if (targetParty!!.id.toString() != party.id.toString()) {
-            player.sendMessage(Chat.format("&cThis player is not in your party!"))
-            return
-        }
-
-        party.members.forEach {
-            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(targetProfile.uuid)} &fhas been &ckicked &ffrom your party!")))
-        }
-        party.removeMember(targetProfile.uuid)
-        PartyService.handler.storeAsync(party.id, party)
     }
 
     @Subcommand("invite")
@@ -92,36 +92,36 @@ class PartyCommands : BaseCommand() {
 
         val party = PartyService.getParty(player.uniqueId)!!
 
-        val targetProfile = ProfileGameService.byUsername(target)
+        ProfileGameService.byUsername(target).whenComplete { targetProfile, t ->
+            if (targetProfile == null) {
+                player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
+                return@whenComplete
+            }
 
-        if (targetProfile == null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' does not exist!"))
-            return
+            if (!targetProfile.isOnline()) {
+                player.sendMessage(Chat.format("&cPlayer '$target' is not online!"))
+                return@whenComplete
+            }
+
+            if (PartyService.getParty(targetProfile.uuid) != null) {
+                player.sendMessage(Chat.format("&cPlayer '$target' is already in a party!"))
+                return@whenComplete
+            }
+
+            if (party.invited.containsKey(targetProfile.uuid)) {
+                player.sendMessage(Chat.format("&cPlayer '$target' has already been invited to your party!"))
+                return@whenComplete
+            }
+
+            if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
+                player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
+                return@whenComplete
+            }
+
+            party.invited[targetProfile.uuid] = System.currentTimeMillis()
+            PartyService.handler.storeAsync(party.id, party)
+            AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
         }
-
-        if (!targetProfile.isOnline()) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is not online!"))
-            return
-        }
-
-        if (PartyService.getParty(targetProfile.uuid) != null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is already in a party!"))
-            return
-        }
-
-        if (party.invited.containsKey(targetProfile.uuid)) {
-            player.sendMessage(Chat.format("&cPlayer '$target' has already been invited to your party!"))
-            return
-        }
-
-        if (!party.isLeader(player.uniqueId) && party.members.firstOrNull { it.first.toString() == player.uniqueId.toString() && it.second == PartyElevation.OFFICER} == null) {
-            player.sendMessage(Chat.format("&cYou must be a leader or an officer to do this!"))
-            return
-        }
-
-        party.invited[targetProfile.uuid] = System.currentTimeMillis()
-        PartyService.handler.storeAsync(party.id, party)
-        AsynchronousRedisSender.send(NetworkMessagePacket(targetProfile.uuid, Chat.format("&8[&dParties&8] &fYou have been invited to join &a${player.displayName}'s &fparty!")))
     }
 
     @Subcommand("disband")
@@ -175,26 +175,25 @@ class PartyCommands : BaseCommand() {
             return
         }
 
-        val targetProfile = ProfileGameService.byUsername(target)
+        ProfileGameService.byUsername(target).whenComplete { targetProfile, t ->
+            if (PartyService.getParty(targetProfile!!.uuid) == null) {
+                player.sendMessage(Chat.format("&cPlayer '$target' is not in a party!"))
+                return@whenComplete
+            }
 
-        if (PartyService.getParty(targetProfile!!.uuid) == null) {
-            player.sendMessage(Chat.format("&cPlayer '$target' is not in a party!"))
-            return
+            val party = PartyService.getParty(targetProfile.uuid)!!
+
+            if (!party.invited.containsKey(player.uniqueId)) {
+                player.sendMessage(Chat.format("&cYou have not been invited to join ${targetProfile.username}'s party!"))
+                return@whenComplete
+            }
+
+            party.members.add(Pair(player.uniqueId, PartyElevation.MEMBER))
+            party.members.forEach {
+                AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(player.uniqueId)} &fhas joined your party!")))
+            }
+
+            PartyService.handler.storeAsync(party.id, party)
         }
-
-        val party = PartyService.getParty(targetProfile.uuid)!!
-
-        if (!party.invited.containsKey(player.uniqueId)) {
-            player.sendMessage(Chat.format("&cYou have not been invited to join ${targetProfile.username}'s party!"))
-            return
-        }
-    
-        party.members.add(Pair(player.uniqueId, PartyElevation.MEMBER))
-        party.members.forEach {
-            AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] ${AlchemistAPI.getRankDisplay(player.uniqueId)} &fhas joined your party!")))
-        }
-
-        PartyService.handler.storeAsync(party.id, party)
     }
-
 }
