@@ -30,6 +30,7 @@ import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.queue.command.ModifyQueueCommands
@@ -51,6 +52,7 @@ object ACFCommandController {
             this.commandContexts.registerContext(PunishmentType::class.java, PunishmentTypeResolver())
             this.commandContexts.registerContext(UUID::class.java, UUIDContextResolver())
             this.commandContexts.registerContext(GrantScope::class.java, GrantScopeContextResolver())
+            this.commandContexts.registerContext(AsyncGameProfile::class.java, AsyncProfileResolver())
 
 
             this.commandCompletions.registerCompletion("gameprofile") {

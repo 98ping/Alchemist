@@ -91,8 +91,7 @@ abstract class PaginatedMenu(
     open fun getButtonPositions(): List<Int> {
         val mutableList = mutableListOf<Int>()
 
-        for (int in 9 until displaySize + 9)
-        {
+        for (int in 9 until displaySize + 9) {
             mutableList.add(int)
         }
 
@@ -189,36 +188,39 @@ abstract class PaginatedMenu(
         return mutableMapOf()
     }
 
-    fun updateMenu(): CompletableFuture<Void> {
+    fun updateMenu() {
         val buttons = getButtonsInRange(player)
 
-        val inventory = Bukkit.createInventory(null, (displaySize + 9), Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player))
+        val inventory = Bukkit.createInventory(
+            null,
+            (displaySize + 9),
+            Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player)
+        )
 
-        return CompletableFuture
-            .runAsync {
-                for (entry in buttons) {
-                    inventory.setItem(entry.key, entry.value.constructItemStack(player))
-                }
+
+        CompletableFuture.runAsync {
+            for (entry in buttons) {
+                inventory.setItem(entry.key, entry.value.constructItemStack(player))
             }
-            .whenComplete { _, throwable ->
-                if (throwable != null) {
-                    throwable.printStackTrace()
-                    player.sendMessage(
-                        "${ChatColor.RED}Failed to open menu."
-                    )
-                    return@whenComplete
-                }
-
-                Bukkit.getScheduler()
-                    .runTaskAsynchronously(
-                        AlchemistSpigotPlugin.instance
-                    ) {
-                        player.openInventory(inventory)
-                        player.updateInventory()
-
-                        MenuController.paginatedMenuMap[player.uniqueId] = this
-                    }
+        }.whenComplete { item, throwable ->
+            if (throwable != null) {
+                throwable.printStackTrace()
+                player.sendMessage(
+                    "${ChatColor.RED}Failed to open menu."
+                )
+                return@whenComplete
             }
+
+            Bukkit.getScheduler()
+                .runTask(
+                    AlchemistSpigotPlugin.instance
+                ) {
+                    player.openInventory(inventory)
+                    player.updateInventory()
+
+                    MenuController.paginatedMenuMap[player.uniqueId] = this
+                }
+        }
     }
 }
 
