@@ -17,8 +17,9 @@ object ServerUpdateRunnable : BukkitRunnable() {
         server.players = Bukkit.getOnlinePlayers().map { it.uniqueId }.toCollection(arrayListOf())
 
         server.lastHeartbeat = System.currentTimeMillis()
+        server.online = true
 
-        UniqueServerService.save(server)
+        UniqueServerService.handler.store(server.id, server)
 
         for (mongoserver in UniqueServerService.getValues())
         {

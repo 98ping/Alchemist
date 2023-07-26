@@ -52,6 +52,8 @@ object ServerModule : PluginModule {
             server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
             server.online = true
 
+            //save server so when we refresh data carries
+            UniqueServerService.save(server)
             updateUniqueServer(server)
         }
 
