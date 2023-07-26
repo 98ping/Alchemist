@@ -71,7 +71,12 @@ class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(
             Chat.format("&7this user!"),
             " "
         ), "&6Alternate Accounts", 0).setBody {
-                player, i, clickType ->  AltsMenu(player, target, target.getAltAccounts()).updateMenu()
+                player, i, clickType ->
+
+            target.getAltAccounts()
+                .thenAccept { accounts ->
+                    AltsMenu(player, target, accounts).updateMenu()
+                }
         }
 
         buttons[25] = SimpleActionButton(Material.WOOL, mutableListOf(

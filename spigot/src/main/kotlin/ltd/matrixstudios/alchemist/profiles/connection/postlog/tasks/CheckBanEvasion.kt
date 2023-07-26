@@ -20,9 +20,7 @@ object CheckBanEvasion : BukkitPostLoginTask {
     override fun run(player: Player) {
         val profileId = player.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
-        CompletableFuture.supplyAsync {
-            return@supplyAsync profile.getAltAccounts()
-        }.thenApply { alts ->
+        profile.getAltAccounts().thenAccept { alts ->
             val isBanEvading = alts.size >= 1 && alts.any { it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(
                 PunishmentType.BLACKLIST) }
 

@@ -56,6 +56,7 @@ object ProfileGameService : GeneralizedService {
             return cacheProfile
         }
 
+        // TODO: https://www.mongodb.com/docs/manual/core/index-case-insensitive/ :)
         val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase())).firstOrNull()
 
         if (mongoProfile != null) {

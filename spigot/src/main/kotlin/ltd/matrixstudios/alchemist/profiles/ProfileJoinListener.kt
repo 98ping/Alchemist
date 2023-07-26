@@ -30,7 +30,7 @@ class ProfileJoinListener : Listener {
     fun autoFormatChat(event: AsyncPlayerChatEvent) {
         var prefixString = ""
 
-        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
+        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).join() ?: return
 
         if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
             event.isCancelled = true
@@ -54,7 +54,7 @@ class ProfileJoinListener : Listener {
         }
 
         if (ChatService.muted) {
-            if (!event.player.hasPermission("alchemist.mtuechat.bypass")) {
+            if (!event.player.hasPermission("alchemist.mutechat.bypass")) {
                 val message = ChatService.MUTE_MESSAGE
 
                 event.player.sendMessage(Chat.format(message))

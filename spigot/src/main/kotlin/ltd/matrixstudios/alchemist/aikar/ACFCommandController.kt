@@ -54,7 +54,7 @@ object ACFCommandController {
 
 
             this.commandCompletions.registerCompletion("gameprofile") {
-                return@registerCompletion AlchemistSpigotPlugin.instance.server.onlinePlayers.map { it.name }.toCollection(arrayListOf())
+                return@registerCompletion AlchemistSpigotPlugin.instance.server.onlinePlayers.map { it.name }.toList()
             }
 
             this.enableUnstableAPI("help")

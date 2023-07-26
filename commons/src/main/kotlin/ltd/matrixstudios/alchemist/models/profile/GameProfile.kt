@@ -81,7 +81,20 @@ data class GameProfile(
         return getActivePunishments().sortedByDescending { bindings[it.getGrantable()]!! }
     }
 
-    fun getAltAccounts(): MutableList<GameProfile> {
+    @Transient
+    private var backingCachedAlternateAccounts: MutableList<GameProfile>? = null
+
+    fun getAltAccounts() = if (backingCachedAlternateAccounts == null)
+        CompletableFuture
+            .supplyAsync(::_getAltAccounts)
+            .thenApply {
+                backingCachedAlternateAccounts = it
+                it
+            }
+    else
+        CompletableFuture.completedFuture(backingCachedAlternateAccounts!!)
+
+    private fun _getAltAccounts(): MutableList<GameProfile> {
         val finalAccounts = arrayListOf<GameProfile>()
         val targetDocuments = ProfileGameService.collection.find(Document("ip", ip))
 
@@ -99,7 +112,7 @@ data class GameProfile(
     }
 
     fun alternateAccountHasBlacklist() : Boolean {
-        val alts = getAltAccounts()
+        val alts = getAltAccounts().join()
 
         for (acc in alts) {
             if (acc.hasActivePunishment(PunishmentType.BLACKLIST)) return true
@@ -110,7 +123,7 @@ data class GameProfile(
 
     fun getFirstBlacklistFromAlts() : Punishment?
     {
-        val alts = getAltAccounts()
+        val alts = getAltAccounts().join()
 
         for (acc in alts)
         {
