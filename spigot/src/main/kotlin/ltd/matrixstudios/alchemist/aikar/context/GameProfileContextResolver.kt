@@ -12,6 +12,7 @@ class GameProfileContextResolver : ContextResolver<GameProfile, BukkitCommandExe
     override fun getContext(c: BukkitCommandExecutionContext?): GameProfile? {
         val firstArg = c!!.popFirstArg() ?: return null
 
+        // resolving on the main thread? sus no?
         val profile = ProfileGameService.byUsername(firstArg)
         
         return profile ?: throw InvalidCommandArgument("No player by this name found")
