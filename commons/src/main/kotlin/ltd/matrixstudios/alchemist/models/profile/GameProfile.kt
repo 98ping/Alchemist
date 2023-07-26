@@ -81,7 +81,18 @@ data class GameProfile(
         return getActivePunishments().sortedByDescending { bindings[it.getGrantable()]!! }
     }
 
-    fun getAltAccounts() = CompletableFuture.supplyAsync(::_getAltAccounts)
+    @Transient
+    private var backingCachedAlternateAccounts: MutableList<GameProfile>? = null
+
+    fun getAltAccounts() = if (backingCachedAlternateAccounts == null)
+        CompletableFuture
+            .supplyAsync(::_getAltAccounts)
+            .thenApply {
+                backingCachedAlternateAccounts = it
+                it
+            }
+    else
+        CompletableFuture.completedFuture(backingCachedAlternateAccounts!!)
 
     private fun _getAltAccounts(): MutableList<GameProfile> {
         val finalAccounts = arrayListOf<GameProfile>()

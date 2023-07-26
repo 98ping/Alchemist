@@ -31,7 +31,7 @@ class FriendCommands : BaseCommand() {
     @Subcommand("add")
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target") gameProfile: GameProfile) {
-        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: return
+        val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).join() ?: return
         val bukkitPlayer = Bukkit.getOfflinePlayer(gameProfile.uuid)
 
         if (gameProfile.friends.contains(player.uniqueId)) {

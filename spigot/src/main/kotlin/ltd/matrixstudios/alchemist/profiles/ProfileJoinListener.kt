@@ -30,7 +30,7 @@ class ProfileJoinListener : Listener {
     fun autoFormatChat(event: AsyncPlayerChatEvent) {
         var prefixString = ""
 
-        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).get() ?: return
+        val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).join() ?: return
 
         if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
             event.isCancelled = true
