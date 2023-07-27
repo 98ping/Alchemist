@@ -24,14 +24,10 @@ class PlayerAdminCommand : BaseCommand() {
     @CommandCompletion("@gameprofile")
     @CommandPermission("alchemist.profiles.admin")
     fun asyncTest(player: Player, @Name("target") target: AsyncGameProfile) {
-        target.use {
+        target.use(player) {
             player.sendMessage(Chat.format("&eName: &f" + it.username))
             player.sendMessage(Chat.format("&eRank Display: &f" + it.getRankDisplay()))
-        }.whenComplete { v, t ->
-            if (t != null) {
-                player.sendMessage(Chat.format("&cUnable to complete"))
-                player.sendMessage(t.localizedMessage)
-            }
+        }.thenAccept {
             player.sendMessage(Chat.format("&aReached end of future"))
         }
     }

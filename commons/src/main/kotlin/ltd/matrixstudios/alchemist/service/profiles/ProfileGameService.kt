@@ -46,7 +46,7 @@ object ProfileGameService : GeneralizedService {
         val current = RankService.FALLBACK_RANK
         val profile = byId(uuid) ?: return current
 
-        return profile.getCurrentRank() ?: return current
+        return profile.getCurrentRank()
     }
 
     fun byUsername(name: String): CompletableFuture<GameProfile?> {
@@ -70,20 +70,27 @@ object ProfileGameService : GeneralizedService {
 
     fun byUsernameWithList(name: String): CompletableFuture<List<GameProfile>> {
         return CompletableFuture.supplyAsync {
-            val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
+            val cacheProfile = cache.values.filter { it!!.username.equals(name, ignoreCase = true) }
 
-            if (cacheProfile != null) {
-                return@supplyAsync listOf(cacheProfile)
+            val entries = mutableListOf<GameProfile>()
+
+            for (p in cacheProfile) {
+                if (p == null) continue
+                entries.add(p)
             }
 
             // TODO: https://www.mongodb.com/docs/manual/core/index-case-insensitive/ :)
-            val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase())).firstOrNull()
+            val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase()))
 
-            if (mongoProfile != null) {
-                return@supplyAsync listOf(Alchemist.gson.fromJson(mongoProfile.toJson(), GameProfile::class.java))
+            for (d in mongoProfile) {
+                val prof = (Alchemist.gson.fromJson(d.toJson(), GameProfile::class.java))
+
+                if (entries.any { it.uuid == prof.uuid}) continue
+
+                entries.add(prof)
             }
 
-            emptyList()
+            return@supplyAsync entries
         }
     }
 
