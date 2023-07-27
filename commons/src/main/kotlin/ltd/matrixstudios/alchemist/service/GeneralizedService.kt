@@ -7,4 +7,4 @@ package ltd.matrixstudios.alchemist.service
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface GeneralizedService {}
+interface GeneralizedService

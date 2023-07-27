@@ -248,7 +248,7 @@ class GenericRankCommands : BaseCommand() {
                     sender.sendMessage(Chat.format("&cRemoved the permission &f$arg &cfrom the rank " + rank.color + rank.displayName))
                 } else {
                     rank.permissions.add(arg)
-                    sender.sendMessage(Chat.format("&aAdded the permission &f$arg &cto the rank " + rank.color + rank.displayName))
+                    sender.sendMessage(Chat.format("&aAdded the permission &f$arg &ato the rank " + rank.color + rank.displayName))
                 }
 
                 RankService.save(rank)
