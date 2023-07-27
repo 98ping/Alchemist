@@ -4,9 +4,10 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
+import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
 import org.bukkit.entity.Player
 
-class GrantMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player) {
+class GrantMenu(val player: Player, val gameProfile: GameProfile) : BorderedPaginatedMenu(player) {
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()

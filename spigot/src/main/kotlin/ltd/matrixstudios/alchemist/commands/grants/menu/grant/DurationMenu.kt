@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.conversations.*
 import org.bukkit.entity.Player
@@ -20,8 +21,13 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
     }
 
 
+
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
+
+        buttons[4] = SimpleActionButton(Material.PAPER, mutableListOf(), "&eNavigate Back", 0).setBody { player, i, clickType ->
+            GrantMenu(player, target).updateMenu()
+        }
 
         buttons[10] = DurationButton("1h", 13, "&2", rank, target)
         buttons[11] = DurationButton("1d", 5, "&a", rank, target)

@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope.ScopeSelecti
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.conversations.*
 import org.bukkit.entity.Player
@@ -22,6 +23,9 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
+        buttons[4] = SimpleActionButton(Material.PAPER, mutableListOf(), "&eNavigate Back", 0).setBody { player, i, clickType ->
+            DurationMenu(player, rank, target).openMenu()
+        }
         buttons[11] = ReasonButton("Promotion", 10, "&5", rank, target, player, duration)
         buttons[12] = ReasonButton("Won Event", 2, "&d", rank, target, player, duration)
         buttons[13] = ReasonButton("Purchased", 11, "&9", rank, target, player, duration)
