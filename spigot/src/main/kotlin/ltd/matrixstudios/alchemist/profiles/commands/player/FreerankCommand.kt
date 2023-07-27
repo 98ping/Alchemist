@@ -35,11 +35,13 @@ class FreerankCommand : BaseCommand() {
             } else {
                 player.sendMessage(Chat.format("&aRedeemed your free rank!"))
 
-                Bukkit.dispatchCommand(
-                    Bukkit.getConsoleSender(),
-                    AlchemistSpigotPlugin.instance.config.getString("freeRank.command")
-                        .replace("<target>", player.name)
-                )
+                AlchemistSpigotPlugin.instance.server.scheduler.runTask(AlchemistSpigotPlugin.instance) {
+                    Bukkit.dispatchCommand(
+                        Bukkit.getConsoleSender(),
+                        AlchemistSpigotPlugin.instance.config.getString("freeRank.command")
+                            .replace("<target>", player.name)
+                    )
+                }
 
                 gameProfile.metadata.addProperty("redeemedFreeRank", true)
 
