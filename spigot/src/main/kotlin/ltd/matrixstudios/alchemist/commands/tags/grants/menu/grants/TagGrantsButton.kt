@@ -24,7 +24,7 @@ class TagGrantsButton(var tag: TagGrant) : Button() {
 
         desc.add(Chat.format("&7&m--------------------"))
         desc.add(Chat.format("&eGrant Properties:"))
-        desc.add(Chat.format("&7* &eTag: &c${tag.getGrantable()!!.menuName}"))
+        desc.add(Chat.format("&7* &eTag: &c${tag.getGrantable()?.menuName ?: "&fUnknown"}"))
         desc.add(Chat.format("&7* &eExecutor: ${AlchemistAPI.getRankDisplay(tag.executor)}"))
         desc.add(Chat.format("&7* &eDuration: &c${TimeUtil.formatDuration(tag.expirable.duration)}"))
         desc.add(" ")

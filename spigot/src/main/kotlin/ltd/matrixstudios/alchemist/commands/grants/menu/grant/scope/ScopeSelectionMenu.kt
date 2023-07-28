@@ -20,6 +20,7 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -39,7 +40,7 @@ class ScopeSelectionMenu(
     val reason: String,
     val equipped: MutableList<String>,
     val global: Boolean
-) : PaginatedMenu(36, player) {
+) : PaginatedMenu(18, player) {
 
     override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
@@ -83,17 +84,16 @@ class ScopeSelectionMenu(
                 GrantScope("Manual Grant", equipped, global)
             )
 
-            RankGrantService.save(rankGrant)
+            RankGrantService.save(rankGrant).whenComplete { _, _ ->
+                AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
+                AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
+            }
+
             player.sendMessage(
                 Chat.format(
                     "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
                 )
             )
-
-            AlchemistSpigotPlugin.instance.server.scheduler.runTaskLater(AlchemistSpigotPlugin.instance, {
-                AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
-                AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
-            }, 5L)
             GrantsNotification(rankGrant).send()
 
             AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))

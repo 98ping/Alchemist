@@ -21,6 +21,6 @@ class GrantMenu(val player: Player, val gameProfile: GameProfile) : BorderedPagi
     }
 
     override fun getTitle(player: Player): String {
-        return "Granting of " + gameProfile.username
+        return "Granting for " + gameProfile.username
     }
 }

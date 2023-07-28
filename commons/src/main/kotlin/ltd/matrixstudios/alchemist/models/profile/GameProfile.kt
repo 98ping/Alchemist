@@ -170,7 +170,7 @@ data class GameProfile(
     fun canUse(tag: Tag): Boolean {
         return TagGrantService.getValues().get()
             .filter {
-                it.target == uuid && it.expirable.isActive()
+                it.target == uuid && it.expirable.isActive() && it.getGrantable() != null
             }.firstOrNull {
                 it.getGrantable()!!.id == tag.id
             } != null
