@@ -39,6 +39,14 @@ data class AsyncGameProfile(
 
             if (t.size > 1)
             {
+                /**
+                 * Credits
+
+                 * @creator GrowlyX
+                 * @project Lemon
+                 * @reason It looks nice
+                 * @allowed Maybe?
+                 */
                 sender.sendMessage(Chat.format("&cThere were multiple results to your request!"))
                 for (name in t) {
                     val c = Component.text(Chat.format("&7- &e${name.username}"))
