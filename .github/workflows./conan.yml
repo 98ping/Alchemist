@@ -1,0 +1,41 @@
+name: Build with Conan and Artifactory
+
+on: [push]
+
+env:
+  CONAN_USER: your_conan_username  # Replace with your Conan username
+  CONAN_CHANNEL: your_conan_channel  # Replace with your Conan channel
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Conan and build tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
+        pip3 install conan
+
+    - name: Configure Conan
+      run: conan remote add artifactory https://your-artifactory-url/api/conan/conan-local
+      env:
+        ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+        ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+    - name: Install dependencies with Conan
+      run: conan install . --build=missing
+      env:
+        CONAN_USER_HOME: ${{ runner.workspace }}/conan  # Customize Conan user home path
+
+    - name: Build C++ project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
+      env:
+        CONAN_USER_HOME: ${{ runner.workspace }}/conan  # Use the same Conan user home path as above
