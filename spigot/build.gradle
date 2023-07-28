@@ -43,4 +43,5 @@ shadowJar {
     relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated.kotlin'
     relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated.mongo'
     relocate 'org.bson', 'ltd.matrixstudios.alchemist.relocated.bson'
+    relocate 'net.kyori', 'ltd.matrixstudios.alchemist.relocated.adventure'
 }
