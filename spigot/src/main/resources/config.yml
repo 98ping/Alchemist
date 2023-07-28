@@ -1,0 +1,156 @@
+#all information for mongo. AuthDB is NOT the database you will use for documents to go into
+mongo:
+  host: "127.0.0.1"
+  port: 27017
+  auth: false
+  username: ""
+  password: ""
+  authDB: ""
+  database: "Alchemist"
+
+#leave blank to not use!
+uri: ""
+
+#all redis information. This is used for messaging from server to server
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  username: ""
+  password: ""
+
+#server information to identify the server
+server:
+  id: "server1"
+
+#information for sending notifications using Discord
+discord:
+  punishments:
+    enabled: false
+    webhookLink: "LINK_HERE"
+  grants:
+    enabled: false
+    webhookLink: "LINK_HERE"
+
+coinshop:
+  schema:
+    - "&6&m---------------"
+    - "&ePrice: &2$&a<price>"
+    - " "
+    - "&a&lClick Here To Purchase"
+    - "&6&m---------------"
+
+chat:
+  slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"
+  muteChatMessage: "&cChat is currently muted! You may not talk right now"
+
+autobroadcast:
+  enabled: true
+  interval: 60 #seconds
+  messages:
+    alchemist:
+      - " "
+      - "&8[&5&lGitHub&8] &8» &dAlchemist &f is available on &5GitHub!"
+      - "&fHead to &7github.com/98ping/Alchemist"
+      - " "
+    mcmarket:
+      - " "
+      - "&8[&9&lBuiltByBit&8] &8» &bAlchemist &f is available on &9BuiltByBit!"
+      - "&fHead to https://builtbybit.com/members/objectify.178715/"
+      - " "
+
+#theme info
+defaultTheme: "MMC"
+
+#enable and disable all modules
+#when doing this, you insure that
+#no commands/features of each system
+#are loaded on the server. This means that
+#performance will not be negatively affected
+modules:
+  ranks: true
+  punishments: true
+  parties: true
+  friends: true
+  prefixes: true
+  coins: true
+  filters: true
+  #does work but is a little buggy tbh
+  queue: false
+  chatcolors: true
+  notes: true
+  staffmode: true
+  chat: true
+  vouchers: true
+  themeCommands: true
+
+staffmode:
+  sendWelcomeMessage: true
+  autoEquipOnJoin: false
+
+#for general server information to use in command messages
+details:
+  ip: "yourIp.xyz"
+  serverWebsite: "www.yourIp.xyz"
+
+channels:
+  staffChat: "&b[SC] &7(%server%) &f%profile%&7: &b%message%"
+  adminChat: "&c[AC] &7(%server%) &f%profile%&7: &c%message%"
+
+#to incentivise players to play your server longer
+freeRank:
+  enabled: true
+  message:
+    - "change me!"
+  command: "cgrant <target> Owner 10m Hello World"
+
+# Message sent to player after granting them something
+grant-message: "&aYou have been granted the &r<rank> &arank."
+
+#Reminder for people who are stuck in a queue
+queue-message:
+  - " "
+  - "&dYou are position &e#<pos> &din the &e<queue_name> &dqueue,"
+  - "&bYour &f<colored_rank> &brank has placed you in front of <front> players."
+  - "&6To leave the queue, use /leavequeue"
+  - " "
+
+# Message to be sent to player when they are blacklisted from the server
+blacklist-message:
+  - "&cYou are blacklisted from this server."
+  - "&cReason: &r<reason>"
+
+ban-message:
+    - "&cYou are banned from this server."
+    - "&cReason: &r<reason>"
+
+mute-message:
+    - "&cYou are muted on this server."
+    - "&cReason: &r<reason>"
+
+muted-chat:
+  - "&cYou are muted on this server."
+  - "&cReason: &r<reason>"
+
+kick-message:
+  - "&cYou were kicked from this server."
+  - "&cReason: &r<reason>"
+
+warn-message:
+    - "&cYou have been warned on this server."
+    - "&cReason: &r<reason>"
+
+banned-join:
+  - "&cYou are currently banned from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+
+blacklisted-join:
+    - "&cYou are currently blacklisted from the server!"
+    - "&cReason: &r<reason>"
+    - "&cExpires: &r<expires>"
+
+blacklisted-join-related:
+  - "&cYou are currently blacklisted from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+  - "&cIn Relation To: &r<related>"
