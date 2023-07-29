@@ -62,7 +62,10 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             server.lockedWithRank = other
             UniqueServerService.save(server)
             AsynchronousRedisSender.send(RefreshServersPacket())
-            Alchemist.globalServer = server
+
+            if (server.id == Alchemist.globalServer.id) {
+                Alchemist.globalServer = server
+            }
 
             if (other)
             {

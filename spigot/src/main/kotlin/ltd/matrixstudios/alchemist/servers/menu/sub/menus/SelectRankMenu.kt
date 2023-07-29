@@ -54,8 +54,11 @@ class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMe
             server.lockRank = rank.id
 
             UniqueServerService.save(server)
-            Alchemist.globalServer = server
             AsynchronousRedisSender.send(RefreshServersPacket())
+
+            if (server.id == Alchemist.globalServer.id) {
+                Alchemist.globalServer = server
+            }
 
             player.sendMessage(Chat.format("&aUpdated the lock rank of " + server.id + " to " + rank.color + rank.displayName))
         }
