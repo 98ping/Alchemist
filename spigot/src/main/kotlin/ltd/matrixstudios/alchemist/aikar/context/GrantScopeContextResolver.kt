@@ -24,10 +24,11 @@ class GrantScopeContextResolver : ContextResolver<GrantScope, BukkitCommandExecu
 
             for (server in split)
             {
-                if (UniqueServerService.byId(server) != null)
+                val id = server.toLowerCase()
+                if (UniqueServerService.byId(id) != null)
                 {
-                    if (!scopes.contains(server)) {
-                        scopes.add(server)
+                    if (!scopes.contains(id)) {
+                        scopes.add(id)
                     }
                 }
             }
