@@ -30,6 +30,8 @@ object UniqueServerService : GeneralizedService {
         CompletableFuture.runAsync {
             handler.store(server.id, server)
         }
+
+        servers[server.id] = server
     }
 
     fun updateGlobalServer(server: UniqueServer) {

@@ -4,6 +4,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGlobalServerPacket
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -54,11 +55,8 @@ class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMe
             server.lockRank = rank.id
 
             UniqueServerService.save(server)
+            AsynchronousRedisSender.send(UpdateGlobalServerPacket(server))
             AsynchronousRedisSender.send(RefreshServersPacket())
-
-            if (server.id == Alchemist.globalServer.id) {
-                Alchemist.globalServer = server
-            }
 
             player.sendMessage(Chat.format("&aUpdated the lock rank of " + server.id + " to " + rank.color + rank.displayName))
         }
