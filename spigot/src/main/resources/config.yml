@@ -101,7 +101,7 @@ freeRank:
   enabled: true
   message:
     - "change me!"
-  command: "cgrant <target> Owner 10m Hello World"
+  command: "cgrant <target> Default 10m Hello World"
 
 # Message sent to player after granting them something
 grant-message: "&aYou have been granted the &r<rank> &arank."
