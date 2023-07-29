@@ -23,12 +23,7 @@ object ServerUpdateRunnable : BukkitRunnable() {
 
         for (mongoserver in UniqueServerService.getValues())
         {
-            if (
-                mongoserver.online &&
-                System.currentTimeMillis().minus(mongoserver.lastHeartbeat)
-                >= TimeUnit.MINUTES.toMillis(3)
-            ) {
-
+            if (mongoserver.online && System.currentTimeMillis().minus(mongoserver.lastHeartbeat) >= TimeUnit.MINUTES.toMillis(3)) {
                 println("[Alchemist] [Emergency] Server " + mongoserver.displayName + " was declared online but was not responding to heartbeats. Setting server to offline")
                 mongoserver.online = false
                 mongoserver.players.clear()

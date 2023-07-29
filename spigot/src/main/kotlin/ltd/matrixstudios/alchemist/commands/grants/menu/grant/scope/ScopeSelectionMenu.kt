@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.packets.GrantMessageTargetPacket
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
@@ -89,6 +90,8 @@ class ScopeSelectionMenu(
                 AsynchronousRedisSender.send(UpdateGrantCacheRequest(target.uuid))
             }
 
+            AsynchronousRedisSender.send(GrantMessageTargetPacket(target.uuid, rank, duration))
+
             player.sendMessage(
                 Chat.format(
                     "&aGranted &f" + target.username + " &athe " + rank.color + rank.displayName + " &arank"
@@ -96,7 +99,7 @@ class ScopeSelectionMenu(
             )
             GrantsNotification(rankGrant).send()
 
-            AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
+            AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + target.getRankDisplay() + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
             player.closeInventory()
         }
 

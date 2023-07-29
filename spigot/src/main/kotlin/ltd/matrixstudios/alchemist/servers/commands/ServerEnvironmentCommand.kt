@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.menu.UniqueServerOverviewMenu
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -24,6 +25,31 @@ class ServerEnvironmentCommand : BaseCommand() {
     @CommandPermission("alchemist.servers.admin")
     fun servermenu(player: Player) {
         UniqueServerOverviewMenu(player).updateMenu()
+    }
+
+    @Subcommand("delete-model")
+    @CommandPermission("alchemist.servers.admin")
+    fun delete(sender: Player, @Name("id")id: String) {
+        val server = UniqueServerService.byId(id.toLowerCase())
+
+        if (server == null) {
+            sender.sendMessage(Chat.format("&cThis server does not exist!"))
+            return
+        }
+
+        InputPrompt()
+            .withText(Chat.format("&e&lCAUTION! &cDoing this will delete the server from memory." +
+                " Any data contained with this server will be deleted." +
+                " If you care to continue, type &e'yes' &cinto the chat."))
+            .acceptInput {
+                if (it.equals("yes", ignoreCase = true)) {
+                    sender.sendMessage(Chat.format("&aInput accepted. Deleting!"))
+                    UniqueServerService.handler.deleteAsync(server.id)
+                    AsynchronousRedisSender.send(RefreshServersPacket())
+                } else {
+                    sender.sendMessage(Chat.format("&cInput has been canceled!"))
+                }
+            }.start(sender)
     }
 
     @Subcommand("help")

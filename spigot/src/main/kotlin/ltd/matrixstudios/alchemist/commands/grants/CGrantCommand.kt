@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.packets.GrantMessageTargetPacket
 import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
@@ -47,8 +48,10 @@ class CGrantCommand : BaseCommand() {
 
         BukkitProfileAdaptation.initializeGrant(rankGrant, gameProfile.uuid)
 
-        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.username + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &b" + gameProfile.getRankDisplay() + " &3was granted " + rank.color + rank.displayName + " &3for &b" + reason))
+
         GrantsNotification(rankGrant).send()
+        AsynchronousRedisSender.send(GrantMessageTargetPacket(gameProfile.uuid, rank, (if (duration == "perm") Long.MAX_VALUE else TimeUtil.parseTime(duration) * 1000L)))
 
         sender.sendMessage(Chat.format("&aGranted " + gameProfile.username + " the rank "  + rank.color + rank.displayName))
     }

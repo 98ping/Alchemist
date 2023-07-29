@@ -104,7 +104,7 @@ freeRank:
   command: "cgrant <target> Default 10m Hello World"
 
 # Message sent to player after granting them something
-grant-message: "&aYou have been granted the &r<rank> &arank."
+grant-message: "&eYou have been granted the &r<rank> &erank for a duration of &6<duration>."
 
 #Reminder for people who are stuck in a queue
 queue-message:

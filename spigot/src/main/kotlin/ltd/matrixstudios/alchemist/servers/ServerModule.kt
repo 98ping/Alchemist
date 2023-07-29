@@ -45,16 +45,17 @@ object ServerModule : PluginModule {
             )
 
             UniqueServerService.save(server)
-
-            updateUniqueServer(server)
+            UniqueServerService.updateGlobalServer(server)
         } else {
             val server = UniqueServerService.byId(config.getString("server.id").toLowerCase())!!
+
+            Chat.sendConsoleMessage("&eFound server with the id " + server.id + " in your database")
             server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
             server.online = true
 
             //save server so when we refresh data carries
             UniqueServerService.save(server)
-            updateUniqueServer(server)
+            UniqueServerService.updateGlobalServer(server)
         }
 
         AsynchronousRedisSender.send(ServerStatusChangePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."), Alchemist.globalServer))
@@ -76,10 +77,5 @@ object ServerModule : PluginModule {
 
     override fun getModularConfigOption(): Boolean {
         return true
-    }
-
-    fun updateUniqueServer(server: UniqueServer) {
-        Alchemist.globalServer = server
-        AsynchronousRedisSender.send(RefreshServersPacket())
     }
 }
