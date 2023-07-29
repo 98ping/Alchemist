@@ -18,6 +18,23 @@ class GrantScopeContextResolver : ContextResolver<GrantScope, BukkitCommandExecu
     override fun getContext(c: BukkitCommandExecutionContext?): GrantScope? {
         val firstArg = c!!.popFirstArg() ?: return null
 
+        if (firstArg.contains(",")) {
+            val split = firstArg.split(",")
+            val scopes = mutableListOf<String>()
+
+            for (server in split)
+            {
+                if (UniqueServerService.byId(server) != null)
+                {
+                    if (!scopes.contains(server)) {
+                        scopes.add(server)
+                    }
+                }
+            }
+
+            return GrantScope("Manual Addition", scopes, false)
+        }
+
         if (!firstArg.equals("global", ignoreCase = true)) {
             val uniqueServer = UniqueServerService.byId(firstArg.lowercase())
                 ?: throw InvalidCommandArgument("You have not provided a valid scope!")
