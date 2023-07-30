@@ -77,7 +77,7 @@ object ServerModule : PluginModule {
         val plugins = Bukkit.getPluginManager().plugins.map { ServerPlugin(
             it.description.name,
             it.description.version,
-            it.description.authors.joinToString(","),
+            it.description.authors.joinToString(", "),
             it.description.main
         ) }
 
