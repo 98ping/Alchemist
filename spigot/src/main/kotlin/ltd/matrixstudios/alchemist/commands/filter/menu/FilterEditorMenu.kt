@@ -67,20 +67,19 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player) {
         override fun getDescription(player: Player): MutableList<String>? {
             val desc = mutableListOf<String>()
 
-            desc.add(Chat.format("&6&m--------------------"))
+            desc.add(Chat.format("&6&m-------------------------------------"))
             desc.add(Chat.format("&eWord: &f" + filter.word))
             desc.add(Chat.format("&eSilent Filter: &f" + filter.silent))
-            desc.add(Chat.format("&6&m--------------------"))
-            desc.add(Chat.format("&6Punishment Info"))
-            desc.add(Chat.format("&7- &eShould Punish: &f" + if (filter.shouldPunish) "&aYes" else "&cNo"))
-            desc.add(Chat.format("&7- &eType: &f" + filter.punishmentType.color + filter.punishmentType.niceName))
-            desc.add(Chat.format("&7- &eDuration: &f" + filter.duration))
-            desc.add(Chat.format("&6&m--------------------"))
-            desc.add(Chat.format("&6Exemptions"))
-            desc.add(Chat.format("&7- &eStaff Exempt: &f" + if(filter.staffExempt) "&aYes" else "&cNo"))
-            desc.add(Chat.format("&7- &ePermission: &f" + filter.exemptPermission))
-            desc.add(Chat.format("&6&m--------------------"))
-            desc.add(Chat.format("&aLeft-Click to edit"))
+            desc.add(Chat.format("&6&m-------------------------------------"))
+            desc.add(Chat.format("&eShould Punish: &f" + if (filter.shouldPunish) "&aYes" else "&cNo"))
+            desc.add(Chat.format("&eType: &f" + filter.punishmentType.color + filter.punishmentType.niceName))
+            desc.add(Chat.format("&eDuration: &f" + filter.duration))
+            desc.add(Chat.format("&6&m-------------------------------------"))
+            desc.add(Chat.format("&eStaff Exempt: &f" + if(filter.staffExempt) "&aYes" else "&cNo"))
+            desc.add(Chat.format("&ePermission: &f" + filter.exemptPermission))
+            desc.add(Chat.format("&6&m-------------------------------------"))
+            desc.add(Chat.format("&a&lLeft-Click to edit"))
+            desc.add(Chat.format("&6&m-------------------------------------"))
 
             return desc
         }
@@ -102,7 +101,5 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player) {
         override fun onClick(player: Player, slot: Int, type: ClickType) {
             FilterSubEditorMenu(player, filter).openMenu()
         }
-
-
     }
 }

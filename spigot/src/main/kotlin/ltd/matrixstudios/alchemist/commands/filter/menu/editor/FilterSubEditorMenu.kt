@@ -30,6 +30,7 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                 " ",
                 Chat.format("&eChange the silent status of the filter"),
                 Chat.format("&eCurrently: &f" + if (filter.silent) "&aSilent" else "&cPublic"),
+                " "
             ),
             "&eChange Silent Status", 0
         ).setBody { player, slot, clicktype ->
@@ -47,7 +48,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             mutableListOf(
                 " ",
                 Chat.format("&eChange the punishment type"),
-                Chat.format("&eCurrently: &f" + filter.punishmentType.color + filter.punishmentType.niceName)
+                Chat.format("&eCurrently: &f" + filter.punishmentType.color + filter.punishmentType.niceName),
+                " "
             ),
             "&eChange Punishment Type", 0
         ).setBody { player, slot, clicktype ->
@@ -59,7 +61,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             mutableListOf(
                 " ",
                 Chat.format("&eChange the duration of the punishment"),
-                Chat.format("&eCurrently: &f" + filter.duration)
+                Chat.format("&eCurrently: &f" + filter.duration),
+                " "
             ),
             "&eChange Duration of Punishment", 0
         ).setBody { player, slot, clicktype ->
@@ -83,7 +86,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             mutableListOf(
                 " ",
                 Chat.format("&eCan Staff Bypass the Filter?"),
-                Chat.format("&eCurrently: &f" + if (filter.staffExempt) "&eTrue" else "&cFalse")
+                Chat.format("&eCurrently: &f" + if (filter.staffExempt) "&eTrue" else "&cFalse"),
+                " "
             ),
             "&eChange Staff Bypass", 0
         ).setBody { player, slot, clicktype ->
@@ -101,7 +105,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
             mutableListOf(
                 " ",
                 Chat.format("&eSet Exempt Permission"),
-                Chat.format("&eCurrently: &f" + filter.exemptPermission)
+                Chat.format("&eCurrently: &f" + filter.exemptPermission),
+                " "
             ),
             "&eChange Staff Bypass", 0
         ).setBody { player, slot, clicktype ->
@@ -123,6 +128,7 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
                 " ",
                 Chat.format("&eChange the punishment status of the filter"),
                 Chat.format("&eCurrently: &f" + if (filter.shouldPunish) "&aShould Punish" else "&cShouldn't Punish"),
+                " "
             ),
             "&eChange Punishment Status", 0
         ).setBody { player, slot, clicktype ->

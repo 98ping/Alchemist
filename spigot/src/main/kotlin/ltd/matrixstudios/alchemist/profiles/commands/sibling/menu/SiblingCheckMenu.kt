@@ -79,7 +79,7 @@ class SiblingCheckMenu(val target: GameProfile, val player: Player) : PaginatedM
             desc.add(Chat.format("&eMatching IPs: &f" + if (target.ip == profile.ip) "&aYes" else "&cNo"))
             desc.add(Chat.format("&eOnline: &f" + if (profile.isOnline()) "&aYes" else "&cNo"))
             desc.add(Chat.format("&eFound on: &f" + if (profile.isOnline()) profile.metadata.get("server").asString else "&cN/A"))
-            desc.add(Chat.format("&eRank: &f" + (profile.getCurrentRank()!!.color + profile.getCurrentRank()!!.displayName)))
+            desc.add(Chat.format("&eRank: &f" + (profile.getCurrentRank().color + profile.getCurrentRank().displayName)))
             desc.add(Chat.format("&6&m------------------------"))
             desc.add(Chat.format("&a&lClick to remove this sibling"))
             desc.add(Chat.format("&6&m------------------------"))

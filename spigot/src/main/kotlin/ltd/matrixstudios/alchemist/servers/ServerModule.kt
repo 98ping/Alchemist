@@ -4,6 +4,8 @@ import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
+import ltd.matrixstudios.alchemist.models.server.software.ServerPlugin
+import ltd.matrixstudios.alchemist.models.server.software.ServerSoftware
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
@@ -12,6 +14,7 @@ import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
+import org.bukkit.Bukkit
 
 /**
  * Class created on 7/21/2023
@@ -44,6 +47,7 @@ object ServerModule : PluginModule {
                 "&cServer was not originally found so it was created instead"
             )
 
+            setupPluginSoftware(server)
             UniqueServerService.save(server)
             UniqueServerService.updateGlobalServer(server)
         } else {
@@ -54,6 +58,7 @@ object ServerModule : PluginModule {
             server.online = true
 
             //save server so when we refresh data carries
+            setupPluginSoftware(server)
             UniqueServerService.save(server)
             UniqueServerService.updateGlobalServer(server)
         }
@@ -65,6 +70,18 @@ object ServerModule : PluginModule {
         Chat.sendConsoleMessage(
             "&6[Servers] &fServer instance loaded in &6" + System.currentTimeMillis().minus(serversStart) + "ms"
         )
+    }
+
+    fun setupPluginSoftware(server: UniqueServer) {
+        val version = Bukkit.getBukkitVersion()
+        val plugins = Bukkit.getPluginManager().plugins.map { ServerPlugin(
+            it.description.name,
+            it.description.version,
+            it.description.authors.joinToString(","),
+            it.description.main
+        ) }
+
+        server.serverSoftware = ServerSoftware(version, plugins.toMutableList())
     }
 
     override fun getCommands(): MutableList<BaseCommand> {

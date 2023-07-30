@@ -28,6 +28,7 @@ class UniqueServerButton(var server: UniqueServer) : Button() {
         desc.add(Chat.format("&eRam: &f" + server.ramAllocated + "mb"))
         desc.add(Chat.format("&eStatus: &f" + if (server.online) "&aOnline" else "&cOffline"))
         desc.add(Chat.format("&eLast Heartbeat: &f" + TimeUtil.formatDuration(System.currentTimeMillis().minus(server.lastHeartbeat))+ " ago"))
+        desc.add(Chat.format("&eServer Version: &f" + server.findServerSoftware().serverVersion))
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eLocked: &f" + if (server.lockedWithRank) "&aYes" else "&cNo"))
         desc.add(Chat.format("&eLock Rank: &f" + getFormattedLockRank()))
