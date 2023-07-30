@@ -51,7 +51,7 @@ class CheckPluginsMenu(val player: Player, val server: UniqueServer) : BorderedP
         }
 
         override fun getDisplayName(player: Player): String? {
-            return "&6${software.name}"
+            return Chat.format("&6${software.name}")
         }
 
         override fun getData(player: Player): Short {
