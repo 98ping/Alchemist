@@ -14,15 +14,16 @@ import ltd.matrixstudios.alchemist.profiles.getCurrentRank
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 object GrantsCommand : BaseCommand() {
 
     @CommandAlias("grants")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun grants(player: Player, @Name("target")gameProfile: AsyncGameProfile)
+    fun grants(player: Player, @Name("target")gameProfile: AsyncGameProfile) : CompletableFuture<Void>
     {
-        gameProfile.use(player) {
+        return gameProfile.use(player) {
             val all = RankGrantService.getFromCache(it.uuid).toMutableList()
             val grants = this.getViewableGrants(player, all)
 

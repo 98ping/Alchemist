@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.grants.menu.grants
 
 import com.google.common.base.Stopwatch
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
@@ -62,7 +63,7 @@ class GrantsMenu(
                     GrantsMenu(
                         player,
                         gameProfile,
-                        values[0].lambda.invoke(RankGrantService.getFromCache(gameProfile.uuid)).toMutableList(),
+                        values[0].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList())).toMutableList(),
                         values[0]
                     ).updateMenu()
 
@@ -72,7 +73,7 @@ class GrantsMenu(
                 GrantsMenu(
                     player,
                     gameProfile,
-                    values[next].lambda.invoke(RankGrantService.getFromCache(gameProfile.uuid)).toMutableList(),
+                    values[next].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList())).toMutableList(),
                     values[next]
                 ).updateMenu()
             },
@@ -84,7 +85,7 @@ class GrantsMenu(
                     Chat.format("&eClick to wipe every grant from"),
                     Chat.format(AlchemistAPI.getRankWithPrefix(gameProfile.uuid)),
                     " ",
-                    Chat.format("&aCurrently totaling &f" + RankGrantService.getFromCache(gameProfile.uuid).size + " &aentries"),
+                    Chat.format("&aCurrently totaling &f" + GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList()).size + " &aentries"),
                     " "
                 ), Chat.format("&eWipe Grants")
             ).setBody { player, i, clickType ->

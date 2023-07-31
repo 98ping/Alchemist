@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.profiles.commands.player.menu
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
+import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.commands.notes.menu.PlayerNotesMenu
@@ -86,7 +87,7 @@ class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(
             Chat.format("&7user!"),
             " "
         ), "&6Rank Grants", 13).setBody {
-                player, i, clickType ->  GrantsMenu(player, target, RankGrantService.getFromCache(target.uuid).toMutableList(), GrantFilter.ALL).updateMenu()
+                player, i, clickType ->  GrantsMenu(player, target, GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(target.uuid).toMutableList()), GrantFilter.ALL).updateMenu()
         }
 
         buttons[37] = SimpleActionButton(Material.PAPER, mutableListOf(

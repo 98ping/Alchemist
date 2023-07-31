@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.profiles
 
+import co.aikar.commands.ConditionFailedException
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -7,7 +8,9 @@ import ltd.matrixstudios.alchemist.util.Chat
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
+import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -26,12 +29,12 @@ data class AsyncGameProfile(
     fun use(
         sender: CommandSender,
         action: (GameProfile) -> Unit
-    ): CompletableFuture<List<GameProfile>> {
-        val future = future.whenComplete { t, v ->
+    ): CompletableFuture<Void> {
+        val future = future.thenAccept { t ->
             if (t.isEmpty())
             {
                 sender.sendMessage(Chat.format("&cA profile with the name &e$name &cwas not found"))
-                return@whenComplete
+                return@thenAccept
             }
 
             if (t.size > 1)
@@ -48,11 +51,10 @@ data class AsyncGameProfile(
                 sender.sendMessage(" ")
                 sender.sendMessage(Chat.format("&7&oClick any of them to copy their UUID your clipboard"))
 
-                return@whenComplete
+                return@thenAccept
             }
 
             action.invoke(t.first())
-
         }
 
         return future
@@ -64,6 +66,24 @@ data class AsyncGameProfile(
         fun name(
             name: String
         ): AsyncGameProfile {
+            var uuid: UUID? = null
+            try
+            {
+                uuid = UUID.fromString(name)
+            } catch (_: IllegalArgumentException) {}
+
+            if (uuid != null)
+            {
+                val profile = ProfileGameService.byId(uuid)
+                    ?: throw ConditionFailedException("${ChatColor.RED}The uuid ${ChatColor.YELLOW}$uuid ${ChatColor.RED}does not have an active profile")
+
+
+                return AsyncGameProfile(
+                    profile.username,
+                    CompletableFuture.completedFuture(Collections.singletonList(profile))
+                )
+            }
+
             return AsyncGameProfile(
                 name,
                 ProfileGameService.byUsernameWithList(name)

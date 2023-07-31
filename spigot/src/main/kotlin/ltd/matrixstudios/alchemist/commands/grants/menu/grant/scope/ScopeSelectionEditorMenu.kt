@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope
 
+import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
@@ -71,7 +72,7 @@ class ScopeSelectionEditorMenu(
 
             grant.scope = GrantScope("Manual Scope Editing", equipped, global)
             RankGrantService.save(grant)
-            GrantsMenu(player, target, RankGrantService.getFromCache(target.uuid).toMutableList(), GrantFilter.ALL).updateMenu()
+            GrantsMenu(player, target, GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(target.uuid).toMutableList()), GrantFilter.ALL).updateMenu()
             player.sendMessage(Chat.format("&eUpdated the scopes of this &6grant"))
         }
 
