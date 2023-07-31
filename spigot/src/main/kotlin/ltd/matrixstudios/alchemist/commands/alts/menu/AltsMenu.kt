@@ -55,7 +55,7 @@ class AltsMenu(var player: Player, var target: GameProfile, var alts: MutableLis
             }
             desc.add(Chat.format("&6&m-------------------------------"))
             desc.add(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + "&e's Current IP data:"))
-            desc.add(Chat.format("  &eLast Login: " + Date(gameProfile.lastSeenAt)))
+            desc.add(Chat.format("  &eLast Login: &f" + Date(gameProfile.lastSeenAt)))
 
             return desc
         }

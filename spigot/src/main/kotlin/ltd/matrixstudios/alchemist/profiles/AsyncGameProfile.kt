@@ -1,16 +1,12 @@
 package ltd.matrixstudios.alchemist.profiles
 
-import co.aikar.commands.ConditionFailedException
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
-import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import java.util.concurrent.CompletableFuture
 
@@ -20,6 +16,7 @@ import java.util.concurrent.CompletableFuture
  * @author 98ping
  * @project Alchemist
  * @website https://solo.to/redis
+ * @credits GrowlyX
  */
 data class AsyncGameProfile(
     val name: String,
@@ -39,14 +36,6 @@ data class AsyncGameProfile(
 
             if (t.size > 1)
             {
-                /**
-                 * Credits
-
-                 * @creator GrowlyX
-                 * @project Lemon
-                 * @reason It looks nice
-                 * @allowed Maybe?
-                 */
                 sender.sendMessage(Chat.format("&cThere were multiple results to your request!"))
                 for (name in t) {
                     val c = Component.text(Chat.format("&7- &e${name.username}"))

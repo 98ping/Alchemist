@@ -67,7 +67,7 @@ object ACFCommandController {
             if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())
                 registerCommand(GrantCommand())
-                registerCommand(GrantsCommand())
+                registerCommand(GrantsCommand)
                 registerCommand(CGrantCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(GrantHistoryCommand())

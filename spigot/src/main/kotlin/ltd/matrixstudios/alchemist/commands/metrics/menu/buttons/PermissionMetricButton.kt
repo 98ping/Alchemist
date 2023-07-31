@@ -37,7 +37,7 @@ class PermissionMetricButton : Button() {
         desc.add(Chat.format("&eLast 10 Entries"))
         for (metric in all)
         {
-            desc.add(Chat.format("&7* &e" + metric.ms + "ms"))
+            desc.add(Chat.format("&7→ &e" + metric.ms + "ms"))
         }
         desc.add(" ")
         if (!all.isEmpty()) {

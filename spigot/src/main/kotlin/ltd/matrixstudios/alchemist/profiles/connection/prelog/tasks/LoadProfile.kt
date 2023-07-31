@@ -31,7 +31,9 @@ object LoadProfile : BukkitPreLoginTask {
 
         profile.lastSeenAt = System.currentTimeMillis()
         profile.ip = output
-        profile.currentSession = profile.createNewSession(currentServer)
+        if (profile.currentSession == null) {
+            profile.currentSession = profile.createNewSession(currentServer)
+        }
 
         ProfileGameService.saveSync(profile)
     }

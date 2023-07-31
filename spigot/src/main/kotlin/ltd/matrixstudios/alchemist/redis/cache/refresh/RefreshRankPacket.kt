@@ -10,8 +10,8 @@ class RefreshRankPacket : RedisPacket("refresh-rank") {
 
         cache.clear()
 
-        RankService.getValues().thenAccept {
-            for (rank in it) {
+        RankService.getValues().whenComplete { t, u ->
+            for (rank in t) {
                 RankService.ranks[rank.id] = rank
             }
         }

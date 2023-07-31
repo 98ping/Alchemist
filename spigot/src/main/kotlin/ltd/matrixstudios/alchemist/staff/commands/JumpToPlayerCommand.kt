@@ -41,7 +41,7 @@ class JumpToPlayerCommand : BaseCommand() {
 
         val rank = AlchemistAPI.findRank(target.uuid)
 
-        if (rank.weight < target.getCurrentRank()!!.weight)
+        if (rank.weight < target.getCurrentRank().weight)
         {
             player.sendMessage(Chat.format("&cThis player has a higher rank weight than yours!"))
             return

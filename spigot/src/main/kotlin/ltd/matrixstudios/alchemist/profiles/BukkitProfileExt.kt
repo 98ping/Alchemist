@@ -2,6 +2,8 @@ package ltd.matrixstudios.alchemist.profiles
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bukkit.entity.Player
 
 /**
@@ -18,6 +20,12 @@ fun Player.getProfile() : GameProfile? {
 
 fun Player.getRankDisplay() : String {
     return AlchemistAPI.getRankDisplay(uniqueId)
+}
+
+fun Player.getCurrentRank() : Rank {
+    val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return RankService.FALLBACK_RANK
+
+    return profile.getCurrentRank()
 }
 
 fun Player.getRankDisplayWithPrefix() : String {
