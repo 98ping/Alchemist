@@ -62,8 +62,24 @@ object RankService : GeneralizedService {
         }
     }
 
-    fun getRanksInOrder() : Collection<Rank> {
+    fun getAllRanksInOrder() : Collection<Rank>
+    {
         return ranks.values.sortedByDescending { it.weight }
+    }
+
+    fun getRanksInOrder() : Collection<Rank>
+    {
+        val final = mutableListOf<Rank>()
+
+        for (rank in ranks.values.sortedByDescending { it.weight })
+        {
+            if (rank.getRankScope().global || rank.getRankScope().appliesOn(Alchemist.globalServer))
+            {
+                final.add(rank)
+            }
+        }
+
+        return final
     }
 
 

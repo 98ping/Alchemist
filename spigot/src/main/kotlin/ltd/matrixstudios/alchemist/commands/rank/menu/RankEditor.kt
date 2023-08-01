@@ -15,7 +15,7 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
-        val ranks = RankService.getRanksInOrder()
+        val ranks = RankService.getAllRanksInOrder()
         var index = 0
 
         for (rank in ranks)

@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.models.ranks
 
+import ltd.matrixstudios.alchemist.models.ranks.scope.RankScope
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import java.util.*
 
@@ -17,8 +18,15 @@ class Rank(
     var color: String,
     var staff: Boolean = false,
     var default: Boolean = false,
-    var woolColor: String? = null
+    var woolColor: String? = null,
+    var scope: RankScope? = null
 ) {
+
+    fun getRankScope() : RankScope {
+        if (scope != null) return scope!!
+
+        return RankScope(mutableListOf(), true)
+    }
 
     fun getAllPermissions() : MutableList<String> {
         val perms = mutableListOf<String>()

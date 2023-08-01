@@ -18,7 +18,7 @@ class GrantHistoryMenu(val player: Player, val grants: MutableList<RankGrant>, v
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
-        for (rank in RankService.getRanksInOrder())
+        for (rank in RankService.getAllRanksInOrder())
         {
             buttons[index++] = RankButton(player, rank, grants)
         }

@@ -21,7 +21,7 @@ class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMe
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
-        for (rank in RankService.getRanksInOrder())
+        for (rank in RankService.getAllRanksInOrder())
         {
             buttons[index++] = RankSelectButton(server, rank)
         }
