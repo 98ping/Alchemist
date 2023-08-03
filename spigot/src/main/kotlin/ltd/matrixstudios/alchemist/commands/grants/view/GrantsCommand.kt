@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.grants
+package ltd.matrixstudios.alchemist.commands.grants.view
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
@@ -8,7 +8,6 @@ import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.profiles.getCurrentRank
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
@@ -25,7 +24,7 @@ object GrantsCommand : BaseCommand() {
     {
         return gameProfile.use(player) {
             val all = RankGrantService.getFromCache(it.uuid).toMutableList()
-            val grants = this.getViewableGrants(player, all)
+            val grants = getViewableGrants(player, all)
 
             if (!player.hasPermission("alchemist.grants.admin.viewAll") && all.isNotEmpty() && grants.isEmpty())
             {

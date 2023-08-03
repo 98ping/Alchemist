@@ -23,7 +23,7 @@ object BroadcastCommand : BaseCommand() {
     @CommandPermission("alchemist.broadcast")
     @Syntax("[-p❘-s] <message...>")
     fun bc(sender: CommandSender, @Name("message...") msg: String) {
-        var newMessage = StringBuilder()
+        val newMessage = StringBuilder()
 
         if (msg.contains("-p")) {
             newMessage.append("&8[&4Alert&8] ")

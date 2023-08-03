@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.grants.menu.grant.scope
 
-import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.grants.view.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
@@ -14,7 +14,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

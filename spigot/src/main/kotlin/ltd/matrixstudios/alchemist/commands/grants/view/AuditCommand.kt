@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.grants
+package ltd.matrixstudios.alchemist.commands.grants.view
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias

@@ -14,7 +14,13 @@ import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
 import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
-import ltd.matrixstudios.alchemist.commands.grants.*
+import ltd.matrixstudios.alchemist.commands.grants.apply.CGrantCommand
+import ltd.matrixstudios.alchemist.commands.grants.apply.GrantCommand
+import ltd.matrixstudios.alchemist.commands.grants.apply.NonModelGrantCommand
+import ltd.matrixstudios.alchemist.commands.grants.configure.GrantConfigureCommand
+import ltd.matrixstudios.alchemist.commands.grants.view.AuditCommand
+import ltd.matrixstudios.alchemist.commands.grants.view.GrantHistoryCommand
+import ltd.matrixstudios.alchemist.commands.grants.view.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
@@ -72,6 +78,7 @@ object ACFCommandController {
                 registerCommand(GrantCommand())
                 registerCommand(GrantsCommand)
                 registerCommand(CGrantCommand())
+                registerCommand(GrantConfigureCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(GrantHistoryCommand())
                 registerCommand(LuckPermsConverterCommand())

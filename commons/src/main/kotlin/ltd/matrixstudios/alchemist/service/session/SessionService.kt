@@ -21,6 +21,7 @@ object SessionService : GeneralizedService {
         CompletableFuture.runAsync {
             handler.store(session.randomId, session)
         }
+
     }
 
 

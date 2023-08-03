@@ -46,6 +46,8 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
             desc.add(Chat.format("&6Looks:"))
             desc.add(Chat.format("&e→ &fPlayer List: &f" + rank.color + player.name))
             desc.add(Chat.format("&e→ &fChat Format: &f" + rank.prefix + rank.color + player.name))
+            desc.add(" ")
+            desc.add(Chat.format("&a&lLeft-Click to edit this rank!"))
             desc.add(Chat.format("&7&m---------------------"))
 
             return desc

@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.grants
+package ltd.matrixstudios.alchemist.commands.grants.apply
 
 /**
  * Class created on 6/13/2023

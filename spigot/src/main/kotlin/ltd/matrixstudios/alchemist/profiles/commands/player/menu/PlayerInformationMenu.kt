@@ -2,7 +2,7 @@ package ltd.matrixstudios.alchemist.profiles.commands.player.menu
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
-import ltd.matrixstudios.alchemist.commands.grants.GrantsCommand
+import ltd.matrixstudios.alchemist.commands.grants.view.GrantsCommand
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.commands.notes.menu.PlayerNotesMenu
@@ -19,7 +19,6 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 

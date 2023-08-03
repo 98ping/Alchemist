@@ -31,6 +31,7 @@ object LoadProfile : BukkitPreLoginTask {
 
         profile.lastSeenAt = System.currentTimeMillis()
         profile.ip = output
+
         if (profile.currentSession == null) {
             profile.currentSession = profile.createNewSession(currentServer)
         }
