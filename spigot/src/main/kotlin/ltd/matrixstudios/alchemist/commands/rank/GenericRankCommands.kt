@@ -173,15 +173,22 @@ class GenericRankCommands : BaseCommand() {
         val rank = RankService.byId(name.toLowerCase())!!
 
         sender.sendMessage(Chat.format("&7&m--------------------------"))
-        sender.sendMessage(Chat.format(rank.color + rank.displayName))
+        sender.sendMessage(Chat.format(rank.color + rank.displayName + " &7❘ &fInformation"))
+        sender.sendMessage(Chat.format("&7&m--------------------------"))
+        sender.sendMessage(Chat.format("&6Weight: &f" + rank.weight))
+        sender.sendMessage(Chat.format("&6Prefix: &f" + rank.prefix))
+        sender.sendMessage(Chat.format("&6Color: " + rank.color + "This"))
+        sender.sendMessage(Chat.format("&6Permissions: &f" + rank.permissions.toString()))
+        sender.sendMessage(Chat.format("&6Staff Rank: &f" + rank.staff))
+        sender.sendMessage(Chat.format("&6Default Rank: &f" + rank.default))
+        sender.sendMessage(Chat.format("&6Scopes: &f" + if (rank.getRankScope().global) "Global" else rank.getRankScope().servers.joinToString(", ")))
         sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&eWeight: &f" + rank.weight))
-        sender.sendMessage(Chat.format("&ePrefix: &f" + rank.prefix))
-        sender.sendMessage(Chat.format("&eColor: " + rank.color + "This"))
-        sender.sendMessage(Chat.format("&eParents: &f" + rank.parents.size))
-        sender.sendMessage(Chat.format("&ePermissions: &f" + rank.permissions.toString()))
-        sender.sendMessage(Chat.format("&eStaff Rank: &f" + rank.staff))
-        sender.sendMessage(Chat.format("&eDefault Rank: &f" + rank.default))
+        sender.sendMessage(Chat.format("&6Parents &7(${rank.parents.size}):"))
+        val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
+
+        for (rank2 in parents) {
+            sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
+        }
         sender.sendMessage(Chat.format("&7&m--------------------------"))
     }
 
