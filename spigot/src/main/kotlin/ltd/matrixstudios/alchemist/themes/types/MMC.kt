@@ -100,7 +100,7 @@ class MMC : Theme(
         desc.add(Chat.format("&6&m-----------------------------"))
         desc.add(Chat.format("&6Scopes"))
         if (rank.getRankScope().global) {
-            desc.add("&7- &aglobal")
+            desc.add(Chat.format("&7- &aglobal"))
         } else {
             for (server in rank.getRankScope().servers) {
                 desc.add(Chat.format("&7- &a$server"))
