@@ -91,15 +91,24 @@ class MMC : Theme(
     override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
         val desc = arrayListOf<String>()
 
-        desc.add(Chat.format("&6&m---------------------"))
+        desc.add(Chat.format("&6&m-----------------------------"))
         desc.add(Chat.format("&ePriority: &6${rank.weight}"))
         desc.add(Chat.format("&ePrefix:  ${rank.prefix}"))
         desc.add(Chat.format("&eColor: ${rank.color}This"))
         desc.add(Chat.format("&eDefault: &6${rank.default}"))
         desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
-        desc.add(Chat.format("&6&m---------------------"))
+        desc.add(Chat.format("&6&m-----------------------------"))
+        desc.add(Chat.format("&6Scopes"))
+        if (rank.getRankScope().global) {
+            desc.add("&7- &aglobal")
+        } else {
+            for (server in rank.getRankScope().servers) {
+                desc.add(Chat.format("&7- &a$server"))
+            }
+        }
+        desc.add(Chat.format("&6&m-----------------------------"))
         desc.add(Chat.format("&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${AlchemistAPI.getRankDisplay(gameProfile.uuid)}"))
-        desc.add(Chat.format("&6&m---------------------"))
+        desc.add(Chat.format("&6&m-----------------------------"))
 
 
         return desc

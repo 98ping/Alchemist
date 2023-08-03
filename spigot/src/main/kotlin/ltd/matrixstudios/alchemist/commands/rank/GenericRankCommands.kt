@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
+import ltd.matrixstudios.alchemist.models.ranks.scope.RankScope
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.packets.StaffAuditPacket
 import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
@@ -34,7 +35,22 @@ class GenericRankCommands : BaseCommand() {
         sender.sendMessage(Chat.format("&e/rank editor"))
         sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
         sender.sendMessage(Chat.format("&e/rank inheritance &f<rank>"))
+        sender.sendMessage(Chat.format("&e/rank setscope &f<rank> &f<scope>"))
         sender.sendMessage(Chat.format("&7&m-------------------------"))
+    }
+
+    @Subcommand("setscope")
+    @CommandPermission("rank.admin")
+    fun setscope(sender: CommandSender, @Name("rank")rank: Rank, @Name("scope") rankScope: RankScope)
+    {
+        rank.scope = rankScope
+        RankService.save(rank).thenAccept {
+            AsynchronousRedisSender.send(RefreshRankPacket())
+        }
+
+        sender.sendMessage(Chat.format("&aUpdated the rank scope of " + rank.color + rank.displayName + " &ato &f" + if (rank.getRankScope().global)
+            "Global" else rank.getRankScope().servers.joinToString(", "))
+        )
     }
 
     @Subcommand("rename-id")

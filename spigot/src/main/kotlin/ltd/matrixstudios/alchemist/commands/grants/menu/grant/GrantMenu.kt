@@ -13,7 +13,7 @@ class GrantMenu(val player: Player, val gameProfile: GameProfile) : BorderedPagi
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (rank in RankService.getRanksInOrder()) {
+        for (rank in RankService.getAllRanksInOrder()) {
             buttons[index++] = GrantButton(rank, gameProfile)
         }
 

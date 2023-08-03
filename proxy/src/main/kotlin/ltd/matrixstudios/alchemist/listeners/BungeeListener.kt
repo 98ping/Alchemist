@@ -55,6 +55,9 @@ class BungeeListener : Listener {
 
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
+        //false fire
+        if (player.isConnected) return
+
         RankGrantService.recalculatePlayer(profile)
 
         val playerRank = profile.getHighestGlobalRank()
@@ -77,7 +80,5 @@ class BungeeListener : Listener {
                 }
             }
         }, 1100L, TimeUnit.MILLISECONDS)
-
-
     }
 }

@@ -46,11 +46,11 @@ object RankService : GeneralizedService {
         return handler.retrieveAllAsync()
     }
 
-    fun save(rank: Rank) {
-        ranks[rank.id] = rank
-
-        CompletableFuture.runAsync {
+    fun save(rank: Rank) : CompletableFuture<Void> {
+        return CompletableFuture.runAsync {
             handler.store(rank.id, rank)
+        }.thenAccept {
+            ranks[rank.id] = rank
         }
     }
 
