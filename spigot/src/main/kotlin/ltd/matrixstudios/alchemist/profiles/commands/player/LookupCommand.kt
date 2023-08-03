@@ -26,8 +26,6 @@ class LookupCommand : BaseCommand() {
         player.sendMessage(Chat.format("&aLooking up player..."))
         object : BukkitRunnable() {
             override fun run() {
-                val server = "none"
-
                 val serverFromProfile = gameProfile.metadata.get("server")
 
                 if (serverFromProfile != null && !serverFromProfile.asString.equals("None", ignoreCase = true))
