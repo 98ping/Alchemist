@@ -2,13 +2,13 @@ package ltd.matrixstudios.alchemist.profiles.commands.player.menu
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
-import ltd.matrixstudios.alchemist.commands.grants.view.GrantsCommand
-import ltd.matrixstudios.alchemist.commands.grants.menu.grants.GrantsMenu
-import ltd.matrixstudios.alchemist.commands.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.commands.notes.menu.PlayerNotesMenu
 import ltd.matrixstudios.alchemist.commands.tags.grants.menu.grants.TagGrantsMenu
 import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
 import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
+import ltd.matrixstudios.alchemist.grants.menu.grants.GrantsMenu
+import ltd.matrixstudios.alchemist.grants.menu.grants.filter.GrantFilter
+import ltd.matrixstudios.alchemist.grants.view.GrantsCommand
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.commands.menu.HistoryMenu
 import ltd.matrixstudios.alchemist.punishment.commands.menu.executed.ExecutedPunishmentHistoryMenu

@@ -61,6 +61,11 @@ autobroadcast:
 #theme info
 defaultTheme: "MMC"
 
+#info for the grant procedure
+grants:
+  durationMenuSize: 27
+  reasonMenuSize: 27
+
 #enable and disable all modules
 #when doing this, you insure that
 #no commands/features of each system

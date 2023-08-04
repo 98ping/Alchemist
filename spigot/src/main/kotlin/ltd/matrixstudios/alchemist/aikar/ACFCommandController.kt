@@ -14,13 +14,10 @@ import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
 import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
-import ltd.matrixstudios.alchemist.commands.grants.apply.CGrantCommand
-import ltd.matrixstudios.alchemist.commands.grants.apply.GrantCommand
-import ltd.matrixstudios.alchemist.commands.grants.apply.NonModelGrantCommand
-import ltd.matrixstudios.alchemist.commands.grants.configure.GrantConfigureCommand
-import ltd.matrixstudios.alchemist.commands.grants.view.AuditCommand
-import ltd.matrixstudios.alchemist.commands.grants.view.GrantHistoryCommand
-import ltd.matrixstudios.alchemist.commands.grants.view.GrantsCommand
+import ltd.matrixstudios.alchemist.grants.apply.CGrantCommand
+import ltd.matrixstudios.alchemist.grants.apply.GrantCommand
+import ltd.matrixstudios.alchemist.grants.apply.NonModelGrantCommand
+import ltd.matrixstudios.alchemist.grants.configure.GrantConfigureCommand
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
@@ -33,6 +30,9 @@ import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
 import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
+import ltd.matrixstudios.alchemist.grants.view.AuditCommand
+import ltd.matrixstudios.alchemist.grants.view.GrantHistoryCommand
+import ltd.matrixstudios.alchemist.grants.view.GrantsCommand
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank

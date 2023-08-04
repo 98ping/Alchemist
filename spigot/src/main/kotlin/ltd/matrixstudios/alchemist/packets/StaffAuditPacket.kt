@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.packets
 
-import ltd.matrixstudios.alchemist.commands.grants.view.AuditCommand
+import ltd.matrixstudios.alchemist.grants.view.AuditCommand
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit

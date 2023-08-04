@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
+import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.module.PluginModuleHandler
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
@@ -119,6 +120,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 it.subscribe(LocalPacketPubSub(), "Alchemist||Packets||")
             }
         }
+
+        GrantConfigurationService.loadAllModels()
 
         Chat.sendConsoleMessage(
             "&4[Jedis] &fJedis publisher started in &4" + System.currentTimeMillis().minus(pubsubStart) + "ms"
