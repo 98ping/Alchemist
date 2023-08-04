@@ -36,9 +36,9 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
             for (duration in GrantConfigurationService.getDefaultGrantDurationModels())
             {
                 buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target)
-
-                return buttons
             }
+
+            return buttons
         }
 
         //normal processing
