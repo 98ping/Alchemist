@@ -30,6 +30,18 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
             GrantMenu(player, target).updateMenu()
         }
 
+        //in case that redis has a stroke
+        if (GrantConfigurationService.grantDurationModels.isEmpty())
+        {
+            for (duration in GrantConfigurationService.getDefaultGrantDurationModels())
+            {
+                buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target)
+
+                return buttons
+            }
+        }
+
+        //normal processing
         for (duration in GrantConfigurationService.grantDurationModels) {
             buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target)
         }
