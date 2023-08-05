@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.grants
 import com.google.gson.reflect.TypeToken
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
+import ltd.matrixstudios.alchemist.grants.models.GrantReasonModel
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import java.lang.reflect.Type
 
@@ -18,11 +19,11 @@ object GrantConfigurationService {
     var grantDurationModels: MutableMap<String, GrantDurationModel> = mutableMapOf()
     val grantDurationType: Type = object : TypeToken<MutableList<GrantDurationModel>>() {}.type
 
-    fun loadAllModels() {
+    fun loadAllDurationModel() {
         RedisPacketManager.pool.resource.use {
             if (!it.exists("Alchemist:Grants:DurationModels")) {
                 grantDurationModels = getDefaultGrantDurationModels()
-                it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(grantDurationModels))
+                it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(grantDurationModels.values))
             } else {
                 val items = it.get("Alchemist:Grants:DurationModels")
                 val deserialize = Alchemist.gson.fromJson<MutableList<GrantDurationModel>>(items, grantDurationType)
@@ -34,13 +35,13 @@ object GrantConfigurationService {
         }
     }
 
-    fun saveAll() {
+    fun saveAllDurations() {
         RedisPacketManager.pool.resource.use {
             it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(this.grantDurationModels.values))
         }
     }
 
-    fun saveModel(model: GrantDurationModel) {
+    fun saveDurationModel(model: GrantDurationModel) {
         grantDurationModels[model.id] = model
         RedisPacketManager.pool.resource.use {
             it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(this.grantDurationModels.values))
@@ -56,6 +57,47 @@ object GrantConfigurationService {
             "1y" to GrantDurationModel("1y", "WOOL", 14, 14, "1y", "&c1 Year"),
             "permanent" to GrantDurationModel("permanent", "WOOL", 14, 15, "Permanent", "&4Permanent"),
             "custom" to GrantDurationModel("custom", "WOOL", 8, 16, "custom", "&7Custom")
+        )
+    }
+
+    var grantReasonModels: MutableMap<String, GrantReasonModel> = mutableMapOf()
+    val grantReasonType: Type = object : TypeToken<MutableList<GrantReasonModel>>() {}.type
+
+    fun loadAllReasonModel() {
+        RedisPacketManager.pool.resource.use {
+            if (!it.exists("Alchemist:Grants:ReasonModels")) {
+                grantReasonModels = getDefaultGrantReasonModels()
+                it.set("Alchemist:Grants:ReasonModels", Alchemist.gson.toJson(grantReasonModels.values))
+            } else {
+                val items = it.get("Alchemist:Grants:ReasonModels")
+                val deserialize = Alchemist.gson.fromJson<MutableList<GrantReasonModel>>(items, grantReasonType)
+
+                for (dur in deserialize) {
+                    grantReasonModels[dur.id] = dur
+                }
+            }
+        }
+    }
+
+    fun saveAllReasons() {
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:ReasonModels", Alchemist.gson.toJson(this.grantReasonModels.values))
+        }
+    }
+
+    fun saveReasonModel(model: GrantReasonModel) {
+        grantReasonModels[model.id] = model
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:ReasonModels", Alchemist.gson.toJson(this.grantReasonModels.values))
+        }
+    }
+    fun getDefaultGrantReasonModels() : MutableMap<String, GrantReasonModel> {
+        return mutableMapOf(
+            "promotion" to GrantReasonModel("promotion","WOOL", 10, 11, "Promotion", "&5Promotion"),
+            "won-event" to GrantReasonModel("won-event","WOOL", 2, 12, "Won Event", "&dWon Event"),
+            "purchased" to GrantReasonModel("purchased", "WOOL", 11, 13, "Purchased", "&9Purchased"),
+            "staff-grant" to GrantReasonModel("staff-grant", "WOOL", 9, 14, "Staff Grant", "&3Staff Grant"),
+            "custom" to GrantReasonModel("custom", "WOOL", 8, 15, "Custom", "&7Custom"),
         )
     }
 }

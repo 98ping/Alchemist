@@ -10,23 +10,16 @@ import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
-import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.module.PluginModuleHandler
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
-import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
-import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
-import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
 import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
-import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
-import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
@@ -36,7 +29,6 @@ import ltd.matrixstudios.alchemist.sync.SyncTask
 import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.NetworkUtil
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import ltd.matrixstudios.alchemist.webhook.WebhookService
@@ -121,7 +113,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             }
         }
 
-        GrantConfigurationService.loadAllModels()
+        GrantConfigurationService.loadAllDurationModel()
+        GrantConfigurationService.loadAllReasonModel()
 
         Chat.sendConsoleMessage(
             "&4[Jedis] &fJedis publisher started in &4" + System.currentTimeMillis().minus(pubsubStart) + "ms"

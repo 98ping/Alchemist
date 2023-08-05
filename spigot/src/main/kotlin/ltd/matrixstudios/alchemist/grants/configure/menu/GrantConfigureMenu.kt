@@ -2,8 +2,11 @@ package ltd.matrixstudios.alchemist.grants.configure.menu
 
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.grants.configure.menu.duration.DurationEditorMenu
+import ltd.matrixstudios.alchemist.grants.configure.menu.reason.ReasonEditorMenu
 import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
+import ltd.matrixstudios.alchemist.grants.models.GrantReasonModel
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
@@ -52,7 +55,23 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
             37 to Button.placeholder(),
             38 to Button.placeholder(),
             39 to Button.placeholder(),
-            40 to Button.placeholder(),
+            40 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&eCreate New Option", 0).setBody { player, i, clickType ->
+                InputPrompt()
+                    .withText(Chat.format("&aType in the new name for this new option (should not have color codes or spaces)"))
+                    .acceptInput {
+                        if (category == GrantConfigCategory.DURATIONS) {
+                            val model = GrantDurationModel(it.toLowerCase(), "PAPER", 0, 0, "custom", it)
+                            GrantConfigurationService.saveDurationModel(model)
+                            player.sendMessage(Chat.format("&aCreated a new duration with the name &f$it"))
+                            GrantConfigureMenu(player, GrantConfigCategory.DURATIONS).updateMenu()
+                        } else if (category == GrantConfigCategory.REASONS) {
+                            val model = GrantReasonModel(it.toLowerCase(), "PAPER", 0, 0, "custom", it)
+                            GrantConfigurationService.saveReasonModel(model)
+                            player.sendMessage(Chat.format("&aCreated a new reason with the name &f$it"))
+                            GrantConfigureMenu(player, GrantConfigCategory.REASONS).updateMenu()
+                        }
+                    }.start(player)
+            },
             41 to Button.placeholder(),
             42 to Button.placeholder(),
             43 to Button.placeholder(),
@@ -79,6 +98,13 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
             for (dur in GrantConfigurationService.grantDurationModels.values)
             {
                 buttons[i++] = DurationButton(dur)
+            }
+        }
+
+        if (category == GrantConfigCategory.REASONS) {
+            for (dur in GrantConfigurationService.grantReasonModels.values)
+            {
+                buttons[i++] = ReasonButton(dur)
             }
         }
 
@@ -150,6 +176,39 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
             DurationEditorMenu(model, player).openMenu()
+        }
+
+    }
+
+    class ReasonButton(val model: GrantReasonModel) : Button() {
+        override fun getMaterial(player: Player): Material {
+            return Material.getMaterial(model.item) ?: Material.PAPER
+        }
+
+        override fun getDescription(player: Player): MutableList<String>? {
+            val desc = mutableListOf<String>()
+
+            desc.add(" ")
+            desc.add(Chat.format("&6Reason: &f" + model.reason))
+            desc.add(Chat.format("&6Item: &f" + model.item))
+            desc.add(Chat.format("&6Display Name: &f" + model.displayName))
+            desc.add(Chat.format("&6Display Orientation: &f" + model.menuSlot))
+            desc.add(Chat.format("&6Data: &f" + model.data))
+            desc.add(" ")
+
+            return desc
+        }
+
+        override fun getDisplayName(player: Player): String? {
+            return Chat.format(model.displayName)
+        }
+
+        override fun getData(player: Player): Short {
+            return model.data.toShort()
+        }
+
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            ReasonEditorMenu(model, player).openMenu()
         }
 
     }

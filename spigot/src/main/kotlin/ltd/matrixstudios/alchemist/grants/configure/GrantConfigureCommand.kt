@@ -37,6 +37,22 @@ class GrantConfigureCommand : BaseCommand() {
             GrantConfigurationService.grantDurationModels[dur.value.id] = dur.value
         }
 
+        GrantConfigurationService.saveAllDurations()
+
         sender.sendMessage(Chat.format("&cWiped all grant durations!"))
+    }
+
+    @CommandAlias("resetgrantreasons")
+    @CommandPermission("alchemist.grants.config")
+    fun resetReasons(sender: CommandSender) {
+        GrantConfigurationService.grantReasonModels.clear()
+
+        for (dur in GrantConfigurationService.getDefaultGrantReasonModels()) {
+            GrantConfigurationService.grantReasonModels[dur.value.id] = dur.value
+        }
+
+        GrantConfigurationService.saveAllReasons()
+
+        sender.sendMessage(Chat.format("&cWiped all grant reasons!"))
     }
 }

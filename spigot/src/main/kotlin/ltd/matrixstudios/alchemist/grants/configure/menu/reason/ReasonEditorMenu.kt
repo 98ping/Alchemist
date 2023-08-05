@@ -1,7 +1,8 @@
-package ltd.matrixstudios.alchemist.grants.configure.menu.duration
+package ltd.matrixstudios.alchemist.grants.configure.menu.reason
 
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
+import ltd.matrixstudios.alchemist.grants.models.GrantReasonModel
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -10,6 +11,7 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
+
 /**
  * Class created on 8/4/2023
 
@@ -17,7 +19,7 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Menu(player) {
+class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(player) {
 
     init {
         placeholder = true
@@ -32,7 +34,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             mutableListOf(
                 " ",
                 Chat.format("&7Change the menu positions"),
-                Chat.format("&7of this grant duration"),
+                Chat.format("&7of this grant reason"),
                 " ",
                 Chat.format("&eCurrently: &f" + model.menuSlot),
                 " "
@@ -40,7 +42,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             "&eChange Menu Position", 0
         ).setBody { player, slot, clicktype ->
             InputPrompt()
-                .withText(Chat.format("&aType in the new position for this duration!"))
+                .withText(Chat.format("&aType in the new position for this reason!"))
                 .acceptInput {
                     var pos = 0
 
@@ -53,9 +55,9 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                     }
 
                     model.menuSlot = pos
-                    GrantConfigurationService.saveDurationModel(model)
-                    player.sendMessage(Chat.format("&aUpdated the menu position of this duration to &f$pos"))
-                    DurationEditorMenu(model, player).openMenu()
+                    GrantConfigurationService.saveReasonModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the menu position of this reason to &f$pos"))
+                    ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
         }
 
@@ -64,7 +66,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             mutableListOf(
                 " ",
                 Chat.format("&7Change the display item of this"),
-                Chat.format("&7grant duration"),
+                Chat.format("&7grant reason"),
                 " ",
                 Chat.format("&eCurrently: &f" + model.item),
                 " "
@@ -72,12 +74,12 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             "&eChange Display Item", 0
         ).setBody { player, slot, clicktype ->
             InputPrompt()
-                .withText(Chat.format("&aType in the new display item for this duration!"))
+                .withText(Chat.format("&aType in the new display item for this reason!"))
                 .acceptInput {
                     model.item = it
-                    GrantConfigurationService.saveDurationModel(model)
-                    player.sendMessage(Chat.format("&aUpdated the menu item of this duration to &f$it"))
-                    DurationEditorMenu(model, player).openMenu()
+                    GrantConfigurationService.saveReasonModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the menu item of this reason to &f$it"))
+                    ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
         }
 
@@ -86,7 +88,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             mutableListOf(
                 " ",
                 Chat.format("&7Change the display name of this"),
-                Chat.format("&7grant duration"),
+                Chat.format("&7grant reason"),
                 " ",
                 Chat.format("&eCurrently: &f" + model.displayName),
                 " "
@@ -94,12 +96,12 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             "&eChange Display Name", 0
         ).setBody { player, slot, clicktype ->
             InputPrompt()
-                .withText(Chat.format("&aType in the new display name for this duration!"))
+                .withText(Chat.format("&aType in the new display name for this reason!"))
                 .acceptInput {
                     model.displayName = it
-                    GrantConfigurationService.saveDurationModel(model)
-                    player.sendMessage(Chat.format("&aUpdated the display name of this duration to &f$it"))
-                    DurationEditorMenu(model, player).openMenu()
+                    GrantConfigurationService.saveReasonModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the display name of this reason to &f$it"))
+                    ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
         }
 
@@ -108,7 +110,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             mutableListOf(
                 " ",
                 Chat.format("&7Change the data of the item"),
-                Chat.format("&7that shows in the grant duration menu"),
+                Chat.format("&7that shows in the grant reason menu"),
                 " ",
                 Chat.format("&eCurrently: &f" + model.data),
                 " "
@@ -116,7 +118,7 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             "&eChange Item Data", 0
         ).setBody { player, slot, clicktype ->
             InputPrompt()
-                .withText(Chat.format("&aType in the new item data for this duration!"))
+                .withText(Chat.format("&aType in the new item data for this reason!"))
                 .acceptInput {
                     var pos = 0
 
@@ -129,9 +131,9 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                     }
 
                     model.data = pos
-                    GrantConfigurationService.saveDurationModel(model)
-                    player.sendMessage(Chat.format("&aUpdated the item data of this duration to &f$pos"))
-                    DurationEditorMenu(model, player).openMenu()
+                    GrantConfigurationService.saveReasonModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the item data of this reason to &f$pos"))
+                    ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
         }
 
@@ -139,21 +141,21 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
             Material.COMPASS,
             mutableListOf(
                 " ",
-                Chat.format("&7Change the duration of this"),
-                Chat.format("&7grant duration"),
+                Chat.format("&7Change the reason of this"),
+                Chat.format("&7grant reason"),
                 " ",
-                Chat.format("&eCurrently: &f" + model.duration),
+                Chat.format("&eCurrently: &f" + model.reason),
                 " "
             ),
-            "&eChange Duration", 0
+            "&eChange Reason", 0
         ).setBody { player, slot, clicktype ->
             InputPrompt()
-                .withText(Chat.format("&aType in the new duration name for this duration! (1m/1d/1y/1w/permanent/custom format)"))
+                .withText(Chat.format("&aType in the new reason for this grant reason!"))
                 .acceptInput {
-                    model.duration = it
-                    GrantConfigurationService.saveDurationModel(model)
-                    player.sendMessage(Chat.format("&aUpdated the display name of this duration to &f$it"))
-                    DurationEditorMenu(model, player).openMenu()
+                    model.reason = it
+                    GrantConfigurationService.saveReasonModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the display name of this reason to &f$it"))
+                    ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
         }
 
@@ -162,6 +164,6 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
     }
 
     override fun getTitle(player: Player): String {
-        return "Edit Duration"
+        return "Edit Reason"
     }
 }

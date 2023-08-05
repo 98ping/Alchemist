@@ -35,7 +35,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
         {
             for (duration in GrantConfigurationService.getDefaultGrantDurationModels().values)
             {
-                buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target)
+                buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target, duration.item)
             }
 
             return buttons
@@ -43,7 +43,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
 
         //normal processing
         for (duration in GrantConfigurationService.grantDurationModels.values) {
-            buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target)
+            buttons[duration.menuSlot] = DurationButton(duration.duration, duration.data.toShort(), duration.displayName, rank, target, duration.item)
         }
 
         return buttons
@@ -54,10 +54,10 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
     }
 
 
-    class DurationButton(val time: String, val data: Short, val displayName: String, val rank: Rank, val target: GameProfile) : Button()
+    class DurationButton(val time: String, val data: Short, val displayName: String, val rank: Rank, val target: GameProfile, val material: String) : Button()
     {
         override fun getMaterial(player: Player): Material {
-            return Material.WOOL
+            return Material.getMaterial(material) ?: Material.WOOL
         }
 
         override fun getDescription(player: Player): MutableList<String>? {

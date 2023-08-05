@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.grants.menu.grant
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.grants.menu.grant.scope.ScopeSelectionMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -26,11 +27,10 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
         buttons[4] = SimpleActionButton(Material.PAPER, mutableListOf(), "&eNavigate Back", 0).setBody { player, i, clickType ->
             DurationMenu(player, rank, target).openMenu()
         }
-        buttons[11] = ReasonButton("Promotion", 10, "&5", rank, target, player, duration)
-        buttons[12] = ReasonButton("Won Event", 2, "&d", rank, target, player, duration)
-        buttons[13] = ReasonButton("Purchased", 11, "&9", rank, target, player, duration)
-        buttons[14] = ReasonButton("Staff Grant", 9, "&3", rank, target, player, duration)
-        buttons[15] = ReasonButton("Custom", 8, "&7", rank, target, player, duration)
+
+        for (rzn in GrantConfigurationService.grantReasonModels.values) {
+            buttons[rzn.menuSlot] = ReasonButton(rzn.reason, rzn.data.toShort(), rzn.displayName, rank, target, player, duration, rzn.item)
+        }
 
         return buttons
     }
@@ -40,9 +40,9 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
     }
 
 
-    class ReasonButton(val reason: String, val data: Short, val color: String, val rank: Rank, val target: GameProfile, val player: Player, val duration: Long) : Button() {
+    class ReasonButton(val reason: String, val data: Short, val displayName: String, val rank: Rank, val target: GameProfile, val player: Player, val duration: Long, val item: String) : Button() {
         override fun getMaterial(player: Player): Material {
-            return Material.WOOL
+            return Material.getMaterial(item) ?: Material.WOOL
         }
 
         override fun getDescription(player: Player): MutableList<String>? {
@@ -50,7 +50,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
         }
 
         override fun getDisplayName(player: Player): String? {
-            return Chat.format("$color$reason")
+            return Chat.format(displayName)
         }
 
         override fun getData(player: Player): Short {
