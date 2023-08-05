@@ -34,6 +34,12 @@ object GrantConfigurationService {
         }
     }
 
+    fun saveAll() {
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(this.grantDurationModels.values))
+        }
+    }
+
     fun saveModel(model: GrantDurationModel) {
         grantDurationModels[model.id] = model
         RedisPacketManager.pool.resource.use {
