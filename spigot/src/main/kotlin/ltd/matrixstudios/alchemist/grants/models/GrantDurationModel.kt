@@ -8,9 +8,10 @@ package ltd.matrixstudios.alchemist.grants.models
  * @website https://solo.to/redis
  */
 data class GrantDurationModel(
-    val item: String,
-    val data: Int,
-    val menuSlot: Int,
-    val duration: String,
-    val displayName: String
+    var id: String,
+    var item: String,
+    var data: Int,
+    var menuSlot: Int,
+    var duration: String,
+    var displayName: String
 )

@@ -57,9 +57,15 @@ class GeneralTagButton(var tag: Tag) : Button() {
         }
 
         if (playerProfile.canUse(tag)) {
-            playerProfile.activePrefix = tag.id
-            ProfileGameService.save(playerProfile)
-            player.sendMessage(Chat.format("&aSet your tag to " + tag.menuName))
+            if (!playerProfile.activePrefix.equals(tag.id, ignoreCase = true)) {
+                playerProfile.activePrefix = tag.id
+                ProfileGameService.save(playerProfile)
+                player.sendMessage(Chat.format("&aSet your tag to " + tag.menuName))
+            } else {
+                playerProfile.activePrefix = null
+                ProfileGameService.save(playerProfile)
+                player.sendMessage(Chat.format("&cYou have removed your current tag"))
+            }
         } else {
             player.sendMessage(Chat.format("&cYou are unable to use this tag. " + (if (tag.purchasable) "&cYou may purchase it on our store to use it" else "&cThis prefix is unable to be purchased")))
         }

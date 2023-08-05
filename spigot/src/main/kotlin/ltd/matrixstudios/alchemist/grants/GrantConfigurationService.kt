@@ -15,7 +15,7 @@ import java.lang.reflect.Type
  */
 object GrantConfigurationService {
 
-    var grantDurationModels: MutableList<GrantDurationModel> = mutableListOf()
+    var grantDurationModels: MutableMap<String, GrantDurationModel> = mutableMapOf()
     val grantDurationType: Type = object : TypeToken<MutableList<GrantDurationModel>>() {}.type
 
     fun loadAllModels() {
@@ -27,20 +27,29 @@ object GrantConfigurationService {
                 val items = it.get("Alchemist:Grants:DurationModels")
                 val deserialize = Alchemist.gson.fromJson<MutableList<GrantDurationModel>>(items, grantDurationType)
 
-                grantDurationModels = deserialize
+                for (dur in deserialize) {
+                    grantDurationModels[dur.id] = dur
+                }
             }
         }
     }
 
-    fun getDefaultGrantDurationModels() : MutableList<GrantDurationModel> {
-        return mutableListOf(
-            GrantDurationModel("WOOL", 13, 10, "1h", "&21 Hour"),
-            GrantDurationModel("WOOL", 5, 11, "1d", "&a1 Day"),
-            GrantDurationModel("WOOL", 4, 12, "1w", "&e1 Week"),
-            GrantDurationModel("WOOL", 1, 13, "1m", "&61 Month"),
-            GrantDurationModel("WOOL", 14, 14, "1y", "&c1 Year"),
-            GrantDurationModel("WOOL", 14, 15, "Permanent", "&4Permanent"),
-            GrantDurationModel("WOOL", 8, 16, "custom", "&7Custom")
+    fun saveModel(model: GrantDurationModel) {
+        grantDurationModels[model.id] = model
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(this.grantDurationModels.values))
+        }
+    }
+
+    fun getDefaultGrantDurationModels() : MutableMap<String, GrantDurationModel> {
+        return mutableMapOf(
+            "1h" to GrantDurationModel("1h","WOOL", 13, 10, "1h", "&21 Hour"),
+            "1d" to GrantDurationModel("1d","WOOL", 5, 11, "1d", "&a1 Day"),
+            "1w" to GrantDurationModel("1w", "WOOL", 4, 12, "1w", "&e1 Week"),
+            "1m" to GrantDurationModel("1m", "WOOL", 1, 13, "1m", "&61 Month"),
+            "1y" to GrantDurationModel("1y", "WOOL", 14, 14, "1y", "&c1 Year"),
+            "permanent" to GrantDurationModel("permanent", "WOOL", 14, 15, "Permanent", "&4Permanent"),
+            "custom" to GrantDurationModel("custom", "WOOL", 8, 16, "custom", "&7Custom")
         )
     }
 }
