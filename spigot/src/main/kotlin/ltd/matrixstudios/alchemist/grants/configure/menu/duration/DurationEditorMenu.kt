@@ -108,6 +108,39 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                 }.start(player)
         }
 
+        buttons[13] = SimpleActionButton(
+            Material.REDSTONE,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the data of the item"),
+                Chat.format("&7that shows in the grant duration menu"),
+                " ",
+                Chat.format("&eCurrently: &f" + model.data),
+                " "
+            ),
+            "&eChange Item Data", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new item data for this duration!"))
+                .acceptInput {
+                    var pos = 0
+
+                    try {
+                        pos = Integer.parseInt(it)
+                    } catch (e: java.lang.NumberFormatException)
+                    {
+                        player.sendMessage(Chat.format("&cThis is not a number!"))
+                        return@acceptInput
+                    }
+
+                    model.data = pos
+                    GrantConfigurationService.saveModel(model)
+                    player.sendMessage(Chat.format("&aUpdated the item data of this duration to &f$pos"))
+                    DurationEditorMenu(model, player).openMenu()
+                }.start(player)
+        }
+
+
         return buttons
     }
 
