@@ -46,7 +46,7 @@ abstract class RedisCache<A, B>(
         }
     }
 
-    fun addToCache(key: A, value: B) : CompletableFuture<B>
+    fun addToFirstCache(key: A, value: B) : CompletableFuture<B>
     {
         return CompletableFuture.supplyAsync {
             aToBCache[key] = value
@@ -61,7 +61,7 @@ abstract class RedisCache<A, B>(
         }
     }
 
-    fun addToCache(key: B, value: A) : CompletableFuture<A>
+    fun addToSecondCache(key: B, value: A) : CompletableFuture<A>
     {
         return CompletableFuture.supplyAsync {
             btoACache[key] = value
