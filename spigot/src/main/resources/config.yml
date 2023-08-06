@@ -61,6 +61,13 @@ autobroadcast:
 #theme info
 defaultTheme: "MMC"
 
+#information regarding profiles
+profiles:
+  load:
+    sendMessage: true
+    message: "&b✓ &aYour profile has been successfully loaded"
+
+
 #info for the grant procedure
 grants:
   durationMenuSize: 27

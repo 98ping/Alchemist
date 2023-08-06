@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.profiles.connection.postlog
 import ltd.matrixstudios.alchemist.models.connection.ConnectionMethod
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks.CheckBanEvasion
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks.LoadPermissions
+import ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks.SendLoadedProfileMessage
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks.SendStaffWelcome
 import org.bukkit.entity.Player
 
@@ -19,7 +20,8 @@ object BukkitPostLoginConnection : ConnectionMethod<Player>() {
         return listOf(
             LoadPermissions,
             SendStaffWelcome,
-            CheckBanEvasion
+            CheckBanEvasion,
+            SendLoadedProfileMessage
         )
     }
 }
