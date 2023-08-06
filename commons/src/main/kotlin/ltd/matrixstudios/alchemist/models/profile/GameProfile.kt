@@ -295,7 +295,10 @@ data class GameProfile(
             check which one comes out on top
          */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
-            it.expirable.isActive() && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
+            it.expirable.isActive()
+                    && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
+                    && (it.getGrantable().getRankScope().global || it.getGrantable().getRankScope().appliesOn(globalServer)
+            )
         }.sortedByDescending { it.getGrantable().weight }.firstOrNull()
 
         if (filteredRank == null || filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0))
