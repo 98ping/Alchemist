@@ -31,7 +31,7 @@ object VoucherService : GeneralizedService {
     }
 
     fun loadVoucherTemplates() {
-        val items = handlerTemplates.retrieveAllAsync().thenAccept { templates ->
+        handlerTemplates.retrieveAllAsync().thenAccept { templates ->
             for (voucher in templates) {
                 voucherTemplates[voucher.id] = voucher
             }

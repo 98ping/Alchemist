@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import io.github.nosequel.data.DataHandler
 import io.github.nosequel.data.connection.mongo.MongoConnectionPool
+import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.filter.FilterService
@@ -37,5 +38,7 @@ object Alchemist {
 
         QueueService.loadAllQueues()
         FilterService.loadIntoCache()
+
+        UUIDCache.loadAllFromRedis()
     }
 }
