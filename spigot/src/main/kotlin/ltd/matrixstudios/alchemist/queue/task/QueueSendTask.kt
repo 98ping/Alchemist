@@ -28,8 +28,6 @@ class QueueSendTask : BukkitRunnable() {
                 continue
             }
 
-            if (UniqueServerService.byId(queue.uniqueServerId)!!.players.size < queue.playersInQueue.size) continue
-
             val firstPlayer = queue.getPlayerAt(1)!!
             val uuid = firstPlayer.id
 
