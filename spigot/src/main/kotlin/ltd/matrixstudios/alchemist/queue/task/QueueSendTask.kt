@@ -36,6 +36,8 @@ class QueueSendTask : BukkitRunnable() {
             queue.lastPull = System.currentTimeMillis()
 
             AsynchronousRedisSender.send(QueueSendPlayerPacket(uuid, queue.id))
+            AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, uuid))
+            AsynchronousRedisSender.send(QueueUpdatePacket())
         }
     }
 }

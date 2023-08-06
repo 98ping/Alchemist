@@ -24,7 +24,6 @@ class QueueSendPlayerPacket(val id: UUID, val queueDestination: String) : RedisP
         }
 
         player.sendMessage(Chat.format("&6Connecting you to &f" + queue.displayName + "&6..."))
-        AsynchronousRedisSender.send(QueueRemovePlayerPacket(queue.id, player.uniqueId))
 
         val out = ByteStreams.newDataOutput()
         out.writeUTF("Connect")
