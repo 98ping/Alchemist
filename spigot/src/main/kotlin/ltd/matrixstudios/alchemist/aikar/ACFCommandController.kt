@@ -28,6 +28,7 @@ import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
+import ltd.matrixstudios.alchemist.commands.uuid.UUIDCacheCommands
 import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
 import ltd.matrixstudios.alchemist.grants.view.AuditCommand
@@ -103,6 +104,8 @@ object ACFCommandController {
             }
 
             registerCommand(RankDisguiseCommand())
+
+            registerCommand(UUIDCacheCommands)
 
 
             registerCommand(AlchemistCommand())

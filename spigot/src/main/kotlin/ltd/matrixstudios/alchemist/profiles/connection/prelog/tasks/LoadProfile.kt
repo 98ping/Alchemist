@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.profiles.connection.prelog.tasks
 
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
 import ltd.matrixstudios.alchemist.profiles.connection.prelog.BukkitPreLoginTask
@@ -35,6 +36,9 @@ object LoadProfile : BukkitPreLoginTask {
         if (profile.currentSession == null) {
             profile.currentSession = profile.createNewSession(currentServer)
         }
+
+        UUIDCache.addToFirstCache(profile.uuid, profile.username)
+        UUIDCache.addToSecondCache(profile.username, profile.uuid)
 
         ProfileGameService.saveSync(profile)
     }

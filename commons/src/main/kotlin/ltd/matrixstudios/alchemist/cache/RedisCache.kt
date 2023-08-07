@@ -40,9 +40,10 @@ abstract class RedisCache<A, B>(
 
                     this.btoACache = gson
                 }
+
+                println("Cache load for $redisKey loaded in ${System.currentTimeMillis().minus(start)}ms")
             }
 
-            println("Cache load for $redisKey loaded in ${System.currentTimeMillis().minus(start)}ms")
         }
     }
 
