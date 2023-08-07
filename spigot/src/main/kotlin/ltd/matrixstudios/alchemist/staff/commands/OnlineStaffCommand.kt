@@ -26,10 +26,8 @@ class OnlineStaffCommand : BaseCommand() {
         val servers = UniqueServerService.getValues()
         val msgs = mutableListOf<String>()
 
-        for (server in servers)
-        {
-            for (player1 in server.players)
-            {
+        for (server in servers) {
+            for (player1 in server.players) {
                 if (!allPlayers.contains(player1)) {
                     allPlayers.add(player1)
                 }
@@ -38,9 +36,12 @@ class OnlineStaffCommand : BaseCommand() {
 
         for (player2 in allPlayers) {
             val profile = AlchemistAPI.syncFindProfile(player2) ?: continue
-            val serverName = UniqueServerService.byId(profile.metadata.get("server").asString.lowercase())?.displayName ?: "&cUnknown"
+            val serverName = UniqueServerService.byId(profile.metadata.get("server").asString.lowercase())?.displayName
+                ?: "&cUnknown"
 
-            msgs.add(Chat.format("&7- " + AlchemistAPI.getRankDisplay(profile.uuid) + " &eis currently &aonline &eat &f" + serverName))
+            if (profile.getCurrentRank().staff) {
+                msgs.add(Chat.format("&7- " + AlchemistAPI.getRankDisplay(profile.uuid) + " &eis currently &aonline &eat &f" + serverName))
+            }
 
         }
         player.sendMessage(Chat.format("&e&lOnline Staff Members&7:"))
@@ -48,19 +49,5 @@ class OnlineStaffCommand : BaseCommand() {
             player.sendMessage(Chat.format(msg))
         }
     }
-
-    fun getStaffMembers(server: UniqueServer): List<UUID> {
-        val pList = server.players
-        val sList = mutableListOf<UUID>()
-
-        for (uuid in pList) {
-            if (AlchemistAPI.findRank(uuid).staff) {
-                sList.add(uuid)
-            }
-        }
-
-        return sList
-    }
-
 
 }

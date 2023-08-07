@@ -31,7 +31,7 @@ class JumpToPlayerCommand : BaseCommand() {
 
         if (uniqueServer == null || onlineServer.lowercase().equals("None", ignoreCase = true))
         {
-            player.sendMessage(Chat.format("&6Server Jump Request"))
+            player.sendMessage(Chat.format("&6&lServer Jump Request"))
             player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
             player.sendMessage(Chat.format("&eDestination: &cNone"))
             player.sendMessage(Chat.format("&eLast Seen: &f${TimeUtil.formatIntoCalendarString(Date(target.lastSeenAt))} ago"))
@@ -47,7 +47,7 @@ class JumpToPlayerCommand : BaseCommand() {
             return
         }
 
-        player.sendMessage(Chat.format("&6Server Jump Request"))
+        player.sendMessage(Chat.format("&6&lServer Jump Request"))
         player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
         player.sendMessage(Chat.format("&eDestination: &f" + uniqueServer.displayName))
         player.sendMessage(Chat.format("&eProxy Name: &f" + uniqueServer.bungeeName))
