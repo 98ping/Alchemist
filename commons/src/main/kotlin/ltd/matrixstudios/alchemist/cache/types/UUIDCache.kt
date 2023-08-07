@@ -6,11 +6,6 @@ import java.util.concurrent.CompletableFuture
 
 object UUIDCache : RedisCache<UUID, String>("Alchemist:Caches:UUID")
 {
-    fun initCache()
-    {
-        this.loadAllFromRedis()
-    }
-
     fun findById(id: UUID) : CompletableFuture<String?>
     {
         return CompletableFuture.supplyAsync {

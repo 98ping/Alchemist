@@ -18,6 +18,6 @@ class AsyncProfileResolver : ContextResolver<AsyncGameProfile, BukkitCommandExec
     override fun getContext(c: BukkitCommandExecutionContext): AsyncGameProfile? {
         val firstArg = c.popFirstArg() ?: return null
 
-        return AsyncGameProfile.name(firstArg)
+        return AsyncGameProfile.name(firstArg.toLowerCase())
     }
 }

@@ -37,8 +37,8 @@ object LoadProfile : BukkitPreLoginTask {
             profile.currentSession = profile.createNewSession(currentServer)
         }
 
-        UUIDCache.addToFirstCache(profile.uuid, profile.username)
-        UUIDCache.addToSecondCache(profile.username, profile.uuid)
+        UUIDCache.addToFirstCache(profile.uuid, profile.lowercasedUsername)
+        UUIDCache.addToSecondCache(profile.lowercasedUsername, profile.uuid)
 
         ProfileGameService.saveSync(profile)
     }

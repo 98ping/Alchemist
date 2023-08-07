@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import com.mongodb.client.model.Filters
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -51,6 +52,8 @@ object ProfileGameService : GeneralizedService {
 
     fun byUsername(name: String): CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
+            if (UUIDCache.btoACache.containsKey(name.toLowerCase())) return@supplyAsync byId(UUIDCache.btoACache[name.toLowerCase()]!!)
+
             val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
 
             if (cacheProfile != null) {

@@ -23,6 +23,7 @@ abstract class RedisCache<A, B>(
             RedisPacketManager.pool.resource.use {
                 val ex = it.exists("$redisKey:A")
 
+                //a -> b cache
                 if (ex)
                 {
                     val all = it.get("$redisKey:A")
@@ -33,6 +34,7 @@ abstract class RedisCache<A, B>(
 
                 val ex2 = it.exists("$redisKey:B")
 
+                //b -> a cache
                 if (ex2)
                 {
                     val all = it.get("$redisKey:B")
