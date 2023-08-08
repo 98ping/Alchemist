@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.essentials.messages.menu
 
+import ltd.matrixstudios.alchemist.essentials.messages.menu.sub.IgnoredPlayersMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -25,7 +26,9 @@ class MessageSettingsMenu(val player: Player) : Menu(player) {
             " ",
             Chat.format("&a&lLeft-Click &ato view ignored list"),
             " "
-        ), Chat.format("&cIgnored Players"), 0)
+        ), Chat.format("&cIgnored Players"), 0).setBody { player, i, clickType ->
+            IgnoredPlayersMenu(player).updateMenu()
+        }
 
         buttons[14] = SimpleActionButton(Material.ANVIL, mutableListOf(
             " ",

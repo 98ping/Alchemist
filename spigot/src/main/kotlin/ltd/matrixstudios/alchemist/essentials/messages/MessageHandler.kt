@@ -31,6 +31,15 @@ object MessageHandler {
         replyMap[from.uniqueId] = to.uniqueId
     }
 
+    fun getPlayersIgnored(player: Player) : MutableList<UUID>
+    {
+        RedisPacketManager.pool.resource.use { jedis ->
+            val list = jedis.hgetAll("Alchemist:messageSettings:ignoreList:${player.uniqueId}")
+
+            return list.filter { it.value.toBoolean() }.map { UUID.fromString(it.key) }.toMutableList()
+        }
+    }
+
     fun hasPlayerIgnored(player: Player, ignored: UUID): Boolean {
         RedisPacketManager.pool.resource.use {
             return it.hget(
