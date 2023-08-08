@@ -43,6 +43,7 @@ class StaffCommands : BaseCommand() {
 
     }
 
+
     @CommandAlias("staff|h|mod|hacker|staffmode|modmode")
     @CommandPermission("alchemist.staffmode")
     fun staff(player: Player, @Name("other") @Optional target: String?)

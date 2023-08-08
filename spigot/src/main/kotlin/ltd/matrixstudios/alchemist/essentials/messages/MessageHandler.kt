@@ -9,10 +9,9 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
 object MessageHandler {
-    private var replyMap: MutableMap<UUID, UUID> = mutableMapOf()
+    val replyMap: MutableMap<UUID, UUID> = mutableMapOf()
 
-    private val MESSAGE_FORMAT_FROM: String =
-        AlchemistSpigotPlugin.instance.config.getString("message.message_format_from")
+    private val MESSAGE_FORMAT_FROM: String = AlchemistSpigotPlugin.instance.config.getString("message.message_format_from")
     private val MESSAGE_FORMAT_TO: String = AlchemistSpigotPlugin.instance.config.getString("message.message_format_to")
 
     fun message(to: Player, from: Player, message: String) {

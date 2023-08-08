@@ -5,8 +5,10 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
+import ltd.matrixstudios.alchemist.essentials.messages.menu.MessageSettingsMenu
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
@@ -23,6 +25,42 @@ class MessageCommands : BaseCommand() {
         }
 
         MessageHandler.message(target.player, player, message)
+    }
+
+    @CommandAlias("reply|r")
+    @CommandCompletion("@players")
+    fun reply(player: Player, @Name("message...") message: String)
+    {
+        val lastSent = MessageHandler.replyMap[player.uniqueId]
+
+        if (lastSent == null)
+        {
+            player.sendMessage(Chat.format("&cYou have nobody to reply to!"))
+            return
+        }
+
+        val optional = Bukkit.getPlayer(lastSent)
+
+        if (optional == null || !optional.isOnline)
+        {
+            player.sendMessage(Chat.format("&cThis user is no longer online!"))
+            return
+        }
+
+        val ignored = MessageHandler.hasPlayerIgnored(optional, player.uniqueId)
+
+        if (ignored) {
+            player.sendMessage(Chat.format("&cThis player has you ignored!"))
+            return
+        }
+
+        MessageHandler.message(optional, player, message)
+    }
+
+    @CommandAlias("messagesettings|msgsettings")
+    fun msgSettings(player: Player)
+    {
+        MessageSettingsMenu(player).openMenu()
     }
 
     @CommandAlias("ignore|ignoreadd")
