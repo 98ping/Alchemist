@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.module
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.chat.ChatModule
+import ltd.matrixstudios.alchemist.essentials.EssentialsModule
 import ltd.matrixstudios.alchemist.profiles.ProfileModule
 import ltd.matrixstudios.alchemist.profiles.permissions.PermissionModule
 import ltd.matrixstudios.alchemist.punishment.PunishmentModule
@@ -24,7 +25,8 @@ object PluginModuleHandler {
         PunishmentModule,
         PermissionModule,
         ServerModule,
-        ChatModule
+        ChatModule,
+        EssentialsModule
     )
 
     fun loadModules() {
