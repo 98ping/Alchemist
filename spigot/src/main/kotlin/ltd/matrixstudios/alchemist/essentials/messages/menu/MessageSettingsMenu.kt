@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.essentials.messages.menu
 
+import ltd.matrixstudios.alchemist.essentials.messages.MessageHandler
 import ltd.matrixstudios.alchemist.essentials.messages.menu.sub.IgnoredPlayersMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -37,7 +38,13 @@ class MessageSettingsMenu(val player: Player) : Menu(player) {
             " ",
             Chat.format("&a&lLeft-Click &ato edit sounds"),
             " "
-        ), Chat.format("&eSound Options"), 0)
+        ), Chat.format("&eSound Options"), 0).setBody { player, i, clickType ->
+            val bool = MessageHandler.hasSoundsOn(player.uniqueId)
+            val opp = !bool
+
+            MessageHandler.toggleSounds(opp, player.uniqueId)
+            player.sendMessage(Chat.format("&eYou have toggled your message sounds " + if (opp) "&aon" else "&coff"))
+        }
 
         buttons[12] = SimpleActionButton(Material.BEACON, mutableListOf(
             " ",

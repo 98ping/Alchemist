@@ -21,6 +21,7 @@ object EssentialsModule : PluginModule {
         commands.add(KillCommand())
         commands.add(RenameCommand())
 
+        commands.add(InventoryCopyingCommands())
         commands.add(TeleportationCommands())
 
         commands.add(MessageCommands())

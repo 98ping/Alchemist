@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.scheduler.BukkitRunnable
 import java.lang.Math.ceil
 import java.util.concurrent.CompletableFuture
