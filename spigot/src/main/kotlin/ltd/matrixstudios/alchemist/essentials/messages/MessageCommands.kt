@@ -3,8 +3,10 @@ package ltd.matrixstudios.alchemist.essentials.messages
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.essentials.messages.menu.MessageSettingsMenu
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.util.Chat
@@ -61,6 +63,13 @@ class MessageCommands : BaseCommand() {
     fun msgSettings(player: Player)
     {
         MessageSettingsMenu(player).openMenu()
+    }
+
+    @CommandAlias("staffmessage|staffmsg")
+    @CommandPermission("alchemist.messages.staff")
+    fun staffMessage(player: Player, @Name("target") target: OnlinePlayer, @Name("message...") msg: String)
+    {
+        MessageHandler.staffMessage(target.player, player, msg)
     }
 
     @CommandAlias("ignore|ignoreadd")

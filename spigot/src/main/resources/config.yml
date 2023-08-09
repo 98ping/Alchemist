@@ -123,6 +123,8 @@ grant-message: "&eYou have been granted the &r<rank> &erank for a duration of &6
 message:
   message_format_from: "&7(From &r<from> &7to &cme&7) &f<message>"
   message_format_to: "&7(From &cme &7to &r<from>&7) &f<message>"
+  staff_message_format_to: "&7(From &3&oStaff &7to &r<from>&7) &f<message>"
+  staff_message_format_from: "&7(From &3&oStaff &7to &cme&7) &f<message>"
   sound: "LEVEL_UP"
 
 #Reminder for people who are stuck in a queue
