@@ -31,6 +31,8 @@ object LoadProfile : BukkitPreLoginTask {
         val currentServer = Alchemist.globalServer
 
         profile.lastSeenAt = System.currentTimeMillis()
+        profile.username = event.name
+        profile.lowercasedUsername = event.name.toLowerCase()
         profile.ip = output
 
         if (profile.currentSession == null) {

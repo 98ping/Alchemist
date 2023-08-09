@@ -241,11 +241,11 @@ class GenericRankCommands : BaseCommand() {
             }
 
             "parent" -> {
-                if (rank.parents.contains(arg)) {
-                    rank.parents.remove(arg)
+                if (rank.parents.contains(arg.toLowerCase()) || rank.parents.contains(arg)) {
+                    rank.parents.removeIf { it.equals(arg, ignoreCase = true) }
                     sender.sendMessage(Chat.format("&cRemoved the parent &f$arg &cfrom the rank " + rank.color + rank.displayName))
                 } else {
-                    rank.parents.add(arg)
+                    rank.parents.add(arg.toLowerCase())
                     sender.sendMessage(Chat.format("&aAdded the parent &f$arg &ato the rank " + rank.color + rank.displayName))
                 }
 
