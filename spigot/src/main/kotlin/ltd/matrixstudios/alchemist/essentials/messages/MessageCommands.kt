@@ -9,8 +9,10 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.essentials.messages.menu.MessageSettingsMenu
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
+import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
@@ -18,8 +20,8 @@ class MessageCommands : BaseCommand() {
 
     @CommandAlias("message|msg|m|tell")
     @CommandCompletion("@players")
-    fun message(player: Player, @Name("target") target: OnlinePlayer, @Name("message...") message: String) {
-        val ignored = MessageHandler.hasPlayerIgnored(target.player, player.uniqueId)
+    fun message(player: CommandSender, @Name("target") target: OnlinePlayer, @Name("message...") message: String) {
+        val ignored = MessageHandler.hasPlayerIgnored(target.player, BukkitPunishmentFunctions.getSenderUUID(player))
 
         if (ignored) {
             player.sendMessage(Chat.format("&cThis player has you ignored!"))

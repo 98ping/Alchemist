@@ -119,6 +119,9 @@ freeRank:
 # Message sent to player after granting them something
 grant-message: "&eYou have been granted the &r<rank> &erank for a duration of &6<duration>."
 
+#Console information
+consoleColor: "&c&l"
+
 #Message configuration
 message:
   message_format_from: "&7(From &r<from> &7to &cme&7) &f<message>"

@@ -5,9 +5,9 @@ import ltd.matrixstudios.alchemist.profiles.getRankDisplay
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Sound
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 object MessageHandler {
     val replyMap: MutableMap<UUID, UUID> = mutableMapOf()
@@ -19,11 +19,13 @@ object MessageHandler {
     private val STAFF_MESSAGE_FORMAT_TO: String = AlchemistSpigotPlugin.instance.config.getString("message.staff_message_format_to")
     private val SOUND: String = AlchemistSpigotPlugin.instance.config.getString("message.sound")
 
-    fun message(to: Player, from: Player, message: String) {
-        if (!hasMessagesOn(to.uniqueId))
-        {
-            from.sendMessage(Chat.format("&cThis player does not have their direct messages open!"))
-            return
+    fun message(to: Player, from: CommandSender, message: String) {
+        //allow people to not be able to ignore console
+        if (from is Player) {
+            if (!hasMessagesOn(to.uniqueId)) {
+                from.sendMessage(Chat.format("&cThis player does not have their direct messages open!"))
+                return
+            }
         }
 
         to.sendMessage(Chat.format(
@@ -38,8 +40,11 @@ object MessageHandler {
                 .replace("<message>", message)
         ))
 
-        replyMap[to.uniqueId] = from.uniqueId
-        replyMap[from.uniqueId] = to.uniqueId
+        //can't reply to console either
+        if (from is Player) {
+            replyMap[to.uniqueId] = from.uniqueId
+            replyMap[from.uniqueId] = to.uniqueId
+        }
 
         //some sounds work differently on newer versions
         val mcSound = Sound.values().firstOrNull { it.name.equals(SOUND.toUpperCase(), ignoreCase = true)}
@@ -51,9 +56,11 @@ object MessageHandler {
                 to.playSound(to.location, mcSound, 1.0f, 1.0f)
             }
 
-            if (hasSoundsOn(from.uniqueId))
-            {
-                from.playSound(from.location, mcSound, 1.0f, 1.0f)
+            //cant play sounds to console
+            if (from is Player) {
+                if (hasSoundsOn(from.uniqueId)) {
+                    from.playSound(from.location, mcSound, 1.0f, 1.0f)
+                }
             }
         }
     }

@@ -19,8 +19,10 @@ object AlchemistAPI {
     var SC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.staffChat")
     var AC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.adminChat")
 
+    var CONSOLE_COLOR = AlchemistSpigotPlugin.instance.config.getString("consoleColor") ?: "&c&l"
+
     fun getRankDisplay(uuid: UUID) : String {
-        var finalString = "&c&lConsole"
+        var finalString = "${CONSOLE_COLOR}Console"
 
         val profile = quickFindProfile(uuid).get()
 
@@ -49,7 +51,7 @@ object AlchemistAPI {
     }
 
     fun getRankWithPrefix(uuid: UUID) : String {
-        var finalString = "&cConsole"
+        var finalString = "${CONSOLE_COLOR}Console"
 
         val profile = quickFindProfile(uuid).get()
 
