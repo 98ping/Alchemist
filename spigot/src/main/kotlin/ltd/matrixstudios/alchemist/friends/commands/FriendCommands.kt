@@ -4,30 +4,35 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
+import ltd.matrixstudios.alchemist.friends.menus.FriendsListMenu
 import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.packets.NetworkMessagePacket
+import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.UUID
 
-@CommandAlias("friend|friends")
+
 class FriendCommands : BaseCommand() {
 
-    @HelpCommand
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lFriend Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/friend add &f<target>"))
-        sender.sendMessage(Chat.format("&e/friend accept &f<target>"))
-        sender.sendMessage(Chat.format("&e/friend list"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    @CommandAlias("friend|friends")
+    fun friend(player: Player)
+    {
+        val profile = player.getProfile()
+
+        if (profile == null)
+        {
+            player.sendMessage(Chat.format("&cYour profile does not exist!"))
+            return
+        }
+
+        FriendsMenu(player, profile).openMenu()
     }
+
     @Subcommand("add")
     @CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target") gameProfile: GameProfile) {
@@ -62,7 +67,7 @@ class FriendCommands : BaseCommand() {
     fun list(player: Player) {
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
 
-        FriendsMenu(player, gameProfile, FriendFilter.ALL).updateMenu()
+        FriendsListMenu(player, gameProfile, FriendFilter.ALL).updateMenu()
     }
 
     @Subcommand("accept")

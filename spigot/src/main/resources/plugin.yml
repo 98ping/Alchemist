@@ -5,5 +5,3 @@ author: 98ping
 softdepend:
   - PlaceholderAPI
   - Vault
-loadbefore:
-  - Funnel

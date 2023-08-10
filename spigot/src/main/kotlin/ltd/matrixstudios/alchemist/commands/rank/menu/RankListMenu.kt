@@ -1,9 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
-import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
-import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -11,11 +8,7 @@ import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
-import org.bukkit.inventory.ItemStack
 
 /**
  * Class created on 6/27/2023

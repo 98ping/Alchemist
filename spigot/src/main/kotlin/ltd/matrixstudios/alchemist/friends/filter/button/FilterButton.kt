@@ -1,7 +1,7 @@
 package ltd.matrixstudios.alchemist.friends.filter.button
 
 import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
-import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
+import ltd.matrixstudios.alchemist.friends.menus.FriendsListMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -50,11 +50,11 @@ class FilterButton(val currentFilter: FriendFilter, val profile: GameProfile) : 
 
         if (next > limit)
         {
-            FriendsMenu(player, profile, values[0]).updateMenu()
+            FriendsListMenu(player, profile, values[0]).updateMenu()
 
             return
         }
 
-        FriendsMenu(player, profile, values[next]).updateMenu()
+        FriendsListMenu(player, profile, values[next]).updateMenu()
     }
 }

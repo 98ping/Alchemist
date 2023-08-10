@@ -5,7 +5,7 @@ import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
 import ltd.matrixstudios.alchemist.commands.notes.menu.PlayerNotesMenu
 import ltd.matrixstudios.alchemist.commands.tags.grants.menu.grants.TagGrantsMenu
 import ltd.matrixstudios.alchemist.friends.filter.FriendFilter
-import ltd.matrixstudios.alchemist.friends.menus.FriendsMenu
+import ltd.matrixstudios.alchemist.friends.menus.FriendsListMenu
 import ltd.matrixstudios.alchemist.grants.menu.grants.GrantsMenu
 import ltd.matrixstudios.alchemist.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.grants.view.GrantsCommand
@@ -104,7 +104,7 @@ class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(
             Chat.format("&7the friends of this user"),
             " "
         ), "&6Friends", 0).setBody {
-                player, i, clickType ->  FriendsMenu(player, target, FriendFilter.ALL).updateMenu()
+                player, i, clickType ->  FriendsListMenu(player, target, FriendFilter.ALL).updateMenu()
         }
 
         buttons[41] = SimpleActionButton(Material.NAME_TAG, mutableListOf(

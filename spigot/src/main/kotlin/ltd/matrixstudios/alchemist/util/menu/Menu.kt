@@ -7,6 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.inventory.Inventory
 import org.bukkit.scheduler.BukkitRunnable
 import java.lang.Math.ceil
 import java.util.concurrent.CompletableFuture
@@ -18,6 +19,7 @@ abstract class Menu(
     var staticSize: Int? = null
     var placeholder: Boolean = false
     var stealable: Boolean = false
+    var customType: InventoryType? = null
 
     abstract fun getButtons(player: Player) : MutableMap<Int, Button>
     abstract fun getTitle(player: Player) : String
@@ -46,7 +48,24 @@ abstract class Menu(
             finalSize = staticSize!!
         }
 
-        val inventory = Bukkit.createInventory(null, finalSize, getTitle(player))
+        val inventory: Inventory
+        if (customType != null)
+        {
+            val type = customType
+
+            inventory = when (type) {
+                InventoryType.ANVIL -> {
+                    Bukkit.createInventory(null, InventoryType.ANVIL, getTitle(player))
+                }
+
+                else -> {
+                    Bukkit.createInventory(null, finalSize, getTitle(player))
+                }
+            }
+        } else {
+            inventory = Bukkit.createInventory(null, finalSize, getTitle(player))
+        }
+
         val buttons = getAllButtons()
 
         if (player.openInventory.topInventory != null)
