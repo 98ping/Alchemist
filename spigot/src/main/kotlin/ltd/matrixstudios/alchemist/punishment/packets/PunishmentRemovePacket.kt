@@ -38,7 +38,7 @@ class PunishmentRemovePacket(
             .appendNewline()
             .append(Component.text(Chat.format("&6&m-------------------------")))
 
-        val component = Component.text(Chat.format((if (silent) "&7(Silent)" else "") + " &r"))
+        val component = Component.text(Chat.format((if (silent) "&7(Silent) " else "") + "&r"))
             .append(Component.text(profile?.username ?: "Console").color(Chat.findTextColorFromString(profile?.getCurrentRank()?.color ?: AlchemistAPI.CONSOLE_COLOR)))
             .append(Component.text(Chat.format(" &ahas " +
                     punishmentType.removed +
