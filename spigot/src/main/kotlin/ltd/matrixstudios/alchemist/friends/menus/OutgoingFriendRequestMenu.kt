@@ -15,19 +15,17 @@ import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
-class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile) : BorderedPaginatedMenu(player) {
+class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile, val toShow: MutableList<GameProfile>) : BorderedPaginatedMenu(player) {
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        return ProfileGameService.getAllOutgoingFriendRequests(profile).thenApply {
-            for (item in it)
-            {
-                buttons[i++] = OutFriendRequestButton(item.uuid)
-            }
+        for (profile in toShow)
+        {
+            buttons[i++] = OutFriendRequestButton(profile.uuid)
+        }
 
-            return@thenApply buttons
-        }.join()
+        return buttons
     }
 
     override fun getTitle(player: Player): String {
@@ -97,9 +95,12 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile) : 
             profile.friendInvites.remove(gameProfile.uuid)
             ProfileGameService.save(profile)
 
-            OutgoingFriendRequestMenu(player, gameProfile).updateMenu()
             player.closeInventory()
             player.sendMessage(Chat.format("&aYou revoked " + profile.getRankDisplay() + "&a's outgoing friend request!"))
+
+            ProfileGameService.getAllOutgoingFriendRequests(profile).thenApply {
+                OutgoingFriendRequestMenu(player, profile, it).updateMenu()
+            }
         }
 
     }

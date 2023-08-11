@@ -28,7 +28,13 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
             Chat.format("&7View every outgoing"),
             Chat.format("&7friend request you have!")
         ), Chat.format("&5Outgoing Friend Requests"), 0).setBody { player, i, clickType ->
-            OutgoingFriendRequestMenu(player, profile).updateMenu()
+            player.closeInventory().also {
+                player.sendMessage(Chat.format("&eLoading your current &aoutgoing friend requests!"))
+            }
+
+            ProfileGameService.getAllOutgoingFriendRequests(profile).thenApply {
+                OutgoingFriendRequestMenu(player, profile, it).updateMenu()
+            }
         }
 
         buttons[12] = SimpleActionButton(Material.BOOK, mutableListOf(
