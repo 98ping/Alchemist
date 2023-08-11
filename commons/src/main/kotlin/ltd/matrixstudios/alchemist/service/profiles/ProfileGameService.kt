@@ -52,8 +52,6 @@ object ProfileGameService : GeneralizedService {
 
     fun byUsername(name: String): CompletableFuture<GameProfile?> {
         return CompletableFuture.supplyAsync {
-            if (UUIDCache.btoACache.containsKey(name.toLowerCase())) return@supplyAsync byId(UUIDCache.btoACache[name.toLowerCase()]!!)
-
             val cacheProfile = cache.values.firstOrNull { it!!.username.equals(name, ignoreCase = true) }
 
             if (cacheProfile != null) {

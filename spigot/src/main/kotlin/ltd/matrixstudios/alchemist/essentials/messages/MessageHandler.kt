@@ -36,7 +36,7 @@ object MessageHandler {
 
         from.sendMessage(Chat.format(
             MESSAGE_FORMAT_TO
-                .replace("<from>", from.getRankDisplay())
+                .replace("<from>", to.getRankDisplay())
                 .replace("<message>", message)
         ))
 

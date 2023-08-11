@@ -28,7 +28,7 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
             Chat.format("&7Send out a friend request"),
             Chat.format("&7to a player on the network")
         ), Chat.format("&bSend Friend Request"), 0).setBody { player, i, clickType ->
-            
+
         }
 
         buttons[13] = PlaceholderButton(Material.EMERALD, mutableListOf(
