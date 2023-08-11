@@ -27,7 +27,7 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile) : 
             }
 
             return@thenApply buttons
-        }.get()
+        }.join()
     }
 
     override fun getTitle(player: Player): String {
@@ -97,8 +97,8 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile) : 
             profile.friendInvites.remove(gameProfile.uuid)
             ProfileGameService.save(profile)
 
-            player.closeInventory()
             OutgoingFriendRequestMenu(player, gameProfile).updateMenu()
+            player.closeInventory()
             player.sendMessage(Chat.format("&aYou revoked " + profile.getRankDisplay() + "&a's outgoing friend request!"))
         }
 

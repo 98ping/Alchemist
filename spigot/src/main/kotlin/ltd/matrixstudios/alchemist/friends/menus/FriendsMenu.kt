@@ -45,7 +45,7 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
                             return@thenAcceptAsync
                         }
 
-                        if (it.friends.contains(player.uniqueId))
+                        if (it.friendInvites.contains(player.uniqueId))
                         {
                             player.sendMessage(Chat.format("&cYou already have an outgoing friend request to this player!"))
                             return@thenAcceptAsync
