@@ -28,7 +28,27 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
             Chat.format("&7Send out a friend request"),
             Chat.format("&7to a player on the network")
         ), Chat.format("&bSend Friend Request"), 0).setBody { player, i, clickType ->
+            InputPrompt()
+                .withText(Chat.format("&eType another user's name into chat to send them a &afriend request!"))
+                .acceptInput { s ->
+                    ProfileGameService.byUsername(s).thenAcceptAsync {
+                        if (it == null)
+                        {
+                            player.sendMessage(Chat.format("&cThis player does not exist!"))
+                            return@thenAcceptAsync
+                        }
 
+                        if (it.friends.contains(player.uniqueId))
+                        {
+                            player.sendMessage(Chat.format("&cYou already have an outgoing friend request to this player!"))
+                            return@thenAcceptAsync
+                        }
+
+                        it.friendInvites.add(player.uniqueId)
+                        ProfileGameService.saveSync(it)
+                        player.sendMessage(Chat.format("&e&l[Friends] &aYou have sent a friend request to " + it.getCurrentRank().prefix + it.getRankDisplay()))
+                    }
+                }.start(player)
         }
 
         buttons[13] = PlaceholderButton(Material.EMERALD, mutableListOf(
