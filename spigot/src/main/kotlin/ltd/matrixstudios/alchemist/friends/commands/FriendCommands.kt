@@ -33,8 +33,8 @@ class FriendCommands : BaseCommand() {
         FriendsMenu(player, profile).openMenu()
     }
 
-    @Subcommand("add")
-    @CommandCompletion("@gameprofile")
+    //@Subcommand("add")
+    //@CommandCompletion("@gameprofile")
     fun add(player: Player, @Name("target") gameProfile: GameProfile) {
         val playerProfile = AlchemistAPI.quickFindProfile(player.uniqueId).join() ?: return
         val bukkitPlayer = Bukkit.getOfflinePlayer(gameProfile.uuid)
@@ -63,15 +63,15 @@ class FriendCommands : BaseCommand() {
         ProfileGameService.save(gameProfile)
     }
 
-    @Subcommand("list")
+    //@Subcommand("list")
     fun list(player: Player) {
         val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get()!!
 
         FriendsListMenu(player, gameProfile, FriendFilter.ALL).updateMenu()
     }
 
-    @Subcommand("accept")
-    @CommandCompletion("@gameprofile")
+    //@Subcommand("accept")
+    //@CommandCompletion("@gameprofile")
     fun accept(player: Player, @Name("target") gameProfile: GameProfile) {
         val it = ProfileGameService.byId(player.uniqueId)
         if (!it?.friendInvites!!.contains(gameProfile.uuid)) {

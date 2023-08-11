@@ -24,6 +24,13 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
+        buttons[11] = SimpleActionButton(Material.CHEST, mutableListOf(
+            Chat.format("&7View every outgoing"),
+            Chat.format("&7friend request you have!")
+        ), Chat.format("&5Outgoing Friend Requests"), 0).setBody { player, i, clickType ->
+            OutgoingFriendRequestMenu(player, profile).updateMenu()
+        }
+
         buttons[12] = SimpleActionButton(Material.BOOK, mutableListOf(
             Chat.format("&7Send out a friend request"),
             Chat.format("&7to a player on the network")
@@ -62,6 +69,13 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
             Chat.format("&7have added!")
         ), Chat.format("&6View Friends"), 0).setBody { player, i, clickType ->
             FriendsListMenu(player, profile, FriendFilter.ALL).updateMenu()
+        }
+
+        buttons[15] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(
+            Chat.format("&7View every pending"),
+            Chat.format("&7friend request you have!")
+        ), Chat.format("&3Pending Friend Requests"), 0).setBody { player, i, clickType ->
+            FriendRequestMenu(player, profile).updateMenu()
         }
 
         return buttons

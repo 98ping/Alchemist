@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.service.profiles
 
 import com.google.gson.JsonObject
+import com.mongodb.BasicDBObject
 import com.mongodb.client.model.Filters
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
@@ -11,6 +12,7 @@ import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
@@ -92,6 +94,23 @@ object ProfileGameService : GeneralizedService {
             }
 
             return@supplyAsync entries
+        }
+    }
+
+    fun getAllOutgoingFriendRequests(prof: GameProfile) : CompletableFuture<MutableList<GameProfile>>
+    {
+        return CompletableFuture.supplyAsync {
+            val queryFilter = Document("friendInvites", Document("\$in", listOf(prof.uuid.toString())))
+            val search = collection.find(queryFilter)
+            val iterator = search.iterator()
+            val final = mutableListOf<GameProfile>()
+
+            while (iterator.hasNext()) {
+                val json = Alchemist.gson.fromJson(iterator.next().toJson(), GameProfile::class.java)
+                final.add(json)
+            }
+
+            return@supplyAsync final
         }
     }
 
