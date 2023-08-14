@@ -33,7 +33,7 @@ object ProfileGameService : GeneralizedService {
 
     fun loadIndexes()
     {
-        val fields = listOf("_id", "ip", "lowercasedUsername")
+        val fields = listOf("ip", "lowercasedUsername")
 
         for (f in fields)
         {
