@@ -118,7 +118,7 @@ class ProfileJoinListener : Listener {
         }
 
         if (profile.getCurrentRank() != null) {
-            rank = profile.getCurrentRank()!!
+            rank = profile.getCurrentRank()
         }
 
 

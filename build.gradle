@@ -37,6 +37,6 @@ subprojects {
 
 
         //local
-        implementation fileTree(include: ['*.jar'], dir: 'lib')
+        implementation fileTree(include: ['honey.jar'], dir: 'lib')
     }
 }
