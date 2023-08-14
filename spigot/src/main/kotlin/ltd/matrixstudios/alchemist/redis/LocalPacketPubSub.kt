@@ -8,7 +8,6 @@ import redis.clients.jedis.JedisPubSub
 class LocalPacketPubSub : JedisPubSub() {
 
     override fun onMessage(channel: String?, message: String) {
-        val start = System.currentTimeMillis()
         val packetClass: Class<*>
         val packetMessageSplit = message.indexOf("|")
         val packetClassStr = message.substring(0, packetMessageSplit)
