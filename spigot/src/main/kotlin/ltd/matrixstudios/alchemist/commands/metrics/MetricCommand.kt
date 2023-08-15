@@ -51,7 +51,8 @@ class MetricCommand : BaseCommand() {
         player.sendMessage(Chat.format("&6&lPerformance Evaluation"))
         player.sendMessage(" ")
         val startProfile = Stopwatch.createStarted()
-        val profile = player.getProfile()
+        //only doing this to test timings.
+        val profile = ProfileGameService.handler.retrieve(player.uniqueId)
         player.sendMessage(Chat.format("&eProfile Fetch &7- &f" + startProfile.elapsed(TimeUnit.MILLISECONDS) +"ms")).also {
             startProfile.stop()
         }

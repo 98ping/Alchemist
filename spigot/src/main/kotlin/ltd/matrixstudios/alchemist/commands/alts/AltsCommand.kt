@@ -24,6 +24,5 @@ class AltsCommand : BaseCommand() {
         profile.getAltAccounts()
             .thenAccept { alts ->
                 AltsMenu(player, profile, alts).updateMenu()
-//                player.sendMessage(Chat.format("&aRan in ${System.currentTimeMillis().minus(ms)}ms!"))
             }
 }

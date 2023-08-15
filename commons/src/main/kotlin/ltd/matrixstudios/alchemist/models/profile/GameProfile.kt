@@ -156,11 +156,6 @@ data class GameProfile(
         return metadata.get(key) != null
     }
 
-    fun getMetadata(key: String) : JsonElement
-    {
-        return metadata[key]
-    }
-
     fun getActivePrefix(): Tag? {
         val tag = TagService.byId(activePrefix!!) ?: return null
 
@@ -223,9 +218,9 @@ data class GameProfile(
         val returnedPerms = hashMapOf<String?, Boolean?>()
         val allPerms = arrayListOf<String>()
 
-        allPerms.addAll(getCurrentRank()!!.permissions)
+        allPerms.addAll(getCurrentRank().permissions)
 
-        val parents = getCurrentRank()!!.parents.map {
+        val parents = getCurrentRank().parents.map {
             RankService.byId(it)
         }
 
@@ -257,19 +252,11 @@ data class GameProfile(
         return getPunishments().find { it.expirable.isActive() && it.getGrantable() == type } != null
     }
 
-    fun getCurrentGrant(): RankGrant? {
-        val filteredRank = RankGrantService.getFromCache(uuid).filter {
-            it.expirable.isActive()
-        }.sortedBy { it.getGrantable().weight }.reversed().firstOrNull()
-
-        return filteredRank
-    }
-
     fun getHighestGlobalRank(): Rank {
         val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
 
         /*
-            Same method as below except using target server
+            Same method as below except using global parameters
          */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
             it.expirable.isActive() && (it.verifyGrantScope().global)
@@ -293,6 +280,13 @@ data class GameProfile(
             we make a full collection of grants that are global (apply
             on every server) and scope specific ranks. From here we can just
             check which one comes out on top
+
+            Checks include:
+                - Duration is still valid
+                - Grant scope is global or applies on instance
+                - Rank scope is global or applies on instance
+
+            In the event that everything here fails, return fallback rank (Thanks Lunar.gg)
          */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
             it.expirable.isActive()

@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.service.profiles
 import com.google.gson.JsonObject
 import com.mongodb.BasicDBObject
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Indexes
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.cache.types.UUIDCache
@@ -29,6 +30,16 @@ object ProfileGameService : GeneralizedService {
     val collection = Alchemist.MongoConnectionPool.getCollection("gameprofile")
 
     var cache = ConcurrentHashMap<UUID, GameProfile?>()
+
+    fun loadIndexes()
+    {
+        val fields = listOf("ip", "lowercasedUsername")
+
+        for (f in fields)
+        {
+            collection.createIndex(Indexes.descending(f))
+        }
+    }
 
     fun getHighestGrant(uuid: UUID): RankGrant? {
         val grants = RankGrantService.getFromCache(uuid)

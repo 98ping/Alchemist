@@ -91,7 +91,7 @@ abstract class PaginatedMenu(
     open fun getButtonPositions(): List<Int> {
         val mutableList = mutableListOf<Int>()
 
-        for (int in 9 until displaySize + 9) {
+        for (int in 8 until displaySize + 9) {
             mutableList.add(int)
         }
 

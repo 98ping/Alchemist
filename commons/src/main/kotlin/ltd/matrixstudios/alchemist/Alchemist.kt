@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.filter.FilterService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -34,6 +35,7 @@ object Alchemist {
 
         UniqueServerService.loadAll()
         RankService.loadRanks()
+        ProfileGameService.loadIndexes()
         TagService.loadTags()
 
         QueueService.loadAllQueues()
