@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.aikar.context.*
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
+import ltd.matrixstudios.alchemist.commands.admin.panel.AdminPanelCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
@@ -85,6 +86,8 @@ object ACFCommandController {
                 registerCommand(LuckPermsConverterCommand())
                 registerCommand(WipeGrantsCommand)
             }
+
+            registerCommand(AdminPanelCommand())
 
             if (config.getBoolean("modules.vouchers")) {
                 registerCommand(VoucherCommand())
