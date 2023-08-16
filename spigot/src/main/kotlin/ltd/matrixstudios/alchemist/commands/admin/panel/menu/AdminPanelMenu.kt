@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.admin.panel.menu
 
+import ltd.matrixstudios.alchemist.commands.admin.panel.menu.editors.AdminPanelEditorMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -24,7 +25,7 @@ class AdminPanelMenu(val player: Player) : Menu(player) {
             Chat.format("&7from this menu. You can change features"),
             Chat.format("&7as well as setup your dream rank core"),
             " "
-        ), Chat.format("&5Alchemist"), 0)
+        ), Chat.format("&5&lAlchemist"), 0)
 
         buttons[11] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(
             " ",
@@ -38,7 +39,9 @@ class AdminPanelMenu(val player: Player) : Menu(player) {
             Chat.format("&a｜ &fConfig Messages"),
             " ",
             Chat.format("&a&lClick To Edit")
-        ), "&a&lEditors", 0)
+        ), "&a&lEditors", 0).setBody { player, i, clickType ->
+            AdminPanelEditorMenu(player).openMenu()
+        }
 
         buttons[15] = SimpleActionButton(Material.CHEST, mutableListOf(
             " ",
