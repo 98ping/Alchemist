@@ -28,9 +28,21 @@ class AdminPanelEditorMenu(val player: Player) : Menu(player) {
             Chat.format("&a｜ &fmCore"),
             Chat.format("&6｜ &fXeNitrogen"),
             Chat.format("&e｜ &fNeutron"),
-            Chat.format(" ")
+            Chat.format(" "),
+            Chat.format("&a&lClick To View All Themes")
         ), "&e&lThemes", 0).setBody { player, i, clickType ->
             ThemeSelectMenu(player).openMenu()
+        }
+
+        buttons[14] = SimpleActionButton(Material.BREWING_STAND, mutableListOf(
+            Chat.format(" "),
+            Chat.format("&7Show which Alchemist modules you have"),
+            Chat.format("&cdisabled &7and which ones you have"),
+            Chat.format("&aenabled"),
+            Chat.format(" "),
+            Chat.format("&a&lClick To View All Modules")
+        ), "&c&lModules", 0).setBody { player, i, clickType ->
+            ModuleEditorMenu(player).openMenu()
         }
 
         return buttons
