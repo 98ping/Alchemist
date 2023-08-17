@@ -28,8 +28,8 @@ object BukkitPunishmentFunctions {
         return Executor.CONSOLE
     }
 
-    fun remove(executor: UUID, punishment: Punishment, silent: Boolean) {
-        AsynchronousRedisSender.send(PunishmentRemovePacket(punishment.getGrantable(), punishment.target, executor, silent, punishment.reason))
+    fun remove(executor: UUID, punishment: Punishment, silent: Boolean, reason: String) {
+        AsynchronousRedisSender.send(PunishmentRemovePacket(punishment.getGrantable(), punishment.target, executor, silent, reason))
         PunishmentService.save(punishment)
     }
 
