@@ -17,8 +17,6 @@ repositories {
         name = "gravemc-repo"
         url = "https://repo.gravemc.net/releases/"
     }
-
-
 }
 
 dependencies {

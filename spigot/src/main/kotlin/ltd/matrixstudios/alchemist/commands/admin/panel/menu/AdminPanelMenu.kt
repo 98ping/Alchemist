@@ -33,10 +33,10 @@ class AdminPanelMenu(val player: Player) : Menu(player) {
             Chat.format("&7may want to change here. Current configurable"),
             Chat.format("&7aspects include:"),
             Chat.format(" "),
-            Chat.format("&a｜ &fThemes"),
-            Chat.format("&a｜ &fModules"),
-            Chat.format("&a｜ &fStaff Messages"),
-            Chat.format("&a｜ &fConfig Messages"),
+            Chat.format("&a&l｜ &fThemes"),
+            Chat.format("&a&l｜ &fModules"),
+            Chat.format("&a&l｜ &fStaff Messages"),
+            Chat.format("&a&l｜ &fConfig Messages"),
             " ",
             Chat.format("&a&lClick To Edit")
         ), "&a&lEditors", 0).setBody { player, i, clickType ->
@@ -49,9 +49,9 @@ class AdminPanelMenu(val player: Player) : Menu(player) {
             Chat.format("&7crucial display data and other information"),
             Chat.format("&7that will be good to know. Things include:"),
             Chat.format(" "),
-            Chat.format("&c｜ &fMetrics"),
-            Chat.format("&c｜ &fPerformance Stats"),
-            Chat.format("&c｜ &fServer Information"),
+            Chat.format("&c&l｜ &fMetrics"),
+            Chat.format("&c&l｜ &fPerformance Stats"),
+            Chat.format("&c&l｜ &fServer Information"),
             " ",
             Chat.format("&a&lClick To Edit")
         ), "&c&lDisplay Information", 0)

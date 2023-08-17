@@ -24,10 +24,10 @@ class AdminPanelEditorMenu(val player: Player) : Menu(player) {
             Chat.format("&7themes that you may want your server"),
             Chat.format("&7to look like. We currently support:"),
             Chat.format(" "),
-            Chat.format("&b｜ &fHydrogen"),
-            Chat.format("&a｜ &fmCore"),
-            Chat.format("&6｜ &fXeNitrogen"),
-            Chat.format("&e｜ &fNeutron"),
+            Chat.format("&b&l｜ &fHydrogen"),
+            Chat.format("&a&l｜ &fmCore"),
+            Chat.format("&6&l｜ &fXeNitrogen"),
+            Chat.format("&e&l｜ &fNeutron"),
             Chat.format(" "),
             Chat.format("&a&lClick To View All Themes")
         ), "&e&lThemes", 0).setBody { player, i, clickType ->

@@ -99,6 +99,32 @@ class ModuleEditorMenu(val player: Player) : Menu(player) {
             Chat.format("&7message may still be used even if this is off."),
         ),0)
 
+        buttons[22] = ModuleButton("modules.chat", "&4&lChat Moderation", Material.ANVIL, mutableListOf(
+            " ",
+            Chat.format("&7This module controls chat moderation"),
+            Chat.format("&7setting such as &e/slowchat and &e/mutechat."),
+        ),0)
+
+        buttons[23] = ModuleButton("modules.vouchers", "&7&lVouchers", Material.DIAMOND_CHESTPLATE, mutableListOf(
+            " ",
+            Chat.format("&7This module controls vouchers that users"),
+            Chat.format("&7can redeem to claim rewards that can be"),
+            Chat.format("&7given through a command.")
+        ),0)
+
+        buttons[24] = ModuleButton("modules.essentials", "&b&lEssentials", Material.NETHER_STAR, mutableListOf(
+            " ",
+            Chat.format("&7This module controls essential commands"),
+            Chat.format("&7that are very useful for players and staff"),
+            Chat.format("&7when interacting with a server environment")
+        ),0)
+
+        buttons[25] = ModuleButton("modules.themeCommands", "&c&lThemes", Material.PAINTING, mutableListOf(
+            " ",
+            Chat.format("&7This module controls if the themes command"),
+            Chat.format("&7should be enabled on the server or not"),
+        ),0)
+
         return buttons
     }
 
