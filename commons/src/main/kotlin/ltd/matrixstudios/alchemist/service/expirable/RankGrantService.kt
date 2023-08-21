@@ -44,8 +44,7 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return finalGrants
     }
 
-    fun findByRank(id: String) : CompletableFuture<MutableList<RankGrant>>
-    {
+    fun findByRank(id: String): CompletableFuture<MutableList<RankGrant>> {
         return CompletableFuture.supplyAsync {
             val filter = Document("rankId", id)
             val documents = collection.find(filter).iterator()
@@ -87,12 +86,12 @@ object RankGrantService : ExpiringService<RankGrant>() {
     fun remove(grant: RankGrant) {
         CompletableFuture.runAsync {
             handler.delete(grant.uuid)
-        }.whenComplete {
-                v, t -> playerGrants[grant.target]?.remove(grant)
+        }.whenComplete { v, t ->
+            playerGrants[grant.target]?.remove(grant)
         }
     }
 
-    fun save(rankGrant: RankGrant) : CompletableFuture<RankGrant> {
+    fun save(rankGrant: RankGrant): CompletableFuture<RankGrant> {
         val future = CompletableFuture.supplyAsync {
             handler.store(rankGrant.uuid, rankGrant)
 

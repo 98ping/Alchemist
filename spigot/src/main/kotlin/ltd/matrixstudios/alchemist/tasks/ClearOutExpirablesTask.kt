@@ -16,9 +16,10 @@ object ClearOutExpirablesTask : BukkitRunnable() {
                 it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
                 it.removedReason = "Expired"
 
-                AsynchronousRedisSender.send(PermissionUpdatePacket(it.target))
-
-                RankGrantService.save(it)
+                RankGrantService.save(it).whenComplete { t, u ->
+                    RankGrantService.recalculateUUID(t.target)
+                    AsynchronousRedisSender.send(PermissionUpdatePacket(t.target))
+                }
             }
         }
 
