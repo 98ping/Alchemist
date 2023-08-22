@@ -41,6 +41,9 @@ coinshop:
 chat:
   slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"
   muteChatMessage: "&cChat is currently muted! You may not talk right now"
+  rankToSendLinks:
+    enabled: false
+    minimum_rank: "partner" #any rank you want it to be
 
 autobroadcast:
   enabled: true

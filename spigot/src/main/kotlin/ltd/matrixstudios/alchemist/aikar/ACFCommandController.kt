@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.admin.panel.AdminPanelCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
+import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
 import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
@@ -97,6 +98,7 @@ object ACFCommandController {
 
             if (config.getBoolean("modules.coins")) {
                 registerCommand(CoinsCommand())
+                CoinShopManager.loadCoinShopAssets()
             }
 
             if (config.getBoolean("modules.themeCommands")) {

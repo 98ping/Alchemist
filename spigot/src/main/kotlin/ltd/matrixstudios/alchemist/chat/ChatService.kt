@@ -9,6 +9,8 @@ object ChatService {
 
     val SLOW_MESSAGE = AlchemistSpigotPlugin.instance.config.getString("chat.slowChatMessage")
     val MUTE_MESSAGE = AlchemistSpigotPlugin.instance.config.getString("chat.muteChatMessage")
+    val MINIMUM_LINK_SEND_RANK = AlchemistSpigotPlugin.instance.config.getString("chat.rankToSendLinks.minimum_rank")
+    val LINK_LIMIT_ENABLED = AlchemistSpigotPlugin.instance.config.getBoolean("chat.rankToSendLinks.enabled")
 
     val cooldownMap = hashMapOf<UUID, Long>()
 

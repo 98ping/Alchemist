@@ -4,7 +4,6 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.chat.ChatService
-import ltd.matrixstudios.alchemist.chat.commands.ChatCommands
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHandler
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginConnection
@@ -16,7 +15,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
@@ -66,7 +64,6 @@ class ProfileJoinListener : Listener {
         }
 
 
-
         if (ChatService.slowed) {
             if (!event.player.hasPermission("alchemist.slowchat.bypass")) {
                 val message = ChatService.SLOW_MESSAGE
@@ -88,6 +85,24 @@ class ProfileJoinListener : Listener {
                     }
                 } else {
                     ChatService.addCooldown(event.player)
+                }
+            }
+        }
+
+        if (ChatService.LINK_LIMIT_ENABLED) {
+            val msg = event.message
+
+            //website sending
+            if (msg.contains("http://") || msg.contains("https://"))
+            {
+                val rank = RankService.byId(ChatService.MINIMUM_LINK_SEND_RANK.toLowerCase()) ?: return
+                val theirRank = event.player.getCurrentRank()
+
+                if (theirRank.weight < rank.weight)
+                {
+                    event.player.sendMessage(Chat.format("&eYou must be at least " + rank.color + rank.displayName + " &erank to send links"))
+                    event.isCancelled = true
+                    return
                 }
             }
         }
