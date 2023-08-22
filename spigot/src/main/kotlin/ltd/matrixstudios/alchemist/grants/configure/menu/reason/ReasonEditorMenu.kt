@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.grants.configure.menu.reason
 
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
+import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigCategory
+import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigureMenu
 import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
 import ltd.matrixstudios.alchemist.grants.models.GrantReasonModel
 import ltd.matrixstudios.alchemist.util.Chat
@@ -157,6 +159,20 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
                     player.sendMessage(Chat.format("&aUpdated the display name of this reason to &f$it"))
                     ReasonEditorMenu(model, player).openMenu()
                 }.start(player)
+        }
+
+        buttons[16] = SimpleActionButton(
+            Material.REDSTONE_BLOCK,
+            mutableListOf(
+                " ",
+                Chat.format("&7Click to delete this reason"),
+                Chat.format("&7from redis"),
+                " "
+            ),
+            "&cDelete Reason", 0
+        ).setBody { player, slot, clicktype ->
+            GrantConfigurationService.deleteReasonModel(model)
+            GrantConfigureMenu(player, GrantConfigCategory.REASONS).updateMenu()
         }
 
 

@@ -48,12 +48,19 @@ object GrantConfigurationService {
         }
     }
 
+    fun deleteDurationModel(model: GrantDurationModel) {
+        grantDurationModels.remove(model.id)
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:DurationModels", Alchemist.gson.toJson(this.grantDurationModels.values))
+        }
+    }
+
     fun getDefaultGrantDurationModels() : MutableMap<String, GrantDurationModel> {
         return mutableMapOf(
             "1h" to GrantDurationModel("1h","WOOL", 13, 10, "1h", "&21 Hour"),
             "1d" to GrantDurationModel("1d","WOOL", 5, 11, "1d", "&a1 Day"),
             "1w" to GrantDurationModel("1w", "WOOL", 4, 12, "1w", "&e1 Week"),
-            "1m" to GrantDurationModel("1m", "WOOL", 1, 13, "1m", "&61 Month"),
+            "1m" to GrantDurationModel("1m", "WOOL", 1, 13, "30d", "&61 Month"),
             "1y" to GrantDurationModel("1y", "WOOL", 14, 14, "1y", "&c1 Year"),
             "permanent" to GrantDurationModel("permanent", "WOOL", 14, 15, "Permanent", "&4Permanent"),
             "custom" to GrantDurationModel("custom", "WOOL", 8, 16, "custom", "&7Custom")
@@ -91,6 +98,14 @@ object GrantConfigurationService {
             it.set("Alchemist:Grants:ReasonModels", Alchemist.gson.toJson(this.grantReasonModels.values))
         }
     }
+
+    fun deleteReasonModel(model: GrantReasonModel) {
+        grantReasonModels.remove(model.id)
+        RedisPacketManager.pool.resource.use {
+            it.set("Alchemist:Grants:ReasonModels", Alchemist.gson.toJson(this.grantReasonModels.values))
+        }
+    }
+
     fun getDefaultGrantReasonModels() : MutableMap<String, GrantReasonModel> {
         return mutableMapOf(
             "promotion" to GrantReasonModel("promotion","WOOL", 10, 11, "Promotion", "&5Promotion"),

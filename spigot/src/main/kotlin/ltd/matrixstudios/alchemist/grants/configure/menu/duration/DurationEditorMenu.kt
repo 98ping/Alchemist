@@ -1,6 +1,8 @@
 package ltd.matrixstudios.alchemist.grants.configure.menu.duration
 
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
+import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigCategory
+import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigureMenu
 import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -155,6 +157,20 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                     player.sendMessage(Chat.format("&aUpdated the display name of this duration to &f$it"))
                     DurationEditorMenu(model, player).openMenu()
                 }.start(player)
+        }
+
+        buttons[16] = SimpleActionButton(
+            Material.REDSTONE_BLOCK,
+            mutableListOf(
+                " ",
+                Chat.format("&7Click to delete this duration"),
+                Chat.format("&7from redis"),
+                " "
+            ),
+            "&cDelete Duration", 0
+        ).setBody { player, slot, clicktype ->
+            GrantConfigurationService.deleteDurationModel(model)
+            GrantConfigureMenu(player, GrantConfigCategory.DURATIONS).updateMenu()
         }
 
 
