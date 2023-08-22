@@ -59,7 +59,7 @@ class GrantsMenu(
                     GrantsMenu(
                         player,
                         gameProfile,
-                        values[0].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList())).toMutableList(),
+                        values[0].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList())).toMutableList(),
                         values[0]
                     ).updateMenu()
 
@@ -69,7 +69,7 @@ class GrantsMenu(
                 GrantsMenu(
                     player,
                     gameProfile,
-                    values[next].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList())).toMutableList(),
+                    values[next].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList())).toMutableList(),
                     values[next]
                 ).updateMenu()
             },
@@ -81,7 +81,7 @@ class GrantsMenu(
                     Chat.format("&eClick to wipe every grant from"),
                     Chat.format(AlchemistAPI.getRankWithPrefix(gameProfile.uuid)),
                     " ",
-                    Chat.format("&aCurrently totaling &f" + GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).toMutableList()).size + " &aentries"),
+                    Chat.format("&aCurrently totaling &f" + GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList()).size + " &aentries"),
                     " "
                 ), Chat.format("&eWipe Grants")
             ).setBody { player, i, clickType ->
@@ -122,7 +122,7 @@ class GrantsMenu(
             }
         }
         desc.add(" ")
-        desc.add(Chat.format("&7Click to move to next filter!"))
+        desc.add(Chat.format("&7&oClick to move to next filter!"))
         desc.add(" ")
 
         return desc
@@ -133,6 +133,6 @@ class GrantsMenu(
     }
 
     override fun getTitle(player: Player): String {
-        return "Granting of " + gameProfile.username
+        return "Grants of " + gameProfile.getCurrentRank().color + gameProfile.username
     }
 }

@@ -62,7 +62,7 @@ abstract class Menu(
                     Bukkit.createInventory(null, finalSize, getTitle(player))
                 }
             }
-        } else {
+         } else {
             inventory = Bukkit.createInventory(null, finalSize, getTitle(player))
         }
 

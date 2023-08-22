@@ -57,8 +57,8 @@ object BukkitPunishmentFunctions {
     }
 
     fun playerCanPunishOther(executor: GameProfile, target: GameProfile) : Boolean {
-        val rankWeightExec = executor.getCurrentRank()?.weight ?: 1
-        val rankWeightTarget = target.getCurrentRank()?.weight ?: 1
+        val rankWeightExec = executor.getCurrentRank().weight
+        val rankWeightTarget = target.getCurrentRank().weight
 
         return (rankWeightExec >= rankWeightTarget)
     }

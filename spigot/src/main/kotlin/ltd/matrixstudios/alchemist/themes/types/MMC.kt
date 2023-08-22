@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.themes.Theme
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import org.bukkit.ChatColor
 import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -175,7 +176,7 @@ class MMC : Theme(
                 "&6Viewing statistics for the",
                 "&f${punishment.niceName} &6category:",
                 "",
-                " &bTotal: &f${punishments.size}",
+                " &eTotal: &f${punishments.size}",
                 " &aActive: &f${punishments.filter { it.expirable.isActive() }.size}",
                 " &cInactive: &f${
                     punishments.filter {    p ->
@@ -190,7 +191,7 @@ class MMC : Theme(
     }
 
     override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
-        return Chat.format(punishment.color + punishment.id.replaceFirstChar { it.uppercase()}) + "s"
+        return Chat.format(punishment.color + ChatColor.BOLD + punishment.id.replaceFirstChar { it.uppercase()}) + "s"
     }
 
     override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {

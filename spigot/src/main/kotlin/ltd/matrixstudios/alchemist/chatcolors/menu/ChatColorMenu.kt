@@ -3,15 +3,37 @@ package ltd.matrixstudios.alchemist.chatcolors.menu
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
+import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
 class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
+
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+        val buttons = mutableMapOf<Int, Button>()
+
+        val profile = player.getProfile() ?: return buttons
+
+        buttons[4] = SimpleActionButton(Material.PAPER, mutableListOf(
+            " ",
+            Chat.format("&7Click here to reset your current"),
+            Chat.format("&7chat color."),
+            " ",
+            Chat.format("&eYou currently have " + (if (profile.activeColor != null) profile.activeColor!!.displayname else "&fNone") + " &eequipped")
+        ), Chat.format("&eReset ChatColor"), 0).setBody { player, i, clickType ->
+            profile.activeColor = null
+
+            ProfileGameService.save(profile)
+        }
+
+        return buttons
+    }
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
