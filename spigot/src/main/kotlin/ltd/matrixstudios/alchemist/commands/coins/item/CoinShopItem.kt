@@ -1,8 +1,5 @@
 package ltd.matrixstudios.alchemist.commands.coins.item
 
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
-
 /**
  * Class created on 7/4/2023
 
@@ -11,7 +8,15 @@ import org.bukkit.inventory.ItemStack
  * @website https://solo.to/redis
  */
 class CoinShopItem(
+    val id: String,
     var displayName: String,
-    var material: Material,
-    var price: Double
+    var commands: MutableList<String>,
+    var servers: List<String>,
+    var category: String,
+    var displayMaterial: String,
+    var requiredRank: String,
+    var data: Short,
+    var lore: MutableList<String>,
+    var price: Double,
+    var discount: Double = 0.0 //simple amount so fixed price would be price - discount
 )

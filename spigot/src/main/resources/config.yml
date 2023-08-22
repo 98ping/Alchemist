@@ -32,12 +32,11 @@ discord:
     webhookLink: "LINK_HERE"
 
 coinshop:
-  schema:
-    - "&6&m---------------"
-    - "&ePrice: &2$&a<price>"
+  #adds this after the lore
+  bottom_schema:
     - " "
     - "&a&lClick Here To Purchase"
-    - "&6&m---------------"
+    - " "
 
 chat:
   slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"

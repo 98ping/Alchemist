@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.coins.editor.CoinShopEditorMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -25,6 +26,13 @@ class CoinsCommand : BaseCommand() {
         }
 
         player.sendMessage(Chat.format("&7[&eCoins&7] &eYou have a total of &6" + profile.coins + " &ecoins"))
+    }
+
+    @Subcommand("editor")
+    @CommandPermission("alchemist.coins.owner")
+    fun coinsEditor(player: Player)
+    {
+        CoinShopEditorMenu(player).openMenu()
     }
 
     @Subcommand("set")

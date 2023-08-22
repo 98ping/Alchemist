@@ -95,7 +95,9 @@ object ACFCommandController {
 
             registerCommand(BroadcastCommand)
 
-            registerCommand(CoinsCommand())
+            if (config.getBoolean("modules.coins")) {
+                registerCommand(CoinsCommand())
+            }
 
             if (config.getBoolean("modules.themeCommands")) {
                 registerCommand(ThemeSelectCommand())
