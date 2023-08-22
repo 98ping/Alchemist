@@ -91,7 +91,7 @@ class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player) {
             desc.add(Chat.format("&6&l｜ &eActive Discount: &f$${item.discount} off"))
             desc.add(Chat.format("&6&l｜ &eRequired Rank: &f${item.requiredRank}"))
             desc.add(Chat.format(" "))
-            desc.add(Chat.format("&6&l｜ &eActive On: &f" + item.servers + " servers"))
+            desc.add(Chat.format("&6&l｜ &eActive On: &f" + item.servers.size + " servers"))
             desc.add(Chat.format("&6&l｜ &eCommands:"))
             for (server in item.commands) {
                 desc.add(Chat.format("&e- &f${server}"))
