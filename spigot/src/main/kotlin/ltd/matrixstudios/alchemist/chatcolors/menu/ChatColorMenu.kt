@@ -25,7 +25,7 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
             Chat.format("&7Click here to reset your current"),
             Chat.format("&7chat color."),
             " ",
-            Chat.format("&eYou currently have " + (if (profile.activeColor != null) profile.activeColor!!.displayname else "&fNone") + " &eequipped"),
+            Chat.format("&eYou currently have " + (if (profile.activeColor != null) profile.activeColor!!.chatColor + ChatColorLoader.proper(profile.activeColor!!) else "&fNone") + " &eequipped"),
             " "
         ), Chat.format("&cReset ChatColor"), 0).setBody { player, i, clickType ->
             profile.activeColor = null
