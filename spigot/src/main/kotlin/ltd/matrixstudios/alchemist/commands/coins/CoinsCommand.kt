@@ -13,7 +13,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-@CommandAlias("coins")
+@CommandAlias("coins|coin")
 class CoinsCommand : BaseCommand() {
 
     @Default

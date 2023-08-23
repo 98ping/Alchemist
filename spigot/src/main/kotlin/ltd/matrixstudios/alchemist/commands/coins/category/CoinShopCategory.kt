@@ -6,5 +6,7 @@ data class CoinShopCategory(
     var desc: List<String>,
     var displayItem: String,
     var activeOn: List<String>,
-    var parentCategory: CoinShopCategory?
+    var data: Short,
+    var menuSlot: Int,
+    var parentCategory: String?
 )

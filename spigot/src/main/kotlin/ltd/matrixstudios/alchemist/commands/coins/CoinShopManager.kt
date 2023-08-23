@@ -57,6 +57,8 @@ object CoinShopManager
         }
     }
 
+    fun findCategory(id: String) : CoinShopCategory? = categoryMap.getOrDefault(id.toLowerCase(), null)
+
     fun saveCategory(item: CoinShopCategory) : CompletableFuture<CoinShopCategory>
     {
         return CompletableFuture.supplyAsync {

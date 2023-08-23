@@ -11,7 +11,7 @@ class CoinShopItem(
     val id: String,
     var displayName: String,
     var commands: MutableList<String>,
-    var servers: List<String>,
+    var servers: MutableList<String>,
     var category: String,
     var displayMaterial: String,
     var requiredRank: String,

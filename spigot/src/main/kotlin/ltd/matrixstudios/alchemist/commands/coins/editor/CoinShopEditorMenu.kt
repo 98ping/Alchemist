@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.coins.editor
 
+import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
+import ltd.matrixstudios.alchemist.commands.coins.category.editor.CoinShopCategoryEditor
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemEditor
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -25,7 +27,9 @@ class CoinShopEditorMenu(val player: Player) : Menu(player) {
             Chat.format("&7placed into"),
             Chat.format(" "),
             Chat.format("&aClick here to explore categories!")
-        ), "&b&lCategories", 0)
+        ), "&b&lCategories", 0).setBody { player, i, clickType ->
+            CoinShopCategoryEditor(player).updateMenu()
+        }
 
         buttons[14] = SimpleActionButton(Material.BEACON, mutableListOf(
             Chat.format(" "),
