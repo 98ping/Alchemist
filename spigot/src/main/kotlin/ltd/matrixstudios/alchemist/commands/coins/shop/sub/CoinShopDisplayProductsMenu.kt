@@ -1,7 +1,9 @@
 package ltd.matrixstudios.alchemist.commands.coins.shop.sub
 
+import ltd.matrixstudios.alchemist.commands.coins.cart.CartHandler
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
+import ltd.matrixstudios.alchemist.commands.coins.shop.CoinShopMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
@@ -39,7 +41,7 @@ class CoinShopDisplayProductsMenu(val category: CoinShopCategory, val player: Pl
         }
 
         override fun getDescription(player: Player): MutableList<String>? {
-            val desc = item.lore
+            val desc = item.lore.toMutableList()
 
             desc.add(" ")
             desc.add(Chat.format("&aClick to purchase this item"))
@@ -58,7 +60,9 @@ class CoinShopDisplayProductsMenu(val category: CoinShopCategory, val player: Pl
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-
+            CartHandler.addToCart(player.uniqueId, item)
+            player.sendMessage(Chat.format("&aYou have added ${item.displayName} &ato your cart!"))
+            CoinShopMenu(player).openMenu()
         }
 
     }

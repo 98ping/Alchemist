@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.commands.coins.shop
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.cart.CartHandler
+import ltd.matrixstudios.alchemist.commands.coins.cart.MyCartMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayProductsMenu
 import ltd.matrixstudios.alchemist.util.Chat
@@ -44,11 +45,13 @@ class CoinShopMenu(val player: Player) : Menu(player) {
             Chat.format("&7Click to view the contents of &fYour Cart"),
             Chat.format(" "),
             Chat.format("&7Current Items: &f" + (cart?.items?.size ?: "None")),
-            Chat.format("&7Total Price: &f$" + (cart?.getCombinedPrice() ?: "N/A")),
+            Chat.format("&7Total Price: &f$" + (cart?.getCombinedPrice() ?: "0.0")),
             Chat.format("&7Can Afford: &f" + if (cart?.playerCanAfford(player) == true) "&aYes" else "&cNo"),
             Chat.format(" "),
             Chat.format("&aClick here to view &fYour Cart")
-        ), Chat.format("&eYour Cart"), 0)
+        ), Chat.format("&eYour Cart"), 0).setBody { player, i, clickType ->
+            MyCartMenu(player).updateMenu()
+        }
 
         return buttons
     }

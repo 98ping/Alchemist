@@ -50,7 +50,7 @@ defaultTheme: custom
 profiles:
   load:
     sendMessage: true
-    message: "&b\xe2\u0153\u201c &aYour profile has been successfully loaded"
+    message: "&b✓ &aYour profile has been successfully loaded"
 grants:
   durationMenuSize: 27
   reasonMenuSize: 27
