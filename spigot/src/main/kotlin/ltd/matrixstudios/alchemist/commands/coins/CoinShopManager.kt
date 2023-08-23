@@ -37,7 +37,7 @@ object CoinShopManager
 
         while (categoryCursor.hasNext())
         {
-            val item = cursor.next()
+            val item = categoryCursor.next()
             val gson = Alchemist.gson.fromJson(item.toJson(), CoinShopCategory::class.java)
 
             categoryMap[gson.id] = gson

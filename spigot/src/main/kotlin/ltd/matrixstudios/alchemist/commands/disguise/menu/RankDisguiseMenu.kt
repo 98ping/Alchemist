@@ -28,8 +28,15 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
             2 to Button.placeholder(),
             4 to SimpleActionButton(
                 Material.NETHER_STAR,
-                mutableListOf(" ", Chat.format("&eClick here to reset your active &6disguise."), Chat.format("&eYou will now look like " + AlchemistAPI.getPlayerRankString(player.uniqueId)), " "),
-                "&eReset &6Rank Disguise",
+                mutableListOf(" ",
+                    Chat.format("&7Click here to reset your active disguise."),
+                    Chat.format("&7This will change all rank options back to their"),
+                    Chat.format("&7original settings."),
+
+                    Chat.format("&aYou will now look like " + AlchemistAPI.getPlayerRankString(player.uniqueId)),
+                    " "
+                ),
+                "&eReset Rank Disguise",
                 0
             ).setBody { player, i, clickType ->
                 val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return@setBody

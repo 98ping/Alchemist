@@ -107,7 +107,7 @@ class CoinShopCategoryEditor(val player: Player) : BorderedPaginatedMenu(player)
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-
+            EditCategoryAttributesMenu(player, item).openMenu()
         }
 
     }
