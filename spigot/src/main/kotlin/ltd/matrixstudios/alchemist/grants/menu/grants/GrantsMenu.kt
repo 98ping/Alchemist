@@ -133,6 +133,6 @@ class GrantsMenu(
     }
 
     override fun getTitle(player: Player): String {
-        return "Grants of " + gameProfile.getCurrentRank().color + gameProfile.username
+        return "Grants of " + Chat.format(gameProfile.getCurrentRank().color) + gameProfile.username
     }
 }
