@@ -2,13 +2,20 @@ package ltd.matrixstudios.alchemist.commands.branding
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Default
+import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Subcommand
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
+@CommandAlias("alchemist")
 class AlchemistCommand : BaseCommand() {
 
-    @CommandAlias("alchemist")
+    @Default
     fun alchemist(player: Player) {
         player.sendMessage(Chat.format("&7&m----------------------------------------"))
         player.sendMessage(Chat.format("&6&lAlchemist Rank Core"))
@@ -20,4 +27,12 @@ class AlchemistCommand : BaseCommand() {
         }
         player.sendMessage(Chat.format("&7&m----------------------------------------"))
     }
+
+    @Subcommand("reload")
+    @CommandPermission("alchemist.reload")
+    fun reload(sender: CommandSender) {
+        AlchemistSpigotPlugin.instance.reloadConfig()
+        sender.sendMessage(Chat.format("&aAlchemist config successfully reloaded."))
+    }
+
 }

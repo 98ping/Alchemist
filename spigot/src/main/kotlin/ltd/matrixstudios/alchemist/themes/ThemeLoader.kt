@@ -1,10 +1,7 @@
 package ltd.matrixstudios.alchemist.themes
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.themes.types.Hydrogen
-import ltd.matrixstudios.alchemist.themes.types.MMC
-import ltd.matrixstudios.alchemist.themes.types.Neutron
-import ltd.matrixstudios.alchemist.themes.types.mCore
+import ltd.matrixstudios.alchemist.themes.types.*
 
 object ThemeLoader
 {
@@ -18,6 +15,7 @@ object ThemeLoader
         themes["hydrogen"] = Hydrogen()
         themes["neutron"] = Neutron()
         themes["mcore"] = mCore()
+        themes["custom"] = Custom()
 
         val config = AlchemistSpigotPlugin.instance.config
 

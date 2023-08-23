@@ -25,6 +25,7 @@ class ThemeSelectMenu(val player: Player) : Menu(player) {
         buttons[11] = ThemeButton(ThemeLoader.themes["hydrogen"]!!)
         buttons[12] = ThemeButton(ThemeLoader.themes["neutron"]!!)
         buttons[13] = ThemeButton(ThemeLoader.themes["mcore"]!!)
+        buttons[14] = ThemeButton(ThemeLoader.themes["custom"]!!)
 
         return buttons
     }
