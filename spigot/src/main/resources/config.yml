@@ -1,59 +1,85 @@
+#all information for mongo. AuthDB is NOT the database you will use for documents to go into
 mongo:
-  host: 127.0.0.1
+  host: "127.0.0.1"
   port: 27017
   auth: false
-  username: ''
-  password: ''
-  authDB: ''
-  database: Alchemist
-uri: ''
+  username: ""
+  password: ""
+  authDB: ""
+  database: "Alchemist"
+
+#leave blank to not use!
+uri: ""
+
+#all redis information. This is used for messaging from server to server
 redis:
-  host: 127.0.0.1
+  host: "127.0.0.1"
   port: 6379
-  username: ''
-  password: ''
+  username: ""
+  password: ""
+
+#server information to identify the server
 server:
-  id: server1
+  id: "server1"
+
+#information for sending notifications using Discord
 discord:
   punishments:
     enabled: false
-    webhookLink: LINK_HERE
+    webhookLink: "LINK_HERE"
   grants:
     enabled: false
-    webhookLink: LINK_HERE
+    webhookLink: "LINK_HERE"
+
 coinshop:
+  #adds this after the lore
   bottom_schema:
-    - ' '
-    - '&a&lClick Here To Purchase'
-    - ' '
+    - " "
+    - "&a&lClick Here To Purchase"
+    - " "
+
 chat:
-  slowChatMessage: '&cChat is currently slowed! Please wait &c&l<seconds> seconds'
-  muteChatMessage: '&cChat is currently muted! You may not talk right now'
+  slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"
+  muteChatMessage: "&cChat is currently muted! You may not talk right now"
   rankToSendLinks:
     enabled: false
-    minimum_rank: partner
+    minimum_rank: "partner" #any rank you want it to be
+
 autobroadcast:
   enabled: true
-  interval: 60
+  interval: 60 #seconds
   messages:
     alchemist:
-      - ' '
-      - "&8[&5&lGitHub&8] &8\xc2\xbb &dAlchemist &f is available on &5GitHub!"
-      - '&fHead to &7github.com/98ping/Alchemist'
-      - ' '
+      - " "
+      - "&8[&5&lGitHub&8] &8» &dAlchemist &f is available on &5GitHub!"
+      - "&fHead to &7github.com/98ping/Alchemist"
+      - " "
     mcmarket:
-      - ' '
-      - "&8[&9&lBuiltByBit&8] &8\xc2\xbb &bAlchemist &f is available on &9BuiltByBit!"
-      - '&fHead to https://builtbybit.com/members/objectify.178715/'
-      - ' '
-defaultTheme: custom
+      - " "
+      - "&8[&9&lBuiltByBit&8] &8» &bAlchemist &f is available on &9BuiltByBit!"
+      - "&fHead to https://builtbybit.com/members/objectify.178715/"
+      - " "
+
+#theme info
+defaultTheme: "MMC"
+
+#information regarding profiles
 profiles:
   load:
     sendMessage: true
     message: "&b✓ &aYour profile has been successfully loaded"
+
+
+#info for the grant procedure
 grants:
   durationMenuSize: 27
   reasonMenuSize: 27
+
+#enable and disable all modules
+#when doing this, you insure that
+#no commands/features of each system
+#are loaded on the server. This means that
+#performance will not be negatively affected
 modules:
   ranks: true
   punishments: true
@@ -62,6 +88,7 @@ modules:
   prefixes: true
   coins: true
   filters: true
+  #does work but is a little buggy tbh
   queue: false
   chatcolors: true
   notes: true
@@ -70,65 +97,90 @@ modules:
   vouchers: true
   essentials: true
   themeCommands: true
+
 staffmode:
   sendWelcomeMessage: true
   autoEquipOnJoin: false
+
+#for general server information to use in command messages
 details:
-  ip: yourIp.xyz
-  serverWebsite: www.yourIp.xyz
+  ip: "yourIp.xyz"
+  serverWebsite: "www.yourIp.xyz"
+
 channels:
-  staffChat: '&b[SC] &7(%server%) &f%profile%&7: &b%message%'
-  adminChat: '&c[AC] &7(%server%) &f%profile%&7: &c%message%'
+  staffChat: "&b[SC] &7(%server%) &f%profile%&7: &b%message%"
+  adminChat: "&c[AC] &7(%server%) &f%profile%&7: &c%message%"
+
+#to incentivise players to play your server longer
 freeRank:
   enabled: true
   message:
-    - change me!
-  command: cgrant <target> Default 10m Hello World
-grant-message: '&eYou have been granted the &r<rank> &erank for a duration of &6<duration>.'
-consoleColor: '&c&l'
+    - "change me!"
+  command: "cgrant <target> Default 10m Hello World"
+
+# Message sent to player after granting them something
+grant-message: "&eYou have been granted the &r<rank> &erank for a duration of &6<duration>."
+
+#Console information
+consoleColor: "&c&l"
+
+#Message configuration
 message:
-  message_format_from: '&7(From &r<from> &7to &cme&7) &f<message>'
-  message_format_to: '&7(From &cme &7to &r<from>&7) &f<message>'
-  staff_message_format_to: '&7(From &3&oStaff &7to &r<from>&7) &f<message>'
-  staff_message_format_from: '&7(From &3&oStaff &7to &cme&7) &f<message>'
-  sound: LEVEL_UP
+  message_format_from: "&7(From &r<from> &7to &cme&7) &f<message>"
+  message_format_to: "&7(From &cme &7to &r<from>&7) &f<message>"
+  staff_message_format_to: "&7(From &3&oStaff &7to &r<from>&7) &f<message>"
+  staff_message_format_from: "&7(From &3&oStaff &7to &cme&7) &f<message>"
+  sound: "LEVEL_UP"
+
+#Reminder for people who are stuck in a queue
 queue-message:
-  - ' '
-  - '&dYou are position &e#<pos> &din the &e<queue_name> &dqueue,'
-  - '&bYour &f<colored_rank> &brank has placed you in front of <front> players.'
-  - '&6To leave the queue, use /leavequeue'
-  - ' '
+  - " "
+  - "&dYou are position &e#<pos> &din the &e<queue_name> &dqueue,"
+  - "&bYour &f<colored_rank> &brank has placed you in front of <front> players."
+  - "&6To leave the queue, use /leavequeue"
+  - " "
+
+# Message to be sent to player when they are blacklisted from the server
 blacklist-message:
-  - '&cYou are blacklisted from this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou are blacklisted from this server."
+  - "&cReason: &r<reason>"
+
 ban-message:
-  - '&cYou are banned from this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou are banned from this server."
+  - "&cReason: &r<reason>"
+
 mute-message:
-  - '&cYou are muted on this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou are muted on this server."
+  - "&cReason: &r<reason>"
+
 muted-chat:
-  - '&cYou are muted on this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou are muted on this server."
+  - "&cReason: &r<reason>"
+
 kick-message:
-  - '&cYou were kicked from this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou were kicked from this server."
+  - "&cReason: &r<reason>"
+
 warn-message:
-  - '&cYou have been warned on this server.'
-  - '&cReason: &r<issued_reason>'
+  - "&cYou have been warned on this server."
+  - "&cReason: &r<reason>"
+
 banned-join:
-  - '&cYou are currently banned from the server!'
-  - '&cReason: &r<issued_reason>'
-  - '&cExpires: &r<expires>'
+  - "&cYou are currently banned from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+
 blacklisted-join:
-  - '&cYou are currently blacklisted from the server!'
-  - '&cReason: &r<issued_reason>'
-  - '&cExpires: &r<expires>'
+  - "&cYou are currently blacklisted from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+
 blacklisted-join-related:
-  - '&cYou are currently blacklisted from the server!'
-  - '&cReason: &r<issued_reason>'
-  - '&cExpires: &r<expires>'
-  - '&cIn Relation To: &r<related>'
+  - "&cYou are currently blacklisted from the server!"
+  - "&cReason: &r<reason>"
+  - "&cExpires: &r<expires>"
+  - "&cIn Relation To: &r<related>"
+
 custom-theme:
   grants:
     active-item:
