@@ -2,10 +2,13 @@ package ltd.matrixstudios.alchemist.commands.coins.shop
 
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
+import ltd.matrixstudios.alchemist.commands.coins.cart.CartHandler
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
+import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayProductsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -18,6 +21,12 @@ import org.bukkit.event.inventory.ClickType
  * @website https://solo.to/redis
  */
 class CoinShopMenu(val player: Player) : Menu(player) {
+
+    init {
+        staticSize = 45
+        placeholder = true
+    }
+
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
@@ -27,6 +36,19 @@ class CoinShopMenu(val player: Player) : Menu(player) {
                 buttons[category.menuSlot] = CategoryDisplayButton(category)
             }
         }
+
+        val cart = CartHandler.carts[player.uniqueId]
+
+        buttons[40] = SimpleActionButton(Material.HOPPER, mutableListOf(
+            Chat.format(" "),
+            Chat.format("&7Click to view the contents of &fYour Cart"),
+            Chat.format(" "),
+            Chat.format("&7Current Items: &f" + (cart?.items?.size ?: "None")),
+            Chat.format("&7Total Price: &f$" + (cart?.getCombinedPrice() ?: "N/A")),
+            Chat.format("&7Can Afford: &f" + if (cart?.playerCanAfford(player) == true) "&aYes" else "&cNo"),
+            Chat.format(" "),
+            Chat.format("&aClick here to view &fYour Cart")
+        ), Chat.format("&eYour Cart"), 0)
 
         return buttons
     }
@@ -53,7 +75,11 @@ class CoinShopMenu(val player: Player) : Menu(player) {
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
+            val existing = category.getCategoriesThatParentThisOne()
 
+            if (existing.isEmpty()) {
+                CoinShopDisplayProductsMenu(category, player).updateMenu()
+            }
         }
 
     }

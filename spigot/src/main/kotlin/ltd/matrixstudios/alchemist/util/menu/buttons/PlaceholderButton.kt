@@ -16,10 +16,7 @@ class PlaceholderButton(
     }
 
     override fun getDescription(player: Player): MutableList<String>? {
-        if (description != null)
-        {
-            return description
-        } else return mutableListOf()
+        return description ?: mutableListOf()
     }
 
     override fun getDisplayName(player: Player): String? {

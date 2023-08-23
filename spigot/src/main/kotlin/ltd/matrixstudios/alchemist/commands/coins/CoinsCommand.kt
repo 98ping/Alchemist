@@ -25,7 +25,7 @@ class CoinsCommand : BaseCommand() {
             return
         }
 
-        player.sendMessage(Chat.format("&7[&eCoins&7] &eYou have a total of &6" + profile.coins + " &ecoins"))
+        player.sendMessage(Chat.format("&7[&6Coins&7] &eYou have a total of &6" + profile.coins + " &ecoins"))
     }
 
     @Subcommand("editor")
@@ -41,7 +41,7 @@ class CoinsCommand : BaseCommand() {
         target.coins = amount
         ProfileGameService.save(target)
 
-        player.sendMessage(Chat.format("&7[&eCoins&7] &eYou have set " + AlchemistAPI.getRankDisplay(target.uuid) + "'s &ecoins to &6" + amount))
+        player.sendMessage(Chat.format("&7[&6Coins&7] &eYou have set " + AlchemistAPI.getRankDisplay(target.uuid) + "'s &ecoins to &6" + amount))
     }
 
     @Subcommand("give")
@@ -50,6 +50,6 @@ class CoinsCommand : BaseCommand() {
         target.coins = amount
         ProfileGameService.save(target)
 
-        player.sendMessage(Chat.format("&7[&eCoins&7] &eYou have given &6" + amount + " &ecoins to the player " + AlchemistAPI.getRankDisplay(target.uuid)))
+        player.sendMessage(Chat.format("&7[&6Coins&7] &eYou have given &6" + amount + " &ecoins to the player " + AlchemistAPI.getRankDisplay(target.uuid)))
     }
 }

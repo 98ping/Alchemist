@@ -11,6 +11,7 @@ package ltd.matrixstudios.alchemist.commands.coins.category.editor
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.EditParentCategoryMenu
+import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.SelectCategoryServers
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectRankMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectServersMenu
@@ -62,7 +63,7 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                     item.menuSlot = newPrice
                     CoinShopManager.saveCategory(item)
                     EditCategoryAttributesMenu(player, item).openMenu()
-                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &amenu slot to &f$${newPrice}"))
+                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &amenu slot to &f${newPrice}"))
                 }.start(player)
         }
 
@@ -104,6 +105,43 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
             "&eChange Parent Category", 0
         ).setBody { player, slot, clicktype ->
             EditParentCategoryMenu(player, item).updateMenu()
+        }
+
+        buttons[13] = SimpleActionButton(
+            Material.ARROW,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the servers that this"),
+                Chat.format("&7category will appear on"),
+                Chat.format("&7in the coinshop"),
+                " "
+            ),
+            "&eChange Active Servers", 0
+        ).setBody { player, slot, clicktype ->
+            SelectCategoryServers(player, item).updateMenu()
+        }
+
+        buttons[14] = SimpleActionButton(
+            Material.NAME_TAG,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the display name"),
+                Chat.format("&7category that players will see"),
+                Chat.format("&7when looking at the store"),
+                " ",
+                Chat.format("&eCurrently: &f${item.displayName}"),
+                " "
+            ),
+            "&eChange Display Name", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new display name for this item!"))
+                .acceptInput {
+                    item.displayName = it
+                    CoinShopManager.saveCategory(item)
+                    EditCategoryAttributesMenu(player, item).openMenu()
+                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &adisplay name to &f${it}"))
+                }.start(player)
         }
 
 
