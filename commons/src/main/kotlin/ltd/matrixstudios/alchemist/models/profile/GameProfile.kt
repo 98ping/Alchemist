@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.disguise.RankDisguiseAttribute
 import ltd.matrixstudios.alchemist.models.profile.notes.ProfileNote
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -13,6 +14,9 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.models.sessions.Session
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
+import ltd.matrixstudios.alchemist.punishments.actor.ActorType
+import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
@@ -268,6 +272,38 @@ data class GameProfile(
         }
 
         return filteredRank.getGrantable()
+    }
+
+    fun getCurrentGrant(): RankGrant {
+        val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
+        val globalServer = Alchemist.globalServer
+
+        val filteredRank = RankGrantService.getFromCache(uuid).filter {
+            it.expirable.isActive()
+                    && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
+                    && (it.getGrantable().getRankScope().global || it.getGrantable().getRankScope().appliesOn(globalServer)
+                    )
+        }.sortedByDescending { it.getGrantable().weight }.firstOrNull()
+
+        if (filteredRank == null || filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0))
+        {
+            if (currentGrant == null)
+            {
+                return RankService.FALLBACK_GRANT
+            }
+
+            return RankGrant(
+                currentGrant.id,
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                "Fallback Grant",
+                Long.MAX_VALUE,
+                DefaultActor(Executor.CONSOLE, ActorType.GAME),
+                GrantScope("Fallback Grant", mutableListOf(), true)
+            )
+        }
+
+        return filteredRank
     }
 
     fun getCurrentRank(): Rank {

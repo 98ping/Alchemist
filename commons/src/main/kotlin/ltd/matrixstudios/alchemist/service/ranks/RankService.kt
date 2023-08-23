@@ -2,12 +2,19 @@ package ltd.matrixstudios.alchemist.service.ranks
 
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
+import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.punishments.actor.ActorType
+import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
+import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.GeneralizedService
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.ForkJoinPool
+import kotlin.collections.ArrayList
 
 
 object RankService : GeneralizedService {
@@ -17,6 +24,16 @@ object RankService : GeneralizedService {
     var ranks = ConcurrentHashMap<String, Rank>()
 
     var FALLBACK_RANK = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
+
+    var FALLBACK_GRANT = RankGrant(
+        FALLBACK_RANK.id,
+        UUID.randomUUID(),
+        UUID.randomUUID(),
+        "Fallback Grant",
+        Long.MAX_VALUE,
+        DefaultActor(Executor.CONSOLE, ActorType.GAME),
+        GrantScope("Fallback Grant", mutableListOf(), true)
+    )
 
     fun loadRanks() {
         //since there are only a limited amount of ranks we can just load on startup
