@@ -55,13 +55,21 @@ class GenericRankCommands : BaseCommand() {
 
     @Subcommand("rename-id")
     @CommandPermission("rank.admin")
-    fun renameId(sender: CommandSender, @Name("rank")rank: Rank, @Name("new-id") id: String) {
+    fun renameId(sender: CommandSender, @Name("rank")rankString: String, @Name("id") id: String) {
+        val rank = RankService.byIdAnyCase(rankString)
+
+        if (rank == null)
+        {
+            sender.sendMessage(Chat.format("&cThis rank doesn't exist!"))
+            return
+        }
+
         //rank logic
         RankService.delete(rank)
         val oldId = rank.id
-        sender.sendMessage(Chat.format("&eOld id: &f$oldId"))
-        rank.id = id
-        sender.sendMessage(Chat.format("&eNew id: &f$id"))
+        sender.sendMessage(Chat.format("&eOld Id: &f$oldId"))
+        rank.id = id.toLowerCase()
+        sender.sendMessage(Chat.format("&eNew Id: &f${id.toLowerCase()}"))
 
         RankService.save(rank)
         AsynchronousRedisSender.send(RefreshRankPacket())
@@ -69,8 +77,8 @@ class GenericRankCommands : BaseCommand() {
         //grants
         RankGrantService.findByRank(oldId).whenComplete { g, e ->
             for (grant in g) {
-                grant.rankId = id
-                grant.rank = id
+                grant.rankId = id.toLowerCase()
+                grant.rank = id.toLowerCase()
 
                 //only if they are in the cache to prevent loading every single grant into this list
                 if (RankGrantService.playerGrants.containsKey(grant.target)) {

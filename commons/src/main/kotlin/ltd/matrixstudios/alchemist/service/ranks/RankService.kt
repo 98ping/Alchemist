@@ -111,4 +111,14 @@ object RankService : GeneralizedService {
 
         return null
     }
+
+    fun byIdAnyCase(id: String) : Rank?
+    {
+        for (rank in ranks.values)
+        {
+            if (rank.id.equals(id, ignoreCase = true)) return rank
+        }
+
+        return null
+    }
 }
