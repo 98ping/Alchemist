@@ -28,6 +28,11 @@ object PunishmentService : ExpiringService<Punishment>() {
         recalculateUUID(punishment.target)
     }
 
+    fun saveSync(punishment: Punishment) {
+        handler.store(punishment.uuid, punishment)
+        recalculateUUID(punishment.target)
+    }
+
     fun getFromCache(uuid: UUID): Collection<Punishment> {
         return if (grants.containsKey(uuid)) {
             grants[uuid]!!

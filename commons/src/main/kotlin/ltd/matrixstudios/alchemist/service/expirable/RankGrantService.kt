@@ -101,6 +101,13 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return future
     }
 
+    fun saveSync(rankGrant: RankGrant) : CompletableFuture<RankGrant>
+    {
+        handler.store(rankGrant.uuid, rankGrant)
+
+        return CompletableFuture.completedFuture(rankGrant)
+    }
+
     fun findByTarget(target: UUID): CompletableFuture<MutableList<RankGrant>> {
         return CompletableFuture.supplyAsync {
             val sorted = collection.find(Document("target", target.toString()))

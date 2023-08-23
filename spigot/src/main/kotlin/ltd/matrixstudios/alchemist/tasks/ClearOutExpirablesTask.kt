@@ -16,7 +16,7 @@ object ClearOutExpirablesTask : BukkitRunnable() {
                 it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
                 it.removedReason = "Expired"
 
-                RankGrantService.save(it).whenComplete { t, u ->
+                RankGrantService.saveSync(it).whenComplete { t, u ->
                     RankGrantService.recalculateUUID(t.target)
                     AsynchronousRedisSender.send(PermissionUpdatePacket(t.target))
                 }
@@ -28,7 +28,7 @@ object ClearOutExpirablesTask : BukkitRunnable() {
             if (!it.expirable.isActive() && it.removedBy == null) {
                 it.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
                 it.removedReason = "Expired"
-                PunishmentService.save(it)
+                PunishmentService.saveSync(it)
             }
         }
     }
