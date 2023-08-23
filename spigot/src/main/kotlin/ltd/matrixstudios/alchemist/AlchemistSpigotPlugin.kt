@@ -7,6 +7,7 @@ import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
+import ltd.matrixstudios.alchemist.commands.coins.listener.CoinShopLoadTransactionsListener
 import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
@@ -126,6 +127,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         if (config.getBoolean("modules.filters")) {
             server.pluginManager.registerEvents(FilterListener, this)
+        }
+
+        if (config.getBoolean("modules.coins")) {
+            server.pluginManager.registerEvents(CoinShopLoadTransactionsListener(), this)
         }
 
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)

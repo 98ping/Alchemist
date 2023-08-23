@@ -40,7 +40,7 @@ class CoinShopMenu(val player: Player) : Menu(player) {
 
         val cart = CartHandler.carts[player.uniqueId]
 
-        buttons[40] = SimpleActionButton(Material.HOPPER, mutableListOf(
+        buttons[39] = SimpleActionButton(Material.HOPPER, mutableListOf(
             Chat.format(" "),
             Chat.format("&7Click to view the contents of &fYour Cart"),
             Chat.format(" "),
@@ -51,6 +51,20 @@ class CoinShopMenu(val player: Player) : Menu(player) {
             Chat.format("&aClick here to view &fYour Cart")
         ), Chat.format("&eYour Cart"), 0).setBody { player, i, clickType ->
             MyCartMenu(player).updateMenu()
+        }
+
+
+        val transactions = CoinShopManager.findAllTransactions(player.uniqueId)
+        buttons[41] = SimpleActionButton(Material.NAME_TAG, mutableListOf(
+            Chat.format(" "),
+            Chat.format("&7Click to view your previous &fTransactions"),
+            Chat.format(" "),
+            Chat.format("&7Total Transactions: &f" + transactions.size),
+            Chat.format("&7Total Spent: &f$" + CoinShopManager.getTotalPriceOfTransactions(transactions)),
+            Chat.format(" "),
+            Chat.format("&aClick here to view your &fTransactions")
+        ), Chat.format("&aYour Transactions"), 0).setBody { player, i, clickType ->
+
         }
 
         return buttons
