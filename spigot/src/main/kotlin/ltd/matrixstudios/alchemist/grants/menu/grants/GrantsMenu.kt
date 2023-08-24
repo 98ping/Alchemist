@@ -86,9 +86,10 @@ class GrantsMenu(
                 ), Chat.format("&eWipe Grants")
             ).setBody { player, i, clickType ->
                 if (player.hasPermission("alchemist.owner")) {
-                    WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile)
-                    player.closeInventory()
-                    GrantsMenu(player, gameProfile, grants, grantFilter).updateMenu()
+                    WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile).whenComplete { t, u ->
+                        player.closeInventory()
+                        GrantsMenu(player, gameProfile, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList(), GrantFilter.ALL).updateMenu()
+                    }
                 } else player.sendMessage(Chat.format("&cYou must be a server operator to do this"))
             },
             6 to Button.placeholder(),
