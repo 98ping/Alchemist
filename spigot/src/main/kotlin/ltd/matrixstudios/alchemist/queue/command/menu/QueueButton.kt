@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture
 class QueueButton(val queue: QueueModel) : Button() {
 
     override fun getMaterial(player: Player): Material {
-        return Material.DIAMOND
+        return Material.getMaterial(queue.material) ?: Material.DIAMOND
     }
 
     override fun getDescription(player: Player): MutableList<String>? {

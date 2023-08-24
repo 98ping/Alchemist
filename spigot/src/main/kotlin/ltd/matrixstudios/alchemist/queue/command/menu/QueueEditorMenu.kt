@@ -64,7 +64,7 @@ class QueueEditorMenu(var player: Player): PaginatedMenu(36, player) {
                                 return@thenAccept
                             }
 
-                            val queue = QueueModel(string.toLowerCase(), string, 1, QueueStatus.CLOSED, 1000, string, -1L, "DIAMOND")
+                            val queue = QueueModel(string.toLowerCase(), string, 1, QueueStatus.CLOSED, 1000, string.toLowerCase(), -1L, "DIAMOND")
                             QueueService.saveQueue(queue)
                             AsynchronousRedisSender.send(QueueUpdatePacket())
                             player.sendMessage(Chat.format("&aYou have created a new queue with the name &f$string"))
