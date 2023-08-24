@@ -127,7 +127,7 @@ class Custom : Theme(
     }
 
     override fun getGrantDisplayName(player: Player, rank: Rank): String {
-
+        return ""
     }
 
     override fun getGrantData(player: Player, rank: Rank): Short {

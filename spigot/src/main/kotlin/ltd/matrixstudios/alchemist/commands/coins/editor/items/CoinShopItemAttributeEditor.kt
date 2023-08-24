@@ -197,6 +197,39 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
             EditCommandsMenu(player, item).updateMenu()
         }
 
+        buttons[20] = SimpleActionButton(
+            Material.REDSTONE,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the data of this item"),
+                Chat.format("&7that players will see when"),
+                Chat.format("&7checking out of the store."),
+                " ",
+                Chat.format("&eCurrently: &f${item.data}"),
+                " "
+            ),
+            "&eChange Data", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new data for this item!"))
+                .acceptInput {
+                    var newPrice = 0
+
+                    try {
+                        newPrice = Integer.parseInt(it)
+                    } catch (e: java.lang.NumberFormatException)
+                    {
+                        player.sendMessage(Chat.format("&cThis is not a number!"))
+                        return@acceptInput
+                    }
+
+                    item.data = newPrice.toShort()
+                    CoinShopManager.saveItem(item)
+                    CoinShopItemAttributeEditor(player, item).openMenu()
+                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &adata to &f$${newPrice}"))
+                }.start(player)
+        }
+
         buttons[25] = SimpleActionButton(
             Material.REDSTONE_BLOCK,
             mutableListOf(

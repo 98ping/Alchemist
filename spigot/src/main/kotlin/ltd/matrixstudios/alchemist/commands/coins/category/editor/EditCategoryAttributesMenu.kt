@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.EditParentCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.SelectCategoryServers
+import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemAttributeEditor
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemEditor
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectRankMenu
@@ -142,6 +143,39 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                     CoinShopManager.saveCategory(item)
                     EditCategoryAttributesMenu(player, item).openMenu()
                     player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &adisplay name to &f${it}"))
+                }.start(player)
+        }
+
+        buttons[15] = SimpleActionButton(
+            Material.REDSTONE,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the data of this category"),
+                Chat.format("&7that players will see when"),
+                Chat.format("&7checking out of the store."),
+                " ",
+                Chat.format("&eCurrently: &f${item.data}"),
+                " "
+            ),
+            "&eChange Data", 0
+        ).setBody { player, slot, clicktype ->
+            InputPrompt()
+                .withText(Chat.format("&aType in the new data for this category!"))
+                .acceptInput {
+                    var newPrice = 0
+
+                    try {
+                        newPrice = Integer.parseInt(it)
+                    } catch (e: java.lang.NumberFormatException)
+                    {
+                        player.sendMessage(Chat.format("&cThis is not a number!"))
+                        return@acceptInput
+                    }
+
+                    item.data = newPrice.toShort()
+                    CoinShopManager.saveCategory(item)
+                    EditCategoryAttributesMenu(player, item).openMenu()
+                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &adata to &f$${newPrice}"))
                 }.start(player)
         }
 
