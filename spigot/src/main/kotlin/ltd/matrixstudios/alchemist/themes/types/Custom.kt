@@ -119,11 +119,15 @@ class Custom : Theme(
     }
 
     override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
-        return mutableListOf("Not implemented yet")
+        val lore = mutableListOf<String>()
+        for(i in 0 until lore.size) {
+            lore[i] = Chat.format(lore[i])
+        }
+        return lore
     }
 
     override fun getGrantDisplayName(player: Player, rank: Rank): String {
-        return "Not yet implemented"
+
     }
 
     override fun getGrantData(player: Player, rank: Rank): Short {

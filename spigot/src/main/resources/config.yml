@@ -182,6 +182,27 @@ blacklisted-join-related:
   - "&cIn Relation To: &r<related>"
 
 custom-theme:
+  grant:
+    scope-display: '&7- &a<scope>'
+    accessible:
+      item-name: "<rank>"
+      lore:
+        - "&6&m-----------------------------"
+        - "&ePriority: &6<priority>"
+        - "&ePrefix: &6<prefix>"
+        - "&eColor: &6<color>this"
+        - "&eDefault: &6<default>"
+        - "&eStaff Rank: &6<staff_rank>"
+        - "&6&m-----------------------------"
+        - "&eScopes:"
+        - "<scopes>"
+        - "&6&m-----------------------------"
+        - "&a&lLeft click to grant &r<rank> &a&lto &r<target>&a&l."
+        - "&6&m-----------------------------"
+    inaccessible:
+      item-name: "<rank>"
+      lore:
+
   grants:
     active-item:
       name: '&a&l(Active)&r &a<issued_date>'
