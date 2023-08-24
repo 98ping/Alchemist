@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.cart.CartHandler
 import ltd.matrixstudios.alchemist.commands.coins.cart.MyCartMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
+import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayCategoriesMenu
 import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayProductsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -96,6 +97,8 @@ class CoinShopMenu(val player: Player) : Menu(player) {
 
             if (existing.isEmpty()) {
                 CoinShopDisplayProductsMenu(category, player).updateMenu()
+            } else {
+                CoinShopDisplayCategoriesMenu(player, category).updateMenu()
             }
         }
 
