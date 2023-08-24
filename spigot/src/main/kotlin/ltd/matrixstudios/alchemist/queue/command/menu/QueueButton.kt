@@ -1,13 +1,18 @@
 package ltd.matrixstudios.alchemist.queue.command.menu
 
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
+import ltd.matrixstudios.alchemist.models.queue.QueueStatus
 import ltd.matrixstudios.alchemist.queue.command.menu.sub.QueueEditAttributesMenu
+import ltd.matrixstudios.alchemist.queue.packet.QueueUpdatePacket
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
+import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 7/13/2023
@@ -50,7 +55,15 @@ class QueueButton(val queue: QueueModel) : Button() {
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType) {
-        QueueEditAttributesMenu(player, queue).openMenu()
+        if (type == ClickType.LEFT) {
+            QueueEditAttributesMenu(player, queue).openMenu()
+        } else if (type == ClickType.RIGHT) {
+            QueueService.handler.deleteAsync(queue.id)
+            AsynchronousRedisSender.send(QueueUpdatePacket())
+
+            player.sendMessage(Chat.format("&aYou have deleted the &f${queue.displayName} &aqueue"))
+            player.closeInventory()
+        }
     }
 
 }

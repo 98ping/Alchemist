@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
+import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
@@ -66,6 +67,7 @@ object ServerModule : PluginModule {
         AsynchronousRedisSender.send(ServerStatusChangePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."), Alchemist.globalServer))
 
         NetworkUtil.load()
+        QueueService.loadAllQueues()
 
         Chat.sendConsoleMessage(
             "&6[Servers] &fServer instance loaded in &6" + System.currentTimeMillis().minus(serversStart) + "ms"

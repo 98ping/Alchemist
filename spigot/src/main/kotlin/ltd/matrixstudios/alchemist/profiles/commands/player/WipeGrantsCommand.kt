@@ -30,10 +30,7 @@ object WipeGrantsCommand : BaseCommand() {
             for (found in collection) RankGrantService.remove(found)
 
              RankGrantService.playerGrants.remove(gameProfile.uuid)
-
-            RankGrantService.recalculatePlayer(gameProfile).also {
-                sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player in &f${System.currentTimeMillis().minus(ms)}ms"))
-            }
+             sender.sendMessage(Chat.format("&aYou manually deleted &f${collection.size} &agrants from this player in &f${System.currentTimeMillis().minus(ms)}ms"))
         }
 
         return future

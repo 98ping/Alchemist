@@ -38,7 +38,6 @@ object Alchemist {
         ProfileGameService.loadIndexes()
         TagService.loadTags()
 
-        QueueService.loadAllQueues()
         FilterService.loadIntoCache()
 
         UUIDCache.loadAllFromRedis()

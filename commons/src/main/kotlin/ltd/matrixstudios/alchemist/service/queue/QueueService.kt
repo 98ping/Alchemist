@@ -24,6 +24,7 @@ object QueueService : GeneralizedService {
     val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(DataStoreType.MONGO)
 
     fun loadAllQueues() {
+        cache.clear()
         handler.retrieveAllAsync().thenAccept {
             for (queue in it) {
                 cache[queue.id] = queue
@@ -31,14 +32,14 @@ object QueueService : GeneralizedService {
         }
     }
 
-    fun playerAlreadyQueued(uuid: UUID) : QueueModel? {
+    fun playerAlreadyQueued(uuid: UUID): QueueModel? {
         return cache.values.firstOrNull { it.containsPlayer(uuid) }
     }
 
-    fun byId(id: String) : CompletableFuture<QueueModel?> {
-        if (cache.containsKey(id)) return CompletableFuture.completedFuture(cache[id])
+    fun byId(id: String): CompletableFuture<QueueModel?> {
+        if (cache.containsKey(id.toLowerCase())) return CompletableFuture.completedFuture(cache[id.toLowerCase()])
 
-        return handler.retrieveAsync(id)
+        return handler.retrieveAsync(id.toLowerCase())
     }
 
     fun saveQueue(model: QueueModel) {

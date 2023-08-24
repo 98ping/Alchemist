@@ -24,8 +24,6 @@ class GrantsMenu(
     override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        val time = System.currentTimeMillis()
-
         var index = 0
         for (grant in grants) {
             buttons[index++] = GrantsButton(grant)
@@ -86,9 +84,9 @@ class GrantsMenu(
                 ), Chat.format("&eWipe Grants")
             ).setBody { player, i, clickType ->
                 if (player.hasPermission("alchemist.owner")) {
+                    player.closeInventory()
                     WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile).whenComplete { t, u ->
-                        player.closeInventory()
-                        GrantsMenu(player, gameProfile, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList(), GrantFilter.ALL).updateMenu()
+                        GrantsMenu(player, gameProfile, GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList()), GrantFilter.ALL).updateMenu()
                     }
                 } else player.sendMessage(Chat.format("&cYou must be a server operator to do this"))
             },

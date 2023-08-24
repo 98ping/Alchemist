@@ -56,11 +56,19 @@ class QueueEditorMenu(var player: Player): PaginatedMenu(36, player) {
             ), "&eCreate New Queue", 0).setBody { player, i, clickType ->
                 InputPrompt()
                     .withText(Chat.format("&eType in the name of the queue you want to create"))
-                    .acceptInput {
-                        val queue = QueueModel(it, it, 1, QueueStatus.CLOSED, 1000, it, -1L, "DIAMOND")
-                        QueueService.saveQueue(queue)
-                        AsynchronousRedisSender.send(QueueUpdatePacket())
-                        player.sendMessage(Chat.format("&aYou have created a new queue with the name &f$it"))
+                    .acceptInput { string ->
+                        QueueService.byId(string.toLowerCase()).thenAccept {
+                            if (it != null)
+                            {
+                                player.sendMessage(Chat.format("&cThis queue already exists!"))
+                                return@thenAccept
+                            }
+
+                            val queue = QueueModel(string.toLowerCase(), string, 1, QueueStatus.CLOSED, 1000, string, -1L, "DIAMOND")
+                            QueueService.saveQueue(queue)
+                            AsynchronousRedisSender.send(QueueUpdatePacket())
+                            player.sendMessage(Chat.format("&aYou have created a new queue with the name &f$it"))
+                        }
                     }.start(player)
             },
             6 to Button.placeholder(),
