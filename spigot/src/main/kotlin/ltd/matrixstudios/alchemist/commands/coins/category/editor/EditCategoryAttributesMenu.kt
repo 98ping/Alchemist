@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.EditParentCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.SelectCategoryServers
+import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemEditor
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectRankMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectServersMenu
@@ -142,6 +143,22 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                     EditCategoryAttributesMenu(player, item).openMenu()
                     player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &adisplay name to &f${it}"))
                 }.start(player)
+        }
+
+        buttons[16] = SimpleActionButton(
+            Material.REDSTONE_BLOCK,
+            mutableListOf(
+                " ",
+                Chat.format("&7This will completely"),
+                Chat.format("&7delete this category from the"),
+                Chat.format("&7database"),
+                " "
+            ),
+            "&cDelete Category", 0
+        ).setBody { player, slot, clicktype ->
+            CoinShopManager.deleteCategory(item)
+            player.sendMessage(Chat.format("&aDeleted this category from the database"))
+            CoinShopCategoryEditor(player).updateMenu()
         }
 
 

@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.coins.editor.items
 
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
+import ltd.matrixstudios.alchemist.commands.coins.editor.items.commands.EditCommandsMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectRankMenu
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectServersMenu
@@ -17,7 +18,7 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
 
     init {
         placeholder = true
-        staticSize = 27
+        staticSize = 36
     }
 
     override fun getButtons(player: Player): MutableMap<Int, Button> {
@@ -180,6 +181,36 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
             "&eChange Active Servers", 0
         ).setBody { player, slot, clicktype ->
             SelectServersMenu(player, item).updateMenu()
+        }
+
+        buttons[19] = SimpleActionButton(
+            Material.SIGN,
+            mutableListOf(
+                " ",
+                Chat.format("&7Change the commands that"),
+                Chat.format("&7will execute when this package"),
+                Chat.format("&7is purchased"),
+                " "
+            ),
+            "&eChange Commands", 0
+        ).setBody { player, slot, clicktype ->
+            EditCommandsMenu(player, item).updateMenu()
+        }
+
+        buttons[25] = SimpleActionButton(
+            Material.REDSTONE_BLOCK,
+            mutableListOf(
+                " ",
+                Chat.format("&7This will completely"),
+                Chat.format("&7delete this item from the"),
+                Chat.format("&7database"),
+                " "
+            ),
+            "&cDelete Item", 0
+        ).setBody { player, slot, clicktype ->
+            CoinShopManager.deleteItem(item)
+            player.sendMessage(Chat.format("&aDeleted this item from the database"))
+            CoinShopItemEditor(player).updateMenu()
         }
 
 

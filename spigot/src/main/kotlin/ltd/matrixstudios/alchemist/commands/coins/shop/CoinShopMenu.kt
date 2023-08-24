@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.commands.coins.cart.MyCartMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayCategoriesMenu
 import ltd.matrixstudios.alchemist.commands.coins.shop.sub.CoinShopDisplayProductsMenu
+import ltd.matrixstudios.alchemist.commands.coins.transactions.ViewTransactionsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
@@ -34,7 +35,7 @@ class CoinShopMenu(val player: Player) : Menu(player) {
 
         for (category in CoinShopManager.categoryMap.values)
         {
-            if (category.activeOn.contains(Alchemist.globalServer.id)) {
+            if (category.activeOn.contains(Alchemist.globalServer.id) && category.parentCategory == null) {
                 buttons[category.menuSlot] = CategoryDisplayButton(category)
             }
         }
@@ -65,7 +66,8 @@ class CoinShopMenu(val player: Player) : Menu(player) {
             Chat.format(" "),
             Chat.format("&aClick here to view your &fTransactions")
         ), Chat.format("&aYour Transactions"), 0).setBody { player, i, clickType ->
-
+            val all = CoinShopManager.findAllTransactions(player.uniqueId)
+            ViewTransactionsMenu(player, all).updateMenu()
         }
 
         return buttons

@@ -81,7 +81,23 @@ object CoinShopManager
         }
     }
 
+    fun deleteItem(item: CoinShopItem)
+    {
+        CompletableFuture.runAsync {
+            items.deleteOne(Document("_id", item.id))
+            itemMap.remove(item.id)
+        }
+    }
+
     fun findCategory(id: String) : CoinShopCategory? = categoryMap.getOrDefault(id.toLowerCase(), null)
+
+    fun deleteCategory(item: CoinShopCategory)
+    {
+        CompletableFuture.runAsync {
+            categories.deleteOne(Document("_id", item.id))
+            categoryMap.remove(item.id)
+        }
+    }
 
     fun saveCategory(item: CoinShopCategory) : CompletableFuture<CoinShopCategory>
     {
