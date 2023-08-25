@@ -31,7 +31,7 @@ object WipePunishmentsCommand : BaseCommand() {
 
             if (!matches)
             {
-                player.sendMessage(Chat.format("&cInvalid punishment type: BAN, BLACKLIST, ALL, MUTE, WARN"))
+                player.sendMessage(Chat.format("&cInvalid punishment type: BAN, BLACKLIST, ALL, MUTE, WARN, GHOST_MUTE"))
                 return
             }
 

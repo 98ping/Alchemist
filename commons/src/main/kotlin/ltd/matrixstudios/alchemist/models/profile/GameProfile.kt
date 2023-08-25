@@ -77,10 +77,11 @@ data class GameProfile(
 
     fun getActivePunishmentsFilteredByImportance() : Collection<Punishment> {
         val bindings = hashMapOf(
-            PunishmentType.BLACKLIST to 4,
-            PunishmentType.BAN to 3,
+            PunishmentType.BLACKLIST to 5,
+            PunishmentType.BAN to 4,
             PunishmentType.WARN to 1,
-            PunishmentType.MUTE to 2
+            PunishmentType.MUTE to 3,
+            PunishmentType.GHOST_MUTE to 2
         )
         return getActivePunishments().sortedByDescending { bindings[it.getGrantable()]!! }
     }

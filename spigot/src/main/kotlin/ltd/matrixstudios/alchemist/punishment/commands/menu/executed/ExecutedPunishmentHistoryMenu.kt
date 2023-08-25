@@ -27,10 +27,11 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[10] = PunishmentTypeButton(PunishmentType.WARN, "&a&lIssued Warn", target)
-        buttons[12] = PunishmentTypeButton(PunishmentType.MUTE, "&a&lIssued Mute", target)
-        buttons[14] = PunishmentTypeButton(PunishmentType.BAN, "&a&lIssued Ban", target)
-        buttons[16] = PunishmentTypeButton(PunishmentType.BLACKLIST, "&a&lIssued Blacklist", target)
+        buttons[9] = PunishmentTypeButton(PunishmentType.WARN, "&a&lIssued Warn", target)
+        buttons[11] = PunishmentTypeButton(PunishmentType.MUTE, "&a&lIssued Mute", target)
+        buttons[13] = PunishmentTypeButton(PunishmentType.GHOST_MUTE, "&a&lIssued Ghost Mute", target)
+        buttons[15] = PunishmentTypeButton(PunishmentType.BAN, "&a&lIssued Ban", target)
+        buttons[17] = PunishmentTypeButton(PunishmentType.BLACKLIST, "&a&lIssued Blacklist", target)
 
         return buttons
     }

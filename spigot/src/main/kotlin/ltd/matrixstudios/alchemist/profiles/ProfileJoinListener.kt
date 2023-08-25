@@ -30,6 +30,37 @@ class ProfileJoinListener : Listener {
 
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).join() ?: return
 
+        var colorString = ""
+
+        if (profile.hasActivePrefix()) {
+
+            val prefix = profile.getActivePrefix()
+
+            if (prefix != null) {
+                prefixString = prefix.prefix
+            }
+        }
+
+        if (profile.activeColor != null) {
+            colorString = profile.activeColor!!.chatColor
+        }
+
+        var rank = RankService.FALLBACK_RANK
+
+        if (profile.rankDisguiseAttribute != null) {
+            val curr = RankService.byId(profile.rankDisguiseAttribute!!.rank)
+            if (curr != null) {
+                rank = curr
+            }
+        } else {
+            rank = profile.getCurrentRank()
+        }
+
+
+        //set format first
+        val format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
+
+        //player has explicit staff chat on
         if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
             event.isCancelled = true
             val message = event.message
@@ -38,6 +69,14 @@ class ProfileJoinListener : Listener {
             return
         }
 
+        //player is ghostmuted
+        if (profile.hasActivePunishment(PunishmentType.GHOST_MUTE)) {
+            event.isCancelled = true
+            event.player.sendMessage(Chat.format(format.replace("%1\$s", event.player.name).replace("%2\$s", event.message)))
+            return
+        }
+
+        //player is muted
         if (profile.hasActivePunishment(PunishmentType.MUTE)) {
             val mute = profile.getActivePunishments(PunishmentType.MUTE).first()
             event.isCancelled = true
@@ -51,6 +90,7 @@ class ProfileJoinListener : Listener {
             return
         }
 
+        //chat is muted
         if (ChatService.muted) {
             if (!event.player.hasPermission("alchemist.mutechat.bypass")) {
                 val message = ChatService.MUTE_MESSAGE
@@ -64,6 +104,7 @@ class ProfileJoinListener : Listener {
         }
 
 
+        //chat is slowed
         if (ChatService.slowed) {
             if (!event.player.hasPermission("alchemist.slowchat.bypass")) {
                 val message = ChatService.SLOW_MESSAGE
@@ -89,6 +130,7 @@ class ProfileJoinListener : Listener {
             }
         }
 
+        //player sends a link
         if (ChatService.LINK_LIMIT_ENABLED) {
             val msg = event.message
 
@@ -107,37 +149,8 @@ class ProfileJoinListener : Listener {
             }
         }
 
-
-        var colorString = ""
-
-        if (profile.hasActivePrefix()) {
-
-            val prefix = profile.getActivePrefix()
-
-            if (prefix != null) {
-                prefixString = prefix.prefix
-            }
-        }
-
-        if (profile.activeColor != null) {
-            colorString = profile.activeColor!!.chatColor
-        }
-
-        var rank = RankService.FALLBACK_RANK
-
-        if (profile.rankDisguiseAttribute != null) {
-            val curr = RankService.byId(profile.rankDisguiseAttribute!!.rank)
-            if (curr != null) {
-                rank = curr
-            }
-        }
-
-        if (profile.getCurrentRank() != null) {
-            rank = profile.getCurrentRank()
-        }
-
-
-        event.format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
+        //lastly set format
+        event.format = format
     }
 
     @EventHandler

@@ -17,10 +17,11 @@ class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(playe
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
-        buttons[10] = HistoryPlaceholderButton(PunishmentType.WARN, gameprofile)
-        buttons[12] = HistoryPlaceholderButton(PunishmentType.MUTE, gameprofile)
-        buttons[14] = HistoryPlaceholderButton(PunishmentType.BAN, gameprofile)
-        buttons[16] = HistoryPlaceholderButton(PunishmentType.BLACKLIST, gameprofile)
+        buttons[9] = HistoryPlaceholderButton(PunishmentType.WARN, gameprofile)
+        buttons[11] = HistoryPlaceholderButton(PunishmentType.MUTE, gameprofile)
+        buttons[13] = HistoryPlaceholderButton(PunishmentType.GHOST_MUTE, gameprofile)
+        buttons[15] = HistoryPlaceholderButton(PunishmentType.BAN, gameprofile)
+        buttons[17] = HistoryPlaceholderButton(PunishmentType.BLACKLIST, gameprofile)
 
         return buttons
     }

@@ -8,10 +8,7 @@ import ltd.matrixstudios.alchemist.punishment.commands.menu.ExecutedPunishmentHi
 import ltd.matrixstudios.alchemist.punishment.commands.menu.HistoryCommand
 import ltd.matrixstudios.alchemist.punishment.commands.menu.PunishmentLookupCommands
 import ltd.matrixstudios.alchemist.punishment.commands.redo.RebanCommand
-import ltd.matrixstudios.alchemist.punishment.commands.remove.UnbanCommand
-import ltd.matrixstudios.alchemist.punishment.commands.remove.UnblacklistCommand
-import ltd.matrixstudios.alchemist.punishment.commands.remove.UnmuteCommand
-import ltd.matrixstudios.alchemist.punishment.commands.remove.WipePunishmentsCommand
+import ltd.matrixstudios.alchemist.punishment.commands.remove.*
 import ltd.matrixstudios.alchemist.punishment.limitation.PunishmentLimitationUnderstander
 import ltd.matrixstudios.alchemist.util.Chat
 
@@ -41,9 +38,12 @@ object PunishmentModule : PluginModule {
         list.add(TempMuteCommand())
         list.add(KickCommand())
         list.add(WarnCommand())
+        list.add(GhostMuteCommand())
+        list.add(TempGhostMuteCommand())
 
         list.add(HistoryCommand())
 
+        list.add(UnghostmuteCommand())
         list.add(UnbanCommand())
         list.add(UnmuteCommand())
         list.add(UnblacklistCommand())

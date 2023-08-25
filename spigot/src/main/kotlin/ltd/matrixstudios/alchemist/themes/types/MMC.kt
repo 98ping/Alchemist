@@ -191,7 +191,7 @@ class MMC : Theme(
     }
 
     override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
-        return Chat.format(punishment.color + ChatColor.BOLD + punishment.id.replaceFirstChar { it.uppercase()}) + "s"
+        return Chat.format(punishment.color + ChatColor.BOLD + punishment.niceName) + "s"
     }
 
     override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {
