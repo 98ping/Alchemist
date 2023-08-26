@@ -32,8 +32,8 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
                     Chat.format("&7Click here to reset your active disguise."),
                     Chat.format("&7This will change all rank options back to their"),
                     Chat.format("&7original settings."),
-
-                    Chat.format("&aYou will now look like " + AlchemistAPI.getPlayerRankString(player.uniqueId)),
+                    " ",
+                    Chat.format("&aYou will look like " + AlchemistAPI.getPlayerRankString(player.uniqueId)),
                     " "
                 ),
                 "&eReset Rank Disguise",

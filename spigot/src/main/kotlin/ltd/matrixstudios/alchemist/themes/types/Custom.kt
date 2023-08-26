@@ -16,9 +16,9 @@ import java.util.Date
 
 class Custom : Theme(
     "custom",
-    "Custom",
+    "&eCustom",
     mutableListOf(
-        "Use theme messages as set in the config."
+        "&7Use theme messages as set in the config."
     ),
     Material.SLIME_BALL,
     0

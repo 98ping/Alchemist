@@ -58,7 +58,7 @@ class ProfileJoinListener : Listener {
 
 
         //set format first
-        val format = Chat.format((prefixString) + rank.prefix + rank.color + "%1\$s&7: &r${colorString}%2\$s")
+        val format = Chat.format((prefixString) + rank.prefix + rank.color + "${profile.username}&7: &r${colorString}%2\$s")
 
         //player has explicit staff chat on
         if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
@@ -72,7 +72,7 @@ class ProfileJoinListener : Listener {
         //player is ghostmuted
         if (profile.hasActivePunishment(PunishmentType.GHOST_MUTE)) {
             event.isCancelled = true
-            event.player.sendMessage(Chat.format(format.replace("%1\$s", event.player.name).replace("%2\$s", event.message)))
+            event.player.sendMessage(Chat.format(format.replace("%1\$s", profile.username).replace("%2\$s", event.message)))
             return
         }
 

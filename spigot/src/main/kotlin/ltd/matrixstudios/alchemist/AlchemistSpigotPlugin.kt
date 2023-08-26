@@ -183,7 +183,6 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             "&5[Vouchers] &fAll vouchers loaded in &5" + System.currentTimeMillis().minus(voucherStart) + "ms"
         )
 
-
         val papiStart = System.currentTimeMillis()
         registerExpansion()
 

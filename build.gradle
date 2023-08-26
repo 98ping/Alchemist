@@ -35,7 +35,6 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.22'
         kapt 'org.projectlombok:lombok:1.18.22'
 
-
         //local
         implementation fileTree(include: ['honey.jar'], dir: 'lib')
     }
