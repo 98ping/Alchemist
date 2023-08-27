@@ -17,8 +17,18 @@ import java.util.*
 
 class MMC : Theme(
     "MMC",
-    "&dMMC &7/ &6&lInvadedLands",
-    mutableListOf(" ", "&eSelect the &dMMC &7/ &6&lInvadedlands &etheme."),
+    "&dXeNitrogen",
+    mutableListOf(
+        " ",
+        "&7XeNitrogen is the core behind some of",
+        "&7the biggest servers in the PotPvP/KitPvP",
+        "&7scene. These being &dMinemenClub &7and",
+        "&6InvadedLands&7. These 2 servers use XeNitrogen",
+        "&7as their reliable backbone and it has a very unique",
+        "&7design style which gets along very well with staff members",
+        " ",
+        "&eClick to select the &dXeNitrogen &etheme.",
+        " "),
     Material.IRON_SWORD,
     0
 ) {

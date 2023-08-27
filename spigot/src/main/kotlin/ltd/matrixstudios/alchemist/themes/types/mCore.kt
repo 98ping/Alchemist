@@ -17,7 +17,16 @@ import java.util.*
 class mCore : Theme(
     "mCore",
     "&amCore",
-    mutableListOf(" ", "&eSelect the &amCore &etheme.", " "),
+    mutableListOf(
+        " ",
+        "&7mCore was a very popular",
+        "&7server core on McMarket which",
+        "&7through its very configurable",
+        "&7style, was able to amass a good",
+        "&7fortune while it was available",
+        " ",
+        "&eClick to select the &amCore &etheme.",
+        " "),
     Material.NAME_TAG, 0
 ) {
 

@@ -17,7 +17,16 @@ import java.util.*
 class Neutron : Theme(
     "neutron",
     "&6Neutron",
-    mutableListOf(" ", "&eSelect the &6Neutron &etheme.", " "),
+    mutableListOf(
+        " ",
+        "&7Neutron was the daily-driver behind",
+        "&7a very large HCF server called",
+        "&4CavePvP&7. The style of Neutron is very",
+        "&7simplistic and minimal allowing it to",
+        "&7be read very easily.",
+        " ",
+        "&eClick to select the &6Neutron &etheme.",
+        " "),
     Material.NETHER_STAR, 0
 ) {
 

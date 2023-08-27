@@ -14,7 +14,18 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.Date
 
-class Hydrogen : Theme("hydrogen", "&bHydrogen", mutableListOf(" ", "&eSelect the &bHydrogen &etheme.", " "), Material.WATER_BUCKET, 0){
+class Hydrogen : Theme("hydrogen", "&bHydrogen", mutableListOf(
+    " ",
+    "&7Hydrogen was the main RestAPI-based rank core",
+    "&7that was found on most &bFrozenOrb &7operated",
+    "&7servers. &dVelt&7, &5Arcane&7, and &6Viper &7used this core",
+    "&7for a long time and held many players while doing so.",
+    "&7Hydrogen has a simplistic and minimal look which makes it",
+    "&7great for all staff members",
+    " ",
+    "&eClick to select the &bHydrogen &etheme.",
+    " "
+), Material.WATER_BUCKET, 0){
 
     override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
         val desc = mutableListOf<String>()
