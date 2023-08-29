@@ -32,7 +32,7 @@ class AlchemistCommand : BaseCommand() {
     @CommandPermission("alchemist.reload")
     fun reload(sender: CommandSender) {
         AlchemistSpigotPlugin.instance.reloadConfig()
-        sender.sendMessage(Chat.format("&aAlchemist config successfully reloaded."))
+        sender.sendMessage(Chat.format("&eAlchemist has been reloaded. Files afffected: &aconfig.yml&e."))
     }
 
 }
