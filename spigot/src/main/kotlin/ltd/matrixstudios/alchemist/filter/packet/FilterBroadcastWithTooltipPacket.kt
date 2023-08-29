@@ -34,7 +34,7 @@ class FilterBroadcastWithTooltipPacket(
 
         val component = Component.text(
             Chat.format("&e[Filter] &7[${uniqueServer.displayName}] &c(")).append(Component.text(target.username))
-            .color(Chat.findTextColorFromString(target.getCurrentRank()?.color ?: "&f"))
+            .color(Chat.findTextColorFromString(target.getCurrentRank().color))
             .append(Component.text(Chat.format(" &e-> $message&c)"))).hoverEvent(HoverEvent.showText(hoverComponent))
 
         Bukkit.getOnlinePlayers().filter { it.hasPermission("alchemist.staff") }.forEach {
