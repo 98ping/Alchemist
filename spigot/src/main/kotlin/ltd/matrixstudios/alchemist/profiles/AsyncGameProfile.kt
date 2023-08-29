@@ -6,9 +6,11 @@ import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.WebUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import java.util.*
@@ -31,11 +33,13 @@ data class AsyncGameProfile(
         sender: CommandSender,
         action: (GameProfile) -> Unit
     ): CompletableFuture<Void> {
-        val future = future.thenAccept { t ->
+        val f = future.thenAccept { t ->
             if (t.isEmpty()) {
                 sender.sendMessage(Chat.format("&cA profile with the name &e$name &cwas not found"))
                 return@thenAccept
             }
+
+            //todo: get dash to fix code
 
             if (t.size > 1) {
                 sender.sendMessage(Chat.format("&cThere were multiple results to your request!"))
@@ -56,37 +60,42 @@ data class AsyncGameProfile(
             action.invoke(t.first())
         }
 
-        return future
-
-
+        return f
     }
 
     companion object {
         fun name(
             name: String
         ): AsyncGameProfile {
-            var uuid: UUID? = null
+            val uuid: UUID? = findUUID(name)
 
-            try {
-                uuid = UUID.fromString(name)
-            } catch (_: IllegalArgumentException) { }
-
-
-            if (uuid != null) {
+            return if (uuid != null) {
                 val profile = ProfileGameService.byId(uuid)
                     ?: throw ConditionFailedException("${ChatColor.RED}The uuid ${ChatColor.YELLOW}$uuid ${ChatColor.RED}does not have an active profile")
 
 
-                return AsyncGameProfile(
+                AsyncGameProfile(
                     profile.username,
                     CompletableFuture.completedFuture(Collections.singletonList(profile))
                 )
+            } else {
+                AsyncGameProfile(
+                    name,
+                    ProfileGameService.byUsernameWithList(name)
+                )
+            }
+        }
+
+        fun findUUID(string: String): UUID? {
+            val uuid: UUID?
+
+            try {
+                uuid = UUID.fromString(string)
+            } catch (_: IllegalArgumentException) {
+                return null
             }
 
-            return AsyncGameProfile(
-                name,
-                ProfileGameService.byUsernameWithList(name)
-            )
+            return uuid
         }
     }
 }
