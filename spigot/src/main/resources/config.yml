@@ -41,6 +41,7 @@ coinshop:
 chat:
   slowChatMessage: "&cChat is currently slowed! Please wait &c&l<seconds> seconds"
   muteChatMessage: "&cChat is currently muted! You may not talk right now"
+  format: "<prefix_string><rank_string><player_name>&7: &7<color_string><message>"
   rankToSendLinks:
     enabled: false
     minimum_rank: "partner" #any rank you want it to be

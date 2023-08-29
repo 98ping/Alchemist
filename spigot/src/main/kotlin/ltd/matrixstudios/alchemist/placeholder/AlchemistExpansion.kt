@@ -65,7 +65,7 @@ class AlchemistExpansion : PlaceholderExpansion() {
                 }
 
                 if (player.hasMetadata("vanish")) {
-                    return Chat.format("&7[S] ")
+                    return Chat.format("&7[V] ")
                 }
 
 

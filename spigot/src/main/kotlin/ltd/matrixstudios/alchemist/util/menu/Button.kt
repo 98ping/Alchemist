@@ -32,7 +32,7 @@ abstract class Button {
             return getButtonItem(player)!!
         }
 
-        val itemStack: ItemStack = ItemStack(getMaterial(player))
+        val itemStack = ItemStack(getMaterial(player))
 
         itemStack.durability = getData(player)
 
@@ -40,10 +40,7 @@ abstract class Button {
 
         itemMeta.displayName = getDisplayName(player)
         itemMeta.lore = getDescription(player)
-
-
         itemStack.itemMeta = itemMeta
-
         itemStack.amount = setCustomAmount(player)
 
         return itemStack

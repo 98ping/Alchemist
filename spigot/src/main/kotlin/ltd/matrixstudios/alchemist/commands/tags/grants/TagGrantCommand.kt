@@ -36,8 +36,8 @@ class TagGrantCommand : BaseCommand() {
     fun manual(sender: CommandSender,
                @Name("target") gameProfile: GameProfile,
                @Name("tag") tag: String,
-               @Name("duration") duration: String
-               , @Name("reason") reason: String
+               @Name("duration") duration: String,
+               @Name("reason") reason: String
     ) {
         val time: Long
         try {

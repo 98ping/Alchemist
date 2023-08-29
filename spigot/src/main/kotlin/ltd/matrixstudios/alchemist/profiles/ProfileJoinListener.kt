@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
+import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -58,7 +59,18 @@ class ProfileJoinListener : Listener {
 
 
         //set format first
-        val format = Chat.format((prefixString) + rank.prefix + rank.color + "${profile.username}&7: &r${colorString}%2\$s")
+        val configFormat = AlchemistSpigotPlugin.instance.config.getString("chat.format")
+        val format = Chat.format(configFormat
+            .replace("<prefix_string>", prefixString)
+            .replace("<rank_string>", rank.prefix)
+            .replace("<player_name>", profile.username)
+            .replace("<color_string>", colorString)
+            .replace("<message>", "%2\$s"))
+
+        if (AlchemistSpigotPlugin.instance.server.pluginManager.isPluginEnabled("PlaceholderAPI"))
+        {
+            PlaceholderAPI.setPlaceholders(event.player, format)
+        }
 
         //player has explicit staff chat on
         if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {

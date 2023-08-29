@@ -1,11 +1,9 @@
 package ltd.matrixstudios.alchemist.commands.coins.editor.items.specific
 
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemAttributeEditor
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
-import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
