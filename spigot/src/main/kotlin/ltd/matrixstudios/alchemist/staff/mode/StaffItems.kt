@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.staff.mode
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.serialize.Serializers
 import ltd.matrixstudios.alchemist.serialize.type.ItemStackAdapter
+import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import org.bukkit.Location
 import org.bukkit.Material
@@ -20,7 +21,10 @@ object StaffItems {
     val VANISH = ItemBuilder.of(Material.INK_SACK).data(8).name("&bUnvanish").build()
     val UNVANISH = ItemBuilder.of(Material.INK_SACK).data(10).name("&bVanish").build()
     val FREEZE = ItemBuilder.of(Material.ICE).name("&bFreeze Player").build()
-    val LAST_PVP = ItemBuilder.of(Material.EMERALD).name("&cLast PvP").build()
+    val LAST_PVP = ItemBuilder.of(Material.EMERALD).name("&bLast PvP").build()
+    val EDIT_MOD_MODE = ItemBuilder.of(Material.EMERALD).name(Chat.format("&a&lEdit Mod Mode")).build()
+
+    val ITEMS_IN_LIST = listOf(COMPASS, INVENTORY_INSPECT, RANDOMTP, WORLDEDIT_AXE, BETTER_VIEW, ONLINE_STAFF, VANISH, UNVANISH, FREEZE, LAST_PVP, EDIT_MOD_MODE)
 
     var lastPvP: Location? = null
 
@@ -52,6 +56,8 @@ object StaffItems {
                 player.inventory.setItem(8, FREEZE)
             }
         }
+
+        player.inventory.setItem(22, EDIT_MOD_MODE)
 
     }
 

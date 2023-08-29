@@ -10,5 +10,4 @@ data class Session(
     var serversJoined: MutableMap<Long, UniqueServer>,
     var loggedInAt: Long,
     var leftAt: Long,
-    ){
-}
+)

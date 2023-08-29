@@ -19,7 +19,7 @@ class MenuListener : Listener {
     fun onPaginatedMenuClick(event: InventoryClickEvent) {
         val menu = MenuController.paginatedMenuMap[event.whoClicked.uniqueId]
         val player = event.whoClicked
-        if (menu != null) {
+        if (menu != null && event.clickedInventory != player.inventory) {
             val slot = event.slot
             val click = event.click
 
@@ -118,7 +118,7 @@ class MenuListener : Listener {
         val menu = MenuController.menuMap[event.whoClicked.uniqueId]
         val player = event.whoClicked
 
-        if (menu != null) {
+        if (menu != null && event.clickedInventory != player.inventory) {
             val slot = event.slot
             val click = event.click
 

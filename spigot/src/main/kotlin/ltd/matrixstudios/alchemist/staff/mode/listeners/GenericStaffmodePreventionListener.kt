@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.staff.mode.listeners
 
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
+import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -95,6 +96,14 @@ class GenericStaffmodePreventionListener : Listener {
     fun drop(e: PlayerDropItemEvent) {
         if (StaffSuiteManager.isModMode(e.player))
         {
+            val item = e.itemDrop.itemStack
+            if (StaffItems.ITEMS_IN_LIST.any { it.isSimilar(item) })
+            {
+                e.isCancelled = true
+                e.player.sendMessage(Chat.format("&cYou cannot drop staffmode related items!"))
+                return
+            }
+
             if (!e.player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true

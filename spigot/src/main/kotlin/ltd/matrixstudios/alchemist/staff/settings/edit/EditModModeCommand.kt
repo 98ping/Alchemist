@@ -27,6 +27,7 @@ class EditModModeCommand : BaseCommand() {
         player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
     }
 
+
     @CommandAlias("savemodmode")
     @CommandPermission("alchemist.staffmode")
     fun savemodmode(player: Player)

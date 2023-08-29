@@ -19,16 +19,16 @@ class EditModModeMenu(val player: Player) : Menu(player) {
 
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
-        buttons[0] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(14.toShort()).name("&cBetter View").build())
-        buttons[1] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(1.toShort()).name("&cBetter View").build())
-        buttons[2] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(4.toShort()).name("&cBetter View").build())
-        buttons[3] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(5.toShort()).name("&cBetter View").build())
-        buttons[4] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(9.toShort()).name("&cBetter View").build())
-        buttons[5] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(11.toShort()).name("&cBetter View").build())
-        buttons[6] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(6.toShort()).name("&cBetter View").build())
-        buttons[7] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(2.toShort()).name("&cBetter View").build())
-        buttons[8] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(7.toShort()).name("&cBetter View").build())
-        buttons[9] = EditModModeMenuButton(ItemBuilder.of(Material.EMERALD).name("&cLast PvP").build())
+        buttons[0] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(14.toShort()).name("&bBetter View").build())
+        buttons[1] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(1.toShort()).name("&bBetter View").build())
+        buttons[2] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(4.toShort()).name("&bBetter View").build())
+        buttons[3] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(5.toShort()).name("&bBetter View").build())
+        buttons[4] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(9.toShort()).name("&bBetter View").build())
+        buttons[5] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(11.toShort()).name("&bBetter View").build())
+        buttons[6] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(6.toShort()).name("&bBetter View").build())
+        buttons[7] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(2.toShort()).name("&bBetter View").build())
+        buttons[8] = EditModModeMenuButton(ItemBuilder.of(Material.CARPET).data(7.toShort()).name("&bBetter View").build())
+        buttons[9] = EditModModeMenuButton(ItemBuilder.of(Material.EMERALD).name("&bLast PvP").build())
         return buttons
     }
 

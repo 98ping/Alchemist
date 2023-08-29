@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteVisibilityHandler
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.staff.mode.menu.OnlineStaffMenu
+import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -13,6 +14,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -115,6 +117,23 @@ class StaffmodeFunctionalityListener : Listener {
                 {
                     e.isCancelled = true
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    fun inventoryClickEvent(e: InventoryClickEvent)
+    {
+        val player = e.whoClicked as Player
+
+        if (StaffSuiteManager.isModMode(player))
+        {
+            if (e.currentItem.isSimilar(StaffItems.EDIT_MOD_MODE))
+            {
+                EditModModeMenu(player).openMenu()
+                player.sendMessage(Chat.format("&eYou are now editing your &amod mode"))
+                player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
+                e.isCancelled = true
             }
         }
     }

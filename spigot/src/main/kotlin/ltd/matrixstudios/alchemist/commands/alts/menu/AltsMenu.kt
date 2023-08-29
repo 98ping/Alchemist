@@ -45,6 +45,8 @@ class AltsMenu(var player: Player, var target: GameProfile, var alts: MutableLis
             if (target.ip == gameProfile.ip)
             {
                 desc.add(Chat.format("&aCurrently matching ${AlchemistAPI.getRankDisplay(target.uuid)}"))
+            } else {
+                desc.add(Chat.format("&cNot Currently Matching ${AlchemistAPI.getRankDisplay(target.uuid)}"))
             }
 
             val punishments = target.getActivePunishmentsFilteredByImportance()
@@ -56,6 +58,9 @@ class AltsMenu(var player: Player, var target: GameProfile, var alts: MutableLis
             desc.add(Chat.format("&6&m-------------------------------"))
             desc.add(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + "&e's Current IP data:"))
             desc.add(Chat.format("  &eLast Login: &f" + Date(gameProfile.lastSeenAt)))
+            desc.add(" ")
+            desc.add(Chat.format(AlchemistAPI.getRankDisplay(target.uuid) + "&e's Current IP data:"))
+            desc.add(Chat.format("  &eLast Login: &f" + Date(target.lastSeenAt)))
 
             return desc
         }
