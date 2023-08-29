@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
 import ltd.matrixstudios.alchemist.staff.commands.OnlineStaffCommand
 import ltd.matrixstudios.alchemist.staff.commands.StaffchatCommand
 import ltd.matrixstudios.alchemist.staff.commands.TimelineCommand
+import ltd.matrixstudios.alchemist.staff.mode.action.StaffModeActionBarHandler
 import ltd.matrixstudios.alchemist.staff.mode.commands.FreezeCommand
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.VanishCommands
@@ -26,7 +27,9 @@ import org.checkerframework.common.util.report.qual.ReportCall
  * @website https://solo.to/redis
  */
 object StaffModeModule : PluginModule {
-    override fun onLoad() { }
+    override fun onLoad() {
+        StaffModeActionBarHandler().runTaskTimer(AlchemistSpigotPlugin.instance, 20L, 20L)
+    }
 
     override fun getCommands(): MutableList<BaseCommand> {
         val list = mutableListOf<BaseCommand>()
