@@ -167,7 +167,7 @@ class MMC : Theme(
     }
 
     override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
-        return Chat.format((if (punishment.expirable.isActive()) "&a" else "&c") + Date(punishment.expirable.addedAt).toString())
+        return Chat.format((if (punishment.expirable.isActive()) "&a&l(Active) " else "&c&l(Inactive) ") + Date(punishment.expirable.addedAt).toString())
     }
 
     override fun getHistoryData(player: Player, punishment: Punishment): Short {

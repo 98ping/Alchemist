@@ -24,9 +24,4 @@ object Serializers {
 
          })
         .create()
-
-    fun <T> fromJson(json: String, any: Class<T>) : T
-    {
-        return GSON.fromJson(json, any)
-    }
 }
