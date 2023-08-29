@@ -5,6 +5,8 @@ import co.aikar.commands.MessageType
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.context.*
+import ltd.matrixstudios.alchemist.aikar.flags.FlagTypeResolver
+import ltd.matrixstudios.alchemist.aikar.flags.MakeshiftFlag
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
