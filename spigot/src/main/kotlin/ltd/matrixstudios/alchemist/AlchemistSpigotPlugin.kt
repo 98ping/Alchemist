@@ -199,7 +199,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         if (config.getBoolean("discord.grants.enabled")) {
 
-            WebhookService.createPunishmentClient(config.getString("discord.grants.webhookLink"))
+            WebhookService.createRankGrantClient(config.getString("discord.grants.webhookLink"))
         }
 
         Chat.sendConsoleMessage(

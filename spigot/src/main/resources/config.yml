@@ -77,7 +77,7 @@ grants:
   reasonMenuSize: 27
 
 #enable and disable all modules
-#when doing this, you insure that
+#when doing this, you ensure that
 #no commands/features of each system
 #are loaded on the server. This means that
 #performance will not be negatively affected
