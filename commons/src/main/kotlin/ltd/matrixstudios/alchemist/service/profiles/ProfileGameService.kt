@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -53,6 +54,30 @@ object ProfileGameService : GeneralizedService {
     fun byId(uuid: UUID): GameProfile? {
         return cache.computeIfAbsent(uuid) {
             return@computeIfAbsent handler.retrieveAsync(it).get()
+        }
+    }
+
+    fun ipReportLookup() : CompletableFuture<MutableList<GameProfile>>
+    {
+        return CompletableFuture.supplyAsync {
+            val ret = mutableListOf<GameProfile>()
+            val allProfiles = handler.retrieveAll()
+
+            for (profile in allProfiles)
+            {
+                for (alt in profile.getAltAccounts().join())
+                {
+                    if (alt.hasActivePunishment(PunishmentType.BLACKLIST) || alt.hasActivePunishment(PunishmentType.BAN) || alt.hasActivePunishment(PunishmentType.MUTE))
+                    {
+                        if (!profile.hasActivePunishment(PunishmentType.BAN) && !profile.hasActivePunishment(PunishmentType.BLACKLIST))
+                        {
+                            ret.add(profile)
+                        }
+                    }
+                }
+            }
+
+            return@supplyAsync ret
         }
     }
 

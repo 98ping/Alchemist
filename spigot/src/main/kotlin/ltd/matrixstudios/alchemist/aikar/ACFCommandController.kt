@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
 import ltd.matrixstudios.alchemist.commands.admin.panel.AdminPanelCommand
 import ltd.matrixstudios.alchemist.commands.alts.AltsCommand
+import ltd.matrixstudios.alchemist.commands.alts.IpReportCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
@@ -129,6 +130,7 @@ object ACFCommandController {
             registerCommand(AuditCommand)
 
             registerCommand(AltsCommand())
+            registerCommand(IpReportCommand())
 
             if (config.getBoolean("modules.notes")) {
                 registerCommand(PlayerNotesCommands())

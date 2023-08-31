@@ -74,7 +74,7 @@ object AlchemistAPI {
     fun findRank(uuid: UUID) : Rank {
         val profile = ProfileGameService.byId(uuid) ?: return RankService.FALLBACK_RANK
 
-        return profile.getCurrentRank()!!
+        return profile.getCurrentRank()
     }
 
     fun supplyColoredNames() : CompletableFuture<List<Player>> {

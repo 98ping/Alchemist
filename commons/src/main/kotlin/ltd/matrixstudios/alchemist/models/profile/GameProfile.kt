@@ -116,11 +116,58 @@ data class GameProfile(
         return finalAccounts
     }
 
+    fun getAltMostSeriousPunishment() : String
+    {
+        if (alternateAccountHasBlacklist()) return "&4Blacklist"
+        if (alternateAccountHasBan()) return "&cBan"
+        return "&fNone"
+    }
+
+    fun getPunishmentedPrefix() : String
+    {
+        if (alternateAccountHasBlacklist())
+        {
+            return "&4"
+        }
+
+        if (alternateAccountHasBan())
+        {
+            return "&c"
+        }
+
+        if (alternateAccountHasMute())
+        {
+            return "&f&o"
+        }
+
+        return "&7"
+    }
+
     fun alternateAccountHasBlacklist() : Boolean {
         val alts = getAltAccounts().join()
 
         for (acc in alts) {
             if (acc.hasActivePunishment(PunishmentType.BLACKLIST)) return true
+        }
+
+        return false
+    }
+
+    fun alternateAccountHasBan() : Boolean {
+        val alts = getAltAccounts().join()
+
+        for (acc in alts) {
+            if (acc.hasActivePunishment(PunishmentType.BAN)) return true
+        }
+
+        return false
+    }
+
+    fun alternateAccountHasMute() : Boolean {
+        val alts = getAltAccounts().join()
+
+        for (acc in alts) {
+            if (acc.hasActivePunishment(PunishmentType.MUTE)) return true
         }
 
         return false
