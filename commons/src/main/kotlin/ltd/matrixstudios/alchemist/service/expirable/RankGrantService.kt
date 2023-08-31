@@ -126,23 +126,5 @@ object RankGrantService : ExpiringService<RankGrant>() {
         }
     }
 
-    fun findByTargetSync(target: UUID): MutableList<RankGrant> {
-
-        val sorted = collection.find(Document("target", target.toString()))
-
-        val toReturn = mutableListOf<RankGrant>()
-        val cursor = sorted.cursor()
-
-        while (cursor.hasNext()) {
-            val document = cursor.next()
-            val json = Alchemist.gson.fromJson(document.toJson(), RankGrant::class.java)
-
-            toReturn.add(json)
-        }
-
-        return toReturn
-
-    }
-
     override fun clearOutModels() {}
 }

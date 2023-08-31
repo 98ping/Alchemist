@@ -15,5 +15,4 @@ data class RankScope(
 ) {
 
     fun appliesOn(server: UniqueServer) : Boolean = servers.contains(server.id)
-
 }
