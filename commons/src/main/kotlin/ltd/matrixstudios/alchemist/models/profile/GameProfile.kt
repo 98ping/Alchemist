@@ -266,39 +266,24 @@ data class GameProfile(
         return allPerms
     }
 
-    fun getPermissions(): HashMap<String?, Boolean?> {
-        val returnedPerms = hashMapOf<String?, Boolean?>()
-        val allPerms = arrayListOf<String>()
+    // TODO: handle false permissions in the map
+    fun getPermissions(): Map<String, Boolean> {
+        val allPerms = getCurrentRank().permissions
+            .toMutableList()
 
-        allPerms.addAll(getCurrentRank().permissions)
-
-        val parents = getCurrentRank().parents.map {
-            RankService.byId(it)
-        }
-
-        parents.forEach { rank ->
-            if (rank != null)
-            {
-                allPerms.addAll(rank.getAllPermissions())
+        getCurrentRank()
+            .parents
+            .mapNotNull(RankService::byId)
+            .forEach { rank ->
+                allPerms += rank.getAllPermissions()
             }
-        }
 
-
-        allPerms.forEach {
-            returnedPerms[it] = true
-        }
-
-        for (permission in permissions)
-        {
-            if (!returnedPerms.containsKey(permission))
-            {
-                returnedPerms[permission] = true
+        return listOf(permissions, allPerms)
+            .flatten()
+            .associateWith {
+                !it.startsWith("*")
             }
-        }
-
-        return returnedPerms
     }
-
 
     fun hasActivePunishment(type: PunishmentType): Boolean {
         return getPunishments().find { it.expirable.isActive() && it.getGrantable() == type } != null

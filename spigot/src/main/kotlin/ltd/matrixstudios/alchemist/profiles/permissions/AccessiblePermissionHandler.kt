@@ -47,7 +47,7 @@ object AccessiblePermissionHandler {
         } else 0
     }
 
-    fun update(player: Player, perms: Map<String?, Boolean?>?) {
+    fun update(player: Player, perms: Map<String, Boolean>) {
         permissionAttachmentMap.putIfAbsent(player.uniqueId, player.addAttachment(AlchemistSpigotPlugin.instance))
         try {
             val attachment = permissionAttachmentMap[player.uniqueId]
