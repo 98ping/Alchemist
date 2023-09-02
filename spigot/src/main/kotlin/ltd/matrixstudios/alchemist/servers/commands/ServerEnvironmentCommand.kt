@@ -53,7 +53,6 @@ class ServerEnvironmentCommand : BaseCommand() {
             }.start(sender)
     }
 
-    @Subcommand("help")
     @HelpCommand
     fun help(help: CommandHelp) {
         help.showHelp()
