@@ -1,11 +1,8 @@
 package ltd.matrixstudios.alchemist.commands.vouchers
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Default
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.CommandHelp
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.vouchers.VoucherGrant
@@ -28,16 +25,9 @@ class VoucherCommand : BaseCommand() {
 
     @Subcommand("help")
     @CommandPermission("alchemist.vouchers.admin")
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lVoucher Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/voucher template setprize &f<id> <prize>"))
-        sender.sendMessage(Chat.format("&e/voucher template setcommand &f<id> <command>"))
-        sender.sendMessage(Chat.format("&e/voucher issue &f<id> <target> <duration>"))
-        sender.sendMessage(Chat.format("&e/voucher template create &f<id>"))
-        sender.sendMessage(Chat.format("&e/voucher template delete &f<id>"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    @HelpCommand
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("template setprize")

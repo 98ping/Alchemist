@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.uuid
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -14,13 +15,8 @@ object UUIDCacheCommands : BaseCommand() {
 
     @HelpCommand
     @CommandPermission("rank.admin")
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lUUID Cache Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/uuid checkId &f<uuid>"))
-        sender.sendMessage(Chat.format("&e/uuid checkname &f<name>"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("checkId")

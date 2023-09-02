@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.rank
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -23,23 +24,13 @@ class GenericRankCommands : BaseCommand() {
 
     @HelpCommand
     @CommandPermission("rank.admin")
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lRank Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/rank info &f<rank>"))
-        sender.sendMessage(Chat.format("&e/rank create &f<rank>"))
-        sender.sendMessage(Chat.format("&e/rank delete &f<rank>"))
-        sender.sendMessage(Chat.format("&e/rank rename-id &f<rank> <new-id>"))
-        sender.sendMessage(Chat.format("&e/rank list"))
-        sender.sendMessage(Chat.format("&e/rank editor"))
-        sender.sendMessage(Chat.format("&e/rank module &f<rank> <module> <value>"))
-        sender.sendMessage(Chat.format("&e/rank inheritance &f<rank>"))
-        sender.sendMessage(Chat.format("&e/rank setscope &f<rank> &f<scope>"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    @Description("Display the help syntax.")
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("setscope")
+    @Description("Set the servers that a rank will be visible and applicable on.")
     @CommandPermission("rank.admin")
     fun setscope(sender: CommandSender, @Name("rank")rank: Rank, @Name("scope") rankScope: RankScope)
     {
@@ -54,6 +45,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("rename-id")
+    @Description("Rename the id of a rank to a new one.")
     @CommandPermission("rank.admin")
     fun renameId(sender: CommandSender, @Name("rank")rankString: String, @Name("id") id: String) {
         val rank = RankService.byIdAnyCase(rankString)
@@ -93,6 +85,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("inheritance")
+    @Description("Add groups in which this rank will inherit all permisisons from.")
     @CommandPermission("rank.admin")
     fun inheritance(sender: CommandSender, @Name("name") name: String) {
         if (RankService.byId(name.toLowerCase()) == null) {
@@ -114,6 +107,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("create")
+    @Description("Create a new rank.")
     @CommandPermission("rank.admin")
     fun create(sender: CommandSender, @Name("name") name: String) {
         if (RankService.byId(name.toLowerCase()) != null) {
@@ -132,6 +126,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("list")
+    @Description("Show a list of all loaded ranks.")
     @CommandPermission("rank.admin")
     fun list(sender: CommandSender) {
         sender.sendMessage(Chat.format("&7&m--------------------------"))
@@ -148,12 +143,14 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("editor")
+    @Description("Open the rank editor menu.")
     @CommandPermission("rank.admin")
     fun editor(player: Player) {
         RankEditor(player).updateMenu()
     }
 
     @Subcommand("delete")
+    @Description("Delete a rank with a given name.")
     @CommandPermission("rank.admin")
     fun delete(sender: CommandSender, @Name("rank") name: String) {
         if (RankService.byId(name.toLowerCase()) == null) {
@@ -170,6 +167,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("info")
+    @Description("Show detailed information about a rank.")
     @CommandPermission("rank.admin")
     fun info(sender: CommandSender, @Name("rank") name: String) {
         if (RankService.byId(name.toLowerCase()) == null) {
@@ -201,6 +199,7 @@ class GenericRankCommands : BaseCommand() {
     }
 
     @Subcommand("module")
+    @Description("Manually edit certain internal and external features of a rank.")
     @CommandPermission("rank.admin")
     fun module(
         sender: CommandSender,

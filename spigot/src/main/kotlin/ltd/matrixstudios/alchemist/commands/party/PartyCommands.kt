@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.party
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
@@ -31,17 +32,8 @@ class PartyCommands : BaseCommand() {
     }
 
     @HelpCommand
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lParty Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/party create"))
-        sender.sendMessage(Chat.format("&e/party invite <target>"))
-        sender.sendMessage(Chat.format("&e/party disband"))
-        sender.sendMessage(Chat.format("&e/party accept <target>"))
-        sender.sendMessage(Chat.format("&e/party kick <target>"))
-        sender.sendMessage(Chat.format("&e/party leave"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("kick")

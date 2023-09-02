@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.servers.commands
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.HelpCommand
@@ -54,17 +55,8 @@ class ServerEnvironmentCommand : BaseCommand() {
 
     @Subcommand("help")
     @HelpCommand
-    fun help(player: Player) {
-        player.sendMessage(Chat.format("&7&m-------------------"))
-        player.sendMessage(Chat.format("&6&lServer Commands"))
-        player.sendMessage(" ")
-        player.sendMessage(Chat.format("&e/senv dump"))
-        if (player.hasPermission("alchemist.servers.admin")) {
-            player.sendMessage(Chat.format("&e/senv checkrelease"))
-            player.sendMessage(Chat.format("&e/senv releasetimer &f<duration>"))
-            player.sendMessage(Chat.format("&e/senv menu"))
-        }
-        player.sendMessage(Chat.format("&7&m-------------------"))
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("dump")

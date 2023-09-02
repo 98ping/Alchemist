@@ -78,7 +78,7 @@ object ACFCommandController {
             this.enableUnstableAPI("help")
 
             this.setFormat(MessageType.SYNTAX, BukkitMessageFormatter(ChatColor.YELLOW, ChatColor.GOLD, ChatColor.WHITE))
-            this.setFormat(MessageType.HELP, BukkitMessageFormatter(ChatColor.YELLOW, ChatColor.GOLD, ChatColor.WHITE))
+            this.setFormat(MessageType.HELP, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.GRAY))
 
             if (config.getBoolean("modules.ranks")) {
                 registerCommand(GenericRankCommands())

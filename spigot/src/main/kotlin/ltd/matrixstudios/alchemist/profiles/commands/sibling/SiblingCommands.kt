@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.profiles.commands.sibling
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.profiles.commands.sibling.menu.SiblingCheckMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -21,15 +22,9 @@ import org.bukkit.entity.Player
 class SiblingCommands : BaseCommand() {
 
     @HelpCommand
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lSibling Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/sibling add &f<target> <sibling>"))
-        sender.sendMessage(Chat.format("&e/sibling check &f<target>"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
-
 
     @Subcommand("add")
     fun add(sender: CommandSender, @Name("target")target: GameProfile, @Name("sibling")sibling: GameProfile) {

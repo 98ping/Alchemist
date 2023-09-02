@@ -1,9 +1,11 @@
 package ltd.matrixstudios.alchemist.commands.filter
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
+import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshFiltersPacket
@@ -17,7 +19,13 @@ import java.util.*
 @CommandPermission("alchemist.filters.admin")
 class FilterCommands : BaseCommand() {
 
-    @Default
+    @HelpCommand
+    fun help(help: CommandHelp)
+    {
+        help.showHelp()
+    }
+
+    @Subcommand("editor")
     fun create(player: Player) {
         FilterEditorMenu(player).updateMenu()
     }

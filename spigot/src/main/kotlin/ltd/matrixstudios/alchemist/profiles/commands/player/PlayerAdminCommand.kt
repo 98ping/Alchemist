@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.profiles.commands.player
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import com.google.gson.JsonObject
@@ -20,14 +21,8 @@ import java.util.UUID
 class PlayerAdminCommand : BaseCommand() {
 
     @HelpCommand
-    fun help(sender: CommandSender) {
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format("&6&lProfile Admin Help"))
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&e/user info &f<target>"))
-        sender.sendMessage(Chat.format("&e/user test-async &f<target>"))
-        sender.sendMessage(Chat.format("&e/user create &f<username> <uuid>"))
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
+    fun help(help: CommandHelp) {
+        help.showHelp()
     }
 
     @Subcommand("create")
