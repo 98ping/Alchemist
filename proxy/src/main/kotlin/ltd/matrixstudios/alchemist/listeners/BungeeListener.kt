@@ -36,6 +36,20 @@ class BungeeListener : Listener {
     }
 
     @EventHandler
+    fun handlePermissions(event: ServerConnectEvent)
+    {
+        val profile = ProfileGameService.byId(event.player.uniqueId) ?: return
+
+        for ((a, b) in profile.getPermissions())
+        {
+            if (!b)
+            {
+                event.player.setPermission(a, true)
+            }
+        }
+    }
+
+    @EventHandler
     fun login(event: LoginEvent) {
         val player = event.connection.uniqueId
 
@@ -66,7 +80,7 @@ class BungeeListener : Listener {
             if (playerRank.staff) {
                 StaffMessagePacket("&b[S] &r" + playerRank.color + player.name + " &3left the network").action()
             }
-        }, 1100L, TimeUnit.SECONDS)
+        }, 100L, TimeUnit.SECONDS)
     }
 
     @EventHandler
@@ -79,6 +93,6 @@ class BungeeListener : Listener {
                     event.player.disconnect(TextComponent(ChatColor.translateAlternateColorCodes('&',"&cServer is on lockdown and you do not have clearance!")))
                 }
             }
-        }, 1100L, TimeUnit.MILLISECONDS)
+        }, 100L, TimeUnit.MILLISECONDS)
     }
 }
