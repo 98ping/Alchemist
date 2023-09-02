@@ -21,7 +21,9 @@ object LoadPermissions : BukkitPostLoginTask {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
         val startPerms = System.currentTimeMillis()
-        AccessiblePermissionHandler.update(player, profile.getPermissions())
+        CompletableFuture.runAsync {
+            AccessiblePermissionHandler.update(player, profile.getPermissions())
+        }
 
         MetricService.addMetric("Permission Handler", Metric("Permission Handler", System.currentTimeMillis().minus(startPerms), System.currentTimeMillis()))
     }
