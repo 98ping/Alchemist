@@ -152,7 +152,6 @@ object ACFCommandController {
                 registerCommand(FriendCommands(), true)
             }
 
-            registerCommand(ServerEnvironmentCommand())
             registerCommand(AdminChatCommand())
 
             registerCommand(MetricCommand())

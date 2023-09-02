@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.servers.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
+import co.aikar.commands.CommandIssuer
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.HelpCommand
@@ -21,6 +22,11 @@ import org.bukkit.entity.Player
 
 @CommandAlias("senv|env|environment")
 class ServerEnvironmentCommand : BaseCommand() {
+
+    @HelpCommand
+    fun help( help: CommandHelp) {
+        help.showHelp()
+    }
 
     @Subcommand("menu")
     @CommandPermission("alchemist.servers.admin")
@@ -51,11 +57,6 @@ class ServerEnvironmentCommand : BaseCommand() {
                     sender.sendMessage(Chat.format("&cInput has been canceled!"))
                 }
             }.start(sender)
-    }
-
-    @HelpCommand
-    fun help(help: CommandHelp) {
-        help.showHelp()
     }
 
     @Subcommand("dump")
