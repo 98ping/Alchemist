@@ -59,12 +59,13 @@ object AccessiblePermissionHandler {
 
         val profile: GameProfile = player.getProfile() ?: return
 
-        //apply display name
-        player.displayName = format(profile.getCurrentRank().color + player.name)
+        Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance) {
+            //apply display name
+            player.displayName = format(profile.getCurrentRank().color + player.name)
 
-        //set metadata values
-        player.removeMetadata("AlchemistRankWeight", AlchemistSpigotPlugin.instance)
-        player.setMetadata("AlchemistRankWeight", FixedMetadataValue(AlchemistSpigotPlugin.instance, (profile.getCurrentRank()?.weight ?: 0)))
-
+            //set metadata values
+            player.removeMetadata("AlchemistRankWeight", AlchemistSpigotPlugin.instance)
+            player.setMetadata("AlchemistRankWeight", FixedMetadataValue(AlchemistSpigotPlugin.instance, (profile.getCurrentRank().weight)))
+        }
     }
 }
