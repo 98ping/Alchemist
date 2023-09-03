@@ -38,7 +38,7 @@ class PlayerAdminCommand : BaseCommand() {
 
         val profile = GameProfile(found, name, name.toLowerCase(),
             JsonObject(), "0", arrayListOf(), arrayListOf(),
-            null, null, arrayListOf(),
+            null, null, null, arrayListOf(),
             System.currentTimeMillis(), null, 0, arrayListOf(), arrayListOf()
         )
 

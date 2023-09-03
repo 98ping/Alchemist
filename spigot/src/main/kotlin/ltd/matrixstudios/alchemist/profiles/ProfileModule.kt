@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.module.PluginModule
+import ltd.matrixstudios.alchemist.profiles.commands.auth.AuthCommands
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.profiles.commands.sibling.SiblingCommands
 import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
@@ -53,6 +54,11 @@ object ProfileModule : PluginModule {
 
         list.add(ReportCommand())
         list.add(RequestCommand())
+
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.2fa"))
+        {
+            list.add(AuthCommands())
+        }
 
         list.add(SettingsCommand())
 

@@ -37,7 +37,7 @@ class MetricCommand : BaseCommand() {
     fun decoy(player: Player, amt: Int) {
         for (int in 0 until amt) {
             val profile = GameProfile(
-                UUID.randomUUID(), "Profile_${int}", "Profile_${int}".toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, mutableListOf(), System.currentTimeMillis()
+                UUID.randomUUID(), "Profile_${int}", "Profile_${int}".toLowerCase(), JsonObject(), "", arrayListOf(), arrayListOf(), null, null, null, mutableListOf(), System.currentTimeMillis()
             )
 
             ProfileGameService.save(profile)

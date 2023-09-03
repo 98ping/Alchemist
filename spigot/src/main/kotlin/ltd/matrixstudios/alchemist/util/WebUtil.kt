@@ -70,7 +70,7 @@ object WebUtil {
             return@thenApply GameProfile(
                 UUID.randomUUID(), name, name.toLowerCase(),
                 JsonObject(), "", arrayListOf(), arrayListOf(),
-                null, null, mutableListOf(),
+                null, null, null, mutableListOf(),
                 System.currentTimeMillis()
             )
         }

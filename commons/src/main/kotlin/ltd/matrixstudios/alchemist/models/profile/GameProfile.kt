@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.models.chatcolor.ChatColor
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
+import ltd.matrixstudios.alchemist.models.profile.auth.AuthStatus
 import ltd.matrixstudios.alchemist.models.profile.disguise.RankDisguiseAttribute
 import ltd.matrixstudios.alchemist.models.profile.notes.ProfileNote
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -40,6 +41,7 @@ data class GameProfile(
     var friendInvites: ArrayList<UUID> = ArrayList(),
     var activeColor: ChatColor? = null,
     var activePrefix: String? = null,
+    var authStatus: AuthStatus? = null,
     var permissions: MutableList<String> = ArrayList(),
     var lastSeenAt: Long,
     var rankDisguiseAttribute: RankDisguiseAttribute? = null,
@@ -59,6 +61,21 @@ data class GameProfile(
         }
 
         return siblings
+    }
+
+    @JvmName("getAuthStatus1")
+    fun getAuthStatus() : AuthStatus
+    {
+        return if (authStatus == null)
+        {
+            AuthStatus(
+                0L,
+                hasSetup2fa = false,
+                authBypassed = false,
+                "",
+                mutableListOf(ip)
+            )
+        } else authStatus!!
     }
 
     fun getPunishments(): Collection<Punishment> {

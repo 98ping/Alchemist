@@ -29,6 +29,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 import java.util.logging.Level
 
 /**
@@ -66,5 +67,39 @@ object BukkitProfileAdaptation {
             AsynchronousRedisSender.send(PermissionUpdatePacket(profile.uuid))
             AsynchronousRedisSender.send(UpdateGrantCacheRequest(profile.uuid))
         }
+    }
+
+    fun playerNeedsAuthenticating(
+        profile: GameProfile, player: Player
+    ) : Boolean
+    {
+        val rank = profile.getCurrentRank()
+
+        if (rank.staff)
+        {
+            val auth = profile.getAuthStatus()
+
+            //player isnt bypassed and player doesnt have 2fa
+            if (!auth.authBypassed && !auth.hasSetup2fa)
+            {
+                return true
+            }
+
+            if (auth.authBypassed) return false
+
+            //player has 2fa but it's been 3 days since last verification
+            if (auth.hasSetup2fa && System.currentTimeMillis().minus(auth.lastAuthenticated) >= TimeUnit.DAYS.toMillis(3L))
+            {
+                return true
+            }
+
+            //player has 2fa but ip's dont match
+            if (auth.hasSetup2fa && !auth.allowedIps.contains(SHA.toHexString(player.address.hostString)))
+            {
+                return true
+            }
+        }
+
+        return false
     }
 }

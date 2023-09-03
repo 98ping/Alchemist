@@ -150,10 +150,10 @@ object ProfileGameService : GeneralizedService {
         }
     }
 
-    fun save(gameProfile: GameProfile) {
+    fun save(gameProfile: GameProfile) : CompletableFuture<Void> {
         cache[gameProfile.uuid] = gameProfile
 
-        CompletableFuture.runAsync {
+        return CompletableFuture.runAsync {
             handler.store(gameProfile.uuid, gameProfile)
         }
     }
@@ -175,6 +175,7 @@ object ProfileGameService : GeneralizedService {
                 "",
                 arrayListOf(),
                 arrayListOf(),
+                null,
                 null,
                 null,
                 mutableListOf(),

@@ -97,6 +97,7 @@ modules:
   chat: true
   vouchers: true
   essentials: true
+  2fa: true
   themeCommands: true
 
 staffmode:
