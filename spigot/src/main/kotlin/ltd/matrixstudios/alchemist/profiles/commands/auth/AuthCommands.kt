@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
+import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.commands.auth.menu.AuthSetupMenu
 import ltd.matrixstudios.alchemist.profiles.getProfile
@@ -28,6 +29,36 @@ class AuthCommands : BaseCommand()
     fun help(help: CommandHelp)
     {
         help.showHelp()
+    }
+
+    @Subcommand("bypass")
+    @Description("Allow a user to bypass authentication.")
+    fun onBypass(player: Player, @Name("target") gameProfile: AsyncGameProfile)
+    {
+        gameProfile.use(player) {
+            if (it.uuid == player.uniqueId)
+            {
+                player.sendMessage(Chat.format("&cFor security reasons, you are not able to change your authentication bypass."))
+                return@use
+            }
+
+            val authStatus = it.getAuthStatus()
+
+            if (!authStatus.authBypassed)
+            {
+                authStatus.authBypassed = true
+                it.authStatus = authStatus
+
+                ProfileGameService.save(it)
+                player.sendMessage(Chat.format("&eYou have set ${it.getRankDisplay()}'s &eauthentication bypass to true"))
+            } else
+            {
+                authStatus.authBypassed = false
+                it.authStatus = authStatus
+                ProfileGameService.save(it)
+                player.sendMessage(Chat.format("&eYou have removed ${it.getRankDisplay()}'s &eauthentication bypass"))
+            }
+        }
     }
 
     @Subcommand("verify")
