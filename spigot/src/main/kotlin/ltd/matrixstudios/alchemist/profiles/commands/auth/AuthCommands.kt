@@ -1,22 +1,118 @@
 package ltd.matrixstudios.alchemist.profiles.commands.auth
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.HelpCommand
+import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
+import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.commands.auth.menu.AuthSetupMenu
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
 import org.bukkit.entity.Player
+import java.security.GeneralSecurityException
+import java.util.concurrent.CompletableFuture
 
 @CommandAlias("auth|2fa")
 @CommandPermission("alchemist.auth")
 class AuthCommands : BaseCommand()
 {
 
+    @HelpCommand
+    fun help(help: CommandHelp)
+    {
+        help.showHelp()
+    }
+
+    @Subcommand("verify")
+    @Description("Verify with your code in order to gain access to the server.")
+    fun onVerify(player: Player, @Name("code")code: String) : CompletableFuture<Void>
+    {
+        return CompletableFuture.runAsync {
+            val profile = player.getProfile()
+
+            if (profile == null)
+            {
+                player.sendMessage(Chat.format("&cYour profile cannot be null."))
+                return@runAsync
+            }
+
+            val parse = code.replace(" ", "")
+            val int: Int
+
+            try
+            {
+                int = Integer.parseInt(parse)
+            } catch (e: NumberFormatException)
+            {
+                player.sendMessage(Chat.format("&cInvalid integer. Cannot parse to code."))
+                return@runAsync
+            }
+
+            val authProfile = profile.getAuthStatus()
+
+            if (!BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player))
+            {
+                player.sendMessage(Chat.format("&cYou have already authenticated in the last 3 days."))
+                return@runAsync
+            }
+
+            if (authProfile.secret == "")
+            {
+                player.sendMessage(Chat.format("&cCannot setup authentication on a blank secret key."))
+                return@runAsync
+            }
+
+            try
+            {
+                val codeIsCorrect = TOTPUtil.validateCurrentNumber(authProfile.secret, int, 250)
+
+                if (!codeIsCorrect)
+                {
+                    player.sendMessage(Chat.format("&cThe code &e${code} &cis incorrect. Cannot authenticate you."))
+                    return@runAsync
+                } else
+                {
+
+                    authProfile.lastAuthenticated = System.currentTimeMillis()
+
+                    if (!authProfile.hasSetup2fa)
+                    {
+                        authProfile.hasSetup2fa = true
+                    }
+
+                    //add their ip to allowed list if they pass this
+                    //im sorry, but if you get your account hijacked
+                    //and let them get your 2fa code too ur just dumb
+                    val ip = SHA.toHexString(player.address.hostString)
+                    if (ip != null && !authProfile.allowedIps.contains(ip))
+                    {
+                        authProfile.allowedIps.add(ip)
+                    }
+
+                    profile.authStatus = authProfile
+                    ProfileGameService.saveSync(profile)
+                    player.sendMessage(Chat.format("&aYou have been successfully authenticated! Thank you for keeping the server safe :)"))
+                }
+
+            } catch (e: GeneralSecurityException)
+            {
+                player.sendMessage(Chat.format("&cDecryption error occurred. Contact an administrator."))
+                return@runAsync
+            }
+        }
+
+
+    }
+
     @Subcommand("setup")
+    @Description("Set up your current Authentication Profile to match your needs.")
     fun onAuthSetup(player: Player)
     {
         val profile = player.getProfile()

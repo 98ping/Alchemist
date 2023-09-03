@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
 class AuthListener : Listener
@@ -28,6 +29,27 @@ class AuthListener : Listener
                 player.sendMessage(Chat.format("&cYou cannot move until you have authenticated!"))
                 player.sendMessage(Chat.format("&cPlease run /auth verify <code>"))
                 player.sendMessage(" ")
+                event.isCancelled = true
+            }
+        }
+    }
+
+    @EventHandler
+    fun onCommandAttempt(event: PlayerCommandPreprocessEvent)
+    {
+        val command = event.message
+        val player = event.player
+        val profile = player.getProfile() ?: return
+
+        if (BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player))
+        {
+            if (!command.startsWith("/auth") && !command.startsWith("/2fa"))
+            {
+                player.sendMessage(" ")
+                player.sendMessage(Chat.format("&cYou cannot run commands until you have authenticated!"))
+                player.sendMessage(Chat.format("&cPlease run /auth verify <code>"))
+                player.sendMessage(" ")
+                event.isCancelled = true
             }
         }
     }

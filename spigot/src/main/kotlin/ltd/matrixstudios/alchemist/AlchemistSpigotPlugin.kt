@@ -16,6 +16,7 @@ import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
+import ltd.matrixstudios.alchemist.profiles.commands.auth.listener.AuthListener
 import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -131,6 +132,10 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         if (config.getBoolean("modules.coins")) {
             server.pluginManager.registerEvents(CoinShopLoadTransactionsListener(), this)
+        }
+
+        if (config.getBoolean("modules.2fa")) {
+            server.pluginManager.registerEvents(AuthListener(), this)
         }
 
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
