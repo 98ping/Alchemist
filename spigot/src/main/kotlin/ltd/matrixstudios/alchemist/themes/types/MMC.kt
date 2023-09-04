@@ -59,8 +59,21 @@ class MMC : Theme(
         desc.add(Chat.format("&6&m-------------------------------------"))
         if (!rankGrant.expirable.isActive())
         {
-            desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
-            desc.add(Chat.format("&eRemoved Reason: &f" + rankGrant.removedReason!!))
+            if (rankGrant.removedBy == null)
+            {
+                desc.add(Chat.format("&eRemoved By: &fUnknown"))
+            } else
+            {
+                desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(rankGrant.removedBy!!)))
+            }
+
+            if (rankGrant.removedReason == null)
+            {
+                desc.add(Chat.format("&eRemoved Reason: &fUnknown"))
+            } else
+            {
+                desc.add(Chat.format("&eRemoved Reason: &f" + rankGrant.removedReason!!))
+            }
             desc.add(Chat.format("&6&m-------------------------------------"))
         }
         if (!player.hasPermission("alchemist.grants.remove") && rankGrant.getGrantable().weight >= ((AlchemistAPI.syncFindProfile(player.uniqueId)?.getCurrentRank()?.weight) ?: 0)) {
