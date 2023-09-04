@@ -76,7 +76,5 @@ class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player) {
                 player.teleport(this.player)
             }
         }
-
-
     }
 }

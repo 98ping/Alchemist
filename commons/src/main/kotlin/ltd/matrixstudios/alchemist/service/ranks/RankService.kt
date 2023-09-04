@@ -4,16 +4,16 @@ import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.GeneralizedService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.Executors
-import java.util.concurrent.ForkJoinPool
 import kotlin.collections.ArrayList
 
 
@@ -56,6 +56,24 @@ object RankService : GeneralizedService {
                     default = true)
                 )
             }
+        }
+    }
+
+    fun scanRank(rank: Rank) : CompletableFuture<Collection<GameProfile>>
+    {
+        return CompletableFuture.supplyAsync {
+            val profiles = ProfileGameService.handler.retrieveAll()
+            val entries = mutableListOf<GameProfile>()
+
+            for (prof in profiles)
+            {
+                if (prof.getCurrentRank().id == rank.id)
+                {
+                    entries.add(prof)
+                }
+            }
+
+            return@supplyAsync entries
         }
     }
 

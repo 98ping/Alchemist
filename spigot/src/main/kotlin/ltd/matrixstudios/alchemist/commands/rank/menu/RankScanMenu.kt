@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
+import ltd.matrixstudios.alchemist.commands.rank.menu.scan.RankScanUserMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -109,7 +110,12 @@ class RankScanMenu(val player: Player) : PaginatedMenu(27, player)
 
         override fun onClick(player: Player, slot: Int, type: ClickType)
         {
-            TODO("Not yet implemented")
+            player.closeInventory()
+            player.sendMessage(Chat.format("&eLoading the rank scan for ${rank.color + rank.displayName}&e..."))
+
+            RankService.scanRank(rank).thenAccept {
+                RankScanUserMenu(player, it, rank).updateMenu()
+            }
         }
 
     }

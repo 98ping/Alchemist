@@ -9,8 +9,11 @@ import org.bukkit.scheduler.BukkitRunnable
 class SyncTask : BukkitRunnable() {
 
     override fun run() {
-        AsynchronousRedisSender.send(RefreshRankPacket())
-        AsynchronousRedisSender.send(RefreshFiltersPacket())
-        AsynchronousRedisSender.send(RefreshServersPacket())
+        val packets = listOf(RefreshRankPacket(), RefreshFiltersPacket(), RefreshServersPacket())
+
+        for (packet in packets)
+        {
+            AsynchronousRedisSender.send(packet)
+        }
     }
 }

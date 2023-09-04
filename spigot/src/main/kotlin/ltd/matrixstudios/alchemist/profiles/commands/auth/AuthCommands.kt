@@ -19,7 +19,9 @@ import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.security.GeneralSecurityException
+import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 
 @CommandAlias("auth|2fa")
 @CommandPermission("alchemist.auth")
@@ -30,6 +32,20 @@ class AuthCommands : BaseCommand()
     fun help(help: CommandHelp)
     {
         help.showHelp()
+    }
+
+    @Subcommand("status")
+    @Description("View your current authentication status.")
+    fun onAuthStatus(player: Player)
+    {
+        val profile = player.getProfile() ?: return
+
+        player.sendMessage(" ")
+        player.sendMessage(Chat.format("&eHello there, ${profile.getRankDisplay()}"))
+        player.sendMessage(Chat.format("&eYou ${if (!profile.getAuthStatus().hasSetup2fa) "&cdo not" else "&ado"} &ehave 2fa enabled."))
+        player.sendMessage(Chat.format("&eYour next authentication date is &d${Date(profile.getAuthStatus().lastAuthenticated.plus(TimeUnit.DAYS.toMillis(3L)))}&e."))
+        player.sendMessage(Chat.format("&eIf you have &bAuthentication Bypass&e, you will not need to re-authenticate."))
+        player.sendMessage(" ")
     }
 
     @Subcommand("bypass")
