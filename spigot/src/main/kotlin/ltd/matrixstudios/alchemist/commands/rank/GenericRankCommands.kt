@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdateA
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshRankPacket
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
+import ltd.matrixstudios.alchemist.commands.rank.menu.RankScanMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.models.ranks.scope.RankScope
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -27,6 +28,13 @@ class GenericRankCommands : BaseCommand() {
     @Description("Display the help syntax.")
     fun help(help: CommandHelp) {
         help.showHelp()
+    }
+
+    @Subcommand("scan")
+    @Description("Scan all available profiles to find people with a certain rank.")
+    @CommandPermission("rank.admin")
+    fun scan(player: Player) {
+        RankScanMenu(player).updateMenu()
     }
 
     @Subcommand("setscope")

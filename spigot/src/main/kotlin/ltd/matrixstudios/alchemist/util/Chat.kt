@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Color
 import org.bukkit.DyeColor
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -100,6 +101,23 @@ object Chat {
         if (str.contains("&e")) return DyeColor.YELLOW
 
         return DyeColor.WHITE
+    }
+
+    fun getLeatherMetaColor(str: String): Color {
+        if (str.contains("&1") || str.contains("&9")) return Color.BLUE
+        if (str.contains("&2")) return Color.OLIVE
+        if (str.contains("&3")) return Color.TEAL
+        if (str.contains("&4") || str.contains("&c")) return Color.RED
+        if (str.contains("&5")) return Color.PURPLE
+        if (str.contains("&6")) return Color.ORANGE
+        if (str.contains("&7")) return Color.GRAY
+        if (str.contains("&8")) return Color.SILVER
+        if (str.contains("&a")) return Color.LIME
+        if (str.contains("&b")) return Color.AQUA
+        if (str.contains("&d")) return Color.FUCHSIA
+        if (str.contains("&e")) return Color.YELLOW
+
+        return Color.WHITE
     }
 
 }
