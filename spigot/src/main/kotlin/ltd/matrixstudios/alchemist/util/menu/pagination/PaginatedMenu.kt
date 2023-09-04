@@ -9,6 +9,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
+import org.bukkit.inventory.Inventory
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.ceil
@@ -188,6 +189,40 @@ abstract class PaginatedMenu(
         return mutableMapOf()
     }
 
+    fun handleAutoUpdate(player: Player) {
+        val inventory = player.openInventory.topInventory ?: return
+
+        if (!MenuController.paginatedMenuMap.containsKey(player.uniqueId)) return
+
+        retrieveInventory().thenAccept {
+            inventory.contents = it.contents
+        }.whenComplete { item, throwable ->
+            if (throwable != null) {
+                throwable.printStackTrace()
+                player.closeInventory()
+                player.sendMessage(
+                    "${ChatColor.RED}Failed to update menu."
+                )
+
+                if (MenuController.paginatedMenuMap.containsKey(player.uniqueId))
+                {
+                    MenuController.paginatedMenuMap.remove(player.uniqueId)
+                }
+
+                return@whenComplete
+            }
+
+            Bukkit.getScheduler()
+                .runTask(
+                    AlchemistSpigotPlugin.instance
+                ) {
+                    player.updateInventory()
+
+                    MenuController.paginatedMenuMap[player.uniqueId] = this
+                }
+        }
+    }
+
     fun updateMenu() {
         val buttons = getButtonsInRange(player)
 
@@ -208,6 +243,12 @@ abstract class PaginatedMenu(
                 player.sendMessage(
                     "${ChatColor.RED}Failed to open menu."
                 )
+
+                if (MenuController.paginatedMenuMap.containsKey(player.uniqueId))
+                {
+                    MenuController.paginatedMenuMap.remove(player.uniqueId)
+                }
+
                 return@whenComplete
             }
 
@@ -220,6 +261,25 @@ abstract class PaginatedMenu(
 
                     MenuController.paginatedMenuMap[player.uniqueId] = this
                 }
+        }
+    }
+
+    fun retrieveInventory() : CompletableFuture<Inventory> {
+        val buttons = getButtonsInRange(player)
+
+        val inventory = Bukkit.createInventory(
+            null,
+            (displaySize + 9),
+            Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player)
+        )
+
+
+        return CompletableFuture.runAsync {
+            for (entry in buttons) {
+                inventory.setItem(entry.key, entry.value.constructItemStack(player))
+            }
+        }.thenApply {
+            return@thenApply inventory
         }
     }
 }

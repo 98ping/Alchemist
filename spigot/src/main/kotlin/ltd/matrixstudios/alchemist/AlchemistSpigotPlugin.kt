@@ -32,6 +32,7 @@ import ltd.matrixstudios.alchemist.tasks.ClearOutExpirablesTask
 import ltd.matrixstudios.alchemist.themes.ThemeLoader
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.listener.MenuListener
+import ltd.matrixstudios.alchemist.util.menu.update.MenuAutoUpdate
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import ltd.matrixstudios.alchemist.webhook.WebhookService
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
@@ -166,6 +167,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)
         (ServerReleaseTask()).runTaskTimer(this, 0L, 20L)
         (SyncTask()).runTaskTimer(this, 0L, 60L * 20L)
+        MenuAutoUpdate().runTaskTimer(this, 20L, 20L)
 
         if (config.getBoolean("modules.parties")) {
             (DecayingPartyTask()).runTaskTimerAsynchronously(this, 0L, 40L)
