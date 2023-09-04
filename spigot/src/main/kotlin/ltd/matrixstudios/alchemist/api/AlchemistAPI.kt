@@ -16,6 +16,7 @@ import java.util.concurrent.CompletableFuture
 object AlchemistAPI {
 
     var SERVER_NAME = AlchemistSpigotPlugin.instance.config.getString("details.ip")
+    var GENERIC_NAME = AlchemistSpigotPlugin.instance.config.getString("details.genericName")
     var SC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.staffChat")
     var AC_FORMAT = AlchemistSpigotPlugin.instance.config.getString("channels.adminChat")
 

@@ -1,7 +1,8 @@
 package ltd.matrixstudios.alchemist.util.totp
 
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import org.apache.commons.codec.binary.Base32
-import java.lang.Exception
+import java.net.URLEncoder
 import java.security.GeneralSecurityException
 import java.security.SecureRandom
 import java.util.*
@@ -43,12 +44,12 @@ object TOTPUtil
         return BASE_32_ENCODER.encodeToString(secretKey)
     }
 
-    fun qrImageUrl(keyId: String, secret: String, username: String): String
+    fun qrImageUrl(secret: String, username: String): String
     {
-        val sb = StringBuilder(128)
-        sb.append("https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=200x200&chld=M|0&cht=qr&chl=")
-        addOtpAuthPart(keyId, username, secret, sb)
-        return sb.toString()
+        return String.format(
+            "https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s",
+            *arrayOf<Any>(username, URLEncoder.encode(AlchemistAPI.GENERIC_NAME, "UTF-8"), secret)
+        )
     }
 
     fun generateOtpAuthUrl(keyId: String, secret: String, username: String): String

@@ -16,6 +16,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.security.GeneralSecurityException
 import java.util.concurrent.CompletableFuture
@@ -33,6 +34,7 @@ class AuthCommands : BaseCommand()
 
     @Subcommand("bypass")
     @Description("Allow a user to bypass authentication.")
+    @CommandPermission("alchemist.auth.admin")
     fun onBypass(player: Player, @Name("target") gameProfile: AsyncGameProfile)
     {
         gameProfile.use(player) {
@@ -58,6 +60,22 @@ class AuthCommands : BaseCommand()
                 ProfileGameService.save(it)
                 player.sendMessage(Chat.format("&eYou have removed ${it.getRankDisplay()}'s &eauthentication bypass"))
             }
+        }
+    }
+
+    @Subcommand("reset")
+    @Description("Reset a user's authentication status.")
+    @CommandPermission("alchemist.auth.admin")
+    fun onReset(commandSender: CommandSender, @Name("target") target: AsyncGameProfile) : CompletableFuture<Void>
+    {
+        return target.use(commandSender) {
+            val authStatus = it.getAuthStatus()
+
+            authStatus.lastAuthenticated = 0L
+            it.authStatus = authStatus
+
+            ProfileGameService.saveSync(it)
+            commandSender.sendMessage(Chat.format("&eYou have reset ${it.getRankDisplay()}'s &eauthentication."))
         }
     }
 
@@ -138,8 +156,6 @@ class AuthCommands : BaseCommand()
                 return@runAsync
             }
         }
-
-
     }
 
     @Subcommand("setup")

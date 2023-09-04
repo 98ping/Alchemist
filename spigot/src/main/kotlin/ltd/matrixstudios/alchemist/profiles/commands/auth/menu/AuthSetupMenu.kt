@@ -20,6 +20,7 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.block.Skull
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
@@ -98,9 +99,12 @@ class AuthSetupMenu(val player: Player) : Menu(player)
             val profile = player.getProfile() ?: return@setBody
             player.closeInventory()
 
+            player.sendMessage(Chat.format("&eYour authentication link is:"))
+            player.sendMessage("${ChatColor.GOLD}${TOTPUtil.qrImageUrl(profile.getAuthStatus().secret, player.name)}")
+
             val troublesComponent = Component.text(
-                "Hover over this message to view your secret code"
-            ).color(NamedTextColor.YELLOW).hoverEvent(HoverEvent.showText(Component.text(Chat.format("&7Your secret (input in the app): &f${profile.getAuthStatus().secret}"))))
+                "Having problems? No worries! Hover over this text to view your secret key"
+            ).color(NamedTextColor.GRAY).hoverEvent(HoverEvent.showText(Component.text(Chat.format("&7Your secret (input in the app): &f${profile.getAuthStatus().secret}"))))
 
             AlchemistSpigotPlugin.instance.audience.player(player).sendMessage(troublesComponent)
         }

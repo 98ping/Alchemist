@@ -106,6 +106,7 @@ staffmode:
 
 #for general server information to use in command messages
 details:
+  genericName: "Alchemist"
   ip: "yourIp.xyz"
   serverWebsite: "www.yourIp.xyz"
 
