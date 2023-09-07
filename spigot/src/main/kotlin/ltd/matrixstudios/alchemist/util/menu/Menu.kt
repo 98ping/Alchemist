@@ -80,6 +80,7 @@ abstract class Menu(
                 MenuController.paginatedMenuMap.remove(player.uniqueId)
             }
 
+
             MenuController.addToMenuMap(player, this)
 
             if (placeholder) {

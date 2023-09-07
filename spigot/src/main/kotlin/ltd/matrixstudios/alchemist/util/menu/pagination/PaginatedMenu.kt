@@ -194,6 +194,8 @@ abstract class PaginatedMenu(
 
         if (!MenuController.paginatedMenuMap.containsKey(player.uniqueId)) return
 
+        if (MenuController.menuMap.containsKey(player.uniqueId)) return
+
         retrieveInventory().thenAccept {
             inventory.contents = it.contents
         }.whenComplete { item, throwable ->
@@ -232,6 +234,10 @@ abstract class PaginatedMenu(
             Chat.format("($currentPage/${if (maxPages == 0) 1 else maxPages}) ") + getTitle(player)
         )
 
+        if (MenuController.menuMap.containsKey(player.uniqueId))
+        {
+            MenuController.menuMap.remove(player.uniqueId)
+        }
 
         CompletableFuture.runAsync {
             for (entry in buttons) {
