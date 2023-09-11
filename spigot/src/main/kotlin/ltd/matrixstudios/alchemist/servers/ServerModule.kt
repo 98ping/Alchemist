@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
+import ltd.matrixstudios.alchemist.servers.commands.WhereAmICommand
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -90,6 +91,7 @@ object ServerModule : PluginModule {
         val commands = mutableListOf<BaseCommand>()
 
         commands.add(ServerEnvironmentCommand())
+        commands.add(WhereAmICommand)
 
         return commands
     }
