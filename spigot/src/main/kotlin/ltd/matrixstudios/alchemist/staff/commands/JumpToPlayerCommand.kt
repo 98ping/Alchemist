@@ -4,8 +4,11 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.packets.StaffGeneralMessagePacket
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
@@ -26,10 +29,11 @@ class JumpToPlayerCommand : BaseCommand() {
     @CommandPermission("alchemist.jtp")
     fun jumpTo(player: Player, @Name("target") target: GameProfile)
     {
+        val globalServer = Alchemist.globalServer
         val onlineServer = target.metadata.get("server").asString
-        val uniqueServer = UniqueServerService.byId(onlineServer.lowercase())
+        val uniqueServer = UniqueServerService.byId(onlineServer.toLowerCase())
 
-        if (uniqueServer == null || onlineServer.lowercase().equals("None", ignoreCase = true))
+        if (uniqueServer == null || onlineServer.toLowerCase().equals("None", ignoreCase = true))
         {
             player.sendMessage(Chat.format("&6&lServer Jump Request"))
             player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
@@ -53,5 +57,6 @@ class JumpToPlayerCommand : BaseCommand() {
         player.sendMessage(Chat.format("&eProxy Name: &f" + uniqueServer.bungeeName))
         player.sendMessage(Chat.format("&aCurrently sending..."))
         NetworkUtil.send(player, uniqueServer.id)
+        AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&b[S] &3[${globalServer.displayName}] &r${AlchemistAPI.getRankDisplay(player.uniqueId)} &3has jumped to &r${target.getRankDisplay()}&3.")))
     }
 }
