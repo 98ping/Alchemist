@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.placeholder
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -50,6 +51,13 @@ class AlchemistExpansion : PlaceholderExpansion() {
 
             "vanishStatus" -> {
                 if (player.hasMetadata("vanish")) return "&aYes"
+
+                return "&cNo"
+            }
+
+
+            "modModeStatus" -> {
+                if (StaffSuiteManager.isModMode(player)) return "&aYes"
 
                 return "&cNo"
             }
