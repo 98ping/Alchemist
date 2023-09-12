@@ -35,4 +35,12 @@ class AlchemistCommand : BaseCommand() {
         sender.sendMessage(Chat.format("&eAlchemist has been reloaded. Files affected: &aconfig.yml&e."))
     }
 
+    @Subcommand("refreshplaceholders")
+    @CommandPermission("alchemist.reload")
+    fun reloadPlaceholders(sender: CommandSender)
+    {
+        AlchemistSpigotPlugin.instance.registerExpansion()
+        sender.sendMessage(Chat.format("&eAlchemist has reloaded every active &aPlaceholder &efrom &bPlaceholderAPI&e."))
+    }
+
 }

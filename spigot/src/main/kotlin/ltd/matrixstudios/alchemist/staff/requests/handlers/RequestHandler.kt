@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.staff.requests.handlers
 
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.staff.requests.report.ReportModel
 import org.bukkit.entity.Player
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -8,6 +9,8 @@ import java.util.concurrent.TimeUnit
 object RequestHandler {
     val requestCooldowns = mutableMapOf<UUID, Long>()
     val reportCooldowns = mutableMapOf<UUID, Long>()
+
+    val activeReports = mutableMapOf<UUID, ReportModel>()
 
     fun isOnRequestCooldown(player: Player) : Boolean
     {
