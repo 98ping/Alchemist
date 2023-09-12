@@ -17,7 +17,7 @@ class ReportSelectCategoryMenu(val player: Player) : Menu(player)
     override fun getButtons(player: Player): MutableMap<Int, Button>
     {
         return mutableMapOf(
-            2 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&aMultiple-Reported Players", 0),
+            2 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&aValid Reasons", 0),
             4 to SimpleActionButton(Material.BOOK, mutableListOf(), "&eYour Server", 0),
             6 to SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&bPast Hour", 0)
         )
