@@ -45,12 +45,12 @@ class ReportCommand : BaseCommand() {
             player.sendMessage(Chat.format("&cInvalid target"))
             return
         }
-
+/*
         if (player.name == target.name)
         {
             player.sendMessage(Chat.format("&cYou cannot report yourself!"))
             return
-        }
+        }*/
 
 
         val currentServer = Alchemist.globalServer.displayName

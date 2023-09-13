@@ -1,10 +1,13 @@
 package ltd.matrixstudios.alchemist.staff.requests.commands.menu
 
+import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.staff.requests.handlers.RequestHandler
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
 
 class ReportSelectCategoryMenu(val player: Player) : Menu(player)
 {
@@ -17,9 +20,21 @@ class ReportSelectCategoryMenu(val player: Player) : Menu(player)
     override fun getButtons(player: Player): MutableMap<Int, Button>
     {
         return mutableMapOf(
-            2 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&aValid Reasons", 0),
-            4 to SimpleActionButton(Material.BOOK, mutableListOf(), "&eYour Server", 0),
-            6 to SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&bPast Hour", 0)
+            0 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&aAll Reports", 0).setBody { player, i, clickType ->
+                ShowReportsMenu(player, RequestHandler.activeReports.values.toMutableList()).updateMenu()
+            },
+            2 to SimpleActionButton(Material.BOOK, mutableListOf(), "&eYour Server", 0).setBody { player, i, clickType ->
+                ShowReportsMenu(player, RequestHandler.activeReports.values.filter {
+                    it.server.equals(Alchemist.globalServer.displayName, ignoreCase = true)
+                }.toMutableList()).updateMenu()
+            },
+            4 to SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&bPast Hour", 0).setBody { player, i, clickType ->
+                ShowReportsMenu(player, RequestHandler.activeReports.values.filter {
+                    System.currentTimeMillis().minus(it.issuedAt) <= TimeUnit.HOURS.toMillis(1L)
+                }.toMutableList()).updateMenu()
+            },
+            6 to SimpleActionButton(Material.NAME_TAG, mutableListOf(), "&6Specific Server", 0),
+            8 to SimpleActionButton(Material.ARROW, mutableListOf(), "&cReported Player is Online", 0)
         )
     }
 
