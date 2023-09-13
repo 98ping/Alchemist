@@ -65,7 +65,7 @@ class ShowReportsMenu(val player: Player, val reports: MutableList<ReportModel>)
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-            TODO("Not yet implemented")
+
         }
 
     }
