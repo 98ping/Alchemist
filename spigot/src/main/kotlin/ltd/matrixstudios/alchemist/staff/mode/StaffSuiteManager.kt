@@ -1,6 +1,9 @@
 package ltd.matrixstudios.alchemist.staff.mode
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.client.LunarClientExtension
+import ltd.matrixstudios.alchemist.client.feature.NameTagFeature
+import ltd.matrixstudios.alchemist.client.feature.TeamViewFeature
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
@@ -47,6 +50,13 @@ object StaffSuiteManager {
 
         StaffSuiteVisibilityHandler.onDisableVisbility(player)
 
+
+        if (LunarClientExtension.getModularConfigOption())
+        {
+            TeamViewFeature.clearTeamView(player)
+            NameTagFeature.removeNameTag(player)
+        }
+
         player.removeMetadata("modmode", AlchemistSpigotPlugin.instance)
         player.removeMetadata("vanish", AlchemistSpigotPlugin.instance)
 
@@ -83,6 +93,12 @@ object StaffSuiteManager {
         player.updateInventory()
 
         StaffSuiteVisibilityHandler.onEnableVisibility(player)
+
+        if (LunarClientExtension.getModularConfigOption())
+        {
+            TeamViewFeature.sendStaffTeamView(player)
+            NameTagFeature.sendNameTag(player)
+        }
 
         player.setMetadata("modmode", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
         player.setMetadata("vanish", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
