@@ -16,7 +16,7 @@ enum class GrantFilter(
     val displayName: String,
     val lambda: (Collection<RankGrant>) -> List<RankGrant>
 ) {
-    ALL("Every Grant", { rankGrants ->  rankGrants.toList() }),
+    ALL("Every Grant", { rankGrants ->  rankGrants.sortedByDescending { it.expirable.addedAt }.toList() }),
     ACTIVE("Active", { rankGrant -> rankGrant.filter { it.expirable.isActive() } }),
     REMOVED("Removed", { rankGrant -> rankGrant.filter { it.removedBy != null && it.removedBy != UUID.fromString("00000000-0000-0000-0000-000000000000") } }),
     EXPIRED("Expired", { rankGrant -> rankGrant.filter { it.removedBy != null && it.removedBy == UUID.fromString("00000000-0000-0000-0000-000000000000") } }),
