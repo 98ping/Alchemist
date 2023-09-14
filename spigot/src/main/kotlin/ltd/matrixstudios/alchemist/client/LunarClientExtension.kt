@@ -28,6 +28,10 @@ object LunarClientExtension : PluginModule {
     }
 
     override fun getModularConfigOption(): Boolean {
-        return Bukkit.getPluginManager().isPluginEnabled("LunarClient-API")
+        return Bukkit.getPluginManager().isPluginEnabled(
+            "LunarClient-API"
+        ) && AlchemistSpigotPlugin.instance.config.getBoolean(
+            "modules.lunarClientAPI"
+        )
     }
 }

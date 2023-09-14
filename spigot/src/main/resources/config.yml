@@ -99,6 +99,7 @@ modules:
   essentials: true
   2fa: true
   themeCommands: true
+  lunarClientAPI: true
 
 staffmode:
   sendWelcomeMessage: true
