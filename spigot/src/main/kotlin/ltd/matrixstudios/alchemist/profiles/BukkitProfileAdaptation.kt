@@ -41,8 +41,9 @@ import java.util.logging.Level
  */
 object BukkitProfileAdaptation {
 
-    fun loadAllEvents()
-    {
+    val backingCacheIpStore = mutableMapOf<UUID, String?>()
+
+    fun loadAllEvents() {
 
         for (task in BukkitPreLoginConnection.getAllTasks()) {
             if (!task.shouldBeLazy()) {
@@ -52,8 +53,7 @@ object BukkitProfileAdaptation {
             } else BukkitPreLoginConnection.registerNewLazyCallback { task.run(it) }
         }
 
-        for (task in BukkitPostLoginConnection.getAllTasks())
-        {
+        for (task in BukkitPostLoginConnection.getAllTasks()) {
             BukkitPostLoginConnection.registerNewCallback {
                 task.run(it)
             }
@@ -71,31 +71,37 @@ object BukkitProfileAdaptation {
 
     fun playerNeedsAuthenticating(
         profile: GameProfile, player: Player
-    ) : Boolean
-    {
+    ): Boolean {
         val rank = profile.getCurrentRank()
 
-        if (rank.staff)
-        {
+        if (rank.staff) {
             val auth = profile.getAuthStatus()
 
             //player isnt bypassed and player doesnt have 2fa
-            if (!auth.authBypassed && !auth.hasSetup2fa)
-            {
+            if (!auth.authBypassed && !auth.hasSetup2fa) {
                 return true
             }
 
             if (auth.authBypassed) return false
 
             //player has 2fa but it's been 3 days since last verification
-            if (auth.hasSetup2fa && System.currentTimeMillis().minus(auth.lastAuthenticated) >= TimeUnit.DAYS.toMillis(3L))
-            {
+            if (auth.hasSetup2fa && System.currentTimeMillis()
+                    .minus(auth.lastAuthenticated) >= TimeUnit.DAYS.toMillis(3L)
+            ) {
                 return true
             }
 
+            val hexIp = if (backingCacheIpStore.containsKey(player.uniqueId)) {
+                backingCacheIpStore[player.uniqueId]
+            } else {
+                val item = SHA.toHexString(player.address.hostString)
+                backingCacheIpStore[player.uniqueId] = item
+
+                item
+            }
+
             //player has 2fa but ip's dont match
-            if (auth.hasSetup2fa && !auth.allowedIps.contains(SHA.toHexString(player.address.hostString)))
-            {
+            if (auth.hasSetup2fa && !auth.allowedIps.contains(hexIp)) {
                 return true
             }
         }

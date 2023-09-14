@@ -94,12 +94,6 @@ object StaffSuiteManager {
 
         StaffSuiteVisibilityHandler.onEnableVisibility(player)
 
-        if (LunarClientExtension.getModularConfigOption())
-        {
-            TeamViewFeature.sendStaffTeamView(player)
-            NameTagFeature.sendNameTag(player)
-        }
-
         player.setMetadata("modmode", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
         player.setMetadata("vanish", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
     }

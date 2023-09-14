@@ -9,6 +9,7 @@ import ltd.matrixstudios.alchemist.staff.mode.menu.OnlineStaffMenu
 import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -35,6 +36,8 @@ class StaffmodeFunctionalityListener : Listener {
             {
 
                 val itemInHand = player.itemInHand
+
+                if (itemInHand == null || itemInHand.type == Material.AIR) return
 
                 val time = timestamps[player.uniqueId]
                 if (time != null) {
@@ -112,11 +115,6 @@ class StaffmodeFunctionalityListener : Listener {
                 {
                     e.isCancelled = true
                 }
-
-                if (itemInHand.isSimilar(StaffItems.FREEZE))
-                {
-                    e.isCancelled = true
-                }
             }
         }
     }
@@ -128,12 +126,15 @@ class StaffmodeFunctionalityListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (e.currentItem.isSimilar(StaffItems.EDIT_MOD_MODE))
+            if (e.currentItem != null)
             {
-                EditModModeMenu(player).openMenu()
-                player.sendMessage(Chat.format("&eYou are now editing your &amod mode"))
-                player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
-                e.isCancelled = true
+                if (e.currentItem.isSimilar(StaffItems.EDIT_MOD_MODE))
+                {
+                    EditModModeMenu(player).openMenu()
+                    player.sendMessage(Chat.format("&eYou are now editing your &amod mode"))
+                    player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
+                    e.isCancelled = true
+                }
             }
         }
     }
@@ -147,8 +148,22 @@ class StaffmodeFunctionalityListener : Listener {
         {
             val itemInHand = player.itemInHand
 
+            if (itemInHand == null || itemInHand.type == Material.AIR) return
+
             if (e.rightClicked is Player)
             {
+                val time = timestamps[player.uniqueId]
+                if (time != null) {
+                    if (System.currentTimeMillis().minus(time) < 300L) {
+                        e.isCancelled = true
+                        timestamps.remove(player.uniqueId)
+
+                        return
+                    }
+                }
+
+                timestamps[player.uniqueId] = System.currentTimeMillis()
+
                 if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT))
                 {
                     player.performCommand("invsee ${e.rightClicked.name}")

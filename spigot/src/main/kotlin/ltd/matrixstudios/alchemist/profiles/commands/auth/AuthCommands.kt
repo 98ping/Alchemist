@@ -8,6 +8,7 @@ import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.commands.auth.menu.AuthSetupMenu
@@ -16,6 +17,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.security.GeneralSecurityException
@@ -62,20 +64,25 @@ class AuthCommands : BaseCommand()
 
             val authStatus = it.getAuthStatus()
 
+            if (it.hasMetadata("needsAuthetication"))
+            {
+                it.metadata.remove("needsAuthetication")
+            }
+
             if (!authStatus.authBypassed)
             {
                 authStatus.authBypassed = true
                 it.authStatus = authStatus
 
-                ProfileGameService.save(it)
                 player.sendMessage(Chat.format("&eYou have set ${it.getRankDisplay()}'s &eauthentication bypass to true"))
             } else
             {
                 authStatus.authBypassed = false
                 it.authStatus = authStatus
-                ProfileGameService.save(it)
                 player.sendMessage(Chat.format("&eYou have removed ${it.getRankDisplay()}'s &eauthentication bypass"))
             }
+
+            ProfileGameService.save(it)
         }
     }
 
@@ -162,6 +169,11 @@ class AuthCommands : BaseCommand()
                     }
 
                     profile.authStatus = authProfile
+                    if (profile.hasMetadata("needsAuthetication"))
+                    {
+                        profile.metadata.remove("needsAuthetication")
+                    }
+
                     ProfileGameService.saveSync(profile)
                     player.sendMessage(Chat.format("&aYou have been successfully authenticated! Thank you for keeping the server safe :)"))
                 }
