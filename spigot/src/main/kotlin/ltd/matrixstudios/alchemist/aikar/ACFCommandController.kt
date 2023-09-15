@@ -51,6 +51,7 @@ import ltd.matrixstudios.alchemist.queue.command.ModifyQueueCommands
 import ltd.matrixstudios.alchemist.queue.command.QueueCommands
 import ltd.matrixstudios.alchemist.servers.commands.BroadcastCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import java.util.UUID
 
@@ -88,7 +89,9 @@ object ACFCommandController {
                 registerCommand(GrantConfigureCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(GrantHistoryCommand())
-                registerCommand(LuckPermsConverterCommand())
+                if(Bukkit.getServer().pluginManager.isPluginEnabled("LuckPerms")) {
+                    registerCommand(LuckPermsConverterCommand())
+                }
                 registerCommand(WipeGrantsCommand)
             }
 
