@@ -106,6 +106,7 @@ staffmode:
   autoEquipOnJoin: false
   allowPermittedBlockModification: true
   invseeCommand: true
+  sendSettingSummaryOnJoin: true
 
 #for general server information to use in command messages
 details:

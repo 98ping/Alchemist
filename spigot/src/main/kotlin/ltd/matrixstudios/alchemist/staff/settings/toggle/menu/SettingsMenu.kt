@@ -23,6 +23,7 @@ class SettingsMenu(val player: Player) : Menu(player) {
         buttons[12] = ToggleModModeOnJoinSetting(profile)
         buttons[13] = CanSeeOtherStaffSetting(profile)
         buttons[14] = AllMessagesAreStaffSetting(profile)
+        buttons[15] = AutomaticAuditSetting(profile)
 
         return buttons
     }
