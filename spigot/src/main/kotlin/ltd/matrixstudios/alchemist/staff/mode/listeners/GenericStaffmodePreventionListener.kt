@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.staff.mode.listeners
 
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
@@ -26,7 +27,7 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!player.hasPermission("alchemist.staffmode.edit"))
+            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }
@@ -40,7 +41,7 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!player.hasPermission("alchemist.staffmode.edit"))
+            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true
             }

@@ -104,6 +104,7 @@ modules:
 staffmode:
   sendWelcomeMessage: true
   autoEquipOnJoin: false
+  allowPermittedBlockModification: true
 
 #for general server information to use in command messages
 details:
