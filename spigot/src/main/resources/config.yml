@@ -105,6 +105,7 @@ staffmode:
   sendWelcomeMessage: true
   autoEquipOnJoin: false
   allowPermittedBlockModification: true
+  invseeCommand: true
 
 #for general server information to use in command messages
 details:

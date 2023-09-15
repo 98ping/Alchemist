@@ -4,10 +4,7 @@ import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
-import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
-import ltd.matrixstudios.alchemist.staff.commands.OnlineStaffCommand
-import ltd.matrixstudios.alchemist.staff.commands.StaffchatCommand
-import ltd.matrixstudios.alchemist.staff.commands.TimelineCommand
+import ltd.matrixstudios.alchemist.staff.commands.*
 import ltd.matrixstudios.alchemist.staff.mode.action.StaffModeActionBarHandler
 import ltd.matrixstudios.alchemist.staff.mode.commands.FreezeCommand
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
@@ -39,6 +36,10 @@ object StaffModeModule : PluginModule {
         list.add(VanishCommands())
 
         list.add(EditModModeCommand())
+
+        if(AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.invseeCommand")) {
+            list.add(InventoryViewCommand())
+        }
 
         return list
 
