@@ -88,6 +88,8 @@ data class GameProfile(
         return rank.color + username
     }
 
+    fun getExecutedCountByType(type: PunishmentType) : Int = PunishmentService.findExecutorPunishments(uuid).count { it.punishmentType == type.name }
+
     fun getActivePunishments() : Collection<Punishment> {
         return getPunishments().filter { it.expirable.isActive() }
     }

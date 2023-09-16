@@ -7,10 +7,7 @@ import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.profiles.commands.auth.AuthCommands
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.profiles.commands.sibling.SiblingCommands
-import ltd.matrixstudios.alchemist.staff.commands.JumpToPlayerCommand
-import ltd.matrixstudios.alchemist.staff.commands.OnlineStaffCommand
-import ltd.matrixstudios.alchemist.staff.commands.StaffchatCommand
-import ltd.matrixstudios.alchemist.staff.commands.TimelineCommand
+import ltd.matrixstudios.alchemist.staff.commands.*
 import ltd.matrixstudios.alchemist.staff.requests.commands.ReportCommand
 import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
 import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
@@ -51,6 +48,7 @@ object ProfileModule : PluginModule {
         list.add(OnlineStaffCommand())
         list.add(StaffchatCommand())
         list.add(TimelineCommand())
+        list.add(StaffLeaderboardCommand)
 
         list.add(ReportCommand())
         list.add(RequestCommand())
