@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 
 class ThemeSelectCommand : BaseCommand() {
 
-    @CommandAlias("themes|theme|selecttheme")
+    @CommandAlias("themes|theme")
     @CommandPermission("alchemist.themes")
     fun theme(player: Player) {
         ThemeSelectMenu(player).openMenu()

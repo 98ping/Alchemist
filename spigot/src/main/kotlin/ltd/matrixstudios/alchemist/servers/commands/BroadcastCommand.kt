@@ -19,7 +19,7 @@ import org.bukkit.command.CommandSender
  */
 object BroadcastCommand : BaseCommand() {
 
-    @CommandAlias("bc|broadcast|raw|say|rawbc")
+    @CommandAlias("bc|broadcast|raw")
     @CommandPermission("alchemist.broadcast")
     @Syntax("[-p❘-s] <message...>")
     fun bc(sender: CommandSender, @Name("message...") msg: String) {

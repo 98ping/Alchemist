@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 class SessionCommands : BaseCommand() {
 
-    @CommandAlias("sessions|playersessions")
+    @CommandAlias("sessions")
     @CommandCompletion("@gameprofile")
     @CommandPermission("alchemist.sessions")
     fun sessions(player: Player, @Name("profile")profile: GameProfile)

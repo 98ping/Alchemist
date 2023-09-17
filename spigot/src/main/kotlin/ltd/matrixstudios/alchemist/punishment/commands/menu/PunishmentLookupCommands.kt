@@ -14,7 +14,7 @@ import org.bukkit.entity.Player
 
 class PunishmentLookupCommands : BaseCommand() {
 
-    @CommandAlias("lookfor|punishmentlookup|plookup|pinfo")
+    @CommandAlias("punishmentlookup|plookup")
     @CommandPermission("alchemist.punishments.lookup")
     fun lookup(player: Player, @Name("punishmentId")id: String)
     {

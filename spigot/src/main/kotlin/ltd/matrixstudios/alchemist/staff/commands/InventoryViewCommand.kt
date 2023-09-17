@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 
 class InventoryViewCommand : BaseCommand() {
 
-    @CommandAlias("invsee|inv|inventory|inventorysee|viewinventory|viewinv")
+    @CommandAlias("invsee|inv|viewinventory|viewinv")
     @CommandPermission("alchemist.invsee")
     fun invsee(player: Player, @Name("target") onlineTarget: OnlinePlayer) {
         val target = onlineTarget.player

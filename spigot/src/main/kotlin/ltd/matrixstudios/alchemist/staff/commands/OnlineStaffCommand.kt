@@ -19,7 +19,7 @@ import java.util.*
  */
 class OnlineStaffCommand : BaseCommand() {
 
-    @CommandAlias("onlinestaff|globalstaff|sl|stafflist")
+    @CommandAlias("onlinestaff|globalstaff|stafflist")
     @CommandPermission("alchemist.staff.list")
     fun onlineStaff(player: Player) {
         val allPlayers = mutableListOf<UUID>()

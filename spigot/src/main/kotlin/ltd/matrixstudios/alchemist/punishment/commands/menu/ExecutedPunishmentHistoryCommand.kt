@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
  */
 class ExecutedPunishmentHistoryCommand : BaseCommand() {
 
-    @CommandAlias("staffhist|staffhistory|executedhistory")
+    @CommandAlias("staffhist|staffhistory")
     @CommandPermission("alchemist.punishments.check")
     @CommandCompletion("@gameprofile")
     fun checkOthers(player: Player,  @Name("target") @Optional profile: GameProfile?)
