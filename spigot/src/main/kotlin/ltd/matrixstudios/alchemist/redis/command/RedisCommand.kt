@@ -28,7 +28,7 @@ object RedisCommand : BaseCommand()
         val totalPackets = AsynchronousRedisSender.totalPacketCount
         val receivedPackets = LocalPacketPubSub.received
         player.sendMessage(Chat.format("&cTotal Packets Sent&7: &f${totalPackets}"))
-        player.sendMessage(Chat.format("&cTotal Packets Received&7: &f${totalPackets}"))
+        player.sendMessage(Chat.format("&cTotal Packets Received&7: &f${receivedPackets}"))
         player.sendMessage(Chat.format("&cConnected for&7: &f${TimeUtil.formatDuration(
             System.currentTimeMillis().minus(AlchemistSpigotPlugin.instance.launchedAt)
         )}"))
