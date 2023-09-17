@@ -3,6 +3,7 @@ package ltd.matrixstudios.alchemist.models.grant.types
 import ltd.matrixstudios.alchemist.models.expirables.Expirable
 import ltd.matrixstudios.alchemist.models.grant.Grantable
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -42,6 +43,11 @@ class Punishment(
         }
 
         return profile.username
+    }
+
+    fun getTargetProfile() : GameProfile?
+    {
+        return ProfileGameService.byId(target)
     }
 
     override fun getGrantable(): PunishmentType {

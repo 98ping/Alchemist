@@ -27,8 +27,17 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
         }
 
         buttons[5] = SimpleActionButton(Material.FEATHER, mutableListOf(), "&cGo Back", 0).setBody { player, i, clickType ->
+            val prof = punishment.getTargetProfile()
+
+            if (prof == null)
+            {
+                player.closeInventory()
+                player.sendMessage(Chat.format("&cCould not open this menu. Profile doesn't exist."))
+                return@setBody
+            }
+
             GeneralPunishmentMenu(
-                ProfileGameService.byId(punishment.target)!!,
+                prof,
                 punishment.getGrantable(),
                 PunishmentService.getFromCache(punishment.target).toMutableList(),
                 PunishmentFilter.ALL, player

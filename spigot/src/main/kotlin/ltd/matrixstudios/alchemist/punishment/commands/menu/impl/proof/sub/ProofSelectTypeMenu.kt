@@ -16,8 +16,6 @@ class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu
     override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
-        println("made it")
-
         buttons[3] = SkullButton(
             "ewogICJ0aW1lc3RhbXAiIDogMTU5NDY4ODM2Njc4MCwKICAicHJvZmlsZUlkIiA6ICJiNzQ3OWJhZTI5YzQ0YjIzYmE1NjI4MzM3OGYwZTNjNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTeWxlZXgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzU2YThkYzM3OGJkMzRjODVlNzc3NTlkYTM1OWExOGMxOTUzNTAxNTJlMmY4MzI0NjYxMGFhYjhlYTRiZDg0ZSIKICAgIH0KICB9Cn0=",
             listOf(" ", Chat.format("&eClick to set your type to &6Video")).toMutableList(),
