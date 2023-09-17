@@ -3,7 +3,12 @@ package ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.GeneralPunishmentMenu
+import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.filter.PunishmentFilter
 import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.sub.ProofSelectTypeMenu
+import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
@@ -17,8 +22,17 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
 
     override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
-        buttons[4] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&aClick to add Proof", 0).setBody {
+        buttons[3] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&aClick to add Proof", 0).setBody {
             player, i, clickType -> ProofSelectTypeMenu(player, punishment).openMenu()
+        }
+
+        buttons[5] = SimpleActionButton(Material.FEATHER, mutableListOf(), "&cGo Back", 0).setBody { player, i, clickType ->
+            GeneralPunishmentMenu(
+                ProfileGameService.byId(punishment.target)!!,
+                punishment.getGrantable(),
+                PunishmentService.getFromCache(punishment.target).toMutableList(),
+                PunishmentFilter.ALL, player
+            ).updateMenu()
         }
 
         return buttons

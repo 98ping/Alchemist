@@ -48,7 +48,7 @@ object StaffLeaderboardCommand : BaseCommand() {
         users: MutableList<GameProfile>
     ): CompletableFuture<MutableMap<Int, Button>> {
         val toLoad = mutableMapOf<Int, Button>()
-        var i = 10
+        var i = 11
 
         for (type in types) {
             fetchFirst10Entries(type, users)
