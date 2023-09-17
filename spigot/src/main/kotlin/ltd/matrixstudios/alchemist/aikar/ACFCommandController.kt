@@ -49,6 +49,7 @@ import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.queue.command.ModifyQueueCommands
 import ltd.matrixstudios.alchemist.queue.command.QueueCommands
+import ltd.matrixstudios.alchemist.redis.command.RedisCommand
 import ltd.matrixstudios.alchemist.servers.commands.BroadcastCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 import org.bukkit.Bukkit
@@ -96,6 +97,7 @@ object ACFCommandController {
             }
 
             registerCommand(AdminPanelCommand())
+            registerCommand(RedisCommand)
 
             if (config.getBoolean("modules.vouchers")) {
                 registerCommand(VoucherCommand())

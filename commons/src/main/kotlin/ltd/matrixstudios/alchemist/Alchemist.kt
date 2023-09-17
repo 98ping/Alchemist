@@ -14,6 +14,7 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.tags.TagService
+import kotlin.properties.Delegates
 
 object Alchemist {
 
@@ -23,6 +24,7 @@ object Alchemist {
 
     //global properties
     lateinit var globalServer: UniqueServer
+    var redisConnectionPort by Delegates.notNull<Int>()
 
     var gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
 
@@ -32,6 +34,7 @@ object Alchemist {
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
         RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
+        redisConnectionPort = redisPort
 
         UniqueServerService.loadAll()
         RankService.loadRanks()

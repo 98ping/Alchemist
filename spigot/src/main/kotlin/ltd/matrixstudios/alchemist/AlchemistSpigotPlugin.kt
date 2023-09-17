@@ -39,6 +39,7 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread
+import kotlin.properties.Delegates
 
 
 class AlchemistSpigotPlugin : JavaPlugin() {
@@ -47,12 +48,14 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         lateinit var instance: AlchemistSpigotPlugin
     }
 
+    var launchedAt by Delegates.notNull<Long>()
     lateinit var commandManager: PaperCommandManager
     lateinit var audience: BukkitAudiences
 
     override fun onEnable() {
         saveDefaultConfig()
         instance = this
+        launchedAt = System.currentTimeMillis()
 
         sendStartupMSG()
 
