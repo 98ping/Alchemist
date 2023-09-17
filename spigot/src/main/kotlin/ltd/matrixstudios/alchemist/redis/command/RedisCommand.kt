@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
@@ -25,7 +26,9 @@ object RedisCommand : BaseCommand()
         player.sendMessage(Chat.format("&cIs Connected&7: &f${if (isConnected) "&aYes :3" else "&cNo :("}"))
         player.sendMessage(Chat.format("&cListening On&7: &fAlchemist||Packets||%packet%"))
         val totalPackets = AsynchronousRedisSender.totalPacketCount
-        player.sendMessage(Chat.format("&cTotal Packets&7: &f${totalPackets}"))
+        val receivedPackets = LocalPacketPubSub.received
+        player.sendMessage(Chat.format("&cTotal Packets Sent&7: &f${totalPackets}"))
+        player.sendMessage(Chat.format("&cTotal Packets Received&7: &f${totalPackets}"))
         player.sendMessage(Chat.format("&cConnected for&7: &f${TimeUtil.formatDuration(
             System.currentTimeMillis().minus(AlchemistSpigotPlugin.instance.launchedAt)
         )}"))

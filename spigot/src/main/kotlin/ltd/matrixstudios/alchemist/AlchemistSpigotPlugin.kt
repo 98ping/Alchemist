@@ -115,7 +115,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val pubsubStart = System.currentTimeMillis()
         thread {
             RedisPacketManager.pool.resource.use {
-                it.subscribe(LocalPacketPubSub(), "Alchemist||Packets||")
+                it.subscribe(LocalPacketPubSub, "Alchemist||Packets||")
             }
         }
 

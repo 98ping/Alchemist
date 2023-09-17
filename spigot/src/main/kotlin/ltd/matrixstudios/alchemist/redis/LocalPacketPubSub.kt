@@ -5,7 +5,9 @@ import org.bukkit.Bukkit
 import redis.clients.jedis.JedisPubSub
 
 
-class LocalPacketPubSub : JedisPubSub() {
+object LocalPacketPubSub : JedisPubSub() {
+
+    var received : Int = 0
 
     override fun onMessage(channel: String?, message: String) {
         val packetClass: Class<*>
@@ -17,6 +19,7 @@ class LocalPacketPubSub : JedisPubSub() {
         } catch (ignored: ClassNotFoundException) {
             return
         }
+        received++
         val packet = RedisPacketManager.gson.fromJson(messageJson, packetClass) as RedisPacket
         Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance, packet::action)
     }
