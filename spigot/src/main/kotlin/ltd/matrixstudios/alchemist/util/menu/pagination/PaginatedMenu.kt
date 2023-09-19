@@ -10,6 +10,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
+import java.lang.IllegalArgumentException
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.ceil
@@ -197,7 +198,17 @@ abstract class PaginatedMenu(
         if (MenuController.menuMap.containsKey(player.uniqueId)) return
 
         retrieveInventory().thenAccept {
-            inventory.contents = it.contents
+            try
+            {
+                inventory.contents = it.contents
+            } catch (e: IllegalArgumentException)
+            {
+                if (player.openInventory.topInventory != null)
+                {
+                    player.closeInventory()
+                    player.sendMessage(Chat.format("&cCould not set contents. Please try again"))
+                }
+            }
         }.whenComplete { item, throwable ->
             if (throwable != null) {
                 throwable.printStackTrace()

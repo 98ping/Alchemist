@@ -51,7 +51,6 @@ object StaffLeaderboardCommand : BaseCommand() {
         var i = 11
 
         for (type in types) {
-            fetchFirst10Entries(type, users)
             toLoad[i++] = StaffLeaderboardMenu.LeaderboardPunishmentButton(type, fetchFirst10Entries(type, users))
         }
 

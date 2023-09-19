@@ -36,6 +36,10 @@ class MMC : Theme(
     override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
         val desc = arrayListOf<String>()
 
+        if (!rankGrant.expirable.isActive())
+        {
+            desc.add(Chat.format("&c- ${Date(rankGrant.expirable.removedAt)}"))
+        }
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
         desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable().color + rankGrant.getGrantable()!!.displayName))
@@ -92,7 +96,7 @@ class MMC : Theme(
     }
 
     override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String {
-        return Chat.format((if (rankGrant.expirable.isActive()) "&a&l(Active) " else "&c&l(Inactive) ") + Date(rankGrant.expirable.addedAt))
+        return Chat.format((if (rankGrant.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(rankGrant.expirable.addedAt))
     }
 
     override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
@@ -154,6 +158,11 @@ class MMC : Theme(
 
     override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
         val desc = arrayListOf<String>()
+        if (!punishment.expirable.isActive())
+        {
+            desc.add(Chat.format("&c- ${Date(punishment.expirable.removedAt)}"))
+        }
+        desc.add(Chat.format("&8Known as #${punishment.easyFindId}"))
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(punishment.target)))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(punishment.expirable.duration)))
@@ -180,7 +189,7 @@ class MMC : Theme(
     }
 
     override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
-        return Chat.format((if (punishment.expirable.isActive()) "&a&l(Active) " else "&c&l(Inactive) ") + Date(punishment.expirable.addedAt).toString())
+        return Chat.format((if (punishment.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(punishment.expirable.addedAt).toString())
     }
 
     override fun getHistoryData(player: Player, punishment: Punishment): Short {
