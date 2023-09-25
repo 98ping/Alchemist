@@ -53,10 +53,10 @@ class AuthCommands : BaseCommand()
     @Subcommand("bypass")
     @Description("Allow a user to bypass authentication.")
     @CommandPermission("alchemist.auth.admin")
-    fun onBypass(player: Player, @Name("target") gameProfile: AsyncGameProfile)
+    fun onBypass(player: CommandSender, @Name("target") gameProfile: AsyncGameProfile)
     {
         gameProfile.use(player) {
-            if (it.uuid == player.uniqueId)
+            if (player is Player && it.uuid == player.uniqueId)
             {
                 player.sendMessage(Chat.format("&cFor security reasons, you are not able to change your authentication bypass."))
                 return@use
