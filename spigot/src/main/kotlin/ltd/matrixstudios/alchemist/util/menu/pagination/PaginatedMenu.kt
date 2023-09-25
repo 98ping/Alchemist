@@ -200,19 +200,22 @@ abstract class PaginatedMenu(
         retrieveInventory().thenAccept {
             try
             {
+                if (inventory.size != it.size || inventory.viewers.isEmpty()) return@thenAccept
+
                 inventory.contents = it.contents
             } catch (e: IllegalArgumentException)
             {
                 if (player.openInventory.topInventory != null)
                 {
-                    player.closeInventory()
+                    Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance) {
+                        player.closeInventory()
+                    }
                     player.sendMessage(Chat.format("&cCould not set contents. Please try again"))
                 }
             }
         }.whenComplete { item, throwable ->
             if (throwable != null) {
                 throwable.printStackTrace()
-                player.closeInventory()
                 player.sendMessage(
                     "${ChatColor.RED}Failed to update menu."
                 )
@@ -220,6 +223,10 @@ abstract class PaginatedMenu(
                 if (MenuController.paginatedMenuMap.containsKey(player.uniqueId))
                 {
                     MenuController.paginatedMenuMap.remove(player.uniqueId)
+                }
+
+                Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance) {
+                    player.closeInventory()
                 }
 
                 return@whenComplete
