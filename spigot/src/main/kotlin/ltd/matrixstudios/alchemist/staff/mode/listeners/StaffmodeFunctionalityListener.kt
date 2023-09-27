@@ -25,6 +25,7 @@ import java.util.*
 
 class StaffmodeFunctionalityListener : Listener {
     val timestamps = mutableMapOf<UUID, Long>()
+    val entityInteractTimestamps = mutableMapOf<UUID, Long>()
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun interact(e: PlayerInteractEvent) {
@@ -115,6 +116,11 @@ class StaffmodeFunctionalityListener : Listener {
                 {
                     e.isCancelled = true
                 }
+
+                if (itemInHand.isSimilar(StaffItems.FREEZE))
+                {
+                    e.isCancelled = true
+                }
             }
         }
     }
@@ -152,17 +158,17 @@ class StaffmodeFunctionalityListener : Listener {
 
             if (e.rightClicked is Player)
             {
-                val time = timestamps[player.uniqueId]
+                val time = entityInteractTimestamps[player.uniqueId]
                 if (time != null) {
                     if (System.currentTimeMillis().minus(time) < 300L) {
                         e.isCancelled = true
-                        timestamps.remove(player.uniqueId)
+                        entityInteractTimestamps.remove(player.uniqueId)
 
                         return
                     }
                 }
 
-                timestamps[player.uniqueId] = System.currentTimeMillis()
+                entityInteractTimestamps[player.uniqueId] = System.currentTimeMillis()
 
                 if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT))
                 {
