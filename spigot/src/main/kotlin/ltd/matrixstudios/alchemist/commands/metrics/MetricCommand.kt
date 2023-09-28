@@ -16,6 +16,7 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import java.util.*
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 class MetricCommand : BaseCommand() {
@@ -44,6 +45,27 @@ class MetricCommand : BaseCommand() {
             player.sendMessage(Chat.format("&aMade a new profile"))
         }
     }
+
+/*    @CommandAlias("infixtest")
+    @CommandPermission("alchemist.owner")
+    fun infix(player: Player, uname: String) : CompletableFuture<Void>
+    {
+       return ProfileGameService.test
+           .filter(
+               GameProfile::lowercasedUsername,
+               uname
+           ).thenAccept {
+               val first = it.firstOrNull()
+
+               if (first == null)
+               {
+                   player.sendMessage(Chat.format("&cUser is not found"))
+               } else {
+                   player.sendMessage(Chat.format("&aWas able to use an infix function to find &f${first.username} &ain mongo"))
+               }
+           }
+    }*/
+
 
     @CommandAlias("performancetest")
     @CommandPermission("alchemist.metrics")

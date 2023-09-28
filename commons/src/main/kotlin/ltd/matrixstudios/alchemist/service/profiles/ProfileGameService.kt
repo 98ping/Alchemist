@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.mongo.MongoStorageCache
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
@@ -25,6 +26,7 @@ object ProfileGameService : GeneralizedService {
 
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, GameProfile>(DataStoreType.MONGO)
+    //val test = MongoStorageCache.create<UUID, GameProfile>("gameprofile")
 
     val collection = Alchemist.MongoConnectionPool.getCollection("gameprofile")
 
@@ -32,6 +34,7 @@ object ProfileGameService : GeneralizedService {
 
     fun loadIndexes()
     {
+
         val fields = listOf("ip", "lowercasedUsername")
 
         for (f in fields)
@@ -118,6 +121,7 @@ object ProfileGameService : GeneralizedService {
 
             for (p in cacheProfile) {
                 if (p == null) continue
+
                 entries.add(p)
             }
 
