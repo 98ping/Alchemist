@@ -18,8 +18,6 @@ import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.Executors
-import java.util.concurrent.ForkJoinPool
 import java.util.stream.Collectors
 
 
@@ -67,7 +65,12 @@ object ProfileGameService : GeneralizedService {
             {
                 for (alt in profile.getAltAccounts().join())
                 {
-                    if (alt.hasActivePunishment(PunishmentType.BLACKLIST) || alt.hasActivePunishment(PunishmentType.BAN) || alt.hasActivePunishment(PunishmentType.MUTE))
+                    if (alt.hasActivePunishment(PunishmentType.BLACKLIST)
+                        ||
+                        alt.hasActivePunishment(PunishmentType.BAN)
+                        ||
+                        alt.hasActivePunishment(PunishmentType.MUTE)
+                        )
                     {
                         if (!profile.hasActivePunishment(PunishmentType.BAN) && !profile.hasActivePunishment(PunishmentType.BLACKLIST))
                         {
