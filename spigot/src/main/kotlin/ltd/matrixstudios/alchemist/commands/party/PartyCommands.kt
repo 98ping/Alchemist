@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.service.party.PartyService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -98,6 +99,28 @@ class PartyCommands : BaseCommand() {
                 this.insert(currentParty.id, currentParty)
                 PartyService.backingPartyCache[currentParty.id] = currentParty
             }
+        }
+    }
+
+    @Subcommand("info")
+    fun onInfo(player: Player) : CompletableFuture<Void>
+    {
+        return PartyService.getParty(player.uniqueId).thenAccept { party ->
+            if (party == null)
+            {
+                throw ConditionFailedException(
+                    "You are not currently in a party!"
+                )
+            }
+
+            player.sendMessage(Chat.format("&aInformation for &eYour Party"))
+            player.sendMessage(Chat.format("&7Created: &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(party.createdAt))} ago"))
+            player.sendMessage(Chat.format("&7Short Id: &f${party.id.toString().substring(0, 8)}"))
+            player.sendMessage(" ")
+            player.sendMessage(Chat.format("&7Leader: &f${AlchemistAPI.getRankDisplay(player.uniqueId)}"))
+            player.sendMessage(Chat.format("&7Members: &f${party.getPartyMembersString()}"))
+            player.sendMessage(Chat.format("&7Invited Members: &f${party.invited.size}"))
+            player.sendMessage(" ")
         }
     }
 
