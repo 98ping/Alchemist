@@ -13,6 +13,6 @@ class GameProfileContextResolver : ContextResolver<GameProfile, BukkitCommandExe
         val firstArg = c.popFirstArg() ?: return null
 
         //todo: async wrapper just mad lazy
-        return ProfileGameService.byUsername(firstArg).join() ?: throw InvalidCommandArgument("No player by this name found")
+        return ProfileGameService.byUsernameWithList(firstArg).join().firstOrNull() ?: throw InvalidCommandArgument("No player by this name found")
     }
 }

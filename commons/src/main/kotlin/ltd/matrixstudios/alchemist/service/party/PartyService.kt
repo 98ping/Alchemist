@@ -1,32 +1,48 @@
 package ltd.matrixstudios.alchemist.service.party
 
 import io.github.nosequel.data.DataStoreType
+import io.github.nosequel.data.store.type.MongoStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.party.Party
+import ltd.matrixstudios.alchemist.mongo.MongoStorageCache
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 object PartyService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
+    var handler = MongoStorageCache.create<UUID, Party>("party")
+    private val backingPartyCache = mutableMapOf<UUID, Party>()
 
-
-    fun getValues(): Collection<Party> {
-        return handler.retrieveAll()
-    }
-
-    fun getParty(uuid: UUID): Party? {
-        for (party in getValues()) {
+    fun getParty(uuid: UUID): CompletableFuture<Party?>
+    {
+        for (party in backingPartyCache.values)
+        {
             if (party.leader == uuid
-                || party.members.firstOrNull {
+                ||
+                party.members.firstOrNull {
                     it.first.toString() == uuid.toString()
                 } != null
             ) {
-                return party
+                return CompletableFuture.completedFuture(party)
             }
         }
 
-        return null
+        return handler.getAll().thenApply { parties ->
+            for (mongoParty in parties)
+            {
+                if (mongoParty.members.any {
+                        it.first.toString() == uuid.toString()
+                } || mongoParty.leader == uuid)
+                {
+                    backingPartyCache[mongoParty.id] = mongoParty
+
+                    return@thenApply mongoParty
+                }
+            }
+
+            null
+        }
     }
 }

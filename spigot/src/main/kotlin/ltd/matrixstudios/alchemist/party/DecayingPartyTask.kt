@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 class DecayingPartyTask : BukkitRunnable() {
 
     override fun run() {
-        val parties = PartyService.getValues()
+        val parties = PartyService.handler.getAll().get()
 
         for (party in parties)
         {
@@ -24,8 +24,6 @@ class DecayingPartyTask : BukkitRunnable() {
                 party.members.forEach {
                     AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] &fYour party has been &cdisbanded")))
                 }
-
-                PartyService.handler.delete(party.id)
 
                 return
             }
@@ -53,7 +51,7 @@ class DecayingPartyTask : BukkitRunnable() {
 
             if (changed)
             {
-                PartyService.handler.store(party.id, party)
+                PartyService.handler.insertSynchronously(party.id, party)
             }
 
         }

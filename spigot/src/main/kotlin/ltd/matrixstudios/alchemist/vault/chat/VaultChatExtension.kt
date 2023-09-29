@@ -19,10 +19,11 @@ class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
 
     override fun getPlayerPrefix(p0: String?, p1: String?): String {
         var prefix = RankService.FALLBACK_RANK.prefix
-        ProfileGameService.byUsername(p1!!.toLowerCase()).whenComplete { p, t ->
-            if (p == null) return@whenComplete
+        ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).whenComplete { p, t ->
+            val user = p.firstOrNull()
+                ?: return@whenComplete
 
-            val curr = p.getCurrentRank()
+            val curr = user.getCurrentRank()
             prefix = curr.prefix
         }
 

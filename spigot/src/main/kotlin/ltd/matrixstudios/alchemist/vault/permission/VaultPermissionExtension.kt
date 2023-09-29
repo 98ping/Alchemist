@@ -45,13 +45,13 @@ class VaultPermissionExtension : Permission() {
     }
 
     override fun playerHas(p0: String?, p1: String?, p2: String?): Boolean {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join() ?: return false
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull() ?: return false
 
         return profile.permissions.contains(p2)
     }
 
     override fun playerAdd(p0: String?, p1: String?, p2: String?): Boolean {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join()
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull()
         profile!!.permissions.add(p2!!)
         ProfileGameService.save(profile)
 
@@ -59,7 +59,7 @@ class VaultPermissionExtension : Permission() {
     }
 
     override fun playerRemove(p0: String?, p1: String?, p2: String?): Boolean {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join() ?: return false
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull() ?: return false
 
         profile.permissions.remove(p2!!)
         ProfileGameService.save(profile)
@@ -82,7 +82,7 @@ class VaultPermissionExtension : Permission() {
     }
 
     override fun playerInGroup(p0: String?, p1: String?, p2: String?): Boolean {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join() ?: return false
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull() ?: return false
 
         return RankGrantService.getFromCache(profile.uuid).firstOrNull { it.rank == p2!!} != null
     }
@@ -96,13 +96,13 @@ class VaultPermissionExtension : Permission() {
     }
 
     override fun getPlayerGroups(p0: String?, p1: String?): Array<String> {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join() ?: return emptyArray()
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull() ?: return emptyArray()
 
         return RankGrantService.getFromCache(profile.uuid).map { it.getGrantable().displayName }.toTypedArray()
     }
 
     override fun getPrimaryGroup(p0: String?, p1: String?): String {
-        val profile = ProfileGameService.byUsername(p1!!.toLowerCase()).join() ?: return "Unknown"
+        val profile = ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).join().firstOrNull() ?: return "Unknown"
 
         return profile.getCurrentRank().displayName
     }

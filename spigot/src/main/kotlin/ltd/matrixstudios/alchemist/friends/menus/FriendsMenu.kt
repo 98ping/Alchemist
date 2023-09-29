@@ -44,7 +44,9 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
             InputPrompt()
                 .withText(Chat.format("&eType another user's name into chat to send them a &afriend request!"))
                 .acceptInput { s ->
-                    ProfileGameService.byUsername(s).thenAcceptAsync {
+                    ProfileGameService.byUsernameWithList(s).thenAcceptAsync { profiles ->
+                        val it = profiles.firstOrNull()
+
                         if (it == null)
                         {
                             player.sendMessage(Chat.format("&cThis player does not exist!"))
