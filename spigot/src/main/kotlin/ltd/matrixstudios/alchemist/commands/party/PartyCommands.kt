@@ -113,7 +113,9 @@ class PartyCommands : BaseCommand() {
                 )
             }
 
+            player.sendMessage(" ")
             player.sendMessage(Chat.format("&aInformation for &eYour Party"))
+            player.sendMessage(" ")
             player.sendMessage(Chat.format("&7Created: &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(party.createdAt))} ago"))
             player.sendMessage(Chat.format("&7Short Id: &f${party.id.toString().substring(0, 8)}"))
             player.sendMessage(" ")

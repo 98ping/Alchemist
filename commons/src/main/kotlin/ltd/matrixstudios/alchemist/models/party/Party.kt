@@ -38,6 +38,8 @@ data class Party(
             }
         }
 
+        if (entries.isEmpty()) return "&cNone"
+
         return entries.joinToString("&7, ")
     }
 
