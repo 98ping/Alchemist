@@ -19,6 +19,11 @@ data class Party(
         members.remove(pairMember)
     }
 
+    fun isMember(uuid: UUID) : Boolean
+    {
+        return leader == uuid || members.any { it.first == uuid }
+    }
+
     fun isLeader(uuid: UUID) : Boolean {
         return uuid.toString() == leader.toString()
     }

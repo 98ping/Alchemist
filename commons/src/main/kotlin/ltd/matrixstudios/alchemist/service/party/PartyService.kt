@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture
 object PartyService : GeneralizedService {
 
     var handler = MongoStorageCache.create<UUID, Party>("party")
-    private val backingPartyCache = mutableMapOf<UUID, Party>()
+    val backingPartyCache = mutableMapOf<UUID, Party>()
 
     fun getParty(uuid: UUID): CompletableFuture<Party?>
     {
