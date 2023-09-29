@@ -173,7 +173,7 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         MenuAutoUpdate().runTaskTimer(this, 20L, 20L)
 
         if (config.getBoolean("modules.parties")) {
-            (DecayingPartyTask()).runTaskTimerAsynchronously(this, 0L, 40L)
+            //(DecayingPartyTask()).runTaskTimerAsynchronously(this, 0L, 40L)
         }
 
         StatisticManager.loadStats()

@@ -12,6 +12,7 @@ import ltd.matrixstudios.alchemist.packets.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.service.party.PartyService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -23,30 +24,30 @@ class PartyCommands : BaseCommand() {
     @Subcommand("create")
     fun create(player: Player) : CompletableFuture<Void>
     {
-       return PartyService.getParty(player.uniqueId).thenAcceptAsync {
-           if (it != null)
-           {
-               throw ConditionFailedException(
-                   "You are currently in a party!"
-               )
-           }
+        return PartyService.getParty(player.uniqueId).thenAccept {
+            if (it != null)
+            {
+                throw ConditionFailedException(
+                    "You are already in a party!"
+                )
+            }
 
-           val toInsert = Party(
-               UUID.randomUUID(),
-               player.uniqueId,
-               mutableListOf(),
-               mutableMapOf(),
-               System.currentTimeMillis(),
-               true
-           )
+            val toInsert = Party(
+                UUID.randomUUID(),
+                player.uniqueId,
+                mutableListOf(),
+                mutableMapOf(),
+                System.currentTimeMillis(),
+                true
+            )
 
-           PartyService.handler.insertSynchronously(
-               toInsert.id, toInsert
-           ).also {
-               player.sendMessage(Chat.format("&aYou have just created a new &eparty&a!"))
-               player.sendMessage(Chat.format("&7To see detailed information, execute /party info"))
-           }
-       }
+            PartyService.handler.asynchronouslyInsert(
+                toInsert.id, toInsert
+            )
+
+            player.sendMessage(Chat.format("&aYou have just created a new &eparty&a!"))
+            player.sendMessage(Chat.format("&7To view detailed information, execute /party info"))
+        }
     }
 
     @HelpCommand

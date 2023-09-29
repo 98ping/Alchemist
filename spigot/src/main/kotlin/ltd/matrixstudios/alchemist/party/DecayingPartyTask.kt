@@ -51,7 +51,7 @@ class DecayingPartyTask : BukkitRunnable() {
 
             if (changed)
             {
-                PartyService.handler.insertSynchronously(party.id, party)
+                PartyService.handler.insert(party.id, party)
             }
 
         }

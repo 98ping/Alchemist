@@ -1,13 +1,19 @@
 package ltd.matrixstudios.alchemist.mongo
 
+import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
+import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.mongo.extensions.deserialize
 import ltd.matrixstudios.alchemist.mongo.extensions.eq
 import org.bson.Document
 import org.bson.conversions.Bson
+import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ForkJoinPool
+import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
 /**
@@ -21,7 +27,8 @@ class MongoStorageController<K, V>(
     collectionName: String,
     private val serialClass: Class<V>
 ) {
-    private val collection = Alchemist.MongoConnectionPool.getCollection(collectionName)
+    private var collection = Alchemist.MongoConnectionPool.getCollection(collectionName)
+    val other = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
 
     fun retrieve(
         key: K
@@ -94,28 +101,12 @@ class MongoStorageController<K, V>(
         }
     }
 
-    fun insertAsynchronously(
+    fun asynchronouslyInsert(
         key: K,
         value: V
-    ): CompletableFuture<V>
-    {
-        return CompletableFuture.supplyAsync {
-            collection.updateOne(
-                Filters.eq("_id", key.toString()),
-                Document(
-                    "\$set",
-                    Document.parse(
-                        Alchemist.gson.toJson(value)
-                    )
-                ),
-                UpdateOptions().upsert(true)
-            )
+    ): CompletableFuture<Void> = CompletableFuture.runAsync { insert(key, value) }
 
-            value
-        }
-    }
-
-    fun insertSynchronously(
+    fun insert(
         key: K,
         value: V
     ) {
