@@ -304,6 +304,25 @@ data class GameProfile(
             }
     }
 
+    fun getPermissionsExclusivelyGlobal(): Map<String, Boolean> {
+        val allPerms = getHighestGlobalRank().permissions
+            .toMutableList()
+
+        getHighestGlobalRank()
+            .parents
+            .mapNotNull(RankService::byId)
+            .forEach { rank ->
+                allPerms += rank.getAllPermissions()
+            }
+
+        return listOf(permissions, allPerms)
+            .flatten()
+            .associateWith {
+                !it.startsWith("*")
+            }
+    }
+
+
     fun hasActivePunishment(type: PunishmentType): Boolean {
         return getPunishments().find { it.expirable.isActive() && it.getGrantable() == type } != null
     }

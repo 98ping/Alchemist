@@ -40,7 +40,7 @@ class BungeeListener : Listener {
     {
         val profile = ProfileGameService.byId(event.player.uniqueId) ?: return
 
-        for ((a, b) in profile.getPermissions())
+        for ((a, b) in profile.getPermissionsExclusivelyGlobal())
         {
             if (!b)
             {
