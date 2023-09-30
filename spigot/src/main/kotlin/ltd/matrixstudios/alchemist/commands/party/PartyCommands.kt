@@ -83,7 +83,7 @@ class PartyCommands : BaseCommand() {
                 party.id
             )
             PartyService.backingPartyCache.remove(party.id)
-            player.sendMessage("&7[&dParties&7] &aYour current &eparty &ahas just been disbanded!")
+            player.sendMessage(Chat.format("&7[&dParties&7] &aYour current &eparty &ahas just been disbanded!"))
         }
     }
 
