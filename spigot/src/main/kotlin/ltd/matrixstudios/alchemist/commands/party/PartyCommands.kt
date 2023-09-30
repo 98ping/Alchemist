@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.*
+import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
@@ -17,13 +18,15 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.jetbrains.annotations.Async
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-@CommandAlias("p|party")
+@CommandAlias("party|p")
 class PartyCommands : BaseCommand() {
 
     @Subcommand("create")
+    @Description("Creates a new party.")
     fun create(player: Player) : CompletableFuture<Void>
     {
         return PartyService.getParty(player.uniqueId).thenAccept {
@@ -53,7 +56,39 @@ class PartyCommands : BaseCommand() {
         }
     }
 
+    @Subcommand("disband")
+    @Description("Disbands your current party. Only works if you are a leader.")
+    fun onDisband(
+        player: Player
+    ) : CompletableFuture<Void>
+    {
+        return PartyService.getParty(player.uniqueId).thenAccept { party ->
+            if (party == null)
+            {
+                throw ConditionFailedException(
+                    "You are not currently in a party!"
+                )
+            }
+
+            val leader = party.leader
+
+            if (leader != player.uniqueId)
+            {
+                throw ConditionFailedException(
+                    Chat.format("&cOnly the party &eLeader &cis able to disband the party.")
+                )
+            }
+
+            PartyService.handler.deleteAsynchronously(
+                party.id
+            )
+            PartyService.backingPartyCache.remove(party.id)
+            player.sendMessage("&7[&dParties&7] &aYour current &eparty &ahas just been disbanded!")
+        }
+    }
+
     @Subcommand("invite")
+    @Description("Invites a given player to your party.")
     fun onInvite(
         player: Player,
         @Name("target") target: AsyncGameProfile
@@ -93,7 +128,7 @@ class PartyCommands : BaseCommand() {
             }
 
             currentParty.invited[gameProfile.uuid] = System.currentTimeMillis()
-            player.sendMessage(Chat.format("&aYou have just sent a party invitation to ${gameProfile.getRankDisplay()}"))
+            player.sendMessage(Chat.format("&7[&dParties&7] &aYou have just sent a party invitation to ${gameProfile.getRankDisplay()}"))
 
             with (PartyService.handler) {
                 this.insert(currentParty.id, currentParty)
@@ -103,6 +138,7 @@ class PartyCommands : BaseCommand() {
     }
 
     @Subcommand("info")
+    @Description("View detailed information about your party.")
     fun onInfo(player: Player) : CompletableFuture<Void>
     {
         return PartyService.getParty(player.uniqueId).thenAccept { party ->
@@ -127,6 +163,7 @@ class PartyCommands : BaseCommand() {
     }
 
     @HelpCommand
+    @Description("Displays the command help.")
     fun help(help: CommandHelp) {
         help.showHelp()
     }

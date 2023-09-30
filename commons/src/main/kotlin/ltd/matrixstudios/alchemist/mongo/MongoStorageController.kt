@@ -53,6 +53,18 @@ class MongoStorageController<K, V>(
         }
     }
 
+    fun delete(
+        key: K
+    ) {
+        collection.deleteOne(
+            Filters.eq("_id", key.toString())
+        )
+    }
+
+    fun deleteAsynchronously(
+        key: K
+    ) = CompletableFuture.runAsync { delete(key) }
+
     fun aggregate(
         constraints: List<Bson>
     ): CompletableFuture<MutableList<V>>
