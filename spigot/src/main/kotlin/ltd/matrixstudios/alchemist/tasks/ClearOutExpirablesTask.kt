@@ -1,8 +1,6 @@
 package ltd.matrixstudios.alchemist.tasks
 
-import com.mongodb.client.model.Accumulators
 import com.mongodb.client.model.Aggregates
-import com.mongodb.client.model.BsonField
 import com.mongodb.client.model.Filters
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
@@ -10,11 +8,9 @@ import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdateP
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
-import org.bson.BsonBoolean
 import org.bson.Document
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
-import kotlin.math.max
 
 object ClearOutExpirablesTask : BukkitRunnable()
 {
@@ -24,7 +20,7 @@ object ClearOutExpirablesTask : BukkitRunnable()
 
     override fun run()
     {
-        val maxIntString = Integer.MAX_VALUE.toLong()
+        val maxIntLong = Integer.MAX_VALUE.toLong()
 
         rankGrantConnection
             .aggregate(
@@ -37,7 +33,7 @@ object ClearOutExpirablesTask : BukkitRunnable()
                 val addedAt = unwindedDocument.getString("addedAt").toLong()
                 val duration = unwindedDocument.getString("duration").toLong()
 
-                if (duration != maxIntString)
+                if (duration != maxIntLong)
                 {
                     if (it["removedBy"] == null
                         &&
