@@ -28,7 +28,6 @@ class MongoStorageController<K, V>(
     private val serialClass: Class<V>
 ) {
     private var collection = Alchemist.MongoConnectionPool.getCollection(collectionName)
-    val other = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
 
     fun retrieve(
         key: K
