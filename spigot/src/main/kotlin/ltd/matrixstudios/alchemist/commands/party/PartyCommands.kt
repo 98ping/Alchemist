@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.*
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
@@ -141,7 +142,7 @@ class PartyCommands : BaseCommand() {
     @Description("Promotes a member of your party to a higher role.")
     fun onPromote(
         player: Player,
-        target: AsyncGameProfile
+        @Name("target") target: AsyncGameProfile
     ) : CompletableFuture<Void>
     {
         return target.use(player) {
@@ -194,7 +195,8 @@ class PartyCommands : BaseCommand() {
             player.sendMessage(Chat.format("&7Created: &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(party.createdAt))} ago"))
             player.sendMessage(Chat.format("&7Short Id: &f${party.id.toString().substring(0, 8)}"))
             player.sendMessage(" ")
-            player.sendMessage(Chat.format("&7Leader: &f${AlchemistAPI.getRankDisplay(player.uniqueId)}"))
+            val leaderProfile = ProfileGameService.byId(party.leader) ?: return@thenAccept
+            player.sendMessage(Chat.format("&7Leader: &f${leaderProfile.getRankDisplay()} ${if (leaderProfile.isOnline()) "&a■" else "&c■"}"))
             player.sendMessage(Chat.format("&7Members: &f${party.getPartyMembersString()}"))
             player.sendMessage(Chat.format("&7Invited Members: &f${party.invited.size}"))
             player.sendMessage(" ")
