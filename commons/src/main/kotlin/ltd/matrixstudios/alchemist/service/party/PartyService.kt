@@ -21,9 +21,7 @@ object PartyService : GeneralizedService {
         {
             if (party.leader == uuid
                 ||
-                party.members.firstOrNull {
-                    it.first.toString() == uuid.toString()
-                } != null
+                party.members[uuid] != null
             ) {
                 return CompletableFuture.completedFuture(party)
             }
@@ -32,10 +30,10 @@ object PartyService : GeneralizedService {
         return handler.getAll().thenApply { parties ->
             for (mongoParty in parties)
             {
-                if (mongoParty.members.any {
-                        it.first.toString() == uuid.toString()
-                } || mongoParty.leader == uuid)
-                {
+                if (mongoParty.members[uuid] != null
+                    ||
+                    mongoParty.leader == uuid
+                ) {
                     backingPartyCache[mongoParty.id] = mongoParty
 
                     return@thenApply mongoParty

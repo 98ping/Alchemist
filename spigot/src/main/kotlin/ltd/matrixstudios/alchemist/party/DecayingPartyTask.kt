@@ -18,37 +18,6 @@ class DecayingPartyTask : BukkitRunnable() {
 
             var changed = false
 
-
-            if (NetworkManager.hasFullyDCed(party.leader))
-            {
-                party.members.forEach {
-                    AsynchronousRedisSender.send(NetworkMessagePacket(it.first, Chat.format("&8[&dParties&8] &fYour party has been &cdisbanded")))
-                }
-
-                return
-            }
-
-            party.members.map { it.first }.forEach {
-                if (NetworkManager.hasFullyDCed(it))
-                {
-                    party.removeMember(it)
-
-                    changed = true
-                }
-
-
-            }
-
-            for (invite in party.invited)
-            {
-                if ((System.currentTimeMillis() - invite.value)  >= TimeUnit.MINUTES.toMillis(1L))
-                {
-                    party.invited.remove(invite.key)
-
-                    changed = true
-                }
-            }
-
             if (changed)
             {
                 PartyService.handler.insert(party.id, party)

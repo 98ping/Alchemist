@@ -7,7 +7,7 @@ import java.util.UUID
 data class Party(
     var id: UUID,
     var leader: UUID,
-    var members: MutableList<Pair<UUID, PartyElevation>>,
+    var members: MutableMap<UUID, PartyElevation>,
     var invited: MutableMap<UUID, Long>,
     var createdAt: Long,
     var alive: Boolean
@@ -15,22 +15,20 @@ data class Party(
 
     fun removeMember(uuid: UUID)
     {
-        val pairMember = members.firstOrNull { it.first.toString() == uuid.toString() }
-
-        members.remove(pairMember)
+        members.remove(uuid)
     }
 
     fun isMember(uuid: UUID) : Boolean
     {
-        return leader == uuid || members.any { it.first == uuid }
+        return leader == uuid || members.containsKey(uuid)
     }
 
     fun getPartyMembersString() : String
     {
         val entries = mutableListOf<String>()
-        for (member in members)
+        for (member in members.keys)
         {
-            val profile = ProfileGameService.byId(member.first)
+            val profile = ProfileGameService.byId(member)
 
             if (profile != null)
             {

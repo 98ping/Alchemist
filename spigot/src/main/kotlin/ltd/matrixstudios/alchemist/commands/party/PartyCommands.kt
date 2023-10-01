@@ -40,7 +40,7 @@ class PartyCommands : BaseCommand() {
             val toInsert = Party(
                 UUID.randomUUID(),
                 player.uniqueId,
-                mutableListOf(),
+                mutableMapOf(),
                 mutableMapOf(),
                 System.currentTimeMillis(),
                 true
@@ -116,8 +116,8 @@ class PartyCommands : BaseCommand() {
 
             val hasEligibility = if (currentParty.isLeader(player.uniqueId))
                 true
-            else currentParty.members.firstOrNull {
-                it.first == player.uniqueId && it.second == PartyElevation.OFFICER
+            else currentParty.members.entries.firstOrNull {
+                it.key == player.uniqueId && it.value == PartyElevation.OFFICER
             } != null
 
             if (!hasEligibility)
@@ -133,6 +133,45 @@ class PartyCommands : BaseCommand() {
             with (PartyService.handler) {
                 this.insert(currentParty.id, currentParty)
                 PartyService.backingPartyCache[currentParty.id] = currentParty
+            }
+        }
+    }
+
+    @Subcommand("promote")
+    @Description("Promotes a member of your party to a higher role.")
+    fun onPromote(
+        player: Player,
+        target: AsyncGameProfile
+    ) : CompletableFuture<Void>
+    {
+        return target.use(player) {
+            val myParty = PartyService.getParty(player.uniqueId).get()
+                ?: throw ConditionFailedException(
+                    "You are not currently in a party"
+                )
+
+            val otherPlayerParty = PartyService.getParty(it.uuid).get()
+                ?: throw ConditionFailedException(
+                    Chat.format("&e${it.username} &cis not currently in a party!")
+                )
+
+            if (otherPlayerParty.leader != myParty.leader)
+            {
+                throw ConditionFailedException(
+                    "This player must be in the same party as you to promote them!"
+                )
+            }
+
+            val roleInThisParty = myParty.members[it.uuid]
+                ?: throw ConditionFailedException(
+                    "Unable to verify that this player is in your party!"
+                )
+
+            if (roleInThisParty == PartyElevation.OFFICER || roleInThisParty == PartyElevation.LEADER)
+            {
+                throw ConditionFailedException(
+                    "This player has already been promoted to the highest rank!"
+                )
             }
         }
     }
