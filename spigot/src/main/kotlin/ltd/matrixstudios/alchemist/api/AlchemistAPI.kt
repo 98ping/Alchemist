@@ -81,6 +81,7 @@ object AlchemistAPI {
     fun supplyColoredNames() : CompletableFuture<List<Player>> {
         return CompletableFuture.supplyAsync {
             Bukkit.getOnlinePlayers()
+                .filter { !it.hasMetadata("vanish") }
                 .sortedBy {
                     AccessiblePermissionHandler.findRankWeight(it)
                 }.reversed()

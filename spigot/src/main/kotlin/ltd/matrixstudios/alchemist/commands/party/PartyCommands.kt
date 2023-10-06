@@ -174,6 +174,15 @@ class PartyCommands : BaseCommand() {
                     "This player has already been promoted to the highest rank!"
                 )
             }
+
+            myParty.members[it.uuid] = PartyElevation.OFFICER
+
+            with (PartyService.handler) {
+                this.insert(myParty.id, myParty)
+                PartyService.backingPartyCache[myParty.id] = myParty
+            }
+
+            player.sendMessage(Chat.format("&7[&dParties&7] &aYou have just promoted ${it.getRankDisplay()} &ato an &eOfficer&a!"))
         }
     }
 
