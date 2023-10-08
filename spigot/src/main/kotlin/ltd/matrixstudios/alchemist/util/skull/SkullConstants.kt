@@ -1,8 +1,5 @@
 package ltd.matrixstudios.alchemist.util.skull
 
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Blue
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Green
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.White
 import org.bukkit.entity.Silverfish
 
 /**
