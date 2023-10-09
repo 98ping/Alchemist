@@ -18,6 +18,7 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
+import ltd.matrixstudios.alchemist.commands.disguise.DisguiseCommand
 import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.grants.apply.CGrantCommand
@@ -95,6 +96,8 @@ object ACFCommandController {
                 }
                 registerCommand(WipeGrantsCommand)
             }
+
+            registerCommand(DisguiseCommand)
 
             registerCommand(AdminPanelCommand())
             registerCommand(RedisCommand)

@@ -2,36 +2,119 @@ package ltd.matrixstudios.alchemist.commands.disguise
 
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
+import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.models.profile.disguise.SkinDisguiseAttribute
 import ltd.matrixstudios.alchemist.profiles.getProfile
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import net.pinger.disguise.DisguiseAPI
+import net.pinger.disguise.exception.UserNotFoundException
+import net.pinger.disguise.skin.Skin
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-object DisguiseCommand : BaseCommand() {
+object DisguiseCommand : BaseCommand()
+{
 
     @CommandAlias("reveal|realname|disguiseinfo")
     @CommandPermission("alchemist.disguise.reveal")
-    fun reveal(sender: CommandSender, target: Player) {
+    fun reveal(sender: CommandSender, @Name("target") target: Player)
+    {
         sender.sendMessage(" ")
         sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.name}&e:"))
+        val profile = target.getProfile()
+
+        if (profile == null)
+        {
+            sender.sendMessage(Chat.format("&e• &cNone (Profile Not Found)"))
+            sender.sendMessage(" ")
+            return
+        }
+
+        if (profile.username == target.name)
+        {
+            sender.sendMessage(Chat.format("&e• &cNot Disguised"))
+            sender.sendMessage(" ")
+            return
+        }
+
+        sender.sendMessage(Chat.format("&e• &6${profile.username} &a(CURRENT)"))
+        sender.sendMessage(" ")
     }
 
     @CommandAlias("undisguise|unnick")
     @CommandPermission("alchemist.disguise")
-    fun unDisguise(player: Player) {
+    fun unDisguise(player: Player)
+    {
+        val profile = player.getProfile() ?: return
 
+        if (profile.skinDisguiseAttribute != null)
+        {
+            profile.skinDisguiseAttribute = null
+            DisguiseAPI.getDefaultProvider().resetPlayer(player)
+
+            player.sendMessage(Chat.format("&aSuccess! You have reset your name and skin."))
+            ProfileGameService.save(profile)
+        } else
+        {
+            throw ConditionFailedException(
+                "You are not currently disguised!"
+            )
+        }
     }
 
-    @CommandAlias("disguise|dis|nick|nickname")
+    @CommandAlias("disguise|nick|nickname")
     @CommandPermission("alchemist.disguise")
-    fun disguise(player: Player, @Default("") name: String?) {
-        if ((name ?: "").isEmpty() || name?.isNotEmpty() == true) {
-            // menu
-            return
+    fun disguise(player: Player, @Name("name") name: String)
+    {
+        if (!player.hasPermission("alchemist.disguise.custom.unrestricted") && name != null)
+        {
+
+            if (name.length < 3)
+            {
+                throw ConditionFailedException(
+                    "This disguise is too short!"
+                )
+            }
+
+            if (name.length >= 16)
+            {
+                throw ConditionFailedException(
+                    "This disguise is too long!"
+                )
+            }
         }
+
+        player.getProfile().apply {
+            if (this != null)
+            {
+                val skin: Skin?
+                try
+                {
+                    skin = DisguiseAPI.getSkinManager().getFromMojang(name)
+                } catch (e: UserNotFoundException)
+                {
+                    throw ConditionFailedException(
+                        "This user does not have a Minecraft account!"
+                    )
+                }
+
+                this.skinDisguiseAttribute = SkinDisguiseAttribute(name, System.currentTimeMillis(), name)
+
+                player.displayName = this.skinDisguiseAttribute!!.customName
+                player.playerListName = player.displayName
+                player.customName = player.displayName
+                DisguiseAPI.getDefaultProvider().updatePlayer(player, skin, name)
+
+                ProfileGameService.save(this)
+                player.sendMessage(Chat.format("&aSuccess! You now look like &f${name}&a."))
+                player.sendMessage(Chat.format("&c${name} is an existing Minecraft player, so if they log in for the first time as you're disguised, you will be kicked!"))
+            }
+        }
+
     }
 }
