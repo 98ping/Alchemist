@@ -7,6 +7,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.commands.disguise.menu.skin.DisguiseSelectNameMenu
 import ltd.matrixstudios.alchemist.models.profile.disguise.SkinDisguiseAttribute
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
@@ -67,9 +68,16 @@ object DisguiseCommand : BaseCommand()
         }
     }
 
-    @CommandAlias("disguise|nick|nickname")
+    @CommandAlias("disguise|nick")
     @CommandPermission("alchemist.disguise")
-    fun disguise(player: Player, @Name("name") name: String)
+    fun onDisguise(player: Player)
+    {
+        DisguiseSelectNameMenu(player).openMenu()
+    }
+
+    @CommandAlias("manualdisguise|manualnick")
+    @CommandPermission("alchemist.disguise.manual")
+    fun onManualDisguise(player: Player, @Name("name") name: String)
     {
         if (!player.hasPermission("alchemist.disguise.custom.unrestricted") && name != null)
         {

@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.disguise.menu
+package ltd.matrixstudios.alchemist.commands.disguise.menu.rank
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.disguise.RankDisguiseAttribute
