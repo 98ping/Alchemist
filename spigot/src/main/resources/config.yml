@@ -100,6 +100,8 @@ modules:
   2fa: true
   themeCommands: true
   lunarClientAPI: true
+  # Disguise requires the DisguiseAPI plugin.
+  disguise: true
 
 staffmode:
   sendWelcomeMessage: true

@@ -1,13 +1,13 @@
-package ltd.matrixstudios.alchemist.commands.disguise
+package ltd.matrixstudios.alchemist.disguise.commands
 
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Name
-import ltd.matrixstudios.alchemist.commands.disguise.menu.skin.DisguiseSelectNameMenu
+import ltd.matrixstudios.alchemist.disguise.DisguiseService
+import ltd.matrixstudios.alchemist.disguise.commands.menu.skin.DisguiseSelectNameMenu
 import ltd.matrixstudios.alchemist.models.profile.disguise.SkinDisguiseAttribute
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService

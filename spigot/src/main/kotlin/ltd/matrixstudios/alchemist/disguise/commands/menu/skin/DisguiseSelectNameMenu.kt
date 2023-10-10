@@ -1,4 +1,4 @@
-package ltd.matrixstudios.alchemist.commands.disguise.menu.skin
+package ltd.matrixstudios.alchemist.disguise.commands.menu.skin
 
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -27,12 +27,13 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7given a username from a list"),
                 Chat.format("&7of uncommon names."),
                 " ",
-                Chat.format("&aClick to use a random name!")
+                Chat.format("&a&lClick to use a random name!"),
+                " "
             ),
             Chat.format("&cUse Random Name"),
             0
         ).setBody { player, i, clickType ->
-
+            DisguiseSelectSkinMenu(player, player.name).updateMenu()
         }
 
         buttons[4] = SimpleActionButton(
@@ -43,12 +44,13 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7username that you will use for your"),
                 Chat.format("&7disguise."),
                 " ",
-                Chat.format("&aClick to use a custom name!")
+                Chat.format("&a&lClick to use a custom name!"),
+                " "
             ),
             Chat.format("&9Use Custom Name"),
             0
         ).setBody { player, i, clickType ->
-
+            DisguiseSelectSkinMenu(player, player.name).updateMenu()
         }
 
         buttons[6] = SimpleActionButton(
@@ -58,12 +60,13 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7Click to be randomly"),
                 Chat.format("&7given a popular username."),
                 " ",
-                Chat.format("&aClick to use a random name!")
+                Chat.format("&a&lClick to use a random name!"),
+                " "
             ),
             Chat.format("&aUse Popular Name"),
             0
         ).setBody { player, i, clickType ->
-
+            DisguiseSelectSkinMenu(player, player.name).updateMenu()
         }
 
         return buttons

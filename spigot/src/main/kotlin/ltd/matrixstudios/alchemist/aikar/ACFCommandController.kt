@@ -5,8 +5,6 @@ import co.aikar.commands.MessageType
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.context.*
-import ltd.matrixstudios.alchemist.aikar.flags.FlagTypeResolver
-import ltd.matrixstudios.alchemist.aikar.flags.MakeshiftFlag
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
@@ -18,8 +16,7 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
-import ltd.matrixstudios.alchemist.commands.disguise.DisguiseCommand
-import ltd.matrixstudios.alchemist.commands.disguise.RankDisguiseCommand
+import ltd.matrixstudios.alchemist.disguise.commands.RankDisguiseCommand
 import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
 import ltd.matrixstudios.alchemist.grants.apply.CGrantCommand
 import ltd.matrixstudios.alchemist.grants.apply.GrantCommand
@@ -29,7 +26,6 @@ import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
-import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
@@ -96,8 +92,6 @@ object ACFCommandController {
                 }
                 registerCommand(WipeGrantsCommand)
             }
-
-            registerCommand(DisguiseCommand)
 
             registerCommand(AdminPanelCommand())
             registerCommand(RedisCommand)
