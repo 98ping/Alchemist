@@ -87,7 +87,7 @@ object DisguiseCommand : BaseCommand()
     @CommandPermission("alchemist.disguise.manual")
     fun onManualDisguise(player: Player, @Name("name") name: String)
     {
-        if (!player.hasPermission("alchemist.disguise.custom.unrestricted") && name != null)
+        if (!player.hasPermission("alchemist.disguise.custom.unrestricted"))
         {
 
             if (name.length < 3)
