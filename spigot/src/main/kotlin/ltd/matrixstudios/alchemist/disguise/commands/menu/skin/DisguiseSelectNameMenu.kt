@@ -1,11 +1,18 @@
 package ltd.matrixstudios.alchemist.disguise.commands.menu.skin
 
+import co.aikar.commands.ConditionFailedException
+import ltd.matrixstudios.alchemist.disguise.DisguiseService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
+import net.pinger.disguise.DisguiseAPI
+import net.pinger.disguise.exception.UserNotFoundException
+import net.pinger.disguise.skin.Skin
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.concurrent.ThreadLocalRandom
 
 class DisguiseSelectNameMenu(val player: Player) : Menu(player)
 {
@@ -33,7 +40,12 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
             Chat.format("&cUse Random Name"),
             0
         ).setBody { player, i, clickType ->
-            DisguiseSelectSkinMenu(player, player.name).updateMenu()
+            DisguiseSelectSkinMenu(
+                player,
+                DisguiseService.commonNames.getOrNull(
+                    ThreadLocalRandom.current().nextInt(DisguiseService.commonNames.size)
+                ) ?: player.name
+            ).updateMenu()
         }
 
         buttons[4] = SimpleActionButton(
@@ -50,7 +62,21 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
             Chat.format("&9Use Custom Name"),
             0
         ).setBody { player, i, clickType ->
-            DisguiseSelectSkinMenu(player, player.name).updateMenu()
+            InputPrompt()
+                .withText(Chat.format("&aType in a &ecustom name &ato disguise yourself as!"))
+                .acceptInput {
+                    try
+                    {
+                        DisguiseAPI.getSkinManager().getFromMojang(it)
+                    } catch (e: UserNotFoundException)
+                    {
+                        player.sendMessage(Chat.format("&cThis player does not exist! Please check the spelling of the name."))
+                    }
+
+                    DisguiseSelectSkinMenu(
+                        player, it
+                    ).updateMenu()
+                }.start(player)
         }
 
         buttons[6] = SimpleActionButton(
@@ -66,7 +92,12 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
             Chat.format("&aUse Popular Name"),
             0
         ).setBody { player, i, clickType ->
-            DisguiseSelectSkinMenu(player, player.name).updateMenu()
+            DisguiseSelectSkinMenu(
+                player,
+                DisguiseService.popularNames.getOrNull(
+                    ThreadLocalRandom.current().nextInt(DisguiseService.popularNames.size)
+                ) ?: player.name
+            ).updateMenu()
         }
 
         return buttons

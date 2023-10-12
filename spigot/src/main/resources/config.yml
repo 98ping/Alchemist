@@ -64,6 +64,17 @@ autobroadcast:
 #theme info
 defaultTheme: "MMC"
 
+disguise:
+  commonNames:
+    - Dream
+    - itsJhalt
+    - 98ping
+    - Preceding
+  popularNames:
+    - Technoblade
+    - Spyno
+    - MeeZoid
+
 #information regarding profiles
 profiles:
   load:
