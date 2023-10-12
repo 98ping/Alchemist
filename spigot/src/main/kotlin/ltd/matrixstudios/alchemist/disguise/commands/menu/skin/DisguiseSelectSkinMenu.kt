@@ -70,7 +70,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
             },
             3 to Button.placeholder(),
             6 to SkullButtonOnlyName(
-                player.name,
+                name,
                 Chat.format("&9Use ${name}'s Skin"),
                 mutableListOf()
             ).setBody { player, i, clickType ->

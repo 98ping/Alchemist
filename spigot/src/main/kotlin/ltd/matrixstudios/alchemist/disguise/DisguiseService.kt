@@ -12,6 +12,9 @@ import ltd.matrixstudios.alchemist.util.Chat
 import net.pinger.disguise.DisguiseAPI
 import net.pinger.disguise.exception.UserNotFoundException
 import net.pinger.disguise.skin.Skin
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.WorldCreator
 import org.bukkit.entity.Player
 import java.lang.reflect.Type
 import java.util.concurrent.CompletableFuture
@@ -33,6 +36,9 @@ object DisguiseService
             commonSkins = gson
         }
         Chat.sendConsoleMessage("&5[Disguise] &b[Cache] &fCached all disguise skins in &5" + System.currentTimeMillis().minus(start) + "ms")
+
+        // skin updates
+        Bukkit.createWorld(WorldCreator.name("SkinUpdateWorld"))
     }
 
     fun setupDisguise(player: Player, name: String, skin: Skin) {
@@ -44,7 +50,14 @@ object DisguiseService
                 player.displayName = this.skinDisguiseAttribute!!.customName
                 player.playerListName = player.displayName
                 player.customName = player.displayName
+
                 DisguiseAPI.getDefaultProvider().updatePlayer(player, skin, name)
+
+                val location = player.location
+
+                // refresh player skin
+                player.teleport(Location(Bukkit.getWorld("SkinUpdateWorld"), 0.0, 100.0, 0.0))
+                player.teleport(location)
 
                 ProfileGameService.save(this)
                 player.sendMessage(Chat.format("&aSuccess! You now look like &f${name}&a."))

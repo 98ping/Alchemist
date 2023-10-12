@@ -34,7 +34,7 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7given a username from a list"),
                 Chat.format("&7of uncommon names."),
                 " ",
-                Chat.format("&a&lClick to use a random name!"),
+                Chat.format("&a&lLeft-Click &ato use a random name!"),
                 " "
             ),
             Chat.format("&cUse Random Name"),
@@ -56,7 +56,7 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7username that you will use for your"),
                 Chat.format("&7disguise."),
                 " ",
-                Chat.format("&a&lClick to use a custom name!"),
+                Chat.format("&a&lLeft-Click &ato use a custom name!"),
                 " "
             ),
             Chat.format("&9Use Custom Name"),
@@ -65,6 +65,18 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
             InputPrompt()
                 .withText(Chat.format("&aType in a &ecustom name &ato disguise yourself as!"))
                 .acceptInput {
+                    if (it.length < 3)
+                    {
+                        player.sendMessage(Chat.format("&cThis disguise is too short!"))
+                        return@acceptInput
+                    }
+
+                    if (it.length >= 16)
+                    {
+                        player.sendMessage(Chat.format("&cThis disguise is too long!"))
+                        return@acceptInput
+                    }
+
                     try
                     {
                         DisguiseAPI.getSkinManager().getFromMojang(it)
@@ -86,7 +98,7 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
                 Chat.format("&7Click to be randomly"),
                 Chat.format("&7given a popular username."),
                 " ",
-                Chat.format("&a&lClick to use a random name!"),
+                Chat.format("&a&lLeft-Click &ato use a random name!"),
                 " "
             ),
             Chat.format("&aUse Popular Name"),
