@@ -13,8 +13,8 @@ object DisguiseModule : PluginModule
     override fun onLoad()
     {
         if (DisguiseAPI.getDefaultProvider() == null) {
-            Bukkit.getLogger().info("Failed to find the disguise API provider for this version!");
-            Bukkit.getLogger().info("We are not going to enable the disguise module.");
+            Bukkit.getLogger().info("Failed to find the disguise API provider for this version!")
+            Bukkit.getLogger().info("We are not going to enable the disguise module.")
             return
         }
 
