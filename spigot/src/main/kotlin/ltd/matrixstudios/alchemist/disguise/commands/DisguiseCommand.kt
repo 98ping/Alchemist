@@ -6,6 +6,7 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import ltd.matrixstudios.alchemist.disguise.DisguiseService
 import ltd.matrixstudios.alchemist.disguise.commands.menu.skin.DisguiseSelectNameMenu
 import ltd.matrixstudios.alchemist.models.profile.disguise.SkinDisguiseAttribute
@@ -25,11 +26,11 @@ object DisguiseCommand : BaseCommand()
 
     @CommandAlias("reveal|realname|disguiseinfo")
     @CommandPermission("alchemist.disguise.reveal")
-    fun reveal(sender: CommandSender, @Name("target") target: Player)
+    fun reveal(sender: CommandSender, @Name("target") target: OnlinePlayer)
     {
         sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.name}&e:"))
-        val profile = target.getProfile()
+        sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.player}&e:"))
+        val profile = target.player.getProfile()
 
         if (profile == null)
         {
@@ -38,7 +39,7 @@ object DisguiseCommand : BaseCommand()
             return
         }
 
-        if (profile.username == target.name)
+        if (profile.username == target.player.name)
         {
             sender.sendMessage(Chat.format("&e• &cNot Disguised"))
             sender.sendMessage(" ")
