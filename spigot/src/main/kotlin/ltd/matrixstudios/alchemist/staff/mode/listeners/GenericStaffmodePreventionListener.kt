@@ -105,6 +105,14 @@ class GenericStaffmodePreventionListener : Listener {
                 return
             }
 
+            // handle online staff separately
+            if (item.hasItemMeta() && item.itemMeta.hasDisplayName() && item.itemMeta.displayName.contains("Online Staff"))
+            {
+                e.isCancelled = true
+                e.player.sendMessage(Chat.format("&cYou cannot drop staffmode related items!"))
+                return
+            }
+
             if (!e.player.hasPermission("alchemist.staffmode.edit"))
             {
                 e.isCancelled = true

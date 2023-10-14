@@ -8,6 +8,8 @@ import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.staff.mode.menu.OnlineStaffMenu
 import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.items.ItemBuilder
+import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -74,7 +76,8 @@ class StaffmodeFunctionalityListener : Listener {
                     player.sendMessage(Chat.format("&6Teleporting..."))
                 }
 
-                if (itemInHand.isSimilar(StaffItems.ONLINE_STAFF))
+                // only proceed if they have the online staff item
+                if (itemInHand.hasItemMeta() && itemInHand.itemMeta.hasDisplayName() && itemInHand.itemMeta.displayName.contains("Online Staff"))
                 {
                     e.isCancelled = true
                     OnlineStaffMenu(player).updateMenu()

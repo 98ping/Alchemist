@@ -6,6 +6,8 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.items.ItemBuilder
+import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -34,7 +36,7 @@ class StaffCommands : BaseCommand() {
             bukkitPlayer.inventory.setItem(4, StaffItems.WORLDEDIT_AXE)
         }
 
-        bukkitPlayer.inventory.setItem(6, StaffItems.ONLINE_STAFF)
+        bukkitPlayer.inventory.setItem(6, ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build())
         bukkitPlayer.inventory.setItem(7, StaffItems.VANISH)
         bukkitPlayer.inventory.setItem(8, StaffItems.FREEZE)
 
