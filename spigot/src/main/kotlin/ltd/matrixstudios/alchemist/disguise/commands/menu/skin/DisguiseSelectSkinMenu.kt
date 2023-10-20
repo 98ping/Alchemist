@@ -99,7 +99,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                         val skin: Skin?
                         try
                         {
-                            skin =  DisguiseAPI.getSkinManager().getFromMojang(it)
+                            skin = DisguiseAPI.getSkinManager().getFromMojang(it)
                         } catch (e: UserNotFoundException)
                         {
                             player.sendMessage(Chat.format("&cThis player does not exist! Please check the spelling of the name."))

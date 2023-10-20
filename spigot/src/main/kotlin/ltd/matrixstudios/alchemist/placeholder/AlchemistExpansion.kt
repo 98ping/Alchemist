@@ -45,7 +45,6 @@ class AlchemistExpansion : PlaceholderExpansion() {
                     return Chat.format(curr.color + curr.displayName)
                 }
 
-
                 return Chat.format(rank.color + rank.displayName)
             }
 
@@ -63,13 +62,12 @@ class AlchemistExpansion : PlaceholderExpansion() {
             }
 
             "nametagPrefix" -> {
-                val rank: Rank
 
-                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
+                val rank: Rank = if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
                     val disguiseRank = profile.rankDisguiseAttribute!!
-                    rank = RankService.byId(disguiseRank.rank)!!
+                    RankService.byId(disguiseRank.rank)!!
                 } else {
-                    rank = profile.getCurrentRank()
+                    profile.getCurrentRank()
                 }
 
                 if (player.hasMetadata("vanish")) {
@@ -92,13 +90,12 @@ class AlchemistExpansion : PlaceholderExpansion() {
             }
 
             "rankPrefix" -> {
-                var rank = RankService.FALLBACK_RANK
 
-                if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
+                val rank: Rank = if (profile.rankDisguiseAttribute != null && RankService.byId(profile.rankDisguiseAttribute!!.rank) != null) {
                     val disguiseRank = profile.rankDisguiseAttribute!!
-                    rank = RankService.byId(disguiseRank.rank)!!
+                    RankService.byId(disguiseRank.rank)!!
                 } else {
-                    rank = profile.getCurrentRank()
+                    profile.getCurrentRank()
                 }
 
                 return Chat.format(rank.prefix)
