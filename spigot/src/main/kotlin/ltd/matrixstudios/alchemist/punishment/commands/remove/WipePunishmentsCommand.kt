@@ -9,7 +9,8 @@ import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-object WipePunishmentsCommand : BaseCommand() {
+object WipePunishmentsCommand : BaseCommand()
+{
 
     @CommandAlias("wipepunishments")
     @CommandPermission("alchemist.punishments.wipe")

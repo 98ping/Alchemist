@@ -9,11 +9,14 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
-object ItemStackAdapter {
+object ItemStackAdapter
+{
 
     @Throws(IllegalStateException::class)
-    fun itemTo64(stack: ItemStack): String? {
-        return try {
+    fun itemTo64(stack: ItemStack): String?
+    {
+        return try
+        {
             val outputStream = ByteArrayOutputStream()
             val dataOutput = BukkitObjectOutputStream(outputStream)
             dataOutput.writeObject(stack)
@@ -21,27 +24,33 @@ object ItemStackAdapter {
             // Serialize that array
             dataOutput.close()
             Base64Coder.encodeLines(outputStream.toByteArray())
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             throw IllegalStateException("Unable to save item stack.", e)
         }
     }
 
     @Throws(IOException::class)
-    fun itemFrom64(data: String): ItemStack? {
-        return try {
+    fun itemFrom64(data: String): ItemStack?
+    {
+        return try
+        {
             val inputStream = ByteArrayInputStream(Base64Coder.decodeLines(data))
             val dataInput = BukkitObjectInputStream(inputStream)
             dataInput.use { dataInput ->
                 dataInput.readObject() as ItemStack
             }
-        } catch (e: ClassNotFoundException) {
+        } catch (e: ClassNotFoundException)
+        {
             throw IOException("Unable to decode class type.", e)
         }
     }
 
     @Throws(IllegalStateException::class)
-    fun itemStackArrayToBase64(items: Array<ItemStack?>): String? {
-        return try {
+    fun itemStackArrayToBase64(items: Array<ItemStack?>): String?
+    {
+        return try
+        {
             val outputStream = ByteArrayOutputStream()
             val dataOutput = BukkitObjectOutputStream(outputStream)
 
@@ -49,33 +58,39 @@ object ItemStackAdapter {
             dataOutput.writeInt(items.size)
 
             // Save every element in the list
-            for (i in items.indices) {
+            for (i in items.indices)
+            {
                 dataOutput.writeObject(items[i])
             }
 
             // Serialize that array
             dataOutput.close()
             Base64Coder.encodeLines(outputStream.toByteArray())
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             throw IllegalStateException("Unable to save item stacks.", e)
         }
     }
 
 
     @Throws(IOException::class)
-    fun itemStackArrayFromBase64(data: String): Array<ItemStack?> {
-        return try {
+    fun itemStackArrayFromBase64(data: String): Array<ItemStack?>
+    {
+        return try
+        {
             val inputStream = ByteArrayInputStream(Base64Coder.decodeLines(data))
             val dataInput = BukkitObjectInputStream(inputStream)
             val items = arrayOfNulls<ItemStack>(dataInput.readInt())
 
             // Read the serialized inventory
-            for (i in items.indices) {
+            for (i in items.indices)
+            {
                 items[i] = dataInput.readObject() as ItemStack?
             }
             dataInput.close()
             items
-        } catch (e: ClassNotFoundException) {
+        } catch (e: ClassNotFoundException)
+        {
             throw IOException("Unable to decode class type.", e)
         }
     }

@@ -3,12 +3,7 @@ package ltd.matrixstudios.alchemist.disguise.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.HelpCommand
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.disguise.DisguiseService
 import ltd.matrixstudios.alchemist.util.Chat
 import net.pinger.disguise.DisguiseAPI

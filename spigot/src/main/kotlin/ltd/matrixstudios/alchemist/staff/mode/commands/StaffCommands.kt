@@ -11,7 +11,8 @@ import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class StaffCommands : BaseCommand() {
+class StaffCommands : BaseCommand()
+{
 
     @CommandAlias("givestaffitems")
     @CommandPermission("alchemist.admin")
@@ -36,7 +37,10 @@ class StaffCommands : BaseCommand() {
             bukkitPlayer.inventory.setItem(4, StaffItems.WORLDEDIT_AXE)
         }
 
-        bukkitPlayer.inventory.setItem(6, ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build())
+        bukkitPlayer.inventory.setItem(
+            6,
+            ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build()
+        )
         bukkitPlayer.inventory.setItem(7, StaffItems.VANISH)
         bukkitPlayer.inventory.setItem(8, StaffItems.FREEZE)
 
@@ -58,11 +62,13 @@ class StaffCommands : BaseCommand() {
             {
                 StaffSuiteManager.removeStaffMode(player)
                 player.sendMessage(Chat.format("&cYou have left Staff Mode!"))
-            } else {
+            } else
+            {
                 StaffSuiteManager.setStaffMode(player)
                 player.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
             }
-        } else {
+        } else
+        {
             val targetPlayer = Bukkit.getPlayer(target)
 
             if (targetPlayer == null)
@@ -77,7 +83,8 @@ class StaffCommands : BaseCommand() {
             {
                 StaffSuiteManager.removeStaffMode(targetPlayer)
                 targetPlayer.sendMessage(Chat.format("&cYou have left Staff Mode!"))
-            } else {
+            } else
+            {
                 StaffSuiteManager.setStaffMode(targetPlayer)
                 targetPlayer.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
             }

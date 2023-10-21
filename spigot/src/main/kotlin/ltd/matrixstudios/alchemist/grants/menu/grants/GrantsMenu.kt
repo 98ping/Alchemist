@@ -3,9 +3,9 @@ package ltd.matrixstudios.alchemist.grants.menu.grants
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.grants.menu.grants.filter.GrantFilter
 import ltd.matrixstudios.alchemist.grants.view.GrantsCommand
-import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -19,20 +19,24 @@ class GrantsMenu(
     val gameProfile: GameProfile,
     val grants: MutableList<RankGrant>,
     val grantFilter: GrantFilter
-) : PaginatedMenu(36, player) {
+) : PaginatedMenu(36, player)
+{
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (grant in grants) {
+        for (grant in grants)
+        {
             buttons[index++] = GrantsButton(grant)
         }
 
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int> {
+    override fun getButtonPositions(): List<Int>
+    {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -40,7 +44,8 @@ class GrantsMenu(
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -53,11 +58,18 @@ class GrantsMenu(
                 val next = (index + 1)
                 val limit = values.size - 1
 
-                if (next > limit) {
+                if (next > limit)
+                {
                     GrantsMenu(
                         player,
                         gameProfile,
-                        values[0].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList())).toMutableList(),
+                        values[0].lambda.invoke(
+                            GrantsCommand.getViewableGrants(
+                                player,
+                                RankGrantService.getFromCache(gameProfile.uuid)
+                                    .sortedByDescending { it.expirable.addedAt }.toMutableList()
+                            )
+                        ).toMutableList(),
                         values[0]
                     ).updateMenu()
 
@@ -67,7 +79,13 @@ class GrantsMenu(
                 GrantsMenu(
                     player,
                     gameProfile,
-                    values[next].lambda.invoke(GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList())).toMutableList(),
+                    values[next].lambda.invoke(
+                        GrantsCommand.getViewableGrants(
+                            player,
+                            RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }
+                                .toMutableList()
+                        )
+                    ).toMutableList(),
                     values[next]
                 ).updateMenu()
             },
@@ -79,14 +97,30 @@ class GrantsMenu(
                     Chat.format("&eClick to wipe every grant from"),
                     Chat.format(AlchemistAPI.getRankWithPrefix(gameProfile.uuid)),
                     " ",
-                    Chat.format("&aCurrently totaling &f" + GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList()).size + " &aentries"),
+                    Chat.format(
+                        "&aCurrently totaling &f" + GrantsCommand.getViewableGrants(
+                            player,
+                            RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }
+                                .toMutableList()
+                        ).size + " &aentries"
+                    ),
                     " "
                 ), Chat.format("&eWipe Grants")
             ).setBody { player, i, clickType ->
-                if (player.hasPermission("alchemist.owner")) {
+                if (player.hasPermission("alchemist.owner"))
+                {
                     player.closeInventory()
                     WipeGrantsCommand.wipeGrants(player as CommandSender, gameProfile).whenComplete { t, u ->
-                        GrantsMenu(player, gameProfile, GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(gameProfile.uuid).sortedByDescending { it.expirable.addedAt }.toMutableList()), GrantFilter.ALL).updateMenu()
+                        GrantsMenu(
+                            player,
+                            gameProfile,
+                            GrantsCommand.getViewableGrants(
+                                player,
+                                RankGrantService.getFromCache(gameProfile.uuid)
+                                    .sortedByDescending { it.expirable.addedAt }.toMutableList()
+                            ),
+                            GrantFilter.ALL
+                        ).updateMenu()
                     }
                 } else player.sendMessage(Chat.format("&cYou must be a server operator to do this"))
             },
@@ -110,13 +144,17 @@ class GrantsMenu(
         )
     }
 
-    fun getFilterDesc(): MutableList<String> {
+    fun getFilterDesc(): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(" ")
-        for (filter in GrantFilter.values()) {
-            if (grantFilter == filter) {
+        for (filter in GrantFilter.values())
+        {
+            if (grantFilter == filter)
+            {
                 desc.add(Chat.format("&7- &a" + grantFilter.displayName))
-            } else {
+            } else
+            {
                 desc.add(Chat.format("&7- &7" + filter.displayName))
             }
         }
@@ -127,11 +165,13 @@ class GrantsMenu(
         return desc
     }
 
-    override fun getButtonsPerPage(): Int {
+    override fun getButtonsPerPage(): Int
+    {
         return 21
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Grants of " + Chat.format(gameProfile.getCurrentRank().color) + gameProfile.username
     }
 }

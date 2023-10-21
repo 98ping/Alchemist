@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.disguise.commands.menu.skin
 
-import co.aikar.commands.ConditionFailedException
 import ltd.matrixstudios.alchemist.disguise.DisguiseService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -9,7 +8,6 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import net.pinger.disguise.DisguiseAPI
 import net.pinger.disguise.exception.UserNotFoundException
-import net.pinger.disguise.skin.Skin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.concurrent.ThreadLocalRandom

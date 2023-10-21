@@ -27,13 +27,15 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class GhostMuteCommand : BaseCommand() {
+class GhostMuteCommand : BaseCommand()
+{
 
     @CommandAlias("ghostmute|gmute")
     @CommandPermission("alchemist.punishments.ghostmute")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
-    fun ghostMute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
+    fun ghostMute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
+    {
         val punishment = Punishment(
             PunishmentType.GHOST_MUTE.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -44,7 +46,8 @@ class GhostMuteCommand : BaseCommand() {
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                ActorType.GAME)
+                ActorType.GAME
+            )
 
         )
 
@@ -56,20 +59,29 @@ class GhostMuteCommand : BaseCommand() {
             return
         }
 
-        if (sender is Player) {
+        if (sender is Player)
+        {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute) {
+            if (!canExecute)
+            {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
-                sender.sendMessage(Chat.format("&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(sender.uniqueId)))
+                sender.sendMessage(
+                    Chat.format(
+                        "&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(
+                            sender.uniqueId
+                        )
+                    )
+                )
 
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
+            {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return
@@ -78,10 +90,14 @@ class GhostMuteCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
-        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
-                + "&aYou've ghost muted " + gameProfile.username + " for &f"
-                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
-                + TimeUtil.formatDuration(punishment.expirable.duration)))
+        sender.sendMessage(
+            Chat.format(
+                (if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                        + "&aYou've ghost muted " + gameProfile.username + " for &f"
+                        + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
+                        + TimeUtil.formatDuration(punishment.expirable.duration)
+            )
+        )
         sender.sendMessage(Chat.format("&7This type of mute does not send a dispatch message to the player"))
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 

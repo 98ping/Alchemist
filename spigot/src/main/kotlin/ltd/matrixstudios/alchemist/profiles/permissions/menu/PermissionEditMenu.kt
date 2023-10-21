@@ -1,9 +1,6 @@
 package ltd.matrixstudios.alchemist.profiles.permissions.menu
 
-import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.punishments.PunishmentType
-import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -13,11 +10,12 @@ import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import java.util.*
 
-class PermissionEditMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player) {
+class PermissionEditMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[4] = SkullButton(
@@ -42,27 +40,33 @@ class PermissionEditMenu(val player: Player, val gameProfile: GameProfile) : Pag
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
-        for (permission in gameProfile.permissions) {
+        for (permission in gameProfile.permissions)
+        {
             buttons[index++] = PermissionsButton(permission, gameProfile)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Editing Permissions"
     }
 
-    class PermissionsButton(val permission: String, val profile: GameProfile) : Button() {
-        override fun getMaterial(player: Player): Material {
+    class PermissionsButton(val permission: String, val profile: GameProfile) : Button()
+    {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m--------------------"))
             desc.add(Chat.format("&ePermission: &f$permission"))
@@ -73,15 +77,18 @@ class PermissionEditMenu(val player: Player, val gameProfile: GameProfile) : Pag
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format("&6${permission}")
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             profile.permissions.remove(permission)
 
             ProfileGameService.save(profile)

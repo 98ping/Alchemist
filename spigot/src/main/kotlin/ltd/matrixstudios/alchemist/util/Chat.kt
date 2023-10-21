@@ -11,39 +11,49 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
-object Chat {
+object Chat
+{
 
     @JvmStatic
-    fun format(message: String): String {
+    fun format(message: String): String
+    {
         val HEX_PATTERN: Pattern = Pattern.compile("&#(\\w{5}[0-9a-f])")
         val matcher: Matcher = HEX_PATTERN.matcher(message)
         val buffer = StringBuffer()
-        while (matcher.find()) {
-            try {
+        while (matcher.find())
+        {
+            try
+            {
                 matcher.appendReplacement(
                     buffer,
                     net.md_5.bungee.api.ChatColor.of("#" + matcher.group(1)).toString()
                 )
-            } catch (e: NoSuchMethodError) {
+            } catch (e: NoSuchMethodError)
+            {
                 return message
             }
         }
         return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString())
     }
 
-    fun sendConsoleMessage(line: String) {
+    fun sendConsoleMessage(line: String)
+    {
         Bukkit.getServer().consoleSender.sendMessage(format(line))
     }
 
-    fun sendMultiConsoleMessage(`in`: Array<String>) {
-        for (line in `in`) {
+    fun sendMultiConsoleMessage(`in`: Array<String>)
+    {
+        for (line in `in`)
+        {
             Bukkit.getServer().consoleSender.sendMessage(format(line))
         }
     }
 
-    fun enumToDisplay(string: String) : String {
+    fun enumToDisplay(string: String): String
+    {
         val name = string
-        return if (name.contains("_")) {
+        return if (name.contains("_"))
+        {
             val split = name.split("_")
             val p1 = split[0]
             val p2 = split[1]
@@ -54,22 +64,27 @@ object Chat {
             n = (n + p2.lowercase().replaceFirstChar { p2[0].uppercase() })
 
             n
-        } else {
+        } else
+        {
             name.lowercase().replaceFirstChar { name[0].uppercase() }
         }
     }
 
-    fun findTextColorFromString(string: String) : TextColor? {
-        return TextColor.fromHexString(string.replace("&", "")) ?: (getNamedTextColorFromBukkitColor(string) ?: NamedTextColor.WHITE)
+    fun findTextColorFromString(string: String): TextColor?
+    {
+        return TextColor.fromHexString(string.replace("&", "")) ?: (getNamedTextColorFromBukkitColor(string)
+            ?: NamedTextColor.WHITE)
     }
 
-    fun getNamedTextColorFromBukkitColor(color: String) : NamedTextColor? {
+    fun getNamedTextColorFromBukkitColor(color: String): NamedTextColor?
+    {
         val names = NamedTextColor.NAMES
 
         return names.value(org.bukkit.ChatColor.getByChar(color.replace("&", "")).name.lowercase())
     }
 
-    fun mapChatColorToSkullTexture(str: String) : String {
+    fun mapChatColorToSkullTexture(str: String): String
+    {
         if (str.contains("&1") || str.contains("&9")) return SkullConstants.BLUE
         if (str.contains("&2")) return SkullConstants.DARK_GREEN
         if (str.contains("&3")) return SkullConstants.AQUA
@@ -86,7 +101,8 @@ object Chat {
         return SkullConstants.WHITE
     }
 
-    fun getDyeColor(str: String): DyeColor {
+    fun getDyeColor(str: String): DyeColor
+    {
         if (str.contains("&1") || str.contains("&9")) return DyeColor.BLUE
         if (str.contains("&2")) return DyeColor.GREEN
         if (str.contains("&3")) return DyeColor.CYAN
@@ -103,7 +119,8 @@ object Chat {
         return DyeColor.WHITE
     }
 
-    fun getLeatherMetaColor(str: String): Color {
+    fun getLeatherMetaColor(str: String): Color
+    {
         if (str.contains("&1") || str.contains("&9")) return Color.BLUE
         if (str.contains("&2")) return Color.OLIVE
         if (str.contains("&3")) return Color.TEAL

@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.module
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.chat.ChatModule
 import ltd.matrixstudios.alchemist.client.LunarClientExtension
 import ltd.matrixstudios.alchemist.disguise.DisguiseModule
@@ -19,7 +18,8 @@ import ltd.matrixstudios.alchemist.staff.StaffModeModule
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object PluginModuleHandler {
+object PluginModuleHandler
+{
 
     private val modules = listOf(
         ProfileModule,
@@ -33,13 +33,16 @@ object PluginModuleHandler {
         DisguiseModule
     )
 
-    fun loadModules() {
-        for (module in modules) {
+    fun loadModules()
+    {
+        for (module in modules)
+        {
             if (!module.getModularConfigOption()) continue
 
             module.onLoad()
 
-            for (command in module.getCommands()) {
+            for (command in module.getCommands())
+            {
                 AlchemistSpigotPlugin.instance.commandManager.registerCommand(command)
             }
         }

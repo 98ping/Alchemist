@@ -14,17 +14,19 @@ object EntityCommands : BaseCommand()
 {
     val item = ItemBuilder.of(Material.BOOK)
         .name(Chat.format("&aEdit Entity &7(Left Click)"))
-        .setLore(mutableListOf(
-            " ",
-            "&7Left-Click on any entity to",
-            "&7bring up an editor menu where",
-            "&7you can change attributes about an entity.",
-            " "
-        )).build()
+        .setLore(
+            mutableListOf(
+                " ",
+                "&7Left-Click on any entity to",
+                "&7bring up an editor menu where",
+                "&7you can change attributes about an entity.",
+                " "
+            )
+        ).build()
 
     @CommandAlias("spawnentity")
     @CommandPermission("alchemist.essentials.spawnentity")
-    fun spawnEntity(sender: Player, @Name("entity") typeString: EntityType, @Name("name")name: String)
+    fun spawnEntity(sender: Player, @Name("entity") typeString: EntityType, @Name("name") name: String)
     {
         if (!typeString.isAlive || !typeString.isSpawnable || typeString == EntityType.PLAYER)
         {

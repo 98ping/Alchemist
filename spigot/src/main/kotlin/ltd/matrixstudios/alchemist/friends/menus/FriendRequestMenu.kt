@@ -13,10 +13,12 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
-import java.util.UUID
+import java.util.*
 
-class FriendRequestMenu(val player: Player, val profile: GameProfile) : BorderedPaginatedMenu(player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class FriendRequestMenu(val player: Player, val profile: GameProfile) : BorderedPaginatedMenu(player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
@@ -28,7 +30,8 @@ class FriendRequestMenu(val player: Player, val profile: GameProfile) : Bordered
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "All Friend Requests"
     }
 
@@ -37,42 +40,60 @@ class FriendRequestMenu(val player: Player, val profile: GameProfile) : Bordered
     {
         val profile = ProfileGameService.byId(uuid)
 
-        override fun getButtonItem(player: Player): ItemStack {
+        override fun getButtonItem(player: Player): ItemStack
+        {
             if (profile != null)
             {
                 return ItemBuilder.copyOf(
-                    SkullUtil.generate(profile.username, Chat.format(profile.getCurrentRank().prefix + profile.getRankDisplay()))
+                    SkullUtil.generate(
+                        profile.username,
+                        Chat.format(profile.getCurrentRank().prefix + profile.getRankDisplay())
+                    )
                 ).setLore(getDescription(player).toList()).build()
             }
 
-            return ItemBuilder.of(Material.REDSTONE_BLOCK).name(Chat.format("&cProfile Not Found")).setLore(getDescription(player).toList()).build()
+            return ItemBuilder.of(Material.REDSTONE_BLOCK).name(Chat.format("&cProfile Not Found"))
+                .setLore(getDescription(player).toList()).build()
         }
 
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.DIRT
         }
 
-        override fun getDescription(player: Player): MutableList<String> {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
-            if (profile != null) {
-                desc.add(Chat.format("&7Last Seen: &f" + if (profile.isOnline()) "&aOnline" else TimeUtil.formatDuration(System.currentTimeMillis().minus(profile.lastSeenAt)) + " ago"))
+            if (profile != null)
+            {
+                desc.add(
+                    Chat.format(
+                        "&7Last Seen: &f" + if (profile.isOnline()) "&aOnline" else TimeUtil.formatDuration(
+                            System.currentTimeMillis().minus(profile.lastSeenAt)
+                        ) + " ago"
+                    )
+                )
                 desc.add(Chat.format("&7Rank: &f" + profile.getCurrentRank().color + profile.getCurrentRank().displayName))
-            } else {
+            } else
+            {
                 desc.add(Chat.format("&cProfile not found!"))
             }
 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return "a"
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             val gameProfile = player.getProfile()
 
             if (gameProfile == null)

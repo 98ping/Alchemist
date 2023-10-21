@@ -5,14 +5,17 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import org.bukkit.entity.Player
 
-class MetricsMenu(val player: Player) : Menu(player) {
+class MetricsMenu(val player: Player) : Menu(player)
+{
 
-    init {
+    init
+    {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[4] = HeartbeatButton()
@@ -24,7 +27,8 @@ class MetricsMenu(val player: Player) : Menu(player) {
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Listing Metrics"
     }
 }

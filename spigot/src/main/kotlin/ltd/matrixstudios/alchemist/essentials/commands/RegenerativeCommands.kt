@@ -7,10 +7,10 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import ltd.matrixstudios.alchemist.util.Chat
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class RegenerativeCommands : BaseCommand() {
+class RegenerativeCommands : BaseCommand()
+{
 
     @CommandAlias("heal")
     @CommandPermission("alchemist.essentials.heal")
@@ -20,7 +20,8 @@ class RegenerativeCommands : BaseCommand() {
         {
             sender.health = 20.0
             sender.sendMessage(Chat.format("&6You have been healed!"))
-        } else {
+        } else
+        {
             target.player.health = 20.0
             target.player.sendMessage(Chat.format("&6You have been healed!"))
             sender.sendMessage(Chat.format("&6You have healed ${target.player.displayName}"))
@@ -35,7 +36,8 @@ class RegenerativeCommands : BaseCommand() {
         {
             sender.foodLevel = 10
             sender.sendMessage(Chat.format("&6You have been fed!"))
-        } else {
+        } else
+        {
             target.player.foodLevel = 10
             target.player.sendMessage(Chat.format("&6You have been fed!"))
             sender.sendMessage(Chat.format("&6You have fed ${target.player.displayName}"))

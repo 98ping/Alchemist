@@ -3,7 +3,7 @@ package ltd.matrixstudios.alchemist.commands.coins.cart.model
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import org.bukkit.entity.Player
-import java.util.UUID
+import java.util.*
 
 /**
  * Class created on 8/23/2023
@@ -15,9 +15,11 @@ import java.util.UUID
 data class Cart(
     var player: UUID,
     var items: MutableList<CoinShopItem>
-) {
+)
+{
 
-    fun getCombinedPrice() : Double {
+    fun getCombinedPrice(): Double
+    {
         var price = 0.0
 
         for (item in items)
@@ -25,9 +27,11 @@ data class Cart(
             val p = item.price
             val d = item.discount
 
-            price += if (d != 0.0) {
+            price += if (d != 0.0)
+            {
                 (p - d)
-            } else {
+            } else
+            {
                 p
             }
         }
@@ -35,7 +39,7 @@ data class Cart(
         return price
     }
 
-    fun playerCanAfford(player: Player) : Boolean
+    fun playerCanAfford(player: Player): Boolean
     {
         val profile = player.getProfile() ?: return false
 

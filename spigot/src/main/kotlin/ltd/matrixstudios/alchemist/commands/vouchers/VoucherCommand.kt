@@ -10,32 +10,36 @@ import ltd.matrixstudios.alchemist.models.vouchers.VoucherTemplate
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
 @CommandAlias("voucher|vouchers")
-class VoucherCommand : BaseCommand() {
+class VoucherCommand : BaseCommand()
+{
 
     @Default
-    fun openMenu(player: Player) {
+    fun openMenu(player: Player)
+    {
         VoucherGrantsMenu(player, VoucherService.allGrantsFromPlayer(player.uniqueId)).updateMenu()
     }
 
     @Subcommand("help")
     @CommandPermission("alchemist.vouchers.admin")
     @HelpCommand
-    fun help(help: CommandHelp) {
+    fun help(help: CommandHelp)
+    {
         help.showHelp()
     }
 
     @Subcommand("template setprize")
     @CommandPermission("alchemist.vouchers.admin")
-    fun create(sender: CommandSender, @Name("id")id: String, @Name("prize")prize: String) {
+    fun create(sender: CommandSender, @Name("id") id: String, @Name("prize") prize: String)
+    {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null) {
+        if (template == null)
+        {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
@@ -47,10 +51,12 @@ class VoucherCommand : BaseCommand() {
 
     @Subcommand("template setcommand")
     @CommandPermission("alchemist.vouchers.admin")
-    fun setcommand(sender: CommandSender, @Name("id")id: String, @Name("command")command: String) {
+    fun setcommand(sender: CommandSender, @Name("id") id: String, @Name("command") command: String)
+    {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null) {
+        if (template == null)
+        {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
@@ -62,23 +68,40 @@ class VoucherCommand : BaseCommand() {
 
     @Subcommand("issue")
     @CommandPermission("alchemist.vouchers.admin")
-    fun issue(sender: CommandSender, @Name("id")id: String, @Name("target")target: GameProfile, @Name("duration")duration: String) {
+    fun issue(
+        sender: CommandSender,
+        @Name("id") id: String,
+        @Name("target") target: GameProfile,
+        @Name("duration") duration: String
+    )
+    {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
-        if (template == null) {
+        if (template == null)
+        {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
-        val grant = VoucherGrant(UUID.randomUUID(), template, false, System.currentTimeMillis(), false, BukkitPunishmentFunctions.getSenderUUID(sender), target.uuid)
+        val grant = VoucherGrant(
+            UUID.randomUUID(),
+            template,
+            false,
+            System.currentTimeMillis(),
+            false,
+            BukkitPunishmentFunctions.getSenderUUID(sender),
+            target.uuid
+        )
         VoucherService.insertGrant(target.uuid, grant)
         sender.sendMessage(Chat.format("&aIssued a new voucher grant to " + AlchemistAPI.getRankDisplay(target.uuid)))
     }
 
     @Subcommand("template create")
     @CommandPermission("alchemist.vouchers.admin")
-    fun create(sender: CommandSender, @Name("id")id: String) {
+    fun create(sender: CommandSender, @Name("id") id: String)
+    {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template != null) {
+        if (template != null)
+        {
             sender.sendMessage(Chat.format("&cA voucher with this id already exists"))
             return
         }
@@ -90,10 +113,12 @@ class VoucherCommand : BaseCommand() {
 
     @Subcommand("template delete")
     @CommandPermission("alchemist.vouchers.admin")
-    fun delete(sender: CommandSender, @Name("id")id: String) {
+    fun delete(sender: CommandSender, @Name("id") id: String)
+    {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null) {
+        if (template == null)
+        {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }

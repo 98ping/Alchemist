@@ -10,25 +10,30 @@ import ltd.matrixstudios.alchemist.themes.commands.menu.sub.module.PunishmentsBu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
-import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 
-class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player) {
+class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player)
+{
 
-    init {
+    init
+    {
         staticSize = 27
         placeholder = true
     }
 
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[4] = SimpleActionButton(Material.NETHER_STAR, mutableListOf(), Chat.format("&aClick to set this as your theme!"), 0).setBody {
-            player, i, clickType ->
+        buttons[4] = SimpleActionButton(
+            Material.NETHER_STAR,
+            mutableListOf(),
+            Chat.format("&aClick to set this as your theme!"),
+            0
+        ).setBody { player, i, clickType ->
 
             ThemeLoader.setFallbackTheme(theme)
 
@@ -43,7 +48,8 @@ class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player) {
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Observe Looks"
     }
 }

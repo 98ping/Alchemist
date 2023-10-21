@@ -2,7 +2,7 @@ package ltd.matrixstudios.alchemist.commands.coins.cart
 
 import ltd.matrixstudios.alchemist.commands.coins.cart.model.Cart
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
-import java.util.UUID
+import java.util.*
 
 /**
  * Class created on 8/23/2023
@@ -22,7 +22,8 @@ object CartHandler
             val cart = Cart(id, mutableListOf(item))
 
             carts[id] = cart
-        } else {
+        } else
+        {
             val existing = carts[id]!!
 
             existing.items.add(item)

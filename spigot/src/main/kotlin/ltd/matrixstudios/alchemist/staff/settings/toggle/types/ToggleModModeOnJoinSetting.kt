@@ -9,13 +9,16 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button() {
+class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button()
+{
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.WOOD_AXE
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(" ")
         desc.add(Chat.format("&7Toggle this setting to make it so"))
@@ -26,7 +29,8 @@ class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button() {
         if (hasMetadata)
         {
             desc.add(Chat.format("&7► &eCurrently &coff"))
-        } else {
+        } else
+        {
             desc.add(Chat.format("&7► &eCurrently &aon"))
         }
         desc.add(" ")
@@ -35,15 +39,18 @@ class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button() {
         return desc
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format("&eToggle Mod Mode On Join")
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
         val hasMetadata = profile.hasMetadata("toggleMM")
 
         if (hasMetadata)
@@ -51,7 +58,8 @@ class ToggleModModeOnJoinSetting(val profile: GameProfile) : Button() {
             profile.metadata.remove("toggleMM")
             player.sendMessage(Chat.format("&eYou have toggled your mod mode on join &aon"))
             ProfileGameService.save(profile)
-        } else {
+        } else
+        {
             profile.metadata.addProperty("toggleMM", true)
             player.sendMessage(Chat.format("&eYou have toggled your mod mode on join &coff"))
             ProfileGameService.save(profile)

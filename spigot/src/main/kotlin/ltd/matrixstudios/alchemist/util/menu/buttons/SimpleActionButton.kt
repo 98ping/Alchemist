@@ -10,29 +10,37 @@ class SimpleActionButton(
     val material: Material,
     val description: MutableList<String>,
     val name: String, val data: Short,
-) : Button() {
+) : Button()
+{
 
     var body: ((Player, Int, ClickType) -> Unit)? = null
-    fun setBody(body: ((Player, Int, ClickType) -> Unit)?) : SimpleActionButton {
+    fun setBody(body: ((Player, Int, ClickType) -> Unit)?): SimpleActionButton
+    {
         return this.apply { this.body = body }
     }
-    override fun getMaterial(player: Player): Material {
+
+    override fun getMaterial(player: Player): Material
+    {
         return material
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         return description
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format(name)
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return data
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
         if (body != null)
         {
             body?.invoke(player, slot, type)

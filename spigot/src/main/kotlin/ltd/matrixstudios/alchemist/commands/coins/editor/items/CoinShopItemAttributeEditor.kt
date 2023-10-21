@@ -13,15 +13,19 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.*
 
-class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : Menu(player) {
+class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 36
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -42,7 +46,8 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
                 .acceptInput {
                     var newPrice = 0
 
-                    try {
+                    try
+                    {
                         newPrice = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -73,10 +78,18 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
             InputPrompt()
                 .withText(Chat.format("&aType in the new material for this item!"))
                 .acceptInput {
-                    item.displayMaterial = it.toUpperCase()
+                    item.displayMaterial = it.uppercase(Locale.getDefault())
                     CoinShopManager.saveItem(item)
                     CoinShopItemAttributeEditor(player, item).openMenu()
-                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &amenu material to &f${it.toUpperCase()}"))
+                    player.sendMessage(
+                        Chat.format(
+                            "&aUpdated ${item.displayName}'s &amenu material to &f${
+                                it.uppercase(
+                                    Locale.getDefault()
+                                )
+                            }"
+                        )
+                    )
                 }.start(player)
         }
 
@@ -99,7 +112,8 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
                 .acceptInput {
                     var newPrice = 0
 
-                    try {
+                    try
+                    {
                         newPrice = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -215,7 +229,8 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
                 .acceptInput {
                     var newPrice = 0
 
-                    try {
+                    try
+                    {
                         newPrice = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -250,7 +265,8 @@ class CoinShopItemAttributeEditor(val player: Player, val item: CoinShopItem) : 
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7[Editor] ${item.displayName}")
     }
 }

@@ -5,18 +5,22 @@ import org.bukkit.Bukkit
 import redis.clients.jedis.JedisPubSub
 
 
-object LocalPacketPubSub : JedisPubSub() {
+object LocalPacketPubSub : JedisPubSub()
+{
 
-    var received : Int = 0
+    var received: Int = 0
 
-    override fun onMessage(channel: String?, message: String) {
+    override fun onMessage(channel: String?, message: String)
+    {
         val packetClass: Class<*>
         val packetMessageSplit = message.indexOf("|")
         val packetClassStr = message.substring(0, packetMessageSplit)
         val messageJson = message.substring(packetMessageSplit + "|".length)
-        packetClass = try {
+        packetClass = try
+        {
             Class.forName(packetClassStr)
-        } catch (ignored: ClassNotFoundException) {
+        } catch (ignored: ClassNotFoundException)
+        {
             return
         }
         received++

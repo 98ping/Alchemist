@@ -9,12 +9,14 @@ import ltd.matrixstudios.alchemist.commands.tags.grants.menu.grants.TagGrantsMen
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import org.bukkit.entity.Player
 
-class TagGrantsCommand : BaseCommand() {
+class TagGrantsCommand : BaseCommand()
+{
 
     @CommandAlias("taggrants|prefixgrants")
     @CommandPermission("alchemist.tags.admin")
     @CommandCompletion("@gameprofile")
-    fun grants(player: Player, @Name("target")gameProfile: GameProfile) {
+    fun grants(player: Player, @Name("target") gameProfile: GameProfile)
+    {
         TagGrantsMenu(player, gameProfile).updateMenu()
     }
 }

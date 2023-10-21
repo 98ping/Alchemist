@@ -4,12 +4,12 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
-import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.connection.prelog.BukkitPreLoginTask
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.SHA
 import org.bukkit.Bukkit
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
+import java.util.*
 import java.util.logging.Level
 
 /**
@@ -19,13 +19,21 @@ import java.util.logging.Level
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LoadProfile : BukkitPreLoginTask {
-    override fun run(event: AsyncPlayerPreLoginEvent) {
+object LoadProfile : BukkitPreLoginTask
+{
+    override fun run(event: AsyncPlayerPreLoginEvent)
+    {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
-        Bukkit.getLogger().log(Level.INFO, "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms")
-        MetricService.addMetric("Profile Service", Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis()))
+        Bukkit.getLogger().log(
+            Level.INFO,
+            "Profile of " + event.name + " loaded in " + System.currentTimeMillis().minus(start) + "ms"
+        )
+        MetricService.addMetric(
+            "Profile Service",
+            Metric("Profile Service", System.currentTimeMillis().minus(start), System.currentTimeMillis())
+        )
 
         val hostAddress = event.address.hostAddress
         val output = SHA.toHexString(hostAddress)!!
@@ -33,10 +41,11 @@ object LoadProfile : BukkitPreLoginTask {
 
         profile.lastSeenAt = System.currentTimeMillis()
         profile.username = event.name
-        profile.lowercasedUsername = event.name.toLowerCase()
+        profile.lowercasedUsername = event.name.lowercase(Locale.getDefault())
         profile.ip = output
 
-        if (profile.currentSession == null) {
+        if (profile.currentSession == null)
+        {
             profile.currentSession = profile.createNewSession(currentServer)
         }
 
@@ -46,7 +55,8 @@ object LoadProfile : BukkitPreLoginTask {
         ProfileGameService.saveSync(profile)
     }
 
-    override fun shouldBeLazy(): Boolean {
+    override fun shouldBeLazy(): Boolean
+    {
         return false
     }
 }

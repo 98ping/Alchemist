@@ -12,7 +12,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import java.util.Date
+import java.util.*
 
 class Custom : Theme(
     "custom",
@@ -22,27 +22,39 @@ class Custom : Theme(
     ),
     Material.SLIME_BALL,
     0
-) {
+)
+{
 
-    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
+    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String>
+    {
         val key: String
-        if (rankGrant.expirable.isActive()) {
-            if (rankGrant.duration == Long.MAX_VALUE) {
+        if (rankGrant.expirable.isActive())
+        {
+            if (rankGrant.duration == Long.MAX_VALUE)
+            {
                 key = "custom-theme.grants.lore.active.permanent"
-            } else {
+            } else
+            {
                 key = "custom-theme.grants.lore.active.temporary"
             }
-        } else {
-            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired") {
-                if (rankGrant.duration == Long.MAX_VALUE) {
+        } else
+        {
+            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired")
+            {
+                if (rankGrant.duration == Long.MAX_VALUE)
+                {
                     key = "custom-theme.grants.lore.expired.permanent"
-                } else {
+                } else
+                {
                     key = "custom-theme.grants.lore.expired.temporary"
                 }
-            } else {
-                if (rankGrant.duration == Long.MAX_VALUE) {
+            } else
+            {
+                if (rankGrant.duration == Long.MAX_VALUE)
+                {
                     key = "custom-theme.grants.lore.inactive.permanent"
-                } else {
+                } else
+                {
                     key = "custom-theme.grants.lore.inactive.temporary"
                 }
             }
@@ -50,12 +62,15 @@ class Custom : Theme(
         val scope = rankGrant.verifyGrantScope()
         val servers = mutableListOf<String>()
         val lore = AlchemistSpigotPlugin.instance.config.getStringList(key)
-        if (scope.global) {
+        if (scope.global)
+        {
             servers.add("global")
-        } else {
+        } else
+        {
             servers.addAll(scope.servers)
         }
-        for (i in 0 until lore.size) {
+        for (i in 0 until lore.size)
+        {
             lore[i] = Chat.format(lore[i]
                 .replace("<date>", TimeUtil.dateToString(Date(rankGrant.expirable.addedAt)))
                 .replace("<expires_at>", TimeUtil.dateToString(Date(rankGrant.expirable.getActiveUntil())))
@@ -88,61 +103,79 @@ class Custom : Theme(
         return lore
     }
 
-    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String {
+    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String
+    {
         val key: String
-        if (rankGrant.expirable.isActive()) {
+        if (rankGrant.expirable.isActive())
+        {
             key = "custom-theme.grants.active-item.name"
-        } else {
-            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired") {
+        } else
+        {
+            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired")
+            {
                 key = "custom-theme.grants.expired-item.name"
-            } else {
+            } else
+            {
                 key = "custom-theme.grants.inactive-item.name"
             }
         }
-        return Chat.format(AlchemistSpigotPlugin.instance.config.getString(key)
-            .replace("<issued_date>", TimeUtil.dateToString(Date(rankGrant.expirable.addedAt)))
+        return Chat.format(
+            AlchemistSpigotPlugin.instance.config.getString(key)
+                .replace("<issued_date>", TimeUtil.dateToString(Date(rankGrant.expirable.addedAt)))
         )
     }
 
-    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
+    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short
+    {
         val key: String
-        if (rankGrant.expirable.isActive()) {
+        if (rankGrant.expirable.isActive())
+        {
             key = "custom-theme.grants.active-item.data"
-        } else {
-            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired") {
+        } else
+        {
+            if (rankGrant.expirable.expired && rankGrant.removedReason!! == "Expired")
+            {
                 key = "custom-theme.grants.expired-item.data"
-            } else {
+            } else
+            {
                 key = "custom-theme.grants.inactive-item.data"
             }
         }
         return AlchemistSpigotPlugin.instance.config.getInt(key).toShort()
     }
 
-    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
+    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String>
+    {
         val lore = mutableListOf<String>()
-        for(i in 0 until lore.size) {
+        for (i in 0 until lore.size)
+        {
             lore[i] = Chat.format(lore[i])
         }
         return lore
     }
 
-    override fun getGrantDisplayName(player: Player, rank: Rank): String {
+    override fun getGrantDisplayName(player: Player, rank: Rank): String
+    {
         return ""
     }
 
-    override fun getGrantData(player: Player, rank: Rank): Short {
+    override fun getGrantData(player: Player, rank: Rank): Short
+    {
         return 0
     }
 
-    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
+    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String>
+    {
         return mutableListOf("Not implemented yet")
     }
 
-    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
+    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String
+    {
         return "Not yet implemented"
     }
 
-    override fun getHistoryData(player: Player, punishment: Punishment): Short {
+    override fun getHistoryData(player: Player, punishment: Punishment): Short
+    {
         return 0
     }
 
@@ -150,15 +183,18 @@ class Custom : Theme(
         player: Player,
         profile: GameProfile,
         punishment: PunishmentType
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         return mutableListOf("Not yet implemented")
     }
 
-    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
+    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String
+    {
         return "Not yet implemented"
     }
 
-    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {
+    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short
+    {
         return 0
     }
 

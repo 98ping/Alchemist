@@ -13,7 +13,8 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 
-object AlchemistAPI {
+object AlchemistAPI
+{
 
     var SERVER_NAME = AlchemistSpigotPlugin.instance.config.getString("details.ip")
     var GENERIC_NAME = AlchemistSpigotPlugin.instance.config.getString("details.genericName")
@@ -22,63 +23,73 @@ object AlchemistAPI {
 
     var CONSOLE_COLOR = AlchemistSpigotPlugin.instance.config.getString("consoleColor") ?: "&c&l"
 
-    fun getRankDisplay(uuid: UUID) : String {
+    fun getRankDisplay(uuid: UUID): String
+    {
         var finalString = "${CONSOLE_COLOR}Console"
 
         val profile = quickFindProfile(uuid).get()
 
-        if (profile != null) {
-            finalString = (profile.getCurrentRank()?.color ?: "&f") + profile.username
+        if (profile != null)
+        {
+            finalString = profile.getCurrentRank().color + profile.username
         }
 
         return finalString
     }
 
 
-    fun getPlayerRankString(uuid: UUID) : String {
+    fun getPlayerRankString(uuid: UUID): String
+    {
         val current = RankService.FALLBACK_RANK
 
         val profile = syncFindProfile(uuid) ?: return (current.color + current.displayName)
-        val rank = profile.getCurrentRank() ?: return (current.color + current.displayName)
+        val rank = profile.getCurrentRank()
 
         return rank.color + rank.displayName
     }
 
-    fun getRankWeight(uuid: UUID) : Int {
+    fun getRankWeight(uuid: UUID): Int
+    {
         val profile = syncFindProfile(uuid) ?: return 1
-        val currentRank = profile.getCurrentRank() ?: return 1
+        val currentRank = profile.getCurrentRank()
 
         return currentRank.weight
     }
 
-    fun getRankWithPrefix(uuid: UUID) : String {
+    fun getRankWithPrefix(uuid: UUID): String
+    {
         var finalString = "${CONSOLE_COLOR}Console"
 
         val profile = quickFindProfile(uuid).get()
 
-        if (profile != null) {
-            val rank = profile.getCurrentRank()!!
+        if (profile != null)
+        {
+            val rank = profile.getCurrentRank()
             finalString = rank.prefix + rank.color + profile.username
         }
 
         return finalString
     }
 
-    fun quickFindProfile(uuid: UUID) : CompletableFuture<GameProfile?> {
+    fun quickFindProfile(uuid: UUID): CompletableFuture<GameProfile?>
+    {
         return CompletableFuture.supplyAsync { ProfileGameService.byId(uuid) }
     }
 
-    fun syncFindProfile(uuid: UUID) : GameProfile? {
+    fun syncFindProfile(uuid: UUID): GameProfile?
+    {
         return ProfileGameService.byId(uuid)
     }
 
-    fun findRank(uuid: UUID) : Rank {
+    fun findRank(uuid: UUID): Rank
+    {
         val profile = ProfileGameService.byId(uuid) ?: return RankService.FALLBACK_RANK
 
         return profile.getCurrentRank()
     }
 
-    fun supplyColoredNames() : CompletableFuture<List<Player>> {
+    fun supplyColoredNames(): CompletableFuture<List<Player>>
+    {
         return CompletableFuture.supplyAsync {
             Bukkit.getOnlinePlayers()
                 .filter { !it.hasMetadata("vanish") }
@@ -88,7 +99,8 @@ object AlchemistAPI {
         }
     }
 
-    fun getWoolColor(color: String): DyeColor {
+    fun getWoolColor(color: String): DyeColor
+    {
         if (color.contains("&1")) return DyeColor.BLUE
         if (color.contains("&2")) return DyeColor.GREEN
         if (color.contains("&3")) return DyeColor.CYAN

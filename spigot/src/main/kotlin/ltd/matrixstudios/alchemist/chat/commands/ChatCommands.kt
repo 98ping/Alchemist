@@ -4,21 +4,24 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Optional
 import ltd.matrixstudios.alchemist.chat.ChatService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 
-object ChatCommands : BaseCommand() {
+object ChatCommands : BaseCommand()
+{
 
     @CommandAlias("slowchat")
     @CommandPermission("alchemist.chat.admin")
-    fun slowchat(player: CommandSender, @Name("duration") duration: Int) {
-        if (!ChatService.slowed) {
+    fun slowchat(player: CommandSender, @Name("duration") duration: Int)
+    {
+        if (!ChatService.slowed)
+        {
             ChatService.slowDuration = duration
             ChatService.slowed = true
             player.sendMessage(Chat.format("&aYou have just slowed the chat down to 1 message every &f$duration &aseconds"))
-        } else {
+        } else
+        {
             ChatService.slowDuration = 0
             ChatService.slowed = false
             player.sendMessage(Chat.format("&cIn game chat is no longer slowed down"))
@@ -27,11 +30,14 @@ object ChatCommands : BaseCommand() {
 
     @CommandAlias("mutechat")
     @CommandPermission("alchemist.chat.admin")
-    fun mutechat(player: CommandSender) {
-        if (!ChatService.muted) {
+    fun mutechat(player: CommandSender)
+    {
+        if (!ChatService.muted)
+        {
             ChatService.muted = true
             player.sendMessage(Chat.format("&aYou have just muted the global chat"))
-        } else {
+        } else
+        {
             ChatService.muted = false
             player.sendMessage(Chat.format("&aGlobal chat is no longer muted!"))
         }

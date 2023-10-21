@@ -3,9 +3,7 @@ package ltd.matrixstudios.alchemist.aikar.context
 import co.aikar.commands.BukkitCommandExecutionContext
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.contexts.ContextResolver
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import java.util.UUID
+import java.util.*
 
 /**
  * Class created on 6/13/2023
@@ -14,9 +12,11 @@ import java.util.UUID
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class UUIDContextResolver : ContextResolver<UUID, BukkitCommandExecutionContext> {
+class UUIDContextResolver : ContextResolver<UUID, BukkitCommandExecutionContext>
+{
 
-    override fun getContext(c: BukkitCommandExecutionContext?): UUID? {
+    override fun getContext(c: BukkitCommandExecutionContext?): UUID?
+    {
         val firstArg = c!!.popFirstArg() ?: return null
 
         val uuid = UUID.fromString(firstArg)

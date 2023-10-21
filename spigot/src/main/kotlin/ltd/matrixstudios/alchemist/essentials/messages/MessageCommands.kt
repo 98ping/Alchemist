@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.essentials.messages.menu.MessageSettingsMenu
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
@@ -16,14 +15,17 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
-class MessageCommands : BaseCommand() {
+class MessageCommands : BaseCommand()
+{
 
     @CommandAlias("message|msg|m|tell")
     @CommandCompletion("@players")
-    fun message(player: CommandSender, @Name("target") target: OnlinePlayer, @Name("message...") message: String) {
+    fun message(player: CommandSender, @Name("target") target: OnlinePlayer, @Name("message...") message: String)
+    {
         val ignored = MessageHandler.hasPlayerIgnored(target.player, BukkitPunishmentFunctions.getSenderUUID(player))
 
-        if (ignored) {
+        if (ignored)
+        {
             player.sendMessage(Chat.format("&cThis player has you ignored!"))
             return
         }
@@ -53,7 +55,8 @@ class MessageCommands : BaseCommand() {
 
         val ignored = MessageHandler.hasPlayerIgnored(optional, player.uniqueId)
 
-        if (ignored) {
+        if (ignored)
+        {
             player.sendMessage(Chat.format("&cThis player has you ignored!"))
             return
         }
@@ -76,7 +79,7 @@ class MessageCommands : BaseCommand() {
 
     @CommandAlias("ignore|ignoreadd")
     @CommandCompletion("@players")
-    fun ignore(player: Player, @Name("target") profile: AsyncGameProfile) : CompletableFuture<Void>
+    fun ignore(player: Player, @Name("target") profile: AsyncGameProfile): CompletableFuture<Void>
     {
         return profile.use(player) {
             val uuid = it.uuid
@@ -88,7 +91,7 @@ class MessageCommands : BaseCommand() {
 
     @CommandAlias("unignore|removeignore")
     @CommandCompletion("@players")
-    fun unignore(player: Player, @Name("target") profile: AsyncGameProfile) : CompletableFuture<Void>
+    fun unignore(player: Player, @Name("target") profile: AsyncGameProfile): CompletableFuture<Void>
     {
         return profile.use(player) {
             val uuid = it.uuid

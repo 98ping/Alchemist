@@ -12,13 +12,13 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
-class GenericStaffmodePreventionListener : Listener {
+class GenericStaffmodePreventionListener : Listener
+{
 
     @EventHandler
     fun breakBlock(e: BlockBreakEvent)
@@ -27,7 +27,10 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission("alchemist.staffmode.edit"))
+            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission(
+                    "alchemist.staffmode.edit"
+                )
+            )
             {
                 e.isCancelled = true
             }
@@ -41,7 +44,10 @@ class GenericStaffmodePreventionListener : Listener {
 
         if (StaffSuiteManager.isModMode(player))
         {
-            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission("alchemist.staffmode.edit"))
+            if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission(
+                    "alchemist.staffmode.edit"
+                )
+            )
             {
                 e.isCancelled = true
             }
@@ -94,7 +100,8 @@ class GenericStaffmodePreventionListener : Listener {
     }
 
     @EventHandler
-    fun drop(e: PlayerDropItemEvent) {
+    fun drop(e: PlayerDropItemEvent)
+    {
         if (StaffSuiteManager.isModMode(e.player))
         {
             val item = e.itemDrop.itemStack
@@ -121,10 +128,11 @@ class GenericStaffmodePreventionListener : Listener {
     }
 
     @EventHandler
-    fun playerQuit(e: PlayerQuitEvent) {
+    fun playerQuit(e: PlayerQuitEvent)
+    {
         if (StaffSuiteManager.isModMode(e.player))
         {
-           StaffSuiteManager.removeStaffMode(e.player)
+            StaffSuiteManager.removeStaffMode(e.player)
         }
     }
 

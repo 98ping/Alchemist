@@ -2,19 +2,19 @@ package ltd.matrixstudios.alchemist.webhook
 
 import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.WebhookClientBuilder
-import club.minnced.discord.webhook.send.WebhookEmbed
-import club.minnced.discord.webhook.send.WebhookEmbedBuilder
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
 
 
-object WebhookService {
+object WebhookService
+{
 
     lateinit var punishmentClient: WebhookClient
     lateinit var rankGrantClient: WebhookClient
 
     val PUNISHMENT_ICON: String = "https://static.wikia.nocookie.net/minecraft/images/8/8d/BarrierNew.png"
 
-    fun createPunishmentClient(uri: String) {
+    fun createPunishmentClient(uri: String)
+    {
         val builder = WebhookClientBuilder(uri)
 
         builder.setThreadFactory { job ->
@@ -28,7 +28,8 @@ object WebhookService {
         this.punishmentClient = builder.build()
     }
 
-    fun createRankGrantClient(uri: String) {
+    fun createRankGrantClient(uri: String)
+    {
         val builder = WebhookClientBuilder(uri)
 
         builder.setThreadFactory { job ->
@@ -43,7 +44,8 @@ object WebhookService {
     }
 
 
-    fun sendInformation(info: WebhookInformation, client: WebhookClient) {
+    fun sendInformation(info: WebhookInformation, client: WebhookClient)
+    {
         val builder = WebhookMessageBuilder()
         builder.setUsername("Alchemist Notifications") // use this username
 

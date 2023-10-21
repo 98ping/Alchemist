@@ -4,7 +4,6 @@ import ltd.matrixstudios.alchemist.essentials.commands.EntityCommands
 import ltd.matrixstudios.alchemist.essentials.menus.entity.EntityEditorMenu
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityInteractEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 
 class EntityEditorListener : Listener

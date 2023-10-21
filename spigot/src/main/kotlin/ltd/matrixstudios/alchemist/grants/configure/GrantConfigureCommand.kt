@@ -17,11 +17,13 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class GrantConfigureCommand : BaseCommand() {
+class GrantConfigureCommand : BaseCommand()
+{
 
     @CommandAlias("configuregrants|grantconfig")
     @CommandPermission("alchemist.grants.config")
-    fun grantConfig(player: Player) {
+    fun grantConfig(player: Player)
+    {
         GrantConfigureMenu(
             player,
             GrantConfigCategory.DURATIONS
@@ -30,10 +32,12 @@ class GrantConfigureCommand : BaseCommand() {
 
     @CommandAlias("resetgrantdurations")
     @CommandPermission("alchemist.grants.config")
-    fun resetDurations(sender: CommandSender) {
+    fun resetDurations(sender: CommandSender)
+    {
         GrantConfigurationService.grantDurationModels.clear()
 
-        for (dur in GrantConfigurationService.getDefaultGrantDurationModels()) {
+        for (dur in GrantConfigurationService.getDefaultGrantDurationModels())
+        {
             GrantConfigurationService.grantDurationModels[dur.value.id] = dur.value
         }
 
@@ -44,10 +48,12 @@ class GrantConfigureCommand : BaseCommand() {
 
     @CommandAlias("resetgrantreasons")
     @CommandPermission("alchemist.grants.config")
-    fun resetReasons(sender: CommandSender) {
+    fun resetReasons(sender: CommandSender)
+    {
         GrantConfigurationService.grantReasonModels.clear()
 
-        for (dur in GrantConfigurationService.getDefaultGrantReasonModels()) {
+        for (dur in GrantConfigurationService.getDefaultGrantReasonModels())
+        {
             GrantConfigurationService.grantReasonModels[dur.value.id] = dur.value
         }
 

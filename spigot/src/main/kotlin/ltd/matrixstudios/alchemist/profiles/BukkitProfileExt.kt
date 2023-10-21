@@ -7,7 +7,6 @@ import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.util.*
 
 /**
  * Class created on 6/30/2023
@@ -17,26 +16,31 @@ import java.util.*
  * @website https://solo.to/redis
  */
 
-fun Player.getProfile(): GameProfile? {
+fun Player.getProfile(): GameProfile?
+{
     return AlchemistAPI.syncFindProfile(uniqueId)
 }
 
-fun Player.getRankDisplay(): String {
+fun Player.getRankDisplay(): String
+{
     return AlchemistAPI.getRankDisplay(uniqueId)
 }
 
-fun Player.getCurrentRank(): Rank {
+fun Player.getCurrentRank(): Rank
+{
     val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return RankService.FALLBACK_RANK
 
     return profile.getCurrentRank()
 }
 
-fun CommandSender.getRankDisplay(): String {
+fun CommandSender.getRankDisplay(): String
+{
     var finalString = "${AlchemistAPI.CONSOLE_COLOR}Console"
 
     val profile = AlchemistAPI.syncFindProfile(BukkitPunishmentFunctions.getSenderUUID(this))
 
-    if (profile != null) {
+    if (profile != null)
+    {
         finalString = profile.getCurrentRank().color + profile.username
     }
 
@@ -44,6 +48,7 @@ fun CommandSender.getRankDisplay(): String {
 
 }
 
-fun Player.getRankDisplayWithPrefix(): String {
+fun Player.getRankDisplayWithPrefix(): String
+{
     return AlchemistAPI.getRankWithPrefix(uniqueId)
 }

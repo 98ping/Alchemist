@@ -5,21 +5,25 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import net.milkbowl.vault.chat.Chat
 import net.milkbowl.vault.permission.Permission
 import org.bukkit.plugin.Plugin
-import java.lang.UnsupportedOperationException
+import java.util.*
 
-class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
+class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms)
+{
 
-    override fun getName(): String {
+    override fun getName(): String
+    {
         return "Alchemist"
     }
 
-    override fun isEnabled(): Boolean {
+    override fun isEnabled(): Boolean
+    {
         return true
     }
 
-    override fun getPlayerPrefix(p0: String?, p1: String?): String {
+    override fun getPlayerPrefix(p0: String?, p1: String?): String
+    {
         var prefix = RankService.FALLBACK_RANK.prefix
-        ProfileGameService.byUsernameWithList(p1!!.toLowerCase()).whenComplete { p, t ->
+        ProfileGameService.byUsernameWithList(p1!!.lowercase(Locale.getDefault())).whenComplete { p, t ->
             val user = p.firstOrNull()
                 ?: return@whenComplete
 
@@ -30,95 +34,118 @@ class VaultChatExtension(perms: Permission, var plugin: Plugin) : Chat(perms){
         return prefix
     }
 
-    override fun setPlayerPrefix(p0: String?, p1: String?, p2: String?) {
+    override fun setPlayerPrefix(p0: String?, p1: String?, p2: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot forcefully set a player prefix!")
     }
 
-    override fun getPlayerSuffix(p0: String?, p1: String?): String {
+    override fun getPlayerSuffix(p0: String?, p1: String?): String
+    {
         return ""
     }
 
-    override fun setPlayerSuffix(p0: String?, p1: String?, p2: String?) {
+    override fun setPlayerSuffix(p0: String?, p1: String?, p2: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle suffixes!")
     }
 
-    override fun getGroupPrefix(p0: String?, p1: String?): String {
+    override fun getGroupPrefix(p0: String?, p1: String?): String
+    {
         return ""
     }
 
-    override fun setGroupPrefix(p0: String?, p1: String?, p2: String?) {
+    override fun setGroupPrefix(p0: String?, p1: String?, p2: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle group information!")
     }
 
-    override fun getGroupSuffix(p0: String?, p1: String?): String {
+    override fun getGroupSuffix(p0: String?, p1: String?): String
+    {
         throw UnsupportedOperationException("Alchemist cannot handle group information!")
     }
 
-    override fun setGroupSuffix(p0: String?, p1: String?, p2: String?) {
+    override fun setGroupSuffix(p0: String?, p1: String?, p2: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle group information!")
     }
 
-    override fun getPlayerInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int): Int {
+    override fun getPlayerInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int): Int
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setPlayerInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int) {
+    override fun setPlayerInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getGroupInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int): Int {
+    override fun getGroupInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int): Int
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setGroupInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int) {
+    override fun setGroupInfoInteger(p0: String?, p1: String?, p2: String?, p3: Int)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getPlayerInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double): Double {
+    override fun getPlayerInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double): Double
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setPlayerInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double) {
+    override fun setPlayerInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getGroupInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double): Double {
+    override fun getGroupInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double): Double
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setGroupInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double) {
+    override fun setGroupInfoDouble(p0: String?, p1: String?, p2: String?, p3: Double)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getPlayerInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean): Boolean {
+    override fun getPlayerInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean): Boolean
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setPlayerInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean) {
+    override fun setPlayerInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getGroupInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean): Boolean {
+    override fun getGroupInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean): Boolean
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setGroupInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean) {
+    override fun setGroupInfoBoolean(p0: String?, p1: String?, p2: String?, p3: Boolean)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getPlayerInfoString(p0: String?, p1: String?, p2: String?, p3: String?): String {
+    override fun getPlayerInfoString(p0: String?, p1: String?, p2: String?, p3: String?): String
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setPlayerInfoString(p0: String?, p1: String?, p2: String?, p3: String?) {
+    override fun setPlayerInfoString(p0: String?, p1: String?, p2: String?, p3: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun getGroupInfoString(p0: String?, p1: String?, p2: String?, p3: String?): String {
+    override fun getGroupInfoString(p0: String?, p1: String?, p2: String?, p3: String?): String
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 
-    override fun setGroupInfoString(p0: String?, p1: String?, p2: String?, p3: String?) {
+    override fun setGroupInfoString(p0: String?, p1: String?, p2: String?, p3: String?)
+    {
         throw UnsupportedOperationException("Alchemist cannot handle information in this type!")
     }
 }

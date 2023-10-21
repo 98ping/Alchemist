@@ -12,7 +12,6 @@ import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
-import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.packets.OwnershipMessagePacket
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
@@ -27,13 +26,20 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class TempGhostMuteCommand : BaseCommand() {
+class TempGhostMuteCommand : BaseCommand()
+{
 
     @CommandAlias("tempghostmute|tempgmute")
     @CommandPermission("alchemist.punishments.tempghostmute")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> <duration> [-a] <reason>")
-    fun tempGhostMute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("duration")duration: String, @Name("reason") reason: String) {
+    fun tempGhostMute(
+        sender: CommandSender,
+        @Name("target") gameProfile: GameProfile,
+        @Name("duration") duration: String,
+        @Name("reason") reason: String
+    )
+    {
         val punishment = Punishment(
             PunishmentType.GHOST_MUTE.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -44,7 +50,8 @@ class TempGhostMuteCommand : BaseCommand() {
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                ActorType.GAME)
+                ActorType.GAME
+            )
 
         )
 
@@ -56,20 +63,29 @@ class TempGhostMuteCommand : BaseCommand() {
             return
         }
 
-        if (sender is Player) {
+        if (sender is Player)
+        {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute) {
+            if (!canExecute)
+            {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
-                sender.sendMessage(Chat.format("&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(sender.uniqueId)))
+                sender.sendMessage(
+                    Chat.format(
+                        "&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(
+                            sender.uniqueId
+                        )
+                    )
+                )
 
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
+            {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return
@@ -78,10 +94,14 @@ class TempGhostMuteCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
-        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
-                + "&aYou've temporarily ghost muted " + gameProfile.username + " for &f"
-                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
-                + TimeUtil.formatDuration(punishment.expirable.duration)))
+        sender.sendMessage(
+            Chat.format(
+                (if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                        + "&aYou've temporarily ghost muted " + gameProfile.username + " for &f"
+                        + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
+                        + TimeUtil.formatDuration(punishment.expirable.duration)
+            )
+        )
         sender.sendMessage(Chat.format("&7This type of mute does not send a dispatch message to the player"))
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
 

@@ -5,7 +5,6 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 /**
@@ -15,14 +14,18 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class LuckPermsConverterCommand : BaseCommand() {
+class LuckPermsConverterCommand : BaseCommand()
+{
 
     @CommandAlias("convertluckperms")
     @CommandPermission("alchemist.owner")
-    fun convert(sender: Player) {
-        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
+    fun convert(sender: Player)
+    {
+        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms"))
+        {
             LuckpermsRankConverter.convert(sender)
-        } else {
+        } else
+        {
             sender.sendMessage(Chat.format("&cYou must be running &aLuck&2Perms &cto execute this!"))
         }
     }

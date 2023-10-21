@@ -19,16 +19,22 @@ import ltd.matrixstudios.alchemist.util.Chat
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object PunishmentModule : PluginModule {
-    override fun onLoad() {
+object PunishmentModule : PluginModule
+{
+    override fun onLoad()
+    {
         val punishmentStart = System.currentTimeMillis()
 
         PunishmentLimitationUnderstander.load()
 
-        Chat.sendConsoleMessage("&6[Punishments] &fAll profile events loaded in &6" + System.currentTimeMillis().minus(punishmentStart) + "ms")
+        Chat.sendConsoleMessage(
+            "&6[Punishments] &fAll profile events loaded in &6" + System.currentTimeMillis()
+                .minus(punishmentStart) + "ms"
+        )
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         val list = mutableListOf<BaseCommand>()
 
         list.add(MuteCommand())
@@ -56,7 +62,8 @@ object PunishmentModule : PluginModule {
         return list
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return AlchemistSpigotPlugin.instance.config.getBoolean("modules.punishments")
     }
 }

@@ -10,7 +10,6 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.Inventory
-import java.lang.IllegalArgumentException
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.ceil
@@ -18,7 +17,8 @@ import kotlin.math.ceil
 abstract class PaginatedMenu(
     private val displaySize: Int,
     private val player: Player
-) {
+)
+{
 
     private var currentPage = 1
     private var maxPages = 1
@@ -26,7 +26,8 @@ abstract class PaginatedMenu(
     abstract fun getPagesButtons(player: Player): MutableMap<Int, Button>
     abstract fun getTitle(player: Player): String
 
-    fun getButtonsInRange(player: Player): MutableMap<Int, Button> {
+    fun getButtonsInRange(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         val paginatedButtons = getPagesButtons(player)
@@ -34,13 +35,16 @@ abstract class PaginatedMenu(
         var current = getButtonsStartAt()
         val buttonAmount = paginatedButtons.size
 
-        maxPages = if (buttonAmount == 0) {
+        maxPages = if (buttonAmount == 0)
+        {
             1
-        } else {
+        } else
+        {
             ceil(buttonAmount / getButtonsPerPage().toDouble()).toInt()
         }
 
-        for ((slot, button) in getHeaderItems(player)) {
+        for ((slot, button) in getHeaderItems(player))
+        {
             buttons[slot] = button
         }
 
@@ -57,29 +61,35 @@ abstract class PaginatedMenu(
         var lastPos = positions.first()
         var lastIndex = 0
 
-        for (button in paginatedButtons) {
+        for (button in paginatedButtons)
+        {
             if (current >= displaySize) return buttons
 
             if (lastIndex - 1 >= positions.size) return buttons
 
 
-            if (i !in minIndex until maxIndex) {
+            if (i !in minIndex until maxIndex)
+            {
                 i++
                 continue
             }
 
-            if (positions.isNotEmpty()) {
+            if (positions.isNotEmpty())
+            {
                 buttons[lastPos] = button.value
-                try {
+                try
+                {
                     lastPos = positions[lastIndex + 1]
-                } catch (e: IndexOutOfBoundsException) {
+                } catch (e: IndexOutOfBoundsException)
+                {
                     return buttons
                 }
                 lastIndex++
                 continue
             }
 
-            if (!buttons.containsKey(current)) {
+            if (!buttons.containsKey(current))
+            {
                 buttons[current] = button.value
             }
 
@@ -90,23 +100,29 @@ abstract class PaginatedMenu(
         return buttons
     }
 
-    open fun getButtonPositions(): List<Int> {
+    open fun getButtonPositions(): List<Int>
+    {
         val mutableList = mutableListOf<Int>()
 
-        for (int in 9 until displaySize + 9) {
+        for (int in 9 until displaySize + 9)
+        {
             mutableList.add(int)
         }
 
         return mutableList.toList()
     }
 
-    fun getPreviousPageButton(): Button {
-        val button = object : Button() {
-            override fun getMaterial(player: Player): Material {
+    fun getPreviousPageButton(): Button
+    {
+        val button = object : Button()
+        {
+            override fun getMaterial(player: Player): Material
+            {
                 return Material.MELON
             }
 
-            override fun getDescription(player: Player): MutableList<String>? {
+            override fun getDescription(player: Player): MutableList<String>?
+            {
                 return Collections.singletonList(
                     ChatColor.translateAlternateColorCodes(
                         '&',
@@ -115,16 +131,20 @@ abstract class PaginatedMenu(
                 )
             }
 
-            override fun getDisplayName(player: Player): String? {
+            override fun getDisplayName(player: Player): String?
+            {
                 return ChatColor.translateAlternateColorCodes('&', "&cPrevious Page &7(&e$currentPage&7/&e$maxPages&7)")
             }
 
-            override fun getData(player: Player): Short {
+            override fun getData(player: Player): Short
+            {
                 return 0
             }
 
-            override fun onClick(player: Player, slot: Int, type: ClickType) {
-                if (currentPage == 1) {
+            override fun onClick(player: Player, slot: Int, type: ClickType)
+            {
+                if (currentPage == 1)
+                {
                     player.sendMessage(
                         ChatColor.translateAlternateColorCodes(
                             '&',
@@ -142,26 +162,34 @@ abstract class PaginatedMenu(
     }
 
 
-    fun getNextPageButton(): Button {
-        val button = object : Button() {
-            override fun getMaterial(player: Player): Material {
+    fun getNextPageButton(): Button
+    {
+        val button = object : Button()
+        {
+            override fun getMaterial(player: Player): Material
+            {
                 return Material.MELON
             }
 
-            override fun getDescription(player: Player): MutableList<String>? {
+            override fun getDescription(player: Player): MutableList<String>?
+            {
                 return Collections.singletonList(ChatColor.translateAlternateColorCodes('&', "&eNavigate to next page"))
             }
 
-            override fun getDisplayName(player: Player): String? {
+            override fun getDisplayName(player: Player): String?
+            {
                 return ChatColor.translateAlternateColorCodes('&', "&aNext page &7(&e$currentPage&7/&e$maxPages&7)")
             }
 
-            override fun getData(player: Player): Short {
+            override fun getData(player: Player): Short
+            {
                 return 0
             }
 
-            override fun onClick(player: Player, slot: Int, type: ClickType) {
-                if (currentPage >= maxPages) {
+            override fun onClick(player: Player, slot: Int, type: ClickType)
+            {
+                if (currentPage >= maxPages)
+                {
                     player.sendMessage("${ChatColor.RED}You have already reached the last page!")
                     return
                 }
@@ -174,23 +202,28 @@ abstract class PaginatedMenu(
         return button
     }
 
-    open fun getPageButtonPositions(): Pair<Int, Int> {
+    open fun getPageButtonPositions(): Pair<Int, Int>
+    {
         return Pair(0, 8)
     }
 
-    open fun getButtonsStartAt(): Int {
+    open fun getButtonsStartAt(): Int
+    {
         return 9
     }
 
-    open fun getButtonsPerPage(): Int {
+    open fun getButtonsPerPage(): Int
+    {
         return 18
     }
 
-    open fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    open fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf()
     }
 
-    fun handleAutoUpdate(player: Player) {
+    fun handleAutoUpdate(player: Player)
+    {
         val inventory = player.openInventory.topInventory ?: return
 
         if (!MenuController.paginatedMenuMap.containsKey(player.uniqueId)) return
@@ -214,7 +247,8 @@ abstract class PaginatedMenu(
                 }
             }
         }.whenComplete { item, throwable ->
-            if (throwable != null) {
+            if (throwable != null)
+            {
                 throwable.printStackTrace()
                 player.sendMessage(
                     "${ChatColor.RED}Failed to update menu."
@@ -243,7 +277,8 @@ abstract class PaginatedMenu(
         }
     }
 
-    fun updateMenu() {
+    fun updateMenu()
+    {
         val buttons = getButtonsInRange(player)
 
         val inventory = Bukkit.createInventory(
@@ -258,11 +293,13 @@ abstract class PaginatedMenu(
         }
 
         CompletableFuture.runAsync {
-            for (entry in buttons) {
+            for (entry in buttons)
+            {
                 inventory.setItem(entry.key, entry.value.constructItemStack(player))
             }
         }.whenComplete { item, throwable ->
-            if (throwable != null) {
+            if (throwable != null)
+            {
                 throwable.printStackTrace()
                 player.sendMessage(
                     "${ChatColor.RED}Failed to open menu."
@@ -288,7 +325,8 @@ abstract class PaginatedMenu(
         }
     }
 
-    fun retrieveInventory() : CompletableFuture<Inventory> {
+    fun retrieveInventory(): CompletableFuture<Inventory>
+    {
         val buttons = getButtonsInRange(player)
 
         val inventory = Bukkit.createInventory(
@@ -299,7 +337,8 @@ abstract class PaginatedMenu(
 
 
         return CompletableFuture.runAsync {
-            for (entry in buttons) {
+            for (entry in buttons)
+            {
                 inventory.setItem(entry.key, entry.value.constructItemStack(player))
             }
         }.thenApply {

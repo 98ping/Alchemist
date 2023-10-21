@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.queue.command.menu
 
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
-import ltd.matrixstudios.alchemist.models.queue.QueueStatus
 import ltd.matrixstudios.alchemist.queue.command.menu.sub.QueueEditAttributesMenu
 import ltd.matrixstudios.alchemist.queue.packet.QueueUpdatePacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
@@ -11,8 +10,6 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import org.bukkit.inventory.ItemStack
-import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 7/13/2023
@@ -21,13 +18,16 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class QueueButton(val queue: QueueModel) : Button() {
+class QueueButton(val queue: QueueModel) : Button()
+{
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.getMaterial(queue.material) ?: Material.DIAMOND
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eDisplay Name: &f" + queue.displayName))
@@ -46,18 +46,23 @@ class QueueButton(val queue: QueueModel) : Button() {
         return desc
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format("&e" + queue.displayName)
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
-        if (type == ClickType.LEFT) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
+        if (type == ClickType.LEFT)
+        {
             QueueEditAttributesMenu(player, queue).openMenu()
-        } else if (type == ClickType.RIGHT) {
+        } else if (type == ClickType.RIGHT)
+        {
             QueueService.handler.deleteAsync(queue.id)
             AsynchronousRedisSender.send(QueueUpdatePacket())
 

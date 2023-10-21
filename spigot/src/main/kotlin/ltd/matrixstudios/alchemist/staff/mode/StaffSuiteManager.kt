@@ -11,14 +11,15 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
-object StaffSuiteManager {
+object StaffSuiteManager
+{
 
     var modInventories = hashMapOf<UUID, Array<ItemStack?>>()
     var modArmor = hashMapOf<UUID, Array<ItemStack?>>()
 
     var modModePlayers = arrayListOf<UUID>()
 
-    fun isModMode(player: Player) : Boolean
+    fun isModMode(player: Player): Boolean
     {
         return modModePlayers.contains(player.uniqueId)
     }
@@ -28,7 +29,8 @@ object StaffSuiteManager {
         player.gameMode = GameMode.SURVIVAL
         player.inventory.clear()
 
-        if (modInventories.containsKey(player.uniqueId)) {
+        if (modInventories.containsKey(player.uniqueId))
+        {
             val items = modInventories[player.uniqueId]!!
 
             player.inventory.contents = items
@@ -62,14 +64,14 @@ object StaffSuiteManager {
 
     }
 
-    fun hasStaffchatEnabled(player: Player) : Boolean
+    fun hasStaffchatEnabled(player: Player): Boolean
     {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return true
 
         return !profile.hasMetadata("toggleSC")
     }
 
-    fun isModModeOnJoin(player: Player) : Boolean
+    fun isModModeOnJoin(player: Player): Boolean
     {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return true
 

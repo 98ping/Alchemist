@@ -11,9 +11,12 @@ import ltd.matrixstudios.alchemist.redis.RedisPacket
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class UpdateGlobalServerPacket(val server: UniqueServer) : RedisPacket("update-global-server") {
-    override fun action() {
-        if (Alchemist.globalServer.id == server.id) {
+class UpdateGlobalServerPacket(val server: UniqueServer) : RedisPacket("update-global-server")
+{
+    override fun action()
+    {
+        if (Alchemist.globalServer.id == server.id)
+        {
             Alchemist.globalServer = server
         }
     }

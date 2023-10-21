@@ -5,16 +5,16 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.packets.AdminChatPacket
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import org.bukkit.entity.Player
 
-class AdminChatCommand : BaseCommand() {
+class AdminChatCommand : BaseCommand()
+{
 
     @CommandAlias("ac|adminchat")
     @CommandPermission("alchemist.adminchat")
-    fun adminChat(player: Player, @Name("message")message: String)
+    fun adminChat(player: Player, @Name("message") message: String)
     {
         AsynchronousRedisSender.send(AdminChatPacket(message, Alchemist.globalServer.displayName, player.uniqueId))
     }

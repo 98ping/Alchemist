@@ -7,20 +7,22 @@ import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import ltd.matrixstudios.alchemist.util.Chat
-import org.bukkit.GameMode
 import org.bukkit.entity.Player
 
-class ClearInventoryCommand : BaseCommand() {
+class ClearInventoryCommand : BaseCommand()
+{
 
     @CommandAlias("clear|ci|clearinv")
     @CommandPermission("alchemist.essentials.clear")
     fun clear(player: Player, @Name("target") @Optional target: OnlinePlayer?)
     {
-        if (target == null) {
+        if (target == null)
+        {
             player.inventory.clear()
             player.inventory.armorContents = arrayOfNulls(4)
             player.sendMessage(Chat.format("&6You have cleared your &finventory&6."))
-        } else {
+        } else
+        {
             if (!player.hasPermission("alchemist.essentials.clear.other"))
             {
                 player.sendMessage(Chat.format("&cYou do not have permission to clear other people's inventories!"))

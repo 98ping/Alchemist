@@ -1,11 +1,9 @@
 package ltd.matrixstudios.alchemist.client
 
 import co.aikar.commands.BaseCommand
-import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.client.commands.LunarClientCommands
 import ltd.matrixstudios.alchemist.client.feature.NameTagFeature
-import ltd.matrixstudios.alchemist.client.feature.TeamViewFeature
 import ltd.matrixstudios.alchemist.module.PluginModule
 import org.bukkit.Bukkit
 
@@ -16,18 +14,22 @@ import org.bukkit.Bukkit
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LunarClientExtension : PluginModule {
-    override fun onLoad() {
+object LunarClientExtension : PluginModule
+{
+    override fun onLoad()
+    {
         NameTagFeature.startNametagUpdateTask()
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         return mutableListOf(
             LunarClientCommands
         )
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return Bukkit.getPluginManager().isPluginEnabled(
             "LunarClient-API"
         ) && AlchemistSpigotPlugin.instance.config.getBoolean(

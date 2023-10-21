@@ -8,7 +8,6 @@ import ltd.matrixstudios.alchemist.models.server.software.ServerPlugin
 import ltd.matrixstudios.alchemist.models.server.software.ServerSoftware
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshServersPacket
 import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.servers.commands.WhereAmICommand
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
@@ -17,6 +16,7 @@ import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
 import org.bukkit.Bukkit
+import java.util.*
 
 /**
  * Class created on 7/21/2023
@@ -25,12 +25,15 @@ import org.bukkit.Bukkit
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object ServerModule : PluginModule {
-    override fun onLoad() {
+object ServerModule : PluginModule
+{
+    override fun onLoad()
+    {
         val config = AlchemistSpigotPlugin.instance.config
         val serversStart = System.currentTimeMillis()
 
-        if (UniqueServerService.byId(config.getString("server.id").toLowerCase()) == null) {
+        if (UniqueServerService.byId(config.getString("server.id").lowercase(Locale.getDefault())) == null)
+        {
             val server = UniqueServer(
                 config.getString("server.id").lowercase(),
                 config.getString("server.id"),
@@ -52,8 +55,9 @@ object ServerModule : PluginModule {
             setupPluginSoftware(server)
             UniqueServerService.save(server)
             UniqueServerService.updateGlobalServer(server)
-        } else {
-            val server = UniqueServerService.byId(config.getString("server.id").toLowerCase())!!
+        } else
+        {
+            val server = UniqueServerService.byId(config.getString("server.id").lowercase(Locale.getDefault()))!!
 
             Chat.sendConsoleMessage("&eFound server with the id " + server.id + " in your database")
             server.ramAllocated = (Runtime.getRuntime().maxMemory() / (1024 * 1024)).toInt()
@@ -65,7 +69,12 @@ object ServerModule : PluginModule {
             UniqueServerService.updateGlobalServer(server)
         }
 
-        AsynchronousRedisSender.send(ServerStatusChangePacket(Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."), Alchemist.globalServer))
+        AsynchronousRedisSender.send(
+            ServerStatusChangePacket(
+                Chat.format("&8[&eServer Monitor&8] &fAdding server " + Alchemist.globalServer.displayName + "..."),
+                Alchemist.globalServer
+            )
+        )
 
         NetworkUtil.load()
         QueueService.loadAllQueues()
@@ -75,19 +84,23 @@ object ServerModule : PluginModule {
         )
     }
 
-    fun setupPluginSoftware(server: UniqueServer) {
+    fun setupPluginSoftware(server: UniqueServer)
+    {
         val version = Bukkit.getBukkitVersion()
-        val plugins = Bukkit.getPluginManager().plugins.map { ServerPlugin(
-            it.description.name,
-            it.description.version,
-            it.description.authors.joinToString(", "),
-            it.description.main
-        ) }
+        val plugins = Bukkit.getPluginManager().plugins.map {
+            ServerPlugin(
+                it.description.name,
+                it.description.version,
+                it.description.authors.joinToString(", "),
+                it.description.main
+            )
+        }
 
         server.serverSoftware = ServerSoftware(version, plugins.toMutableList())
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         val commands = mutableListOf<BaseCommand>()
 
         commands.add(ServerEnvironmentCommand())
@@ -96,7 +109,8 @@ object ServerModule : PluginModule {
         return commands
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return true
     }
 }

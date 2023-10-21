@@ -2,13 +2,7 @@ package ltd.matrixstudios.alchemist.profiles.commands.auth
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.HelpCommand
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
 import ltd.matrixstudios.alchemist.profiles.commands.auth.menu.AuthSetupMenu
@@ -17,7 +11,6 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.SHA
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.security.GeneralSecurityException
@@ -45,7 +38,17 @@ class AuthCommands : BaseCommand()
         player.sendMessage(" ")
         player.sendMessage(Chat.format("&eHello there, ${profile.getRankDisplay()}"))
         player.sendMessage(Chat.format("&eYou ${if (!profile.getAuthStatus().hasSetup2fa) "&cdo not" else "&ado"} &ehave 2fa enabled."))
-        player.sendMessage(Chat.format("&eYour next authentication date is &d${Date(profile.getAuthStatus().lastAuthenticated.plus(TimeUnit.DAYS.toMillis(3L)))}&e."))
+        player.sendMessage(
+            Chat.format(
+                "&eYour next authentication date is &d${
+                    Date(
+                        profile.getAuthStatus().lastAuthenticated.plus(
+                            TimeUnit.DAYS.toMillis(3L)
+                        )
+                    )
+                }&e."
+            )
+        )
         player.sendMessage(Chat.format("&eIf you have &bAuthentication Bypass&e, you will not need to re-authenticate."))
         player.sendMessage(" ")
     }
@@ -89,7 +92,7 @@ class AuthCommands : BaseCommand()
     @Subcommand("reset")
     @Description("Reset a user's authentication status.")
     @CommandPermission("alchemist.auth.admin")
-    fun onReset(commandSender: CommandSender, @Name("target") target: AsyncGameProfile) : CompletableFuture<Void>
+    fun onReset(commandSender: CommandSender, @Name("target") target: AsyncGameProfile): CompletableFuture<Void>
     {
         return target.use(commandSender) {
             val authStatus = it.getAuthStatus()
@@ -104,7 +107,7 @@ class AuthCommands : BaseCommand()
 
     @Subcommand("verify")
     @Description("Verify with your code in order to gain access to the server.")
-    fun onVerify(player: Player, @Name("code")code: String) : CompletableFuture<Void>
+    fun onVerify(player: Player, @Name("code") code: String): CompletableFuture<Void>
     {
         return CompletableFuture.runAsync {
             val profile = player.getProfile()

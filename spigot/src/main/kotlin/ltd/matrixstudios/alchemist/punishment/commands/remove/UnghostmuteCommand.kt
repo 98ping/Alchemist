@@ -15,15 +15,18 @@ import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 
-class UnghostmuteCommand : BaseCommand() {
+class UnghostmuteCommand : BaseCommand()
+{
 
     @CommandAlias("unghostmute|ungm")
     @CommandPermission("alchemist.punishments.unghostmute")
     @CommandCompletion("@gameprofile")
-    fun unghostmute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
+    fun unghostmute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
+    {
         val punishments = gameProfile.getActivePunishments(PunishmentType.GHOST_MUTE)
 
-        if (punishments.isEmpty()) {
+        if (punishments.isEmpty())
+        {
             sender.sendMessage(Chat.format("&cNo punishments of this type"))
             return
         }
@@ -35,9 +38,13 @@ class UnghostmuteCommand : BaseCommand() {
         punishment.removedBy = BukkitPunishmentFunctions.getSenderUUID(sender)
         punishment.removedReason = reason
 
-        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
-                + "&aYou've un-ghost muted " + gameProfile.username + " for &f"
-                + BukkitPunishmentFunctions.parseReason(reason)))
+        sender.sendMessage(
+            Chat.format(
+                (if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                        + "&aYou've un-ghost muted " + gameProfile.username + " for &f"
+                        + BukkitPunishmentFunctions.parseReason(reason)
+            )
+        )
         BukkitPunishmentFunctions.remove(BukkitPunishmentFunctions.getSenderUUID(sender), punishment, true, reason)
     }
 }

@@ -16,14 +16,17 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @CommandAlias("tagadmin")
-class TagAdminCommand : BaseCommand() {
+class TagAdminCommand : BaseCommand()
+{
 
     @Subcommand("create")
     @CommandPermission("alchemist.tags.admin")
-    fun create(sender: CommandSender, @Name("name")name: String) {
+    fun create(sender: CommandSender, @Name("name") name: String)
+    {
         val tag = TagService.byId(name)
 
-        if (tag != null) {
+        if (tag != null)
+        {
             sender.sendMessage(Chat.format("&cTag already exists"))
             return
         }
@@ -35,11 +38,12 @@ class TagAdminCommand : BaseCommand() {
 
     @Subcommand("delete")
     @CommandPermission("alchemist.tags.admin")
-    fun delete(sender: CommandSender, @Name("name")name: String)
+    fun delete(sender: CommandSender, @Name("name") name: String)
     {
         val tag = TagService.byId(name)
 
-        if (tag == null) {
+        if (tag == null)
+        {
             sender.sendMessage(Chat.format("&cTag does not exist"))
             return
         }
@@ -51,7 +55,8 @@ class TagAdminCommand : BaseCommand() {
 
     @Subcommand("edit")
     @CommandPermission("alchemist.tags.admin")
-    fun edit(player: Player) {
+    fun edit(player: Player)
+    {
         TagCustomizationMenu(player).updateMenu()
     }
 }

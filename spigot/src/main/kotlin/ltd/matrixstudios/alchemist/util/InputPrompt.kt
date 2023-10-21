@@ -8,7 +8,8 @@ import org.bukkit.conversations.Prompt
 import org.bukkit.conversations.StringPrompt
 import org.bukkit.entity.Player
 
-class InputPrompt : StringPrompt() {
+class InputPrompt : StringPrompt()
+{
 
     private var promptText: String = "${ChatColor.GREEN}Please input a value."
     private var charLimit: Int = -1
@@ -16,55 +17,68 @@ class InputPrompt : StringPrompt() {
     private var use: ((String) -> Unit)? = null
     private var fail: ((String) -> Unit)? = null
 
-    fun withText(text: String): InputPrompt {
-        this.promptText =  text
+    fun withText(text: String): InputPrompt
+    {
+        this.promptText = text
         return this
     }
 
-    fun withLimit(limit: Int): InputPrompt {
+    fun withLimit(limit: Int): InputPrompt
+    {
         this.charLimit = limit
         return this
     }
 
-    fun withRegex(regex: Regex): InputPrompt {
+    fun withRegex(regex: Regex): InputPrompt
+    {
         this.regex = regex
         return this
     }
 
-    fun acceptInput(use: (String) -> Unit): InputPrompt {
+    fun acceptInput(use: (String) -> Unit): InputPrompt
+    {
         this.use = use
         return this
     }
 
-    fun onFail(use: (String) -> Unit): InputPrompt {
+    fun onFail(use: (String) -> Unit): InputPrompt
+    {
         this.fail = use
         return this
     }
 
-    override fun getPromptText(context: ConversationContext): String {
+    override fun getPromptText(context: ConversationContext): String
+    {
         return promptText
     }
 
-    override fun acceptInput(context: ConversationContext, input: String): Prompt? {
-        if (charLimit != -1) {
-            if (input.length > charLimit) {
+    override fun acceptInput(context: ConversationContext, input: String): Prompt?
+    {
+        if (charLimit != -1)
+        {
+            if (input.length > charLimit)
+            {
                 context.forWhom.sendRawMessage("${ChatColor.RED}Input text is too long! (${input.length} > ${charLimit})")
                 fail?.invoke(input)
                 return Prompt.END_OF_CONVERSATION
             }
         }
 
-        if (regex != null) {
-            if (!input.matches(regex!!)) {
+        if (regex != null)
+        {
+            if (!input.matches(regex!!))
+            {
                 context.forWhom.sendRawMessage("${ChatColor.RED}Input text does not match regex pattern ${regex!!.pattern}.")
                 fail?.invoke(input)
                 return Prompt.END_OF_CONVERSATION
             }
         }
 
-        try {
+        try
+        {
             use!!.invoke(input)
-        } catch (e: Exception) {
+        } catch (e: Exception)
+        {
             context.forWhom.sendRawMessage("${ChatColor.RED}Failed to handle input: ${ChatColor.WHITE}${input}")
             fail?.invoke(input)
         }
@@ -72,12 +86,15 @@ class InputPrompt : StringPrompt() {
         return Prompt.END_OF_CONVERSATION
     }
 
-    fun start(player: Player) {
-        if (use == null) {
+    fun start(player: Player)
+    {
+        if (use == null)
+        {
             throw IllegalStateException("No use function applied")
         }
 
-        if (player.openInventory != null) {
+        if (player.openInventory != null)
+        {
             player.closeInventory()
         }
 

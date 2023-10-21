@@ -20,22 +20,26 @@ import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
-object NetworkUtil : PluginMessageListener {
+object NetworkUtil : PluginMessageListener
+{
     private val playerCounts: MutableMap<String, Int> = ConcurrentHashMap()
 
-    fun getPlayerCounts(): Map<String, Int> {
+    fun getPlayerCounts(): Map<String, Int>
+    {
         return playerCounts
     }
 
     private val servers = listOf("ALL") //could be used for individual servers but I CBA rn
 
-    fun load() {
+    fun load()
+    {
         Bukkit.getServer().messenger.registerOutgoingPluginChannel(AlchemistSpigotPlugin.instance, "BungeeCord")
         Bukkit.getServer().messenger.registerIncomingPluginChannel(AlchemistSpigotPlugin.instance, "BungeeCord", this)
 
         object : BukkitRunnable()
         {
-            override fun run() {
+            override fun run()
+            {
                 servers.forEach(Consumer { server: String ->
                     getPlayerCount(
                         server
@@ -45,7 +49,8 @@ object NetworkUtil : PluginMessageListener {
         }.runTaskTimerAsynchronously(AlchemistSpigotPlugin.instance, 20L, 20L)
     }
 
-    override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray) {
+    override fun onPluginMessageReceived(channel: String, player: Player, message: ByteArray)
+    {
         if (!channel.equals("BungeeCord", ignoreCase = true)) return
 
         val `in` = ByteStreams.newDataInput(message)
@@ -65,35 +70,44 @@ object NetworkUtil : PluginMessageListener {
         }
     }
 
-    fun send(player: Player, server: String?) {
+    fun send(player: Player, server: String?)
+    {
         val b = ByteArrayOutputStream()
         val out = DataOutputStream(b)
-        try {
+        try
+        {
             out.writeUTF("Connect")
             out.writeUTF(server)
-        } catch (ignored: IOException) {
+        } catch (ignored: IOException)
+        {
         }
         player.sendPluginMessage(AlchemistSpigotPlugin.instance, "BungeeCord", b.toByteArray())
     }
 
-    fun sendAll(server: String?) {
+    fun sendAll(server: String?)
+    {
         val b = ByteArrayOutputStream()
         val out = DataOutputStream(b)
-        try {
+        try
+        {
             out.writeUTF("Connect")
             out.writeUTF(server)
-        } catch (ignored: IOException) {
+        } catch (ignored: IOException)
+        {
         }
-        for (player in Bukkit.getOnlinePlayers()) {
+        for (player in Bukkit.getOnlinePlayers())
+        {
             player.sendPluginMessage(AlchemistSpigotPlugin.instance, "BungeeCord", b.toByteArray())
         }
     }
 
-    fun getPlayerCount(server: String) {
+    fun getPlayerCount(server: String)
+    {
         val out = ByteStreams.newDataOutput()
         out.writeUTF("PlayerCount")
         out.writeUTF(server)
 
-        Iterables.getFirst(Bukkit.getOnlinePlayers(), null)?.sendPluginMessage(AlchemistSpigotPlugin.instance, "BungeeCord", out.toByteArray())
+        Iterables.getFirst(Bukkit.getOnlinePlayers(), null)
+            ?.sendPluginMessage(AlchemistSpigotPlugin.instance, "BungeeCord", out.toByteArray())
     }
 }

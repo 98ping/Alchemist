@@ -11,12 +11,13 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class GrantHistoryCommand : BaseCommand() {
+class GrantHistoryCommand : BaseCommand()
+{
 
     @CommandAlias("granthistory")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun grantHistory(player: Player, @Name("target")target: GameProfile)
+    fun grantHistory(player: Player, @Name("target") target: GameProfile)
     {
         val grants = RankGrantService.findExecutedBy(target.uuid)
 

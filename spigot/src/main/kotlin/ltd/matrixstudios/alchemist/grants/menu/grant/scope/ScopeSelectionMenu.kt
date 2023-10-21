@@ -1,7 +1,5 @@
 package ltd.matrixstudios.alchemist.grants.menu.grant.scope
 
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -14,6 +12,7 @@ import ltd.matrixstudios.alchemist.punishments.actor.ActorType
 import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGrantCacheRequest
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -21,7 +20,6 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -41,9 +39,11 @@ class ScopeSelectionMenu(
     val reason: String,
     val equipped: MutableList<String>,
     val global: Boolean
-) : PaginatedMenu(18, player) {
+) : PaginatedMenu(18, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[3] = SimpleActionButton(
@@ -71,7 +71,8 @@ class ScopeSelectionMenu(
                 Chat.format(" ")
             ), Chat.format("&a&lFinalize"), 0
         ).setBody { player, i, clickType ->
-            if (!global && equipped.isEmpty()) {
+            if (!global && equipped.isEmpty())
+            {
                 player.sendMessage(Chat.format("&cYou must select a scope to add this grant to"))
                 return@setBody
             }
@@ -106,19 +107,22 @@ class ScopeSelectionMenu(
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         var index = 0
         val items = UniqueServerService.getValues()
         val buttons = mutableMapOf<Int, Button>()
 
-        for (item in items) {
+        for (item in items)
+        {
             buttons[index++] = ScopeButton(item, target, rank, duration, reason, global, equipped)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Select Scopes To Add"
     }
 
@@ -130,12 +134,15 @@ class ScopeSelectionMenu(
         val reason: String,
         val global: Boolean,
         val equipped: MutableList<String>
-    ) : Button() {
-        override fun getMaterial(player: Player): Material {
+    ) : Button()
+    {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format(" "))
             desc.add(Chat.format("&7Click to " + (if (equipped.contains(uniqueServer.id)) "&cremove" else "&aadd") + " &7${uniqueServer.displayName}"))
@@ -147,24 +154,31 @@ class ScopeSelectionMenu(
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format("&a&l" + uniqueServer.displayName)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
-            if (!global) {
-                if (!equipped.contains(uniqueServer.id)) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+            if (!global)
+            {
+                if (!equipped.contains(uniqueServer.id))
+                {
                     equipped.add(uniqueServer.id)
-                } else {
+                } else
+                {
                     equipped.remove(uniqueServer.id)
                 }
 
                 ScopeSelectionMenu(player, rank, target, duration, reason, equipped, global).updateMenu()
-            } else {
+            } else
+            {
                 player.sendMessage(Chat.format("&eYou have the &6global &escope selected and cannot add any more"))
             }
         }

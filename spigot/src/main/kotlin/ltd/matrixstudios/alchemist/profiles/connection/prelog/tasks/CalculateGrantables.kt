@@ -15,22 +15,31 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object CalculateGrantables : BukkitPreLoginTask {
+object CalculateGrantables : BukkitPreLoginTask
+{
 
-    override fun run(event: AsyncPlayerPreLoginEvent) {
+    override fun run(event: AsyncPlayerPreLoginEvent)
+    {
         val profileId = event.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
         val startGrants = System.currentTimeMillis()
         RankGrantService.recalculatePlayerSync(profile)
-        MetricService.addMetric("Grants Service", Metric("Grants Service", System.currentTimeMillis().minus(startGrants), System.currentTimeMillis()))
+        MetricService.addMetric(
+            "Grants Service",
+            Metric("Grants Service", System.currentTimeMillis().minus(startGrants), System.currentTimeMillis())
+        )
 
         val startPunishments = System.currentTimeMillis()
         PunishmentService.recalculatePlayerSync(profile)
-        MetricService.addMetric("Punishment Service", Metric("Punishment Service", System.currentTimeMillis().minus(startPunishments), System.currentTimeMillis()))
+        MetricService.addMetric(
+            "Punishment Service",
+            Metric("Punishment Service", System.currentTimeMillis().minus(startPunishments), System.currentTimeMillis())
+        )
     }
 
-    override fun shouldBeLazy(): Boolean {
+    override fun shouldBeLazy(): Boolean
+    {
         return false
     }
 }

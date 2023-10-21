@@ -23,7 +23,8 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class JumpToPlayerCommand : BaseCommand() {
+class JumpToPlayerCommand : BaseCommand()
+{
 
     @CommandAlias("jumptoplayer|jtp|jumpto")
     @CommandPermission("alchemist.jtp")
@@ -31,9 +32,9 @@ class JumpToPlayerCommand : BaseCommand() {
     {
         val globalServer = Alchemist.globalServer
         val onlineServer = target.metadata.get("server").asString
-        val uniqueServer = UniqueServerService.byId(onlineServer.toLowerCase())
+        val uniqueServer = UniqueServerService.byId(onlineServer.lowercase(Locale.getDefault()))
 
-        if (uniqueServer == null || onlineServer.toLowerCase().equals("None", ignoreCase = true))
+        if (uniqueServer == null || onlineServer.lowercase(Locale.getDefault()).equals("None", ignoreCase = true))
         {
             player.sendMessage(Chat.format("&6&lServer Jump Request"))
             player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
@@ -57,6 +58,16 @@ class JumpToPlayerCommand : BaseCommand() {
         player.sendMessage(Chat.format("&eProxy Name: &f" + uniqueServer.bungeeName))
         player.sendMessage(Chat.format("&aCurrently sending..."))
         NetworkUtil.send(player, uniqueServer.id)
-        AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&b[S] &3[${globalServer.displayName}] &r${AlchemistAPI.getRankDisplay(player.uniqueId)} &3has jumped to &r${target.getRankDisplay()}&3.")))
+        AsynchronousRedisSender.send(
+            StaffGeneralMessagePacket(
+                Chat.format(
+                    "&b[S] &3[${globalServer.displayName}] &r${
+                        AlchemistAPI.getRankDisplay(
+                            player.uniqueId
+                        )
+                    } &3has jumped to &r${target.getRankDisplay()}&3."
+                )
+            )
+        )
     }
 }

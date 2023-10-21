@@ -19,14 +19,17 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Menu(player) {
+class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -46,7 +49,8 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                 .acceptInput {
                     var pos = 0
 
-                    try {
+                    try
+                    {
                         pos = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -122,7 +126,8 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
                 .acceptInput {
                     var pos = 0
 
-                    try {
+                    try
+                    {
                         pos = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -177,7 +182,8 @@ class DurationEditorMenu(val model: GrantDurationModel, val player: Player) : Me
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Edit Duration"
     }
 }

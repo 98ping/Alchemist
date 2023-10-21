@@ -9,13 +9,14 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class WorldCommands : BaseCommand() {
+class WorldCommands : BaseCommand()
+{
 
     @CommandAlias("world")
     @CommandPermission("alchemist.essentials.world")
     fun world(player: Player, @Name("world") worldId: String)
     {
-        val found  = Bukkit.getWorld(worldId)
+        val found = Bukkit.getWorld(worldId)
 
         if (found == null)
         {

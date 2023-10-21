@@ -6,9 +6,11 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 
-class PlayerNotesMenu(private val p: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player = p) {
+class PlayerNotesMenu(private val p: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player = p)
+{
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         gameProfile.notes.forEachIndexed { index, profileNote ->
@@ -18,7 +20,8 @@ class PlayerNotesMenu(private val p: Player, val gameProfile: GameProfile) : Pag
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Notes for ${gameProfile.username}"
     }
 }

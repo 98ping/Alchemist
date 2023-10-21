@@ -5,7 +5,8 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import java.util.*
 
-class PlayerKickPacket(private val uuid: UUID, private val reason: String) : RedisPacket("player-kick") {
+class PlayerKickPacket(private val uuid: UUID, private val reason: String) : RedisPacket("player-kick")
+{
 
     override fun action()
     {

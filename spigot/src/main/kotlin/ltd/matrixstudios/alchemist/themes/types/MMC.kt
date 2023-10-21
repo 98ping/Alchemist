@@ -28,12 +28,15 @@ class MMC : Theme(
         "&7design style which gets along very well with staff members",
         " ",
         "&eClick to select the &dXeNitrogen &etheme.",
-        " "),
+        " "
+    ),
     Material.IRON_SWORD,
     0
-) {
+)
+{
 
-    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
+    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String>
+    {
         val desc = arrayListOf<String>()
 
         if (!rankGrant.expirable.isActive())
@@ -42,7 +45,7 @@ class MMC : Theme(
         }
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eTarget: &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
-        desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable().color + rankGrant.getGrantable()!!.displayName))
+        desc.add(Chat.format("&eRank: &r" + rankGrant.getGrantable().color + rankGrant.getGrantable().displayName))
         desc.add(Chat.format("&eDuration: &f" + TimeUtil.formatDuration(rankGrant.expirable.duration)))
         if (rankGrant.expirable.duration != Long.MAX_VALUE && rankGrant.expirable.isActive())
         {
@@ -50,10 +53,13 @@ class MMC : Theme(
         }
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eScopes:"))
-        if (rankGrant.verifyGrantScope().global) {
+        if (rankGrant.verifyGrantScope().global)
+        {
             desc.add(Chat.format("&7- &aglobal"))
-        } else {
-            for (server in rankGrant.verifyGrantScope().servers) {
+        } else
+        {
+            for (server in rankGrant.verifyGrantScope().servers)
+            {
                 desc.add(Chat.format("&7- &a$server"))
             }
         }
@@ -80,13 +86,19 @@ class MMC : Theme(
             }
             desc.add(Chat.format("&6&m-------------------------------------"))
         }
-        if (!player.hasPermission("alchemist.grants.remove") && rankGrant.getGrantable().weight >= ((AlchemistAPI.syncFindProfile(player.uniqueId)?.getCurrentRank()?.weight) ?: 0)) {
+        if (!player.hasPermission("alchemist.grants.remove") && rankGrant.getGrantable().weight >= ((AlchemistAPI.syncFindProfile(
+                player.uniqueId
+            )?.getCurrentRank()?.weight) ?: 0)
+        )
+        {
             desc.add(Chat.format("&cYou don't have permission to remove this grant"))
-        } else if (player.hasPermission("alchemist.grants.remove")) {
+        } else if (player.hasPermission("alchemist.grants.remove"))
+        {
             desc.add(Chat.format("&aRight-Click to remove this grant from &r" + AlchemistAPI.getRankDisplay(rankGrant.target)))
         }
 
-        if (player.hasPermission("alchemist.grants.scopes.audit")) {
+        if (player.hasPermission("alchemist.grants.scopes.audit"))
+        {
             desc.add(Chat.format("&aLeft-Click to edit the scopes of this grant"))
         }
         desc.add(Chat.format("&6&m-------------------------------------"))
@@ -95,18 +107,29 @@ class MMC : Theme(
         return desc
     }
 
-    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String {
-        return Chat.format((if (rankGrant.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(rankGrant.expirable.addedAt))
+    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String
+    {
+        return Chat.format(
+            (if (rankGrant.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(
+                rankGrant.expirable.addedAt
+            )
+        )
     }
 
-    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
-        if (rankGrant.expirable.isActive()) {
+    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short
+    {
+        if (rankGrant.expirable.isActive())
+        {
             return DyeColor.GREEN.woolData.toShort()
         }
 
         if (!rankGrant.expirable.isActive())
         {
-            if (rankGrant.expirable.duration != Long.MAX_VALUE && (rankGrant.removedReason != null && rankGrant.removedReason.equals("Expired", ignoreCase = true)))
+            if (rankGrant.expirable.duration != Long.MAX_VALUE && (rankGrant.removedReason != null && rankGrant.removedReason.equals(
+                    "Expired",
+                    ignoreCase = true
+                ))
+            )
             {
                 return DyeColor.GRAY.woolData.toShort()
             }
@@ -116,7 +139,8 @@ class MMC : Theme(
     }
 
 
-    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
+    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String>
+    {
         val desc = arrayListOf<String>()
 
         desc.add(Chat.format("&6&m-----------------------------"))
@@ -127,27 +151,41 @@ class MMC : Theme(
         desc.add(Chat.format("&eStaff Rank: &6${rank.staff}"))
         desc.add(Chat.format("&6&m-----------------------------"))
         desc.add(Chat.format("&6Scopes"))
-        if (rank.getRankScope().global) {
+        if (rank.getRankScope().global)
+        {
             desc.add(Chat.format("&7- &aglobal"))
-        } else {
-            for (server in rank.getRankScope().servers) {
+        } else
+        {
+            for (server in rank.getRankScope().servers)
+            {
                 desc.add(Chat.format("&7- &a$server"))
             }
         }
         desc.add(Chat.format("&6&m-----------------------------"))
-        desc.add(Chat.format("&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${AlchemistAPI.getRankDisplay(gameProfile.uuid)}"))
+        desc.add(
+            Chat.format(
+                "&a&lLeft click to grant ${rank.color}${rank.displayName} &a&lto ${
+                    AlchemistAPI.getRankDisplay(
+                        gameProfile.uuid
+                    )
+                }"
+            )
+        )
         desc.add(Chat.format("&6&m-----------------------------"))
 
 
         return desc
     }
 
-    override fun getGrantDisplayName(player: Player, rank: Rank): String {
+    override fun getGrantDisplayName(player: Player, rank: Rank): String
+    {
         return Chat.format("${rank.color}${rank.displayName}")
     }
 
-    override fun getGrantData(player: Player, rank: Rank): Short {
-        if (rank.woolColor != null) {
+    override fun getGrantData(player: Player, rank: Rank): Short
+    {
+        if (rank.woolColor != null)
+        {
             return AlchemistAPI.getWoolColor(rank.woolColor!!).woolData.toShort()
         }
 
@@ -155,8 +193,8 @@ class MMC : Theme(
     }
 
 
-
-    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
+    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String>
+    {
         val desc = arrayListOf<String>()
         if (!punishment.expirable.isActive())
         {
@@ -172,7 +210,7 @@ class MMC : Theme(
         }
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eType: &f" + Chat.enumToDisplay(punishment.actor.actorType.name)))
-        desc.add(Chat.format("&eExecuted From: &f" +  Chat.enumToDisplay(punishment.actor.executor.name)))
+        desc.add(Chat.format("&eExecuted From: &f" + Chat.enumToDisplay(punishment.actor.executor.name)))
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eIssued By: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
         desc.add(Chat.format("&eIssued Reason: &f" + punishment.reason))
@@ -188,11 +226,17 @@ class MMC : Theme(
         return desc
     }
 
-    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
-        return Chat.format((if (punishment.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(punishment.expirable.addedAt).toString())
+    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String
+    {
+        return Chat.format(
+            (if (punishment.expirable.isActive()) "&a&l(Active) &a+ " else "&c&l(Inactive) &c") + Date(
+                punishment.expirable.addedAt
+            ).toString()
+        )
     }
 
-    override fun getHistoryData(player: Player, punishment: Punishment): Short {
+    override fun getHistoryData(player: Player, punishment: Punishment): Short
+    {
         return (if (punishment.expirable.isActive()) DyeColor.GREEN.woolData.toShort() else DyeColor.RED.woolData.toShort())
     }
 
@@ -200,7 +244,8 @@ class MMC : Theme(
         player: Player,
         profile: GameProfile,
         punishment: PunishmentType
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         val desc = arrayListOf<String>()
         val punishments = profile.getPunishments(punishment)
         desc.addAll(
@@ -211,7 +256,7 @@ class MMC : Theme(
                 " &eTotal: &f${punishments.size}",
                 " &aActive: &f${punishments.filter { it.expirable.isActive() }.size}",
                 " &cInactive: &f${
-                    punishments.filter {    p ->
+                    punishments.filter { p ->
                         !p.expirable.isActive()
                     }.size
                 }",
@@ -222,11 +267,13 @@ class MMC : Theme(
         return desc
     }
 
-    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
+    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String
+    {
         return Chat.format(punishment.color + ChatColor.BOLD + punishment.niceName) + "s"
     }
 
-    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {
+    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short
+    {
         return AlchemistAPI.getWoolColor(punishment.color).woolData.toShort()
     }
 }

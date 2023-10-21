@@ -4,18 +4,17 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.CommandSender
-import java.util.Date
+import java.util.*
 
-class IpReportCommand : BaseCommand() {
+class IpReportCommand : BaseCommand()
+{
 
     @CommandAlias("ipreport")
     @CommandPermission("alchemist.ipreport")
@@ -28,7 +27,9 @@ class IpReportCommand : BaseCommand() {
             val list = if (it.size > 350) it.take(350) else it
             for (target in list)
             {
-                val userComponent = Component.text(Chat.format((target.getPunishmentedPrefix() + target.username) + "&7, ")).hoverEvent(HoverEvent.showText(createHover(target)))
+                val userComponent =
+                    Component.text(Chat.format((target.getPunishmentedPrefix() + target.username) + "&7, "))
+                        .hoverEvent(HoverEvent.showText(createHover(target)))
                 finalMessage.append(userComponent)
             }
 
@@ -41,10 +42,12 @@ class IpReportCommand : BaseCommand() {
         }
     }
 
-    fun createHover(target: GameProfile) : Component
+    fun createHover(target: GameProfile): Component
     {
         val hoverComponent =
-            Component.text("Name: ").color(NamedTextColor.YELLOW).append(Component.text(target.username).color(Chat.findTextColorFromString(target.getCurrentRank().color)))
+            Component.text("Name: ").color(NamedTextColor.YELLOW).append(
+                Component.text(target.username).color(Chat.findTextColorFromString(target.getCurrentRank().color))
+            )
                 .appendNewline()
                 .append(Component.text(Chat.format("&eLast Seen: &6${Date(target.lastSeenAt)}")))
                 .appendNewline()

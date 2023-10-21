@@ -11,9 +11,11 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BukkitPostLoginConnection : ConnectionMethod<Player>() {
+object BukkitPostLoginConnection : ConnectionMethod<Player>()
+{
 
-    fun getAllTasks() : List<BukkitPostLoginTask> {
+    fun getAllTasks(): List<BukkitPostLoginTask>
+    {
         return listOf(
             LoadPermissions,
             SendStaffWelcome,

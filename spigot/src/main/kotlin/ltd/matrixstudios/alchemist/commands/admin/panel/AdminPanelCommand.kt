@@ -14,11 +14,13 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class AdminPanelCommand : BaseCommand() {
+class AdminPanelCommand : BaseCommand()
+{
 
     @CommandAlias("adminpanel|panel")
     @CommandPermission("alchemist.panel")
-    fun panel(player: Player) {
+    fun panel(player: Player)
+    {
         AdminPanelMenu(player).openMenu()
     }
 

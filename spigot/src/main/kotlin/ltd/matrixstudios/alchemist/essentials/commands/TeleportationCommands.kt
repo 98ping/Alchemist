@@ -9,7 +9,8 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class TeleportationCommands : BaseCommand() {
+class TeleportationCommands : BaseCommand()
+{
 
     @CommandAlias("teleport|tp")
     @CommandPermission("alchemist.essentials.teleport.other")

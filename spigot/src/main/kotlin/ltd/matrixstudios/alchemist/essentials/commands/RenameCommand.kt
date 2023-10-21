@@ -4,12 +4,12 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Syntax
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class RenameCommand : BaseCommand() {
+class RenameCommand : BaseCommand()
+{
 
     @CommandAlias("rename")
     @CommandPermission("alchemist.essentials.rename")

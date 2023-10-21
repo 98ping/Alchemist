@@ -23,20 +23,40 @@ class ReportSelectCategoryMenu(val player: Player) : Menu(player)
     override fun getButtons(player: Player): MutableMap<Int, Button>
     {
         return mutableMapOf(
-            0 to SimpleActionButton(Material.ANVIL, mutableListOf(), "&aAll Reports", 0).setBody { player, i, clickType ->
+            0 to SimpleActionButton(
+                Material.ANVIL,
+                mutableListOf(),
+                "&aAll Reports",
+                0
+            ).setBody { player, i, clickType ->
                 ShowReportsMenu(player, RequestHandler.activeReports.values.toMutableList()).updateMenu()
             },
-            2 to SimpleActionButton(Material.BOOK, mutableListOf(), "&eYour Server", 0).setBody { player, i, clickType ->
+            2 to SimpleActionButton(
+                Material.BOOK,
+                mutableListOf(),
+                "&eYour Server",
+                0
+            ).setBody { player, i, clickType ->
                 ShowReportsMenu(player, RequestHandler.activeReports.values.filter {
                     it.server.equals(Alchemist.globalServer.displayName, ignoreCase = true)
                 }.toMutableList()).updateMenu()
             },
-            4 to SimpleActionButton(Material.NETHER_STAR, mutableListOf(), "&bPast Hour", 0).setBody { player, i, clickType ->
+            4 to SimpleActionButton(
+                Material.NETHER_STAR,
+                mutableListOf(),
+                "&bPast Hour",
+                0
+            ).setBody { player, i, clickType ->
                 ShowReportsMenu(player, RequestHandler.activeReports.values.filter {
                     System.currentTimeMillis().minus(it.issuedAt) <= TimeUnit.HOURS.toMillis(1L)
                 }.toMutableList()).updateMenu()
             },
-            6 to SimpleActionButton(Material.NAME_TAG, mutableListOf(), "&6Specific Server", 0).setBody { player, i, clickType ->
+            6 to SimpleActionButton(
+                Material.NAME_TAG,
+                mutableListOf(),
+                "&6Specific Server",
+                0
+            ).setBody { player, i, clickType ->
                 InputPrompt()
                     .withText(Chat.format("&eType in the &aserver display name &ethat you want to check the reports of."))
                     .acceptInput { str ->
@@ -45,7 +65,12 @@ class ReportSelectCategoryMenu(val player: Player) : Menu(player)
                         }.toMutableList()).updateMenu()
                     }.start(player)
             },
-            8 to SimpleActionButton(Material.ARROW, mutableListOf(), "&cReported Player is Online", 0).setBody { player, i, clickType ->
+            8 to SimpleActionButton(
+                Material.ARROW,
+                mutableListOf(),
+                "&cReported Player is Online",
+                0
+            ).setBody { player, i, clickType ->
                 ShowReportsMenu(player, RequestHandler.activeReports.values.filter {
                     Bukkit.getPlayer(it.issuedTo) != null
                 }.toMutableList()).updateMenu()

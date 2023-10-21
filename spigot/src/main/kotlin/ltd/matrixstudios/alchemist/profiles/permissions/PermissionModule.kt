@@ -12,8 +12,10 @@ import ltd.matrixstudios.alchemist.util.Chat
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object PermissionModule : PluginModule {
-    override fun onLoad() {
+object PermissionModule : PluginModule
+{
+    override fun onLoad()
+    {
         val permissionStart = System.currentTimeMillis()
         AccessiblePermissionHandler.load()
 
@@ -22,14 +24,16 @@ object PermissionModule : PluginModule {
         )
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         val list = mutableListOf<BaseCommand>()
         list.add(PermissionEditCommands())
 
         return list
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return true
     }
 }

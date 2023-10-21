@@ -18,13 +18,17 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : Menu(player) {
+class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[9] = PunishmentTypeButton(PunishmentType.WARN, "&a&lIssued Warn", target)
@@ -36,40 +40,55 @@ class ExecutedPunishmentHistoryMenu(player: Player, val target: GameProfile) : M
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7Punishments issued: " + AlchemistAPI.getRankDisplay(target.uuid))
     }
 
 
-    class PunishmentTypeButton(val type: PunishmentType, val displayName: String, val target: GameProfile) : Button() {
+    class PunishmentTypeButton(val type: PunishmentType, val displayName: String, val target: GameProfile) : Button()
+    {
 
-        override fun setCustomAmount(player: Player): Int {
-            val number = PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == type }.size
+        override fun setCustomAmount(player: Player): Int
+        {
+            val number =
+                PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == type }.size
             return if (number > 64) 64 else (if (number == 0) 1 else number)
         }
-        override fun getMaterial(player: Player): Material {
+
+        override fun getMaterial(player: Player): Material
+        {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&fClick to view this category"))
             desc.add(Chat.format("&fissued from"))
             desc.add(Chat.format(AlchemistAPI.getRankDisplay(target.uuid)))
             desc.add(" ")
-            desc.add(Chat.format("&fTotal Punishments: &f" + PunishmentService.findExecutorPunishments(target.uuid).filter { it.getGrantable() == type }.size))
+            desc.add(
+                Chat.format(
+                    "&fTotal Punishments: &f" + PunishmentService.findExecutorPunishments(target.uuid)
+                        .filter { it.getGrantable() == type }.size
+                )
+            )
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(displayName)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             GeneralExecutedPunishmentMenu(target, this.type, player).updateMenu()
         }
 

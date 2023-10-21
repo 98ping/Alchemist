@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.grants.configure.menu.reason
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigCategory
 import ltd.matrixstudios.alchemist.grants.configure.menu.GrantConfigureMenu
-import ltd.matrixstudios.alchemist.grants.models.GrantDurationModel
 import ltd.matrixstudios.alchemist.grants.models.GrantReasonModel
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -21,14 +20,17 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(player) {
+class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -48,7 +50,8 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
                 .acceptInput {
                     var pos = 0
 
-                    try {
+                    try
+                    {
                         pos = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -124,7 +127,8 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
                 .acceptInput {
                     var pos = 0
 
-                    try {
+                    try
+                    {
                         pos = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -179,7 +183,8 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Edit Reason"
     }
 }

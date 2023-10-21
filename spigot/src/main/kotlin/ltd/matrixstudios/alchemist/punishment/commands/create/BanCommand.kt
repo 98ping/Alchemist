@@ -20,13 +20,15 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class BanCommand : BaseCommand() {
+class BanCommand : BaseCommand()
+{
 
     @CommandAlias("ban|b|banish")
     @CommandPermission("alchemist.punishments.ban")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
+    {
         val punishment = Punishment(
             PunishmentType.BAN.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -37,7 +39,8 @@ class BanCommand : BaseCommand() {
 
             DefaultActor(
                 BukkitPunishmentFunctions.getExecutorFromSender(sender),
-                ActorType.GAME)
+                ActorType.GAME
+            )
 
         )
 
@@ -49,20 +52,29 @@ class BanCommand : BaseCommand() {
             return
         }
 
-        if (sender is Player) {
+        if (sender is Player)
+        {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute) {
+            if (!canExecute)
+            {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
-                sender.sendMessage(Chat.format("&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(sender.uniqueId)))
+                sender.sendMessage(
+                    Chat.format(
+                        "&cPlease wait &e" + PunishmentLimitationUnderstander.getDurationString(
+                            sender.uniqueId
+                        )
+                    )
+                )
 
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
+            {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return
@@ -71,10 +83,14 @@ class BanCommand : BaseCommand() {
             PunishmentLimitationUnderstander.equipCooldown(sender.uniqueId)
         }
 
-        sender.sendMessage(Chat.format((if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
-                + "&aYou've banned " + gameProfile.username + " for &f"
-                + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
-                + TimeUtil.formatDuration(punishment.expirable.duration)))
+        sender.sendMessage(
+            Chat.format(
+                (if (BukkitPunishmentFunctions.isSilent(reason)) "&7(Silent) " else "")
+                        + "&aYou've banned " + gameProfile.username + " for &f"
+                        + BukkitPunishmentFunctions.parseReason(reason) + " &afor "
+                        + TimeUtil.formatDuration(punishment.expirable.duration)
+            )
+        )
         BukkitPunishmentFunctions.dispatch(punishment, BukkitPunishmentFunctions.isSilent(reason))
     }
 

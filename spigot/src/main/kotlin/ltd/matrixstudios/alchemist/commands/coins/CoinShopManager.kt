@@ -33,7 +33,12 @@ object CoinShopManager
             itemMap[gson.id] = gson
         }
 
-        Chat.sendConsoleMessage(Chat.format("&e[Coin Items] &fLoaded all coin shop item entries in " + System.currentTimeMillis().minus(start) + "ms"))
+        Chat.sendConsoleMessage(
+            Chat.format(
+                "&e[Coin Items] &fLoaded all coin shop item entries in " + System.currentTimeMillis()
+                    .minus(start) + "ms"
+            )
+        )
 
         val start2 = System.currentTimeMillis()
         val categoryCursor = categories.find().cursor()
@@ -46,20 +51,30 @@ object CoinShopManager
             categoryMap[gson.id] = gson
         }
 
-        Chat.sendConsoleMessage(Chat.format("&e[Coin Category] &fLoaded all coin shop item categories in " + System.currentTimeMillis().minus(start2) + "ms"))
+        Chat.sendConsoleMessage(
+            Chat.format(
+                "&e[Coin Category] &fLoaded all coin shop item categories in " + System.currentTimeMillis()
+                    .minus(start2) + "ms"
+            )
+        )
 
     }
 
-    fun addTransaction(transaction: Transaction) : CompletableFuture<Transaction>
+    fun addTransaction(transaction: Transaction): CompletableFuture<Transaction>
     {
         return CompletableFuture.supplyAsync {
-            transactions.updateOne(Document("_id", transaction.id.toString()), Document("\$set", Document.parse(Alchemist.gson.toJson(transaction))), UpdateOptions().upsert(true))
+            transactions.updateOne(
+                Document("_id", transaction.id.toString()),
+                Document("\$set", Document.parse(Alchemist.gson.toJson(transaction))),
+                UpdateOptions().upsert(true)
+            )
             val target = transaction.user
 
             if (!transactionMap.containsKey(target))
             {
                 transactionMap[target] = Collections.singletonList(transaction)
-            } else {
+            } else
+            {
                 val currentList = transactionMap[target]!!
                 currentList.add(transaction)
 
@@ -71,10 +86,14 @@ object CoinShopManager
     }
 
 
-    fun saveItem(item: CoinShopItem) : CompletableFuture<CoinShopItem>
+    fun saveItem(item: CoinShopItem): CompletableFuture<CoinShopItem>
     {
         return CompletableFuture.supplyAsync {
-            items.updateOne(Document("_id", item.id), Document("\$set", Document.parse(Alchemist.gson.toJson(item))), UpdateOptions().upsert(true))
+            items.updateOne(
+                Document("_id", item.id),
+                Document("\$set", Document.parse(Alchemist.gson.toJson(item))),
+                UpdateOptions().upsert(true)
+            )
             itemMap[item.id] = item
 
             item
@@ -89,7 +108,7 @@ object CoinShopManager
         }
     }
 
-    fun findCategory(id: String) : CoinShopCategory? = categoryMap.getOrDefault(id.toLowerCase(), null)
+    fun findCategory(id: String): CoinShopCategory? = categoryMap.getOrDefault(id.lowercase(Locale.getDefault()), null)
 
     fun deleteCategory(item: CoinShopCategory)
     {
@@ -99,10 +118,14 @@ object CoinShopManager
         }
     }
 
-    fun saveCategory(item: CoinShopCategory) : CompletableFuture<CoinShopCategory>
+    fun saveCategory(item: CoinShopCategory): CompletableFuture<CoinShopCategory>
     {
         return CompletableFuture.supplyAsync {
-            categories.updateOne(Document("_id", item.id), Document("\$set", Document.parse(Alchemist.gson.toJson(item))), UpdateOptions().upsert(true))
+            categories.updateOne(
+                Document("_id", item.id),
+                Document("\$set", Document.parse(Alchemist.gson.toJson(item))),
+                UpdateOptions().upsert(true)
+            )
             categoryMap[item.id] = item
 
             item
@@ -110,13 +133,14 @@ object CoinShopManager
     }
 
 
-    fun lookupTransactions(user: UUID) : CompletableFuture<MutableList<Transaction>>
+    fun lookupTransactions(user: UUID): CompletableFuture<MutableList<Transaction>>
     {
         return CompletableFuture.supplyAsync {
             val cursor = transactions.find(Document("user", user.toString())).cursor()
             val items = mutableListOf<Transaction>()
 
-            while (cursor.hasNext()) {
+            while (cursor.hasNext())
+            {
                 val item = cursor.next()
                 items.add(Alchemist.gson.fromJson(item.toJson(), Transaction::class.java))
             }
@@ -125,12 +149,12 @@ object CoinShopManager
         }
     }
 
-    fun findAllTransactions(uuid: UUID) : MutableList<Transaction>
+    fun findAllTransactions(uuid: UUID): MutableList<Transaction>
     {
         return transactionMap.getOrDefault(uuid, mutableListOf())
     }
 
-    fun getTotalPriceOfTransactions(list: MutableList<Transaction>) : Double
+    fun getTotalPriceOfTransactions(list: MutableList<Transaction>): Double
     {
         var price = 0.0
 

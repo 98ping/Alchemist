@@ -9,12 +9,15 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ToggleRequestsSetting(val profile: GameProfile) : Button() {
-    override fun getMaterial(player: Player): Material {
+class ToggleRequestsSetting(val profile: GameProfile) : Button()
+{
+    override fun getMaterial(player: Player): Material
+    {
         return Material.NETHER_STAR
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(" ")
         desc.add(Chat.format("&7Toggle this setting to make it so"))
@@ -25,7 +28,8 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
         if (hasMetadata)
         {
             desc.add(Chat.format("&7► &eCurrently &coff"))
-        } else {
+        } else
+        {
             desc.add(Chat.format("&7► &eCurrently &aon"))
         }
         desc.add(" ")
@@ -34,15 +38,18 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
         return desc
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format("&eToggle Reports and Requests")
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
         val hasMetadata = profile.hasMetadata("toggleRequests")
 
         if (hasMetadata)
@@ -50,7 +57,8 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button() {
             profile.metadata.remove("toggleRequests")
             player.sendMessage(Chat.format("&eYou have toggled your reports and requests &aon"))
             ProfileGameService.save(profile)
-        } else {
+        } else
+        {
             profile.metadata.addProperty("toggleRequests", true)
             player.sendMessage(Chat.format("&eYou have toggled your reports and requests &coff"))
             ProfileGameService.save(profile)

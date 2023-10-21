@@ -5,12 +5,14 @@ import ltd.matrixstudios.alchemist.profiles.permissions.AccessiblePermissionHand
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import org.bukkit.Bukkit
-import java.util.*
 
-class PermissionUpdateAllPacket : RedisPacket("permission-update-all") {
+class PermissionUpdateAllPacket : RedisPacket("permission-update-all")
+{
 
-    override fun action() {
-        for (player in Bukkit.getOnlinePlayers()) {
+    override fun action()
+    {
+        for (player in Bukkit.getOnlinePlayers())
+        {
             val gameProfile = AlchemistAPI.quickFindProfile(player.uniqueId).get() ?: continue
 
             RankGrantService.recalculatePlayer(gameProfile)

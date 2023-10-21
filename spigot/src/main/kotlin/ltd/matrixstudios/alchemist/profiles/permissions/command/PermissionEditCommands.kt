@@ -19,24 +19,29 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class PermissionEditCommands : BaseCommand() {
+class PermissionEditCommands : BaseCommand()
+{
 
     @CommandAlias("permissions|perms|addperm|delperm")
     @CommandPermission("alchemist.permissions.admin")
     @CommandCompletion("@gameprofile")
-    fun permissionEdit(player: Player, @Name("target") target: GameProfile) {
+    fun permissionEdit(player: Player, @Name("target") target: GameProfile)
+    {
         PermissionEditMenu(player, target).updateMenu()
     }
 
     @CommandAlias("manualsetperm")
     @CommandPermission("alchemist.permissions.admin")
     @CommandCompletion("@gameprofile")
-    fun manualPermEdit(sender: CommandSender, @Name("target") target: GameProfile, @Name("permission") perm: String) {
-        if (target.permissions.contains(perm)) {
+    fun manualPermEdit(sender: CommandSender, @Name("target") target: GameProfile, @Name("permission") perm: String)
+    {
+        if (target.permissions.contains(perm))
+        {
             target.permissions.remove(perm)
             ProfileGameService.save(target)
             sender.sendMessage(Chat.format("&cYou removed the permission &f$perm"))
-        } else {
+        } else
+        {
             target.permissions.add(perm)
             ProfileGameService.save(target)
             sender.sendMessage(Chat.format("&aYou added the permission &f$perm"))

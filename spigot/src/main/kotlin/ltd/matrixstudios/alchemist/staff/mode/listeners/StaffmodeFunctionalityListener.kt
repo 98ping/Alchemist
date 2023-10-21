@@ -1,15 +1,12 @@
 package ltd.matrixstudios.alchemist.staff.mode.listeners
 
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
-import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteVisibilityHandler
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
+import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteVisibilityHandler
 import ltd.matrixstudios.alchemist.staff.mode.menu.OnlineStaffMenu
 import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.items.ItemBuilder
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -20,17 +17,17 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.metadata.FixedMetadataValue
-import java.text.SimpleDateFormat
 import java.util.*
 
-class StaffmodeFunctionalityListener : Listener {
+class StaffmodeFunctionalityListener : Listener
+{
     val timestamps = mutableMapOf<UUID, Long>()
     val entityInteractTimestamps = mutableMapOf<UUID, Long>()
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    fun interact(e: PlayerInteractEvent) {
+    fun interact(e: PlayerInteractEvent)
+    {
         val player = e.player
 
         if (StaffSuiteManager.isModMode(player))
@@ -43,8 +40,10 @@ class StaffmodeFunctionalityListener : Listener {
                 if (itemInHand == null || itemInHand.type == Material.AIR) return
 
                 val time = timestamps[player.uniqueId]
-                if (time != null) {
-                    if (System.currentTimeMillis().minus(time) < 300L) {
+                if (time != null)
+                {
+                    if (System.currentTimeMillis().minus(time) < 300L)
+                    {
                         e.isCancelled = true
                         timestamps.remove(player.uniqueId)
 
@@ -77,7 +76,10 @@ class StaffmodeFunctionalityListener : Listener {
                 }
 
                 // only proceed if they have the online staff item
-                if (itemInHand.hasItemMeta() && itemInHand.itemMeta.hasDisplayName() && itemInHand.itemMeta.displayName.contains("Online Staff"))
+                if (itemInHand.hasItemMeta() && itemInHand.itemMeta.hasDisplayName() && itemInHand.itemMeta.displayName.contains(
+                        "Online Staff"
+                    )
+                )
                 {
                     e.isCancelled = true
                     OnlineStaffMenu(player).updateMenu()
@@ -162,8 +164,10 @@ class StaffmodeFunctionalityListener : Listener {
             if (e.rightClicked is Player)
             {
                 val time = entityInteractTimestamps[player.uniqueId]
-                if (time != null) {
-                    if (System.currentTimeMillis().minus(time) < 300L) {
+                if (time != null)
+                {
+                    if (System.currentTimeMillis().minus(time) < 300L)
+                    {
                         e.isCancelled = true
                         entityInteractTimestamps.remove(player.uniqueId)
 

@@ -16,7 +16,8 @@ object TOTPUtil
     private const val NUM_DIGITS_OUTPUT = 6
     private var blockOfZeros: String? = null
 
-    init {
+    init
+    {
         val chars = CharArray(NUM_DIGITS_OUTPUT)
         for (i in chars.indices)
         {
@@ -33,7 +34,7 @@ object TOTPUtil
     {
         try
         {
-            SECURE_RANDOM = SecureRandom.getInstance("SHA1PRNG", "SUN");
+            SECURE_RANDOM = SecureRandom.getInstance("SHA1PRNG", "SUN")
         } catch (e: Exception)
         {
             return null
@@ -190,7 +191,7 @@ object TOTPUtil
      * @param secret
      * Secret string that will be used when generating the current number.
      */
-    fun generateOtpAuthUrl(keyId: String, secret: String): String?
+    fun generateOtpAuthUrl(keyId: String, secret: String): String
     {
         val sb = StringBuilder(64)
         addOtpAuthPart(keyId, secret, sb)
@@ -221,7 +222,7 @@ object TOTPUtil
         }
     }
 
-    fun decodeBase32(string: String) : ByteArray
+    fun decodeBase32(string: String): ByteArray
     {
         val BASE_32_ENCODER = Base32()
 

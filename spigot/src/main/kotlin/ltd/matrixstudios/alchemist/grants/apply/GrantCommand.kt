@@ -7,15 +7,16 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.grants.menu.grant.GrantMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import org.bukkit.entity.Player
 
-class GrantCommand : BaseCommand() {
+class GrantCommand : BaseCommand()
+{
 
     @CommandAlias("grant")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun grant(player: Player, @Name("target") gameProfile: GameProfile) {
+    fun grant(player: Player, @Name("target") gameProfile: GameProfile)
+    {
         GrantMenu(player, gameProfile).updateMenu()
     }
 }

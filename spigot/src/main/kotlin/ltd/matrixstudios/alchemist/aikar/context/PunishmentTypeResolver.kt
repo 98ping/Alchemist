@@ -5,14 +5,17 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.contexts.ContextResolver
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 
-class PunishmentTypeResolver : ContextResolver<PunishmentType, BukkitCommandExecutionContext> {
+class PunishmentTypeResolver : ContextResolver<PunishmentType, BukkitCommandExecutionContext>
+{
 
-    override fun getContext(c: BukkitCommandExecutionContext?): PunishmentType? {
+    override fun getContext(c: BukkitCommandExecutionContext?): PunishmentType?
+    {
         val firstArg = c!!.popFirstArg() ?: return null
 
         var type: PunishmentType? = null
 
-        try {
+        try
+        {
             type = PunishmentType.valueOf(firstArg.uppercase())
         } catch (e: java.lang.IllegalArgumentException)
         {

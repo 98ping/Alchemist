@@ -7,7 +7,6 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
-import ltd.matrixstudios.alchemist.disguise.DisguiseService
 import ltd.matrixstudios.alchemist.disguise.commands.menu.skin.DisguiseSelectNameMenu
 import ltd.matrixstudios.alchemist.models.profile.disguise.SkinDisguiseAttribute
 import ltd.matrixstudios.alchemist.profiles.getProfile

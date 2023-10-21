@@ -5,11 +5,15 @@ import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.chat.commands.ChatCommands
 import ltd.matrixstudios.alchemist.module.PluginModule
 
-object ChatModule : PluginModule {
+object ChatModule : PluginModule
+{
 
-    override fun onLoad() { }
+    override fun onLoad()
+    {
+    }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         val list = mutableListOf<BaseCommand>()
 
         list.add(ChatCommands)
@@ -17,7 +21,8 @@ object ChatModule : PluginModule {
         return list
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return AlchemistSpigotPlugin.instance.config.getBoolean("modules.chat")
     }
 }

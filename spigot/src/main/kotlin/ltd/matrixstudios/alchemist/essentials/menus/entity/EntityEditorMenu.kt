@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.essentials.menus.entity
 
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -10,7 +9,6 @@ import org.bukkit.Material
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
-import org.bukkit.metadata.FixedMetadataValue
 
 class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
 {
@@ -26,9 +24,10 @@ class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
 
         buttons[10] = SimpleActionButton(
             Material.NAME_TAG, mutableListOf(
-            Chat.format("&7Change the custom name"),
-            Chat.format("&7of this entity!")
-        ), Chat.format("&cChange Custom Name"), 0).setBody { player, i, clickType ->
+                Chat.format("&7Change the custom name"),
+                Chat.format("&7of this entity!")
+            ), Chat.format("&cChange Custom Name"), 0
+        ).setBody { player, i, clickType ->
             InputPrompt()
                 .withText(Chat.format("&eType in a new &ccustom name &eto set this entity to"))
                 .acceptInput { s ->
@@ -41,7 +40,8 @@ class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
             Material.PAPER, mutableListOf(
                 Chat.format("&7Change visibility of this"),
                 Chat.format("&7entity's custom name!")
-            ), Chat.format("&aChange Name Visibility"), 0).setBody { player, i, clickType ->
+            ), Chat.format("&aChange Name Visibility"), 0
+        ).setBody { player, i, clickType ->
             val visible = entity.isCustomNameVisible
 
             entity.isCustomNameVisible = !visible
@@ -52,7 +52,8 @@ class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
             Material.FEATHER, mutableListOf(
                 Chat.format("&7Click to remove this"),
                 Chat.format("&7entity from it's current world!")
-            ), Chat.format("&cRemove Entity"), 0).setBody { player, i, clickType ->
+            ), Chat.format("&cRemove Entity"), 0
+        ).setBody { player, i, clickType ->
             if (entity.type == EntityType.PLAYER)
             {
                 player.sendMessage(Chat.format("&cYou cannot remove a player!"))

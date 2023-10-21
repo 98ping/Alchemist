@@ -10,8 +10,10 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedMenu(18, player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedMenu(18, player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
@@ -23,17 +25,20 @@ class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedM
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Listing All Sessions"
     }
 
     class SessionButton(val session: Session) : Button()
     {
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.ENCHANTED_BOOK
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m---------------------"))
             desc.add(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(session.player)))
@@ -41,7 +46,8 @@ class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedM
             if (session.leftAt != 0L)
             {
                 desc.add(Chat.format("&eOn For: &f" + TimeUtil.formatDuration(session.leftAt - session.loggedInAt)))
-            } else {
+            } else
+            {
                 desc.add(Chat.format("&eOn For: &aOnline Currently"))
             }
             desc.add(Chat.format("&6&m---------------------"))
@@ -51,10 +57,17 @@ class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedM
             if (entries.isEmpty())
             {
                 desc.add(Chat.format("&7- &cHas not joined any servers!"))
-            } else {
+            } else
+            {
                 for (entry in session.serversJoined.entries)
                 {
-                    desc.add(Chat.format("&7- &e" + entry.value.displayName + " &7(Joined " + TimeUtil.formatDuration(System.currentTimeMillis() - entry.key) + " ago)"))
+                    desc.add(
+                        Chat.format(
+                            "&7- &e" + entry.value.displayName + " &7(Joined " + TimeUtil.formatDuration(
+                                System.currentTimeMillis() - entry.key
+                            ) + " ago)"
+                        )
+                    )
                 }
             }
             desc.add(Chat.format("&6&m---------------------"))
@@ -63,15 +76,18 @@ class SessionsMenu(val player: Player, val sessions: List<Session>) : PaginatedM
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format("&6Session #" + session.randomId)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             return
         }
     }

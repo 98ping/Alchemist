@@ -3,14 +3,11 @@ package ltd.matrixstudios.alchemist.commands.coins.cart
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.cart.model.Cart
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemEditor
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
 import ltd.matrixstudios.alchemist.commands.coins.transactions.Transaction
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
@@ -27,8 +24,10 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val currentCart = CartHandler.carts[player.uniqueId]
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
@@ -44,12 +43,18 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
         return buttons
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
             3 to Button.placeholder(),
-            4 to SimpleActionButton(Material.EMERALD, getCheckoutDesc(CartHandler.carts[player.uniqueId]!!), Chat.format("&eCheck Out"), 0).setBody { player, i, clickType ->
+            4 to SimpleActionButton(
+                Material.EMERALD,
+                getCheckoutDesc(CartHandler.carts[player.uniqueId]!!),
+                Chat.format("&eCheck Out"),
+                0
+            ).setBody { player, i, clickType ->
                 val currentCart = CartHandler.carts[player.uniqueId]
                 if (currentCart != null)
                 {
@@ -89,7 +94,13 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
 
                     CartHandler.carts.remove(player.uniqueId)
 
-                    val transaction = Transaction(UUID.randomUUID(), player.uniqueId, items, Alchemist.globalServer.displayName, price)
+                    val transaction = Transaction(
+                        UUID.randomUUID(),
+                        player.uniqueId,
+                        items,
+                        Alchemist.globalServer.displayName,
+                        price
+                    )
                     CoinShopManager.addTransaction(transaction)
                     player.closeInventory()
                     player.sendMessage(Chat.format("&aSuccess! Your purchase went through. To check information about this order, check our the transactions menu"))
@@ -116,13 +127,22 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
         )
     }
 
-    fun getCheckoutDesc(cart: Cart) : MutableList<String> {
+    fun getCheckoutDesc(cart: Cart): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(" ")
         for (item in cart.items)
         {
-            desc.add(Chat.format("&7- &r${item.displayName} " +
-                    "&7(" + (if (item.discount != 0.0) "&c&m$${Math.round(item.price)}&r &7-> &a$${Math.round(item.price.minus(item.discount))}" else "&a${Math.round(item.price)}") + "&7)"))
+            desc.add(
+                Chat.format(
+                    "&7- &r${item.displayName} " +
+                            "&7(" + (if (item.discount != 0.0) "&c&m$${Math.round(item.price)}&r &7-> &a$${
+                        Math.round(
+                            item.price.minus(item.discount)
+                        )
+                    }" else "&a${Math.round(item.price)}") + "&7)"
+                )
+            )
         }
         desc.add(" ")
         desc.add(Chat.format("&7Total: &f$" + cart.getCombinedPrice()))
@@ -131,28 +151,36 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
         return desc
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Your Cart"
     }
 
-    class CartItem(val item: CoinShopItem) : Button() {
-        override fun getMaterial(player: Player): Material {
+    class CartItem(val item: CoinShopItem) : Button()
+    {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.getMaterial(item.displayMaterial) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             return item.lore.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(item.displayName)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return item.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {}
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+        }
 
     }
 }

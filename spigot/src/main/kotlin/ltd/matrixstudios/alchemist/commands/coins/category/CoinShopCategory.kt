@@ -12,9 +12,10 @@ data class CoinShopCategory(
     var data: Short,
     var menuSlot: Int,
     var parentCategory: String?
-) {
+)
+{
 
-    fun getAllProducts() : MutableList<CoinShopItem>
+    fun getAllProducts(): MutableList<CoinShopItem>
     {
         val items = mutableListOf<CoinShopItem>()
 
@@ -29,12 +30,13 @@ data class CoinShopCategory(
         return items
     }
 
-    fun getCategoriesThatParentThisOne() : MutableList<CoinShopCategory>
+    fun getCategoriesThatParentThisOne(): MutableList<CoinShopCategory>
     {
         val items = mutableListOf<CoinShopCategory>()
         for (category in CoinShopManager.categoryMap.values)
         {
-            if (category.parentCategory != null) {
+            if (category.parentCategory != null)
+            {
                 val cat = category.parentCategory
 
                 if (cat.equals(id, ignoreCase = true))

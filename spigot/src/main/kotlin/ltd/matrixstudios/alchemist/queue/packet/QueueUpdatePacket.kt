@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.queue.packet
 
-import ltd.matrixstudios.alchemist.models.queue.QueueModel
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 
@@ -11,9 +10,11 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class QueueUpdatePacket : RedisPacket("queue-update-packet") {
+class QueueUpdatePacket : RedisPacket("queue-update-packet")
+{
 
-    override fun action() {
-       QueueService.loadAllQueues()
+    override fun action()
+    {
+        QueueService.loadAllQueues()
     }
 }

@@ -7,20 +7,22 @@ import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
-import java.util.UUID
+import java.util.*
 
 @CommandAlias("uuidcache|uuid")
 @CommandPermission("alchemist.cache.uuid")
-object UUIDCacheCommands : BaseCommand() {
+object UUIDCacheCommands : BaseCommand()
+{
 
     @HelpCommand
     @CommandPermission("rank.admin")
-    fun help(help: CommandHelp) {
+    fun help(help: CommandHelp)
+    {
         help.showHelp()
     }
 
     @Subcommand("checkId")
-    fun checkId(sender: CommandSender, @Name("uuid")id: String)
+    fun checkId(sender: CommandSender, @Name("uuid") id: String)
     {
         val uuid: UUID
 

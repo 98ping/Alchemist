@@ -8,27 +8,33 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class GrantThemeButton(val theme: Theme, val player: Player) : Button() {
+class GrantThemeButton(val theme: Theme, val player: Player) : Button()
+{
 
     val rank = RankService.findFirstAvailableDefaultRank()!!
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         return theme.getGrantLore(player, ProfileGameService.byId(player.uniqueId)!!, rank)
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return theme.getGrantDisplayName(player, rank)
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return theme.getGrantData(player, rank)
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
         return
     }
 }

@@ -11,8 +11,10 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class SelectCategoryMenu(val player: Player, val item: CoinShopItem) : PaginatedMenu(18, player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class SelectCategoryMenu(val player: Player, val item: CoinShopItem) : PaginatedMenu(18, player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
@@ -24,29 +26,35 @@ class SelectCategoryMenu(val player: Player, val item: CoinShopItem) : Paginated
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Select a Category"
     }
 
     class CategoryButton(val item: CoinShopItem, val category: CoinShopCategory) : Button()
     {
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.getMaterial(category.displayItem) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             return mutableListOf()
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(category.displayName)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             item.category = category.id
             CoinShopManager.saveItem(item)
             player.sendMessage(Chat.format("&aSet the category of ${item.displayName} &ato &f" + category.displayName))

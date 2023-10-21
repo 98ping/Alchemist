@@ -8,13 +8,14 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import java.util.*
-import java.util.concurrent.ForkJoinPool
 
-class ListCommand : BaseCommand() {
+class ListCommand : BaseCommand()
+{
 
 
     @CommandAlias("list|players|online")
-    fun list(sender: CommandSender) {
+    fun list(sender: CommandSender)
+    {
         sender.sendMessage(Chat.format(" "))
         sender.sendMessage(
             Chat.format(
@@ -22,7 +23,8 @@ class ListCommand : BaseCommand() {
         )
 
         AlchemistAPI.supplyColoredNames().thenAccept { players ->
-            if (players.size >= 350) {
+            if (players.size >= 350)
+            {
                 sender.sendMessage(Chat.format("&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) ${
                     players.take(
                         350
@@ -30,7 +32,8 @@ class ListCommand : BaseCommand() {
                 }"))
                 sender.sendMessage(Chat.format("&c(Only showing first 350 entries...)"))
                 sender.sendMessage(" ")
-            } else {
+            } else
+            {
                 sender.sendMessage(
                     Chat.format(
                         "&f(" + Bukkit.getOnlinePlayers().size + "/${Bukkit.getMaxPlayers()}&f) ${

@@ -14,14 +14,17 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player) {
+class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -144,7 +147,8 @@ class FilterSubEditorMenu(val player: Player, val filter: Filter) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Editing: ${filter.word}"
     }
 }

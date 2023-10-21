@@ -34,9 +34,11 @@ class ScopeSelectionEditorMenu(
     val equipped: MutableList<String>,
     val grant: RankGrant,
     val global: Boolean
-) : PaginatedMenu(36, player) {
+) : PaginatedMenu(36, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[3] = SimpleActionButton(
@@ -64,33 +66,42 @@ class ScopeSelectionEditorMenu(
                 Chat.format(" ")
             ), Chat.format("&a&lFinalize"), 0
         ).setBody { player, i, clickType ->
-            if (!global && equipped.isEmpty()) {
+            if (!global && equipped.isEmpty())
+            {
                 player.sendMessage(Chat.format("&cYou must select a scope to add this grant to"))
                 return@setBody
             }
 
             grant.scope = GrantScope("Manual Scope Editing", equipped, global)
             RankGrantService.save(grant)
-            GrantsMenu(player, target, GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(target.uuid).toMutableList()), GrantFilter.ALL).updateMenu()
+            GrantsMenu(
+                player,
+                target,
+                GrantsCommand.getViewableGrants(player, RankGrantService.getFromCache(target.uuid).toMutableList()),
+                GrantFilter.ALL
+            ).updateMenu()
             player.sendMessage(Chat.format("&eUpdated the scopes of this &6grant"))
         }
 
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         var index = 0
         val items = UniqueServerService.getValues()
         val buttons = mutableMapOf<Int, Button>()
 
-        for (item in items) {
+        for (item in items)
+        {
             buttons[index++] = ScopeButton(item, target, rank, duration, reason, global, grant, equipped)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Select Scopes To Add"
     }
 
@@ -103,12 +114,15 @@ class ScopeSelectionEditorMenu(
         val global: Boolean,
         val grant: RankGrant,
         val equipped: MutableList<String>
-    ) : Button() {
-        override fun getMaterial(player: Player): Material {
+    ) : Button()
+    {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format(" "))
             desc.add(Chat.format("&7Click to " + (if (equipped.contains(uniqueServer.id)) "&cremove" else "&aadd") + " &7${uniqueServer.displayName}"))
@@ -120,24 +134,31 @@ class ScopeSelectionEditorMenu(
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format("&a&l" + uniqueServer.displayName)
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
-            if (!global) {
-                if (!equipped.contains(uniqueServer.id)) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+            if (!global)
+            {
+                if (!equipped.contains(uniqueServer.id))
+                {
                     equipped.add(uniqueServer.id)
-                } else {
+                } else
+                {
                     equipped.remove(uniqueServer.id)
                 }
 
                 ScopeSelectionEditorMenu(player, rank, target, duration, reason, equipped, grant, global).updateMenu()
-            } else {
+            } else
+            {
                 player.sendMessage(Chat.format("&eYou have the &6global &escope selected and cannot add any more"))
             }
         }

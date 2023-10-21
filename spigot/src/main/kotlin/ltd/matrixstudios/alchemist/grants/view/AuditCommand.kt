@@ -5,9 +5,10 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
-import java.util.UUID
+import java.util.*
 
-object AuditCommand : BaseCommand() {
+object AuditCommand : BaseCommand()
+{
 
     var auditedPlayers = mutableListOf<UUID>()
 

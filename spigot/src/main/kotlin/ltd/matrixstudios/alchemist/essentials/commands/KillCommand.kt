@@ -9,7 +9,8 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class KillCommand : BaseCommand() {
+class KillCommand : BaseCommand()
+{
 
     @CommandAlias("kill")
     @CommandPermission("alchemist.essentials.kill")

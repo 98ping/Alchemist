@@ -9,31 +9,38 @@ class PlaceholderButton(
     val material: Material,
     val description: MutableList<String>?,
     val name: String?, val data: Short
-) : Button() {
+) : Button()
+{
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return material
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         return description ?: mutableListOf()
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         if (name != null)
         {
             return name
-        } else {
+        } else
+        {
             return material.name
         }
 
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return data
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
 
     }
 }

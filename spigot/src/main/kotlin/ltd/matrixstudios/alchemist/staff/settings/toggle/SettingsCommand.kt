@@ -6,7 +6,8 @@ import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.staff.settings.toggle.menu.SettingsMenu
 import org.bukkit.entity.Player
 
-class SettingsCommand : BaseCommand() {
+class SettingsCommand : BaseCommand()
+{
 
     @CommandAlias("tsm|tsc|staffsettings")
     @CommandPermission("alchemist.staff")

@@ -2,7 +2,6 @@ package ltd.matrixstudios.alchemist.profiles
 
 import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.profiles.commands.auth.AuthCommands
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
@@ -20,19 +19,25 @@ import ltd.matrixstudios.alchemist.util.Chat
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object ProfileModule : PluginModule {
+object ProfileModule : PluginModule
+{
 
-    override fun onLoad() {
+    override fun onLoad()
+    {
         val start = System.currentTimeMillis()
         BukkitProfileAdaptation.loadAllEvents()
 
-        Chat.sendConsoleMessage("&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(start) + "ms")
+        Chat.sendConsoleMessage(
+            "&b[Profiles] &fAll profile events loaded in &b" + System.currentTimeMillis().minus(start) + "ms"
+        )
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
-       val list = mutableListOf<BaseCommand>()
+    override fun getCommands(): MutableList<BaseCommand>
+    {
+        val list = mutableListOf<BaseCommand>()
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("freeRank.enabled")) {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("freeRank.enabled"))
+        {
             list.add(FreerankCommand())
         }
 
@@ -63,7 +68,8 @@ object ProfileModule : PluginModule {
         return list
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return true
     }
 }

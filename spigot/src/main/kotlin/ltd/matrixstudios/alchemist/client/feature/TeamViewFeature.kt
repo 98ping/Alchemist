@@ -5,10 +5,6 @@ import com.lunarclient.bukkitapi.nethandler.client.LCPacketTeammates
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 
 /**
@@ -18,8 +14,10 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object TeamViewFeature {
-    fun sendStaffTeamView(player: Player) {
+object TeamViewFeature
+{
+    fun sendStaffTeamView(player: Player)
+    {
         //thanks @dash for code :D
         LunarClientAPI.getInstance().sendTeammates(player, LCPacketTeammates(
             player.uniqueId,
@@ -37,7 +35,8 @@ object TeamViewFeature {
         ))
     }
 
-    fun clearTeamView(player: Player) {
+    fun clearTeamView(player: Player)
+    {
         LunarClientAPI.getInstance().sendTeammates(
             player, LCPacketTeammates(player.uniqueId, System.currentTimeMillis(), emptyMap())
         )

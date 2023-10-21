@@ -29,9 +29,15 @@ object RedisCommand : BaseCommand()
         val receivedPackets = LocalPacketPubSub.received
         player.sendMessage(Chat.format("&cTotal Packets Sent&7: &f${totalPackets}"))
         player.sendMessage(Chat.format("&cTotal Packets Received&7: &f${receivedPackets}"))
-        player.sendMessage(Chat.format("&cConnected for&7: &f${TimeUtil.formatDuration(
-            System.currentTimeMillis().minus(AlchemistSpigotPlugin.instance.launchedAt)
-        )}"))
+        player.sendMessage(
+            Chat.format(
+                "&cConnected for&7: &f${
+                    TimeUtil.formatDuration(
+                        System.currentTimeMillis().minus(AlchemistSpigotPlugin.instance.launchedAt)
+                    )
+                }"
+            )
+        )
         player.sendMessage(Chat.format("&cPort&7: &f${Alchemist.redisConnectionPort}"))
         player.sendMessage(Chat.format("&7&m--------------------------"))
     }

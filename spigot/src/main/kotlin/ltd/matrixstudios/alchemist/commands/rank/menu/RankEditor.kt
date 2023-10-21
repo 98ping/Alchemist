@@ -11,9 +11,11 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class RankEditor(val player: Player) : PaginatedMenu(36, player) {
+class RankEditor(val player: Player) : PaginatedMenu(36, player)
+{
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         val ranks = RankService.getAllRanksInOrder()
         var index = 0
@@ -25,17 +27,20 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7[Editor] &eRanks")
     }
 
     class RankButton(val player: Player, val rank: Rank) : Button()
     {
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.INK_SACK
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&7&m---------------------"))
             desc.add(Chat.format("&6Metadata:"))
@@ -53,19 +58,23 @@ class RankEditor(val player: Player) : PaginatedMenu(36, player) {
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(rank.color + rank.displayName)
         }
 
-        override fun getData(player: Player): Short {
-            if (rank.woolColor != null) {
+        override fun getData(player: Player): Short
+        {
+            if (rank.woolColor != null)
+            {
                 return AlchemistAPI.getWoolColor(rank.woolColor!!).dyeData.toShort()
             }
             return AlchemistAPI.getWoolColor(rank.color).dyeData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
-           RankEditPropertiesMenu(player, rank).openMenu()
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+            RankEditPropertiesMenu(player, rank).openMenu()
         }
 
 

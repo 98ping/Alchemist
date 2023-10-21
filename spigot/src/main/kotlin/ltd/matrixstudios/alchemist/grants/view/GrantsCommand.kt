@@ -15,12 +15,13 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
-object GrantsCommand : BaseCommand() {
+object GrantsCommand : BaseCommand()
+{
 
     @CommandAlias("grants")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun grants(player: Player, @Name("target")gameProfile: AsyncGameProfile) : CompletableFuture<Void>
+    fun grants(player: Player, @Name("target") gameProfile: AsyncGameProfile): CompletableFuture<Void>
     {
         return gameProfile.use(player) {
             val all = RankGrantService.getFromCache(it.uuid).toMutableList()
@@ -46,7 +47,7 @@ object GrantsCommand : BaseCommand() {
         }
     }
 
-    fun getViewableGrants(player: Player, grants: MutableList<RankGrant>) : MutableList<RankGrant>
+    fun getViewableGrants(player: Player, grants: MutableList<RankGrant>): MutableList<RankGrant>
     {
         if (!player.hasPermission("alchemist.grants.admin.viewAll"))
         {

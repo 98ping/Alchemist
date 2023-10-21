@@ -12,28 +12,40 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfile: GameProfile) : Button() {
+class HistoryPlaceholderButton(var punishmentType: PunishmentType, var gameProfile: GameProfile) : Button()
+{
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
-        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, gameProfile, punishmentType).map { Chat.format(it) }.toMutableList()
+    override fun getDescription(player: Player): MutableList<String>
+    {
+        return ThemeLoader.defaultTheme.getHistoryPlaceholderLore(player, gameProfile, punishmentType)
+            .map { Chat.format(it) }.toMutableList()
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return ThemeLoader.defaultTheme.getHistoryPlaceholderName(player, gameProfile, punishmentType)
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return ThemeLoader.defaultTheme.getHistoryPlaceholderData(player, gameProfile, punishmentType)
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
-        GeneralPunishmentMenu(gameProfile, punishmentType, PunishmentService.getFromCache(gameProfile.uuid).toMutableList(), PunishmentFilter.ALL, player).updateMenu()
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
+        GeneralPunishmentMenu(
+            gameProfile,
+            punishmentType,
+            PunishmentService.getFromCache(gameProfile.uuid).toMutableList(),
+            PunishmentFilter.ALL,
+            player
+        ).updateMenu()
     }
-
 
 
 }

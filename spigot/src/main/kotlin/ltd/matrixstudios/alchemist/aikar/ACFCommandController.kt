@@ -14,14 +14,8 @@ import ltd.matrixstudios.alchemist.commands.alts.IpReportCommand
 import ltd.matrixstudios.alchemist.commands.branding.AlchemistCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopCommand
 import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
-import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.coins.CoinsCommand
-import ltd.matrixstudios.alchemist.disguise.commands.RankDisguiseCommand
-import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
-import ltd.matrixstudios.alchemist.grants.apply.CGrantCommand
-import ltd.matrixstudios.alchemist.grants.apply.GrantCommand
-import ltd.matrixstudios.alchemist.grants.apply.NonModelGrantCommand
-import ltd.matrixstudios.alchemist.grants.configure.GrantConfigureCommand
+import ltd.matrixstudios.alchemist.commands.filter.FilterCommands
 import ltd.matrixstudios.alchemist.commands.metrics.MetricCommand
 import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
@@ -34,6 +28,12 @@ import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantsCommand
 import ltd.matrixstudios.alchemist.commands.uuid.UUIDCacheCommands
 import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.convert.luckperms.LuckPermsConverterCommand
+import ltd.matrixstudios.alchemist.disguise.commands.RankDisguiseCommand
+import ltd.matrixstudios.alchemist.friends.commands.FriendCommands
+import ltd.matrixstudios.alchemist.grants.apply.CGrantCommand
+import ltd.matrixstudios.alchemist.grants.apply.GrantCommand
+import ltd.matrixstudios.alchemist.grants.apply.NonModelGrantCommand
+import ltd.matrixstudios.alchemist.grants.configure.GrantConfigureCommand
 import ltd.matrixstudios.alchemist.grants.view.AuditCommand
 import ltd.matrixstudios.alchemist.grants.view.GrantHistoryCommand
 import ltd.matrixstudios.alchemist.grants.view.GrantsCommand
@@ -42,7 +42,8 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.ranks.scope.RankScope
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
-import ltd.matrixstudios.alchemist.profiles.commands.player.*
+import ltd.matrixstudios.alchemist.profiles.commands.player.LookupCommand
+import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.queue.command.ModifyQueueCommands
 import ltd.matrixstudios.alchemist.queue.command.QueueCommands
@@ -51,9 +52,10 @@ import ltd.matrixstudios.alchemist.servers.commands.BroadcastCommand
 import ltd.matrixstudios.alchemist.themes.commands.ThemeSelectCommand
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import java.util.UUID
+import java.util.*
 
-object ACFCommandController {
+object ACFCommandController
+{
 
     private val config = AlchemistSpigotPlugin.instance.config
 
@@ -76,10 +78,14 @@ object ACFCommandController {
 
             this.enableUnstableAPI("help")
 
-            this.setFormat(MessageType.SYNTAX, BukkitMessageFormatter(ChatColor.YELLOW, ChatColor.GOLD, ChatColor.WHITE))
+            this.setFormat(
+                MessageType.SYNTAX,
+                BukkitMessageFormatter(ChatColor.YELLOW, ChatColor.GOLD, ChatColor.WHITE)
+            )
             this.setFormat(MessageType.HELP, BukkitMessageFormatter(ChatColor.GOLD, ChatColor.YELLOW, ChatColor.GRAY))
 
-            if (config.getBoolean("modules.ranks")) {
+            if (config.getBoolean("modules.ranks"))
+            {
                 registerCommand(GenericRankCommands())
                 registerCommand(GrantCommand())
                 registerCommand(GrantsCommand)
@@ -87,7 +93,8 @@ object ACFCommandController {
                 registerCommand(GrantConfigureCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(GrantHistoryCommand())
-                if(Bukkit.getServer().pluginManager.isPluginEnabled("LuckPerms")) {
+                if (Bukkit.getServer().pluginManager.isPluginEnabled("LuckPerms"))
+                {
                     registerCommand(LuckPermsConverterCommand())
                 }
                 registerCommand(WipeGrantsCommand)
@@ -96,23 +103,27 @@ object ACFCommandController {
             registerCommand(AdminPanelCommand())
             registerCommand(RedisCommand)
 
-            if (config.getBoolean("modules.vouchers")) {
+            if (config.getBoolean("modules.vouchers"))
+            {
                 registerCommand(VoucherCommand())
             }
 
             registerCommand(BroadcastCommand)
 
-            if (config.getBoolean("modules.coins")) {
+            if (config.getBoolean("modules.coins"))
+            {
                 registerCommand(CoinsCommand())
                 registerCommand(CoinShopCommand())
                 CoinShopManager.loadCoinShopAssets()
             }
 
-            if (config.getBoolean("modules.themeCommands")) {
+            if (config.getBoolean("modules.themeCommands"))
+            {
                 registerCommand(ThemeSelectCommand())
             }
 
-            if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue")) {
+            if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue"))
+            {
                 registerCommand(QueueCommands())
                 registerCommand(ModifyQueueCommands())
             }
@@ -124,7 +135,8 @@ object ACFCommandController {
 
             registerCommand(AlchemistCommand())
 
-            if (config.getBoolean("modules.chatcolors")) {
+            if (config.getBoolean("modules.chatcolors"))
+            {
                 ChatColorLoader.loadAllChatColors()
                 registerCommand(ChatColorCommands())
             }
@@ -134,11 +146,13 @@ object ACFCommandController {
             registerCommand(AltsCommand())
             registerCommand(IpReportCommand())
 
-            if (config.getBoolean("modules.notes")) {
+            if (config.getBoolean("modules.notes"))
+            {
                 registerCommand(PlayerNotesCommands())
             }
 
-            if (config.getBoolean("modules.prefixes")) {
+            if (config.getBoolean("modules.prefixes"))
+            {
                 registerCommand(TagAdminCommand())
                 registerCommand(TagCommand())
                 registerCommand(TagGrantCommand())
@@ -146,11 +160,13 @@ object ACFCommandController {
             }
 
 
-            if (config.getBoolean("modules.filters")) {
+            if (config.getBoolean("modules.filters"))
+            {
                 registerCommand(FilterCommands(), true)
             }
 
-            if (config.getBoolean("modules.friends")) {
+            if (config.getBoolean("modules.friends"))
+            {
                 registerCommand(FriendCommands(), true)
             }
 
@@ -160,7 +176,8 @@ object ACFCommandController {
 
             registerCommand(SessionCommands())
 
-            if (config.getBoolean("modules.parties")) {
+            if (config.getBoolean("modules.parties"))
+            {
                 registerCommand(PartyCommands())
             }
 

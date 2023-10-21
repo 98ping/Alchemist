@@ -3,18 +3,12 @@ package ltd.matrixstudios.alchemist.staff
 import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.module.PluginModule
-import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
-import ltd.matrixstudios.alchemist.staff.commands.*
+import ltd.matrixstudios.alchemist.staff.commands.InventoryViewCommand
 import ltd.matrixstudios.alchemist.staff.mode.action.StaffModeActionBarHandler
 import ltd.matrixstudios.alchemist.staff.mode.commands.FreezeCommand
 import ltd.matrixstudios.alchemist.staff.mode.commands.StaffCommands
 import ltd.matrixstudios.alchemist.staff.mode.commands.VanishCommands
-import ltd.matrixstudios.alchemist.staff.requests.commands.ReportCommand
-import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
 import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
-import ltd.matrixstudios.alchemist.staff.settings.toggle.SettingsCommand
-import ltd.matrixstudios.alchemist.util.Chat
-import org.checkerframework.common.util.report.qual.ReportCall
 
 /**
  * Class created on 7/21/2023
@@ -23,12 +17,15 @@ import org.checkerframework.common.util.report.qual.ReportCall
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object StaffModeModule : PluginModule {
-    override fun onLoad() {
+object StaffModeModule : PluginModule
+{
+    override fun onLoad()
+    {
         StaffModeActionBarHandler().runTaskTimer(AlchemistSpigotPlugin.instance, 20L, 20L)
     }
 
-    override fun getCommands(): MutableList<BaseCommand> {
+    override fun getCommands(): MutableList<BaseCommand>
+    {
         val list = mutableListOf<BaseCommand>()
 
         list.add(FreezeCommand())
@@ -37,7 +34,8 @@ object StaffModeModule : PluginModule {
 
         list.add(EditModModeCommand())
 
-        if(AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.invseeCommand")) {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.invseeCommand"))
+        {
             list.add(InventoryViewCommand())
         }
 
@@ -45,7 +43,8 @@ object StaffModeModule : PluginModule {
 
     }
 
-    override fun getModularConfigOption(): Boolean {
+    override fun getModularConfigOption(): Boolean
+    {
         return AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode")
     }
 }

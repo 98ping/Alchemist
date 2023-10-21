@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import java.util.UUID
+import java.util.*
 
 /**
  * Class created on 7/4/2023
@@ -18,60 +18,71 @@ import java.util.UUID
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class SiblingCheckMenu(val target: GameProfile, val player: Player) : PaginatedMenu(18, player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class SiblingCheckMenu(val target: GameProfile, val player: Player) : PaginatedMenu(18, player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         var i = 0
         val buttons = mutableMapOf<Int, Button>()
 
-        for (sibling in target.getAllSiblings()) {
+        for (sibling in target.getAllSiblings())
+        {
             buttons[i++] = SiblingButton(sibling, target)
         }
 
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int> {
+    override fun getButtonPositions(): List<Int>
+    {
         return listOf(10, 11, 12, 13, 14, 15, 16)
     }
 
-    override fun getButtonsPerPage(): Int {
+    override fun getButtonsPerPage(): Int
+    {
         return 7
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
-        1 to Button.placeholder(),
-        2 to Button.placeholder(),
-        3 to Button.placeholder(),
-        4 to Button.placeholder(),
-        5 to Button.placeholder(),
-        6 to Button.placeholder(),
-        7 to Button.placeholder(),
-        9 to Button.placeholder(),
-        17 to Button.placeholder(),
-        18 to Button.placeholder(),
-        19 to Button.placeholder(),
-        20 to Button.placeholder(),
-        21 to Button.placeholder(),
-        22 to Button.placeholder(),
-        23 to Button.placeholder(),
-        24 to Button.placeholder(),
-        25 to Button.placeholder(),
-        26 to Button.placeholder())
+            1 to Button.placeholder(),
+            2 to Button.placeholder(),
+            3 to Button.placeholder(),
+            4 to Button.placeholder(),
+            5 to Button.placeholder(),
+            6 to Button.placeholder(),
+            7 to Button.placeholder(),
+            9 to Button.placeholder(),
+            17 to Button.placeholder(),
+            18 to Button.placeholder(),
+            19 to Button.placeholder(),
+            20 to Button.placeholder(),
+            21 to Button.placeholder(),
+            22 to Button.placeholder(),
+            23 to Button.placeholder(),
+            24 to Button.placeholder(),
+            25 to Button.placeholder(),
+            26 to Button.placeholder()
+        )
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7Siblings of " + target.getRankDisplay())
     }
 
-    class SiblingButton(val uuid: UUID, val target: GameProfile) : Button() {
+    class SiblingButton(val uuid: UUID, val target: GameProfile) : Button()
+    {
 
         val profile = AlchemistAPI.syncFindProfile(uuid)!!
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
 
             desc.add(Chat.format("&6&m------------------------"))
@@ -87,15 +98,18 @@ class SiblingCheckMenu(val target: GameProfile, val player: Player) : PaginatedM
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(profile.getRankDisplay())
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             target.getAllSiblings().remove(profile.uuid)
             profile.getAllSiblings().remove(target.uuid)
 

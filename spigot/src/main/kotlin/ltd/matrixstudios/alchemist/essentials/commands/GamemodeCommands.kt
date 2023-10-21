@@ -10,16 +10,19 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 
-class GamemodeCommands : BaseCommand() {
+class GamemodeCommands : BaseCommand()
+{
 
     @CommandAlias("gmc")
     @CommandPermission("alchemist.essentials.gamemode")
     fun gmc(player: Player, @Name("target") @Optional target: OnlinePlayer?)
     {
-        if (target == null) {
+        if (target == null)
+        {
             player.gameMode = GameMode.CREATIVE
             player.sendMessage(Chat.format("&6You are now in &fCREATIVE &6mode."))
-        } else {
+        } else
+        {
             player.sendMessage(Chat.format(target.player.displayName + " &6is now in &fCREATIVE &6mode."))
             target.player.gameMode = GameMode.CREATIVE
             target.player.sendMessage(Chat.format("&6You are now in &fCREATIVE &6mode."))
@@ -30,10 +33,12 @@ class GamemodeCommands : BaseCommand() {
     @CommandPermission("alchemist.essentials.gamemode")
     fun gms(player: Player, @Name("target") @Optional target: OnlinePlayer?)
     {
-        if (target == null) {
+        if (target == null)
+        {
             player.gameMode = GameMode.SURVIVAL
             player.sendMessage(Chat.format("&6You are now in &fSURVIVAL &6mode."))
-        } else {
+        } else
+        {
             player.sendMessage(Chat.format(target.player.displayName + " &6is now in &fSURVIVAL &6mode."))
             target.player.gameMode = GameMode.SURVIVAL
             target.player.sendMessage(Chat.format("&6You are now in &fSURVIVAL &6mode."))

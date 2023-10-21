@@ -12,7 +12,8 @@ import org.bukkit.event.player.PlayerJoinEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class CoinShopLoadTransactionsListener : Listener {
+class CoinShopLoadTransactionsListener : Listener
+{
 
     @EventHandler
     fun loadTransaction(event: PlayerJoinEvent)

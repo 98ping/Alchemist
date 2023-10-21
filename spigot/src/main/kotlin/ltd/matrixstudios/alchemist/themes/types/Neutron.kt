@@ -26,15 +26,18 @@ class Neutron : Theme(
         "&7be read very easily.",
         " ",
         "&eClick to select the &6Neutron &etheme.",
-        " "),
+        " "
+    ),
     Material.NETHER_STAR, 0
-) {
+)
+{
 
-    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
+    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m-----------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
-        desc.add(Chat.format("&eRank: &f" + rankGrant.getGrantable()!!.color + rankGrant.getGrantable()!!.displayName))
+        desc.add(Chat.format("&eRank: &f" + rankGrant.getGrantable().color + rankGrant.getGrantable().displayName))
         desc.add(Chat.format("&eReason: &c" + rankGrant.reason))
         desc.add(Chat.format("&7&m-----------------------"))
         if (!rankGrant.expirable.isActive())
@@ -48,36 +51,49 @@ class Neutron : Theme(
         return desc
     }
 
-    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String {
+    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String
+    {
         return Chat.format("&c" + Date(rankGrant.expirable.addedAt))
     }
 
-    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
+    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short
+    {
         return if (rankGrant.expirable.isActive()) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
-    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
+    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m--------------------------------"))
-        desc.add(Chat.format("&9Click to grant &f" + rank.color + rank.displayName + " &9to " + AlchemistAPI.getRankDisplay(gameProfile.uuid)))
+        desc.add(
+            Chat.format(
+                "&9Click to grant &f" + rank.color + rank.displayName + " &9to " + AlchemistAPI.getRankDisplay(
+                    gameProfile.uuid
+                )
+            )
+        )
         desc.add(Chat.format("&7&m--------------------------------"))
 
         return desc
     }
 
-    override fun getGrantDisplayName(player: Player, rank: Rank): String {
+    override fun getGrantDisplayName(player: Player, rank: Rank): String
+    {
         return Chat.format(rank.color + rank.displayName)
     }
 
-    override fun getGrantData(player: Player, rank: Rank): Short {
-        if (rank.woolColor != null) {
+    override fun getGrantData(player: Player, rank: Rank): Short
+    {
+        if (rank.woolColor != null)
+        {
             return AlchemistAPI.getWoolColor(rank.woolColor!!).woolData.toShort()
         }
 
         return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
     }
 
-    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
+    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m-----------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
@@ -99,11 +115,13 @@ class Neutron : Theme(
         return desc
     }
 
-    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
+    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String
+    {
         return Chat.format("&c" + Date(punishment.expirable.addedAt))
     }
 
-    override fun getHistoryData(player: Player, punishment: Punishment): Short {
+    override fun getHistoryData(player: Player, punishment: Punishment): Short
+    {
         return if (punishment.expirable.isActive()) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
@@ -111,15 +129,18 @@ class Neutron : Theme(
         player: Player,
         profile: GameProfile,
         punishment: PunishmentType
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         return mutableListOf()
     }
 
-    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
+    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String
+    {
         return Chat.format(punishment.color + punishment.niceName + "'s")
     }
 
-    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {
+    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short
+    {
         return Chat.getDyeColor(punishment.color).woolData.toShort()
     }
 }

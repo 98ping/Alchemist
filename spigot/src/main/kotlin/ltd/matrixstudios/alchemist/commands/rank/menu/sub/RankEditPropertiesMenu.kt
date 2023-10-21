@@ -1,9 +1,9 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu.sub
 
+import ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission.PermissionEditorMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshRankPacket
-import ltd.matrixstudios.alchemist.commands.rank.menu.sub.permission.PermissionEditorMenu
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
@@ -13,14 +13,17 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) {
+class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -41,7 +44,8 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 .acceptInput {
                     var newPriority = 0
 
-                    try {
+                    try
+                    {
                         newPriority = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -187,7 +191,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
                 Chat.format("&7this rank command and features for anyone"),
                 Chat.format("&7with this rank granted."),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1)"" else "s"}"),
+                Chat.format("&eCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1) "" else "s"}"),
                 " "
             ),
             "&eChange Permission", 0
@@ -199,7 +203,8 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) 
     }
 
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7[Editor] ${rank.color + rank.displayName}")
     }
 }

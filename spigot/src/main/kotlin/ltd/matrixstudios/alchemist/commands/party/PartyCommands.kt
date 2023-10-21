@@ -4,31 +4,24 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.*
-import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.models.party.PartyElevation
-import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
-import ltd.matrixstudios.alchemist.packets.NetworkMessagePacket
 import ltd.matrixstudios.alchemist.profiles.AsyncGameProfile
 import ltd.matrixstudios.alchemist.service.party.PartyService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.jetbrains.annotations.Async
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @CommandAlias("party|p")
-class PartyCommands : BaseCommand() {
+class PartyCommands : BaseCommand()
+{
 
     @Subcommand("create")
     @Description("Creates a new party.")
-    fun create(player: Player) : CompletableFuture<Void>
+    fun create(player: Player): CompletableFuture<Void>
     {
         return PartyService.getParty(player.uniqueId).thenAccept {
             if (it != null)
@@ -61,7 +54,7 @@ class PartyCommands : BaseCommand() {
     @Description("Disbands your current party. Only works if you are a leader.")
     fun onDisband(
         player: Player
-    ) : CompletableFuture<Void>
+    ): CompletableFuture<Void>
     {
         return PartyService.getParty(player.uniqueId).thenAccept { party ->
             if (party == null)
@@ -93,7 +86,7 @@ class PartyCommands : BaseCommand() {
     fun onInvite(
         player: Player,
         @Name("target") target: AsyncGameProfile
-    ) : CompletableFuture<Void>
+    ): CompletableFuture<Void>
     {
         return target.use(player) { gameProfile ->
             if (!gameProfile.isOnline())
@@ -131,7 +124,7 @@ class PartyCommands : BaseCommand() {
             currentParty.invited[gameProfile.uuid] = System.currentTimeMillis()
             player.sendMessage(Chat.format("&7[&dParties&7] &aYou have just sent a party invitation to ${gameProfile.getRankDisplay()}"))
 
-            with (PartyService.handler) {
+            with(PartyService.handler) {
                 this.insert(currentParty.id, currentParty)
                 PartyService.backingPartyCache[currentParty.id] = currentParty
             }
@@ -143,7 +136,7 @@ class PartyCommands : BaseCommand() {
     fun onPromote(
         player: Player,
         @Name("target") target: AsyncGameProfile
-    ) : CompletableFuture<Void>
+    ): CompletableFuture<Void>
     {
         return target.use(player) {
             val myParty = PartyService.getParty(player.uniqueId).get()
@@ -177,7 +170,7 @@ class PartyCommands : BaseCommand() {
 
             myParty.members[it.uuid] = PartyElevation.OFFICER
 
-            with (PartyService.handler) {
+            with(PartyService.handler) {
                 this.insert(myParty.id, myParty)
                 PartyService.backingPartyCache[myParty.id] = myParty
             }
@@ -188,7 +181,7 @@ class PartyCommands : BaseCommand() {
 
     @Subcommand("info")
     @Description("View detailed information about your party.")
-    fun onInfo(player: Player) : CompletableFuture<Void>
+    fun onInfo(player: Player): CompletableFuture<Void>
     {
         return PartyService.getParty(player.uniqueId).thenAccept { party ->
             if (party == null)
@@ -201,7 +194,15 @@ class PartyCommands : BaseCommand() {
             player.sendMessage(" ")
             player.sendMessage(Chat.format("&aInformation for &eYour Party"))
             player.sendMessage(" ")
-            player.sendMessage(Chat.format("&7Created: &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(party.createdAt))} ago"))
+            player.sendMessage(
+                Chat.format(
+                    "&7Created: &f${
+                        TimeUtil.formatDuration(
+                            System.currentTimeMillis().minus(party.createdAt)
+                        )
+                    } ago"
+                )
+            )
             player.sendMessage(Chat.format("&7Short Id: &f${party.id.toString().substring(0, 8)}"))
             player.sendMessage(" ")
             val leaderProfile = ProfileGameService.byId(party.leader) ?: return@thenAccept
@@ -214,7 +215,8 @@ class PartyCommands : BaseCommand() {
 
     @HelpCommand
     @Description("Displays the command help.")
-    fun help(help: CommandHelp) {
+    fun help(help: CommandHelp)
+    {
         help.showHelp()
     }
 

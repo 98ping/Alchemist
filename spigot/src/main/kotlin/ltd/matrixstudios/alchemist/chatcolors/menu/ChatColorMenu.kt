@@ -13,21 +13,29 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
+class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         val profile = player.getProfile() ?: return buttons
 
-        buttons[4] = SimpleActionButton(Material.PAPER, mutableListOf(
-            " ",
-            Chat.format("&7Click here to reset your current"),
-            Chat.format("&7chat color."),
-            " ",
-            Chat.format("&eYou currently have " + (if (profile.activeColor != null) profile.activeColor!!.chatColor + ChatColorLoader.proper(profile.activeColor!!) else "&fNone") + " &eequipped"),
-            " "
-        ), Chat.format("&cReset ChatColor"), 0).setBody { player, i, clickType ->
+        buttons[4] = SimpleActionButton(
+            Material.PAPER, mutableListOf(
+                " ",
+                Chat.format("&7Click here to reset your current"),
+                Chat.format("&7chat color."),
+                " ",
+                Chat.format(
+                    "&eYou currently have " + (if (profile.activeColor != null) profile.activeColor!!.chatColor + ChatColorLoader.proper(
+                        profile.activeColor!!
+                    ) else "&fNone") + " &eequipped"
+                ),
+                " "
+            ), Chat.format("&cReset ChatColor"), 0
+        ).setBody { player, i, clickType ->
             profile.activeColor = null
 
             ProfileGameService.save(profile)
@@ -37,7 +45,8 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
@@ -50,17 +59,20 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
     }
 
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Select a Color"
     }
 
     class ChatColorButton(val chatColor: ChatColor, val player: Player) : Button()
     {
-        override fun getMaterial(player: Player): Material {
+        override fun getMaterial(player: Player): Material
+        {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>? {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m------------------"))
             desc.add(Chat.format("&eColor:"))
@@ -72,7 +84,8 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
             if (player.hasPermission(chatColor.permission))
             {
                 desc.add(Chat.format("&aClick to select this color"))
-            } else {
+            } else
+            {
                 desc.add(Chat.format("&cYou do not own this color"))
             }
             desc.add(Chat.format("&6&m------------------"))
@@ -80,15 +93,18 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return Chat.format(chatColor.chatColor + ChatColorLoader.proper(chatColor))
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return Chat.getDyeColor(chatColor.chatColor).woolData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) {
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
             val profile = ProfileGameService.byId(player.uniqueId)
 
             if (profile == null)
@@ -103,7 +119,8 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
 
                 ProfileGameService.save(profile)
                 player.sendMessage(Chat.format("&aUpdated your chat color!"))
-            } else {
+            } else
+            {
                 player.sendMessage(Chat.format("&cYou do not have permission to use this!"))
             }
         }

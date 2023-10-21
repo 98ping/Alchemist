@@ -15,18 +15,22 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ExecutedPunishmentHistoryCommand : BaseCommand() {
+class ExecutedPunishmentHistoryCommand : BaseCommand()
+{
 
     @CommandAlias("staffhist|staffhistory")
     @CommandPermission("alchemist.punishments.check")
     @CommandCompletion("@gameprofile")
-    fun checkOthers(player: Player,  @Name("target") @Optional profile: GameProfile?)
+    fun checkOthers(player: Player, @Name("target") @Optional profile: GameProfile?)
     {
-        if (!player.hasPermission("alchemist.punishments.check.others")) {
+        if (!player.hasPermission("alchemist.punishments.check.others"))
+        {
             val profile1 = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return
             ExecutedPunishmentHistoryMenu(player, profile1).openMenu()
-        } else {
-            if (profile == null) {
+        } else
+        {
+            if (profile == null)
+            {
                 player.sendMessage(Chat.format("&cYou must provide a valid profile!"))
                 return
             }

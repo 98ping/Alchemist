@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.profiles.connection.prelog
 
-import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 
 /**
@@ -10,9 +9,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface BukkitPreLoginTask {
+interface BukkitPreLoginTask
+{
 
     fun run(event: AsyncPlayerPreLoginEvent)
 
-    fun shouldBeLazy() : Boolean
+    fun shouldBeLazy(): Boolean
 }

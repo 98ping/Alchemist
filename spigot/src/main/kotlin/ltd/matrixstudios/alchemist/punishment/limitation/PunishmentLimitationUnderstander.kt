@@ -4,7 +4,7 @@ import com.google.common.collect.HashBasedTable
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -14,16 +14,21 @@ import java.util.concurrent.TimeUnit
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object PunishmentLimitationUnderstander {
+object PunishmentLimitationUnderstander
+{
 
     private val punishmentTimes: HashBasedTable<UUID, Int, Long> = HashBasedTable.create()
 
     private lateinit var runnable: BukkitRunnable
 
-    fun load() {
-        runnable = object : BukkitRunnable() {
-            override fun run() {
-                for (entry in punishmentTimes.cellSet()) {
+    fun load()
+    {
+        runnable = object : BukkitRunnable()
+        {
+            override fun run()
+            {
+                for (entry in punishmentTimes.cellSet())
+                {
                     val stamp = entry.value
 
                     if (System.currentTimeMillis().minus(stamp) >= TimeUnit.MINUTES.toMillis(5L))
@@ -36,11 +41,13 @@ object PunishmentLimitationUnderstander {
         }.apply { this.runTaskTimer(AlchemistSpigotPlugin.instance, 80L, 80L) }
     }
 
-    fun getTimes(player: UUID) : Int {
+    fun getTimes(player: UUID): Int
+    {
         return punishmentTimes.row(player).keys.firstOrNull() ?: 0
     }
 
-    fun canApplyPunishment(player: UUID) : Boolean {
+    fun canApplyPunishment(player: UUID): Boolean
+    {
         if (!punishmentTimes.containsRow(player)) return true
 
         val amountAndStamp = punishmentTimes.row(player)
@@ -51,7 +58,7 @@ object PunishmentLimitationUnderstander {
         return !(amount >= 5 && System.currentTimeMillis().minus(stamp) < TimeUnit.MINUTES.toMillis(5L))
     }
 
-    fun getDurationString(player: UUID) : String
+    fun getDurationString(player: UUID): String
     {
         if (!punishmentTimes.containsRow(player)) return "0 seconds"
 
@@ -61,7 +68,8 @@ object PunishmentLimitationUnderstander {
         return TimeUtil.formatDuration((stamp.plus(TimeUnit.MINUTES.toMillis(5L))).minus(System.currentTimeMillis()))
     }
 
-    fun equipCooldown(player: UUID) {
+    fun equipCooldown(player: UUID)
+    {
         if (punishmentTimes.containsRow(player))
         {
             val amountAndStamp = punishmentTimes.row(player)

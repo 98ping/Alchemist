@@ -1,23 +1,23 @@
 package ltd.matrixstudios.alchemist.commands.tags.grants.menu.grants
 
-import com.google.common.base.Stopwatch
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
-import java.util.concurrent.TimeUnit
 
-class TagGrantsMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player) {
+class TagGrantsMenu(val player: Player, val gameProfile: GameProfile) : PaginatedMenu(18, player)
+{
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = hashMapOf<Int, Button>()
 
 
         var index = 0
 
-        for (tag in TagGrantService.getValues().get().filter { it.target == gameProfile.uuid }) {
+        for (tag in TagGrantService.getValues().get().filter { it.target == gameProfile.uuid })
+        {
             buttons[index++] = TagGrantsButton(tag)
         }
 
@@ -25,7 +25,8 @@ class TagGrantsMenu(val player: Player, val gameProfile: GameProfile) : Paginate
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Grants of " + gameProfile.username
     }
 }

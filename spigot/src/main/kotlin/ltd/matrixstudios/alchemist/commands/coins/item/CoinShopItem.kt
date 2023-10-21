@@ -20,8 +20,9 @@ class CoinShopItem(
     var price: Double,
     var displayOrder: Int? = null,
     var discount: Double = 0.0 //simple amount so fixed price would be price - discount
-) {
-    fun findOrder() : Int
+)
+{
+    fun findOrder(): Int
     {
         if (displayOrder == null) return 0
 

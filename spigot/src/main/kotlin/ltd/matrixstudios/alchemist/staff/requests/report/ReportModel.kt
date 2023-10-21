@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.staff.requests.report
 
-import java.util.UUID
+import java.util.*
 
 data class ReportModel(
     val id: UUID,

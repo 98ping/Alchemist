@@ -12,12 +12,6 @@ import ltd.matrixstudios.alchemist.commands.coins.CoinShopManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.EditParentCategoryMenu
 import ltd.matrixstudios.alchemist.commands.coins.category.editor.specific.SelectCategoryServers
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemAttributeEditor
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.CoinShopItemEditor
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectCategoryMenu
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectRankMenu
-import ltd.matrixstudios.alchemist.commands.coins.editor.items.specific.SelectServersMenu
-import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -25,15 +19,19 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.*
 
-class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory) : Menu(player) {
+class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory) : Menu(player)
+{
 
-    init {
+    init
+    {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -54,7 +52,8 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                 .acceptInput {
                     var newPrice = 0
 
-                    try {
+                    try
+                    {
                         newPrice = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -85,10 +84,18 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
             InputPrompt()
                 .withText(Chat.format("&aType in the new material for this item!"))
                 .acceptInput {
-                    item.displayItem = it.toUpperCase()
+                    item.displayItem = it.uppercase(Locale.getDefault())
                     CoinShopManager.saveCategory(item)
                     EditCategoryAttributesMenu(player, item).openMenu()
-                    player.sendMessage(Chat.format("&aUpdated ${item.displayName}'s &amenu material to &f${it.toUpperCase()}"))
+                    player.sendMessage(
+                        Chat.format(
+                            "&aUpdated ${item.displayName}'s &amenu material to &f${
+                                it.uppercase(
+                                    Locale.getDefault()
+                                )
+                            }"
+                        )
+                    )
                 }.start(player)
         }
 
@@ -164,7 +171,8 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                 .acceptInput {
                     var newPrice = 0
 
-                    try {
+                    try
+                    {
                         newPrice = Integer.parseInt(it)
                     } catch (e: java.lang.NumberFormatException)
                     {
@@ -200,7 +208,8 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format("&7[Editor] ${item.displayName}")
     }
 }

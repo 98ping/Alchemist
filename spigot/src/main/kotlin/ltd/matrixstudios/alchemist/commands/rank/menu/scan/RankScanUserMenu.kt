@@ -3,9 +3,7 @@ package ltd.matrixstudios.alchemist.commands.rank.menu.scan
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
@@ -14,9 +12,10 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
-import java.util.Date
+import java.util.*
 
-class RankScanUserMenu(val player: Player, val rankScan: Collection<GameProfile>, val rank: Rank) : BorderedPaginatedMenu(player)
+class RankScanUserMenu(val player: Player, val rankScan: Collection<GameProfile>, val rank: Rank) :
+    BorderedPaginatedMenu(player)
 {
     override fun getPagesButtons(player: Player): MutableMap<Int, Button>
     {
@@ -43,7 +42,8 @@ class RankScanUserMenu(val player: Player, val rankScan: Collection<GameProfile>
             return Material.DIRT
         }
 
-        override fun getDescription(player: Player): MutableList<String> {
+        override fun getDescription(player: Player): MutableList<String>
+        {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&7&m-------------------"))
             desc.add(Chat.format("&eUsername: &f${profile.username}"))
@@ -53,20 +53,26 @@ class RankScanUserMenu(val player: Player, val rankScan: Collection<GameProfile>
             return desc
         }
 
-        override fun getDisplayName(player: Player): String? {
+        override fun getDisplayName(player: Player): String
+        {
             return ""
         }
 
-        override fun getButtonItem(player: Player): ItemStack? {
+        override fun getButtonItem(player: Player): ItemStack
+        {
             val skull = SkullUtil.generate(profile.username, "")
 
-            return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList()).name(Chat.format(AlchemistAPI.getRankDisplay(profile.uuid))).build()
+            return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList())
+                .name(Chat.format(AlchemistAPI.getRankDisplay(profile.uuid))).build()
         }
 
-        override fun getData(player: Player): Short {
+        override fun getData(player: Player): Short
+        {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType) { }
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+        }
     }
 }

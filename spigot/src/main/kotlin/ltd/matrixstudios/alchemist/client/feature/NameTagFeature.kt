@@ -1,17 +1,11 @@
 package ltd.matrixstudios.alchemist.client.feature
 
 import com.lunarclient.bukkitapi.LunarClientAPI
-import com.lunarclient.bukkitapi.nethandler.client.LCPacketNametagsOverride
-import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.profiles.getCurrentRank
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
-import java.util.*
-import java.util.concurrent.CompletableFuture
 
 
 /**
@@ -21,8 +15,10 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object NameTagFeature {
-    fun sendNameTag(target: Player, viewer: Player) {
+object NameTagFeature
+{
+    fun sendNameTag(target: Player, viewer: Player)
+    {
         LunarClientAPI.getInstance().overrideNametag(
             target,
             mutableListOf(
@@ -33,7 +29,8 @@ object NameTagFeature {
         )
     }
 
-    fun startNametagUpdateTask() {
+    fun startNametagUpdateTask()
+    {
         Bukkit.getScheduler().runTaskTimer(
             AlchemistSpigotPlugin.instance, {
                 for (player in Bukkit.getOnlinePlayers())
@@ -56,7 +53,8 @@ object NameTagFeature {
         )
     }
 
-    fun removeNameTag(player: Player) {
+    fun removeNameTag(player: Player)
+    {
         Bukkit.getServer().onlinePlayers.forEach { staff ->
             LunarClientAPI.getInstance().resetNametag(player, staff)
         }

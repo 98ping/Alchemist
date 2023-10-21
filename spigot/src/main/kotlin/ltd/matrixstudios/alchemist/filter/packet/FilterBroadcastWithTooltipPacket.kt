@@ -6,7 +6,6 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import org.bukkit.Bukkit
 import java.util.*
@@ -18,9 +17,11 @@ class FilterBroadcastWithTooltipPacket(
     var bans: Int,
     var alreadyPunished: Boolean,
     var message: String
-) : RedisPacket("filter-broadcast-packet") {
+) : RedisPacket("filter-broadcast-packet")
+{
 
-    override fun action() {
+    override fun action()
+    {
         val target = AlchemistAPI.syncFindProfile(target) ?: return
         val hoverComponent = Component.text(Chat.format("&6&m-------------------------"))
             .appendNewline()
@@ -28,12 +29,15 @@ class FilterBroadcastWithTooltipPacket(
             .appendNewline()
             .append(Component.text(Chat.format("&ePreviously Banned: &f$bans times")))
             .appendNewline()
-            .append(Component.text(Chat.format("&eAlready punished: " + if (alreadyPunished) "&aYes" else "&cNo"))
-            .appendNewline()
-            .append(Component.text(Chat.format("&6&m-------------------------"))))
+            .append(
+                Component.text(Chat.format("&eAlready punished: " + if (alreadyPunished) "&aYes" else "&cNo"))
+                    .appendNewline()
+                    .append(Component.text(Chat.format("&6&m-------------------------")))
+            )
 
         val component = Component.text(
-            Chat.format("&e[Filter] &7[${uniqueServer.displayName}] &c(")).append(Component.text(target.username))
+            Chat.format("&e[Filter] &7[${uniqueServer.displayName}] &c(")
+        ).append(Component.text(target.username))
             .color(Chat.findTextColorFromString(target.getCurrentRank().color))
             .append(Component.text(Chat.format(" &e-> $message&c)"))).hoverEvent(HoverEvent.showText(hoverComponent))
 

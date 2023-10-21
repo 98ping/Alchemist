@@ -8,22 +8,21 @@ import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.aikar.ACFCommandController
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.commands.coins.listener.CoinShopLoadTransactionsListener
-import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.filter.listener.FilterListener
 import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.module.PluginModuleHandler
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
-import ltd.matrixstudios.alchemist.party.DecayingPartyTask
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.profiles.commands.auth.listener.AuthListener
 import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
+import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.servers.task.ServerUpdateRunnable
 import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
-import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
 import ltd.matrixstudios.alchemist.staff.mode.listeners.FrozenPlayerListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.GenericStaffmodePreventionListener
 import ltd.matrixstudios.alchemist.staff.mode.listeners.StaffmodeFunctionalityListener
@@ -42,9 +41,11 @@ import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 
-class AlchemistSpigotPlugin : JavaPlugin() {
+class AlchemistSpigotPlugin : JavaPlugin()
+{
 
-    companion object {
+    companion object
+    {
         lateinit var instance: AlchemistSpigotPlugin
     }
 
@@ -52,7 +53,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
     lateinit var commandManager: PaperCommandManager
     lateinit var audience: BukkitAudiences
 
-    override fun onEnable() {
+    override fun onEnable()
+    {
         saveDefaultConfig()
         instance = this
         launchedAt = System.currentTimeMillis()
@@ -64,12 +66,14 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val uri = config.getString("uri")
         val connectionPool: MongoConnectionPool
 
-        if (uri != "") {
+        if (uri != "")
+        {
             connectionPool = URIMongoConnectionPool().apply {
                 this.databaseName = config.getString("mongo.database")
                 this.uri = uri
             }
-        } else if (authEnabled) {
+        } else if (authEnabled)
+        {
             connectionPool = AuthenticatedMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
                 password = config.getString("mongo.password")
@@ -78,7 +82,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
                 databaseName = config.getString("mongo.database")
                 authDb = config.getString("mongo.authDB")
             }
-        } else {
+        } else
+        {
             connectionPool = NoAuthMongoConnectionPool().apply {
                 hostname = config.getString("mongo.host")
                 port = config.getInt("mongo.port")
@@ -86,14 +91,18 @@ class AlchemistSpigotPlugin : JavaPlugin() {
             }
         }
 
-        Alchemist.start(connectionPool,
+        Alchemist.start(
+            connectionPool,
             config.getString("redis.host"),
             config.getInt("redis.port"),
             (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
             (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
         )
 
-        Chat.sendConsoleMessage("&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis().minus(startMongo) + "ms")
+        Chat.sendConsoleMessage(
+            "&a[Mongo] &fDetected mongo auth type and loaded in &a" + System.currentTimeMillis()
+                .minus(startMongo) + "ms"
+        )
 
         audience = BukkitAudiences.create(this)
 
@@ -110,7 +119,9 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         val themeStart = System.currentTimeMillis()
         ThemeLoader.loadAllThemes()
 
-        Chat.sendConsoleMessage("&d[Themes] &fAll themes loaded in &d" + System.currentTimeMillis().minus(themeStart) + "ms")
+        Chat.sendConsoleMessage(
+            "&d[Themes] &fAll themes loaded in &d" + System.currentTimeMillis().minus(themeStart) + "ms"
+        )
 
         val pubsubStart = System.currentTimeMillis()
         thread {
@@ -130,22 +141,26 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
 
-        if (config.getBoolean("modules.filters")) {
+        if (config.getBoolean("modules.filters"))
+        {
             server.pluginManager.registerEvents(FilterListener, this)
         }
 
-        if (config.getBoolean("modules.coins")) {
+        if (config.getBoolean("modules.coins"))
+        {
             server.pluginManager.registerEvents(CoinShopLoadTransactionsListener(), this)
         }
 
-        if (config.getBoolean("modules.2fa")) {
+        if (config.getBoolean("modules.2fa"))
+        {
             server.pluginManager.registerEvents(AuthListener(), this)
         }
 
         server.pluginManager.registerEvents(NetworkJoinAndLeaveListener(), this)
         server.pluginManager.registerEvents(ServerLockListener(), this)
 
-        if (config.getBoolean("modules.staffmode")) {
+        if (config.getBoolean("modules.staffmode"))
+        {
             server.pluginManager.registerEvents(FrozenPlayerListener(), this)
             server.pluginManager.registerEvents(GenericStaffmodePreventionListener(), this)
             server.pluginManager.registerEvents(StaffmodeFunctionalityListener(), this)
@@ -157,7 +172,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val broadcastStart = System.currentTimeMillis()
 
-        if (config.getBoolean("autobroadcast.enabled")) {
+        if (config.getBoolean("autobroadcast.enabled"))
+        {
             BroadcastService.loadMessages()
         }
 
@@ -172,7 +188,8 @@ class AlchemistSpigotPlugin : JavaPlugin() {
         (SyncTask()).runTaskTimer(this, 0L, 60L * 20L)
         MenuAutoUpdate().runTaskTimer(this, 20L, 20L)
 
-        if (config.getBoolean("modules.parties")) {
+        if (config.getBoolean("modules.parties"))
+        {
             //(DecayingPartyTask()).runTaskTimerAsynchronously(this, 0L, 40L)
         }
 
@@ -202,12 +219,14 @@ class AlchemistSpigotPlugin : JavaPlugin() {
 
         val discordStart = System.currentTimeMillis()
 
-        if (config.getBoolean("discord.punishments.enabled")) {
+        if (config.getBoolean("discord.punishments.enabled"))
+        {
 
             WebhookService.createPunishmentClient(config.getString("discord.punishments.webhookLink"))
         }
 
-        if (config.getBoolean("discord.grants.enabled")) {
+        if (config.getBoolean("discord.grants.enabled"))
+        {
 
             WebhookService.createRankGrantClient(config.getString("discord.grants.webhookLink"))
         }

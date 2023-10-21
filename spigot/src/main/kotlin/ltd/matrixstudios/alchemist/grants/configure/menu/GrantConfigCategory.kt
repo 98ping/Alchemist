@@ -9,6 +9,7 @@ package ltd.matrixstudios.alchemist.grants.configure.menu
  */
 enum class GrantConfigCategory(
     var display: String
-) {
+)
+{
     REASONS("&b&lGrant Reasons"), DURATIONS("&e&lGrant Durations"), SCOPE_PRESETS("&d&lGrant Scopes")
 }

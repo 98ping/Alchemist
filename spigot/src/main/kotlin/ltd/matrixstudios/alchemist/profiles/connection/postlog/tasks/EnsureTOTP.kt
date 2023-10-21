@@ -1,14 +1,10 @@
 package ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks
 
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.profiles.BukkitProfileAdaptation
-import ltd.matrixstudios.alchemist.profiles.ProfileModule
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginTask
 import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.metadata.FixedMetadataValue
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -20,7 +16,8 @@ import java.util.concurrent.CompletableFuture
  */
 object EnsureTOTP : BukkitPostLoginTask
 {
-    override fun run(player: Player) {
+    override fun run(player: Player)
+    {
         CompletableFuture.runAsync {
             val profile = player.getProfile() ?: return@runAsync
 

@@ -13,15 +13,18 @@ class SkullButton(
     val texture: String,
     val description: MutableList<String>,
     val name: String,
-) : Button() {
+) : Button()
+{
 
     var body: ((Player, Int, ClickType) -> Unit)? = null
 
-    fun setBody(body: ((Player, Int, ClickType) -> Unit)?) : SkullButton {
+    fun setBody(body: ((Player, Int, ClickType) -> Unit)?): SkullButton
+    {
         return this.apply { this.body = body }
     }
 
-    override fun getButtonItem(player: Player): ItemStack? {
+    override fun getButtonItem(player: Player): ItemStack?
+    {
         val itemstack = ItemStack(Material.SKULL_ITEM)
 
         itemstack.durability = 3
@@ -34,23 +37,28 @@ class SkullButton(
         return SkullUtil.applyCustomHead(itemstack, texture, "98pingIsCoolAsf", description, name)
     }
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.SKULL_ITEM
     }
 
-    override fun getDescription(player: Player): MutableList<String> {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         return description
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format(name)
     }
 
-    override fun getData(player: Player): Short {
+    override fun getData(player: Player): Short
+    {
         return 3
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
         if (body != null)
         {
             body?.invoke(player, slot, type)

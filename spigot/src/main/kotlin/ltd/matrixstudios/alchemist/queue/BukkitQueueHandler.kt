@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.queue
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.queue.task.QueueRemindUsersTask
 import ltd.matrixstudios.alchemist.queue.task.QueueSendTask
-import ltd.matrixstudios.alchemist.service.queue.QueueService
 
 /**
  * Class created on 7/12/2023
@@ -12,10 +11,13 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BukkitQueueHandler {
+object BukkitQueueHandler
+{
 
-    fun load() {
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue")) {
+    fun load()
+    {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue"))
+        {
             QueueSendTask().runTaskTimerAsynchronously(
                 AlchemistSpigotPlugin.instance,
                 2 * 20L,

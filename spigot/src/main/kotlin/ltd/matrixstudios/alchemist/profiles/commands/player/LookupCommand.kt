@@ -15,7 +15,8 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.logging.Level
 
-class LookupCommand : BaseCommand() {
+class LookupCommand : BaseCommand()
+{
 
     @CommandAlias("lookup|find|whereis|seen")
     @CommandPermission("alchemist.staff")
@@ -24,8 +25,10 @@ class LookupCommand : BaseCommand() {
     {
         val start = System.currentTimeMillis()
         player.sendMessage(Chat.format("&aLooking up player..."))
-        object : BukkitRunnable() {
-            override fun run() {
+        object : BukkitRunnable()
+        {
+            override fun run()
+            {
                 val serverFromProfile = gameProfile.metadata.get("server")
 
                 if (serverFromProfile != null && !serverFromProfile.asString.equals("None", ignoreCase = true))
@@ -33,7 +36,15 @@ class LookupCommand : BaseCommand() {
                     player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas found on &f${serverFromProfile.asString}"))
                 } else
                 {
-                    player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${TimeUtil.formatDuration(System.currentTimeMillis().minus(gameProfile.lastSeenAt))} &eago"))
+                    player.sendMessage(
+                        Chat.format(
+                            AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${
+                                TimeUtil.formatDuration(
+                                    System.currentTimeMillis().minus(gameProfile.lastSeenAt)
+                                )
+                            } &eago"
+                        )
+                    )
                 }
             }
         }.runTaskLater(AlchemistSpigotPlugin.instance, 0L)

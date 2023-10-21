@@ -6,11 +6,13 @@ import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.themes.commands.menu.ThemeSelectMenu
 import org.bukkit.entity.Player
 
-class ThemeSelectCommand : BaseCommand() {
+class ThemeSelectCommand : BaseCommand()
+{
 
     @CommandAlias("themes|theme")
     @CommandPermission("alchemist.themes")
-    fun theme(player: Player) {
+    fun theme(player: Player)
+    {
         ThemeSelectMenu(player).openMenu()
     }
 }

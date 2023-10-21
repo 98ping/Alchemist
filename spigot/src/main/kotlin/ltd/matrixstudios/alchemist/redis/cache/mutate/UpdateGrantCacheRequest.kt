@@ -4,9 +4,11 @@ import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import java.util.*
 
-class UpdateGrantCacheRequest(val target: UUID) : RedisPacket("grant-sync-update") {
+class UpdateGrantCacheRequest(val target: UUID) : RedisPacket("grant-sync-update")
+{
 
-    override fun action() {
+    override fun action()
+    {
         RankGrantService.recalculateUUID(target)
     }
 }

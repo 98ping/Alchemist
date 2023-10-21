@@ -9,30 +9,37 @@ import ltd.matrixstudios.alchemist.util.WebUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class FreerankCommand : BaseCommand() {
+class FreerankCommand : BaseCommand()
+{
 
     @CommandAlias("freerank")
-    fun freeRank(player: Player) {
+    fun freeRank(player: Player)
+    {
         val gameProfile = ProfileGameService.byId(player.uniqueId)
 
-        if (gameProfile == null) {
+        if (gameProfile == null)
+        {
             player.sendMessage(Chat.format("&cYou do not have a profile!"))
             return
         }
 
-        if (gameProfile.metadata.has("redeemedFreeRank")) {
+        if (gameProfile.metadata.has("redeemedFreeRank"))
+        {
             player.sendMessage(Chat.format("&cYou already claimed your free rank!"))
             return
         }
 
         WebUtil.playerHasLiked(player.uniqueId).thenApply {
-            if (it == false) {
-                for (line in AlchemistSpigotPlugin.instance.config.getStringList("freeRank.message")) {
+            if (it == false)
+            {
+                for (line in AlchemistSpigotPlugin.instance.config.getStringList("freeRank.message"))
+                {
                     player.sendMessage(Chat.format(line))
                 }
 
                 return@thenApply
-            } else {
+            } else
+            {
                 player.sendMessage(Chat.format("&aRedeemed your free rank!"))
 
                 AlchemistSpigotPlugin.instance.server.scheduler.runTask(AlchemistSpigotPlugin.instance) {

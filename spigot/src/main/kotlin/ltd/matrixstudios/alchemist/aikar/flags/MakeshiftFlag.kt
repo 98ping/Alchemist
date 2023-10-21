@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.aikar.flags
 
-class MakeshiftFlag(val ctx: String) {
+class MakeshiftFlag(val ctx: String)
+{
 
     /*
         Check for starting parameter like qLib
@@ -8,7 +9,7 @@ class MakeshiftFlag(val ctx: String) {
         @target should relate to flag type (eg. -p, -s, -a, -cc)
         @ctx above is the popped flag
      */
-    fun validate(target: String) : Boolean
+    fun validate(target: String): Boolean
     {
         val simpleCtx = ctx.trim()
 

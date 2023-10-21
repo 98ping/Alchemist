@@ -42,7 +42,8 @@ class RankScanMenu(val player: Player) : PaginatedMenu(27, player)
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             2 to Button.placeholder(),
             4 to Button.placeholder(),
@@ -65,7 +66,8 @@ class RankScanMenu(val player: Player) : PaginatedMenu(27, player)
         )
     }
 
-    override fun getButtonsPerPage(): Int {
+    override fun getButtonsPerPage(): Int
+    {
         return 16
     }
 
@@ -98,7 +100,7 @@ class RankScanMenu(val player: Player) : PaginatedMenu(27, player)
             return desc.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String?
+        override fun getDisplayName(player: Player): String
         {
             return Chat.format(rank.color + rank.displayName)
         }

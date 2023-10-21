@@ -1,7 +1,5 @@
 package ltd.matrixstudios.alchemist.servers.menu.sub
 
-import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.redis.cache.mutate.UpdateGlobalServerPacket
@@ -15,19 +13,20 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(player) {
+class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(player)
+{
 
-    init {
+    init
+    {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         buttons[10] = SimpleActionButton(
             Material.ANVIL,
@@ -75,7 +74,8 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             if (other)
             {
                 player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to true"))
-            } else {
+            } else
+            {
                 player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to false"))
             }
 
@@ -93,7 +93,8 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Editing a Server!"
     }
 }

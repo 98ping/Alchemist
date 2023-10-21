@@ -41,7 +41,8 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
         return "Select a Skin..."
     }
 
-    override fun getButtonPositions(): List<Int> {
+    override fun getButtonPositions(): List<Int>
+    {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -49,7 +50,8 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to SkullButtonOnlyName(
@@ -99,7 +101,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                         val skin: Skin?
                         try
                         {
-                            skin =  DisguiseAPI.getSkinManager().getFromMojang(it)
+                            skin = DisguiseAPI.getSkinManager().getFromMojang(it)
                         } catch (e: UserNotFoundException)
                         {
                             player.sendMessage(Chat.format("&cThis player does not exist! Please check the spelling of the name."))

@@ -1,11 +1,7 @@
 package ltd.matrixstudios.alchemist.commands.coins
 
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Default
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.coins.editor.CoinShopEditorMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -14,13 +10,16 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
 @CommandAlias("coins|coin")
-class CoinsCommand : BaseCommand() {
+class CoinsCommand : BaseCommand()
+{
 
     @Default
-    fun coinsCommand(player: Player) {
+    fun coinsCommand(player: Player)
+    {
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId)
 
-        if (profile == null) {
+        if (profile == null)
+        {
             player.sendMessage(Chat.format("&cYou must have a profile to use this command!"))
             return
         }
@@ -37,7 +36,8 @@ class CoinsCommand : BaseCommand() {
 
     @Subcommand("set")
     @CommandPermission("alchemist.coins.admin")
-    fun coinsSetCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int) {
+    fun coinsSetCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int)
+    {
         target.coins = amount
         ProfileGameService.save(target)
 
@@ -46,10 +46,17 @@ class CoinsCommand : BaseCommand() {
 
     @Subcommand("give")
     @CommandPermission("alchemist.coins.admin")
-    fun coinsGiveCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int) {
+    fun coinsGiveCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int)
+    {
         target.coins = amount
         ProfileGameService.save(target)
 
-        player.sendMessage(Chat.format("&7[&6Coins&7] &eYou have given &6" + amount + " &ecoins to the player " + AlchemistAPI.getRankDisplay(target.uuid)))
+        player.sendMessage(
+            Chat.format(
+                "&7[&6Coins&7] &eYou have given &6" + amount + " &ecoins to the player " + AlchemistAPI.getRankDisplay(
+                    target.uuid
+                )
+            )
+        )
     }
 }

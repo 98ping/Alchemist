@@ -17,7 +17,8 @@ import java.util.zip.GZIPOutputStream
 import javax.net.ssl.HttpsURLConnection
 
 
-class Metric(plugin: JavaPlugin, serviceId: Int) {
+class Metric(plugin: JavaPlugin, serviceId: Int)
+{
     private val plugin: Plugin
     private val metricsBase: MetricsBase
 
@@ -27,13 +28,15 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param plugin Your plugin instance.
      * @param serviceId The id of the service. It can be found at [What is my plugin id?](https://bstats.org/what-is-my-plugin-id)
      */
-    init {
+    init
+    {
         this.plugin = plugin
         // Get the config file
         val bStatsFolder = File(plugin.dataFolder.parentFile, "bStats")
         val configFile = File(bStatsFolder, "config.yml")
         val config = YamlConfiguration.loadConfiguration(configFile)
-        if (!config.isSet("serverUuid")) {
+        if (!config.isSet("serverUuid"))
+        {
             config.addDefault("enabled", true)
             config.addDefault("serverUuid", UUID.randomUUID().toString())
             config.addDefault("logFailedRequests", false)
@@ -50,9 +53,11 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
                             + "anonymous."
                 )
                 .copyDefaults(true)
-            try {
+            try
+            {
                 config.save(configFile)
-            } catch (ignored: IOException) {
+            } catch (ignored: IOException)
+            {
             }
         }
         // Load the data
@@ -79,7 +84,7 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
             { submitDataTask: Runnable? ->
                 Bukkit.getScheduler().runTask(plugin, submitDataTask)
             },
-            { plugin.isEnabled() },
+            { plugin.isEnabled },
             { message: String?, error: Throwable? ->
                 this.plugin.getLogger().log(Level.WARNING, message, error)
             },
@@ -97,11 +102,13 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      *
      * @param chart The chart to add.
      */
-    fun addCustomChart(chart: CustomChart) {
+    fun addCustomChart(chart: CustomChart)
+    {
         metricsBase.addCustomChart(chart)
     }
 
-    private fun appendPlatformData(builder: JsonObjectBuilder) {
+    private fun appendPlatformData(builder: JsonObjectBuilder)
+    {
         builder.appendField("playerAmount", playerAmount)
         builder.appendField("onlineMode", if (Bukkit.getOnlineMode()) 1 else 0)
         builder.appendField("bukkitVersion", Bukkit.getVersion())
@@ -113,7 +120,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
         builder.appendField("coreCount", Runtime.getRuntime().availableProcessors())
     }
 
-    private fun appendServiceData(builder: JsonObjectBuilder) {
+    private fun appendServiceData(builder: JsonObjectBuilder)
+    {
         builder.appendField("pluginVersion", plugin.description.version)
     }// Just use the new method if the reflection failed
 
@@ -121,8 +129,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
     // This fixes java.lang.NoSuchMethodError:
     // org.bukkit.Bukkit.getOnlinePlayers()Ljava/util/Collection;
     private val playerAmount: Int
-        private get() {
-            try {
+        private get()
+        {
+            try
+            {
                 // Around MC 1.8 the return type was changed from an array to a collection,
                 // This fixes java.lang.NoSuchMethodError:
                 // org.bukkit.Bukkit.getOnlinePlayers()Ljava/util/Collection;
@@ -130,7 +140,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
                 return if ((onlinePlayersMethod.returnType == MutableCollection::class.java)) (onlinePlayersMethod.invoke(
                     Bukkit.getServer()
                 ) as Collection<*>).size else (onlinePlayersMethod.invoke(Bukkit.getServer()) as Array<Player?>).size
-            } catch (e: Exception) {
+            } catch (e: Exception)
+            {
                 // Just use the new method if the reflection failed
                 return Bukkit.getOnlinePlayers().size
             }
@@ -150,7 +161,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
         private val logErrors: Boolean,
         private val logSentData: Boolean,
         private val logResponseStatusText: Boolean
-    ) {
+    )
+    {
         private val customCharts: MutableSet<CustomChart> = HashSet()
 
         /**
@@ -174,28 +186,35 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param logSentData Whether or not the sent data should be logged.
          * @param logResponseStatusText Whether or not the response status text should be logged.
          */
-        init {
+        init
+        {
             checkRelocation()
-            if (enabled) {
+            if (enabled)
+            {
                 // WARNING: Removing the option to opt-out will get your plugin banned from bStats
                 startSubmitting()
             }
         }
 
-        fun addCustomChart(chart: CustomChart) {
+        fun addCustomChart(chart: CustomChart)
+        {
             customCharts.add(chart)
         }
 
-        private fun startSubmitting() {
+        private fun startSubmitting()
+        {
             val submitTask = Runnable {
-                if (!enabled || !checkServiceEnabledSupplier.get()) {
+                if (!enabled || !checkServiceEnabledSupplier.get())
+                {
                     // Submitting data or service is disabled
                     scheduler.shutdown()
                     return@Runnable
                 }
-                if (submitTaskConsumer != null) {
+                if (submitTaskConsumer != null)
+                {
                     submitTaskConsumer.accept(Runnable { submitData() })
-                } else {
+                } else
+                {
                     submitData()
                 }
             }
@@ -214,7 +233,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
             )
         }
 
-        private fun submitData() {
+        private fun submitData()
+        {
             val baseJsonBuilder = JsonObjectBuilder()
             appendPlatformDataConsumer.accept(baseJsonBuilder)
             val serviceJsonBuilder = JsonObjectBuilder()
@@ -236,12 +256,15 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
             baseJsonBuilder.appendField("metricsVersion", METRICS_VERSION)
             val data = baseJsonBuilder.build()
             scheduler.execute {
-                try {
+                try
+                {
                     // Send the data
                     sendData(data)
-                } catch (e: Exception) {
+                } catch (e: Exception)
+                {
                     // Something went wrong! :(
-                    if (logErrors) {
+                    if (logErrors)
+                    {
                         errorLogger.accept("Could not submit bStats metrics data", e)
                     }
                 }
@@ -249,8 +272,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
         }
 
         @Throws(Exception::class)
-        private fun sendData(data: JsonObjectBuilder.JsonObject) {
-            if (logSentData) {
+        private fun sendData(data: JsonObjectBuilder.JsonObject)
+        {
+            if (logSentData)
+            {
                 infoLogger.accept("Sent bStats metrics data: $data")
             }
             val url = String.format(REPORT_URL, platform)
@@ -273,21 +298,25 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
             val builder = StringBuilder()
             BufferedReader(InputStreamReader(connection.inputStream)).use { bufferedReader ->
                 var line: String?
-                while ((bufferedReader.readLine().also { line = it }) != null) {
+                while ((bufferedReader.readLine().also { line = it }) != null)
+                {
                     builder.append(line)
                 }
             }
-            if (logResponseStatusText) {
+            if (logResponseStatusText)
+            {
                 infoLogger.accept("Sent data to bStats and received response: $builder")
             }
         }
 
         /** Checks that the class was properly relocated.  */
-        private fun checkRelocation() {
+        private fun checkRelocation()
+        {
             // You can use the property to disable the check in your test environment
             if ((System.getProperty("bstats.relocatecheck") == null
                         || System.getProperty("bstats.relocatecheck") != "false")
-            ) {
+            )
+            {
                 // Maven's Relocate is clever and changes strings, too. So we have to use this little
                 // "trick" ... :D
                 val defaultPackage = String(
@@ -324,13 +353,15 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
                 // names
                 if ((MetricsBase::class.java.getPackage().name.startsWith(defaultPackage)
                             || MetricsBase::class.java.getPackage().name.startsWith(examplePackage))
-                ) {
+                )
+                {
                     throw IllegalStateException("bStats Metrics class has not been relocated correctly!")
                 }
             }
         }
 
-        companion object {
+        companion object
+        {
             /** The version of the Metrics class.  */
             val METRICS_VERSION = "3.0.0"
             private val scheduler = Executors.newScheduledThreadPool(1,
@@ -344,8 +375,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
              * @return The gzipped string.
              */
             @Throws(IOException::class)
-            private fun compress(str: String?): ByteArray? {
-                if (str == null) {
+            private fun compress(str: String?): ByteArray?
+            {
+                if (str == null)
+                {
                     return null
                 }
                 val outputStream = ByteArrayOutputStream()
@@ -363,31 +396,38 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param callable The callable which is used to request the chart data.
      */// Null = skip the chart
         (chartId: String?, private val callable: Callable<Map<String, Map<String, Int>>>) :
-        CustomChart(chartId) {
+        CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            get() {
+            get()
+            {
                 val valuesBuilder = JsonObjectBuilder()
                 val map = callable.call()
-                if (map == null || map.isEmpty()) {
+                if (map == null || map.isEmpty())
+                {
                     // Null = skip the chart
                     return null
                 }
                 var reallyAllSkipped = true
-                for (entryValues: Map.Entry<String, Map<String, Int>> in map.entries) {
+                for (entryValues: Map.Entry<String, Map<String, Int>> in map.entries)
+                {
                     val valueBuilder = JsonObjectBuilder()
                     var allSkipped = true
-                    for (valueEntry: Map.Entry<String, Int> in map[entryValues.key]!!.entries) {
+                    for (valueEntry: Map.Entry<String, Int> in map[entryValues.key]!!.entries)
+                    {
                         valueBuilder.appendField(valueEntry.key, valueEntry.value)
                         allSkipped = false
                     }
-                    if (!allSkipped) {
+                    if (!allSkipped)
+                    {
                         reallyAllSkipped = false
                         valuesBuilder.appendField(entryValues.key, valueBuilder.build())
                     }
                 }
-                return if (reallyAllSkipped) {
+                return if (reallyAllSkipped)
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("values", valuesBuilder.build()).build()
@@ -402,27 +442,33 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param callable The callable which is used to request the chart data.
      */// Null = skip the chart// Skip this invalid
         (chartId: String?, private val callable: Callable<Map<String, Int>>) :
-        CustomChart(chartId) {
+        CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val valuesBuilder = JsonObjectBuilder()
                 val map = callable.call()
-                if (map == null || map.isEmpty()) {
+                if (map == null || map.isEmpty())
+                {
                     // Null = skip the chart
                     return null
                 }
                 var allSkipped = true
-                for (entry: Map.Entry<String, Int> in map.entries) {
-                    if (entry.value == 0) {
+                for (entry: Map.Entry<String, Int> in map.entries)
+                {
+                    if (entry.value == 0)
+                    {
                         // Skip this invalid
                         continue
                     }
                     allSkipped = false
                     valuesBuilder.appendField(entry.key, entry.value)
                 }
-                return if (allSkipped) {
+                return if (allSkipped)
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("values", valuesBuilder.build()).build()
@@ -437,27 +483,33 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param callable The callable which is used to request the chart data.
      */// Null = skip the chart// Skip this invalid
         (chartId: String?, private val callable: Callable<Map<String, Int>>) :
-        CustomChart(chartId) {
+        CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val valuesBuilder = JsonObjectBuilder()
                 val map = callable.call()
-                if (map == null || map.isEmpty()) {
+                if (map == null || map.isEmpty())
+                {
                     // Null = skip the chart
                     return null
                 }
                 var allSkipped = true
-                for (entry: Map.Entry<String, Int> in map.entries) {
-                    if (entry.value == 0) {
+                for (entry: Map.Entry<String, Int> in map.entries)
+                {
+                    if (entry.value == 0)
+                    {
                         // Skip this invalid
                         continue
                     }
                     allSkipped = false
                     valuesBuilder.appendField(entry.key, entry.value)
                 }
-                return if (allSkipped) {
+                return if (allSkipped)
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("values", valuesBuilder.build()).build()
@@ -471,29 +523,36 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param chartId The id of the chart.
      * @param callable The callable which is used to request the chart data.
      */(chartId: String?, private val callable: Callable<Map<String, Int>>) :
-        CustomChart(chartId) {
+        CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val valuesBuilder = JsonObjectBuilder()
                 val map = callable.call()
-                if (map == null || map.isEmpty()) {
+                if (map == null || map.isEmpty())
+                {
                     // Null = skip the chart
                     return null
                 }
-                for (entry: Map.Entry<String, Int> in map.entries) {
+                for (entry: Map.Entry<String, Int> in map.entries)
+                {
                     valuesBuilder.appendField(entry.key, intArrayOf(entry.value))
                 }
                 return JsonObjectBuilder().appendField("values", valuesBuilder.build()).build()
             }
     }
 
-    abstract class CustomChart protected constructor(chartId: String?) {
+    abstract class CustomChart protected constructor(chartId: String?)
+    {
         private val chartId: String
 
-        init {
-            if (chartId == null) {
+        init
+        {
+            if (chartId == null)
+            {
                 throw IllegalArgumentException("chartId must not be null")
             }
             this.chartId = chartId
@@ -501,16 +560,20 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
 
         fun getRequestJsonObject(
             errorLogger: BiConsumer<String?, Throwable?>, logErrors: Boolean
-        ): JsonObjectBuilder.JsonObject? {
+        ): JsonObjectBuilder.JsonObject?
+        {
             val builder = JsonObjectBuilder()
             builder.appendField("chartId", chartId)
-            try {
+            try
+            {
                 val data = chartData
                     ?: // If the data is null we don't send the chart.
                     return null
                 builder.appendField("data", data)
-            } catch (t: Throwable) {
-                if (logErrors) {
+            } catch (t: Throwable)
+            {
+                if (logErrors)
+                {
                     errorLogger.accept("Failed to get data for custom chart with id $chartId", t)
                 }
                 return null
@@ -528,13 +591,16 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      *
      * @param chartId The id of the chart.
      * @param callable The callable which is used to request the chart data.
-     */(chartId: String?, private val callable: Callable<String>) : CustomChart(chartId) {
+     */(chartId: String?, private val callable: Callable<String>) : CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val value = callable.call()
-                return if (value == null || value.isEmpty()) {
+                return if (value == null || value.isEmpty())
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("value", value).build()
@@ -549,27 +615,33 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * @param callable The callable which is used to request the chart data.
      */// Null = skip the chart// Skip this invalid
         (chartId: String?, private val callable: Callable<Map<String, IntArray>>) :
-        CustomChart(chartId) {
+        CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val valuesBuilder = JsonObjectBuilder()
                 val map = callable.call()
-                if (map == null || map.isEmpty()) {
+                if (map == null || map.isEmpty())
+                {
                     // Null = skip the chart
                     return null
                 }
                 var allSkipped = true
-                for (entry: Map.Entry<String, IntArray> in map.entries) {
-                    if (entry.value.size == 0) {
+                for (entry: Map.Entry<String, IntArray> in map.entries)
+                {
+                    if (entry.value.size == 0)
+                    {
                         // Skip this invalid
                         continue
                     }
                     allSkipped = false
                     valuesBuilder.appendField(entry.key, entry.value)
                 }
-                return if (allSkipped) {
+                return if (allSkipped)
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("values", valuesBuilder.build()).build()
@@ -582,13 +654,16 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      *
      * @param chartId The id of the chart.
      * @param callable The callable which is used to request the chart data.
-     */(chartId: String?, private val callable: Callable<Int>) : CustomChart(chartId) {
+     */(chartId: String?, private val callable: Callable<Int>) : CustomChart(chartId)
+    {
         // Null = skip the chart
         @get:Throws(Exception::class)
         override val chartData: JsonObjectBuilder.JsonObject?
-            protected get() {
+            protected get()
+            {
                 val value = callable.call()
-                return if (value == 0) {
+                return if (value == 0)
+                {
                     // Null = skip the chart
                     null
                 } else JsonObjectBuilder().appendField("value", value).build()
@@ -602,11 +677,13 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
      * While this class is neither feature-rich nor the most performant one, it's sufficient enough
      * for its use-case.
      */
-    class JsonObjectBuilder() {
+    class JsonObjectBuilder
+    {
         private var builder: StringBuilder? = StringBuilder()
         private var hasAtLeastOneField = false
 
-        init {
+        init
+        {
             builder!!.append("{")
         }
 
@@ -616,7 +693,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param key The key of the field.
          * @return A reference to this object.
          */
-        fun appendNull(key: String?): JsonObjectBuilder {
+        fun appendNull(key: String?): JsonObjectBuilder
+        {
             appendFieldUnescaped(key, "null")
             return this
         }
@@ -628,8 +706,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param value The value of the field.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, value: String?): JsonObjectBuilder {
-            if (value == null) {
+        fun appendField(key: String?, value: String?): JsonObjectBuilder
+        {
+            if (value == null)
+            {
                 throw IllegalArgumentException("JSON value must not be null")
             }
             appendFieldUnescaped(key, "\"" + escape(value) + "\"")
@@ -643,7 +723,8 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param value The value of the field.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, value: Int): JsonObjectBuilder {
+        fun appendField(key: String?, value: Int): JsonObjectBuilder
+        {
             appendFieldUnescaped(key, value.toString())
             return this
         }
@@ -655,8 +736,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param object The object.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, `object`: JsonObject?): JsonObjectBuilder {
-            if (`object` == null) {
+        fun appendField(key: String?, `object`: JsonObject?): JsonObjectBuilder
+        {
+            if (`object` == null)
+            {
                 throw IllegalArgumentException("JSON object must not be null")
             }
             appendFieldUnescaped(key, `object`.toString())
@@ -670,8 +753,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param values The string array.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, values: Array<String>?): JsonObjectBuilder {
-            if (values == null) {
+        fun appendField(key: String?, values: Array<String>?): JsonObjectBuilder
+        {
+            if (values == null)
+            {
                 throw IllegalArgumentException("JSON values must not be null")
             }
             val escapedValues = Arrays.stream(values)
@@ -692,8 +777,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param values The integer array.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, values: IntArray?): JsonObjectBuilder {
-            if (values == null) {
+        fun appendField(key: String?, values: IntArray?): JsonObjectBuilder
+        {
+            if (values == null)
+            {
                 throw IllegalArgumentException("JSON values must not be null")
             }
             val escapedValues = Arrays.stream(values).mapToObj({ i: Int ->
@@ -712,8 +799,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param values The integer array.
          * @return A reference to this object.
          */
-        fun appendField(key: String?, values: Array<JsonObject>?): JsonObjectBuilder {
-            if (values == null) {
+        fun appendField(key: String?, values: Array<JsonObject>?): JsonObjectBuilder
+        {
+            if (values == null)
+            {
                 throw IllegalArgumentException("JSON values must not be null")
             }
             val escapedValues =
@@ -728,14 +817,18 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * @param key The key of the field.
          * @param escapedValue The escaped value of the field.
          */
-        private fun appendFieldUnescaped(key: String?, escapedValue: String) {
-            if (builder == null) {
+        private fun appendFieldUnescaped(key: String?, escapedValue: String)
+        {
+            if (builder == null)
+            {
                 throw IllegalStateException("JSON has already been built")
             }
-            if (key == null) {
+            if (key == null)
+            {
                 throw IllegalArgumentException("JSON key must not be null")
             }
-            if (hasAtLeastOneField) {
+            if (hasAtLeastOneField)
+            {
                 builder!!.append(",")
             }
             builder!!.append("\"").append(escape(key)).append("\":").append(escapedValue)
@@ -747,8 +840,10 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          *
          * @return The built JSON string.
          */
-        fun build(): JsonObject {
-            if (builder == null) {
+        fun build(): JsonObject
+        {
+            if (builder == null)
+            {
                 throw IllegalStateException("JSON has already been built")
             }
             val `object` = JsonObject(builder!!.append("}").toString())
@@ -763,13 +858,16 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
          * This class only exists to make methods of the [JsonObjectBuilder] type-safe and not
          * allow a raw string inputs for methods like [JsonObjectBuilder.appendField].
          */
-        class JsonObject(private val value: String) {
-            override fun toString(): String {
+        class JsonObject(private val value: String)
+        {
+            override fun toString(): String
+            {
                 return value
             }
         }
 
-        companion object {
+        companion object
+        {
             /**
              * Escapes the given string like stated in https://www.ietf.org/rfc/rfc4627.txt.
              *
@@ -780,19 +878,26 @@ class Metric(plugin: JavaPlugin, serviceId: Int) {
              * @param value The value to escape.
              * @return The escaped value.
              */
-            private fun escape(value: String): String {
+            private fun escape(value: String): String
+            {
                 val builder = StringBuilder()
-                for (i in 0 until value.length) {
+                for (i in 0 until value.length)
+                {
                     val c = value[i]
-                    if (c == '"') {
+                    if (c == '"')
+                    {
                         builder.append("\\\"")
-                    } else if (c == '\\') {
+                    } else if (c == '\\')
+                    {
                         builder.append("\\\\")
-                    } else if (c <= '\u000F') {
+                    } else if (c <= '\u000F')
+                    {
                         builder.append("\\u000").append(Integer.toHexString(c.code))
-                    } else if (c <= '\u001F') {
+                    } else if (c <= '\u001F')
+                    {
                         builder.append("\\u00").append(Integer.toHexString(c.code))
-                    } else {
+                    } else
+                    {
                         builder.append(c)
                     }
                 }

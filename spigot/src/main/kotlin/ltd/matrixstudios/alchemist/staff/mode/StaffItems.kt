@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.staff.mode
 
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
-import ltd.matrixstudios.alchemist.serialize.Serializers
 import ltd.matrixstudios.alchemist.serialize.type.ItemStackAdapter
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
@@ -9,9 +8,9 @@ import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
-object StaffItems {
+object StaffItems
+{
 
     val COMPASS = ItemBuilder.of(Material.COMPASS).name("&bCompass").build()
     val INVENTORY_INSPECT = ItemBuilder.of(Material.BOOK).name("&bInspect Inventory").build()
@@ -24,7 +23,18 @@ object StaffItems {
     val LAST_PVP = ItemBuilder.of(Material.EMERALD).name("&bLast PvP").build()
     val EDIT_MOD_MODE = ItemBuilder.of(Material.EMERALD).name(Chat.format("&a&lEdit Mod Mode")).build()
 
-    val ITEMS_IN_LIST = listOf(COMPASS, INVENTORY_INSPECT, RANDOMTP, WORLDEDIT_AXE, BETTER_VIEW, VANISH, UNVANISH, FREEZE, LAST_PVP, EDIT_MOD_MODE)
+    val ITEMS_IN_LIST = listOf(
+        COMPASS,
+        INVENTORY_INSPECT,
+        RANDOMTP,
+        WORLDEDIT_AXE,
+        BETTER_VIEW,
+        VANISH,
+        UNVANISH,
+        FREEZE,
+        LAST_PVP,
+        EDIT_MOD_MODE
+    )
 
     var lastPvP: Location? = null
 
@@ -40,7 +50,8 @@ object StaffItems {
                 val items = ItemStackAdapter.itemStackArrayFromBase64(item)
 
                 player.inventory.contents = items
-            } else {
+            } else
+            {
                 player.inventory.setItem(0, COMPASS)
                 player.inventory.setItem(1, INVENTORY_INSPECT)
                 player.inventory.setItem(2, RANDOMTP)
@@ -51,7 +62,10 @@ object StaffItems {
                     player.inventory.setItem(4, WORLDEDIT_AXE)
                 }
 
-                player.inventory.setItem(6, ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build())
+                player.inventory.setItem(
+                    6,
+                    ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build()
+                )
                 player.inventory.setItem(7, VANISH)
                 player.inventory.setItem(8, FREEZE)
             }

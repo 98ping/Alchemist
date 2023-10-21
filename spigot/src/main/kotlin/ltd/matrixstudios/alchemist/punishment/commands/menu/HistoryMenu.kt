@@ -8,13 +8,17 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import org.bukkit.entity.Player
 
-class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(player) {
+class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(player)
+{
 
-    init {
+    init
+    {
         staticSize = 27
         placeholder = true
     }
-    override fun getButtons(player: Player): MutableMap<Int, Button> {
+
+    override fun getButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = hashMapOf<Int, Button>()
 
         buttons[9] = HistoryPlaceholderButton(PunishmentType.WARN, gameprofile)
@@ -26,7 +30,8 @@ class HistoryMenu(var gameprofile: GameProfile, var player: Player) : Menu(playe
         return buttons
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return Chat.format(AlchemistAPI.getRankDisplay(gameprofile.uuid))
     }
 }

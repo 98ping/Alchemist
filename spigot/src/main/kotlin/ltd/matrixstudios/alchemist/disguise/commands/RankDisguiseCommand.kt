@@ -8,11 +8,13 @@ import org.bukkit.entity.Player
 import java.util.*
 
 
-class RankDisguiseCommand : BaseCommand() {
+class RankDisguiseCommand : BaseCommand()
+{
 
     @CommandAlias("rankdisguise")
     @CommandPermission("alchemist.disguise.rank")
-    fun rankDisguise(player: Player) {
+    fun rankDisguise(player: Player)
+    {
         RankDisguiseMenu(player).updateMenu()
     }
 }

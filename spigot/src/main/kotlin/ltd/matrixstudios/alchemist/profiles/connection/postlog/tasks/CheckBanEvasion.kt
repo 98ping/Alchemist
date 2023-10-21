@@ -7,7 +7,6 @@ import ltd.matrixstudios.alchemist.profiles.connection.postlog.BukkitPostLoginTa
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import org.bukkit.entity.Player
-import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 7/20/2023
@@ -16,16 +15,30 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object CheckBanEvasion : BukkitPostLoginTask {
-    override fun run(player: Player) {
+object CheckBanEvasion : BukkitPostLoginTask
+{
+    override fun run(player: Player)
+    {
         val profileId = player.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
         profile.getAltAccounts().thenAcceptAsync { alts ->
-            val isBanEvading = alts.size >= 1 && alts.any { it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(
-                PunishmentType.BLACKLIST) }
+            val isBanEvading = alts.size >= 1 && alts.any {
+                it.hasActivePunishment(PunishmentType.BAN) || it.hasActivePunishment(
+                    PunishmentType.BLACKLIST
+                )
+            }
 
-            if (isBanEvading) {
-                AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${AlchemistAPI.getRankWithPrefix(profileId)} &3may be using an alt to evade a punishment!"))
+            if (isBanEvading)
+            {
+                AsynchronousRedisSender.send(
+                    StaffGeneralMessagePacket(
+                        "&b[S] &3[${Alchemist.globalServer.displayName}] ${
+                            AlchemistAPI.getRankWithPrefix(
+                                profileId
+                            )
+                        } &3may be using an alt to evade a punishment!"
+                    )
+                )
             }
         }
     }

@@ -3,8 +3,8 @@ package ltd.matrixstudios.alchemist.profiles.commands.sibling
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.annotation.*
-import ltd.matrixstudios.alchemist.profiles.commands.sibling.menu.SiblingCheckMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.profiles.commands.sibling.menu.SiblingCheckMenu
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
@@ -19,15 +19,18 @@ import org.bukkit.entity.Player
  */
 @CommandAlias("sibling")
 @CommandPermission("alchemist.siblings")
-class SiblingCommands : BaseCommand() {
+class SiblingCommands : BaseCommand()
+{
 
     @HelpCommand
-    fun help(help: CommandHelp) {
+    fun help(help: CommandHelp)
+    {
         help.showHelp()
     }
 
     @Subcommand("add")
-    fun add(sender: CommandSender, @Name("target")target: GameProfile, @Name("sibling")sibling: GameProfile) {
+    fun add(sender: CommandSender, @Name("target") target: GameProfile, @Name("sibling") sibling: GameProfile)
+    {
         target.getAllSiblings().add(sibling.uuid)
         sibling.getAllSiblings().add(target.uuid)
         ProfileGameService.save(target)
@@ -38,7 +41,8 @@ class SiblingCommands : BaseCommand() {
     }
 
     @Subcommand("check")
-    fun check(player: Player, @Name("target") target: GameProfile) {
+    fun check(player: Player, @Name("target") target: GameProfile)
+    {
         SiblingCheckMenu(target, player).updateMenu()
     }
 }

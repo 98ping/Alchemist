@@ -6,10 +6,9 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
-import org.bukkit.potion.PotionEffect
-import java.util.function.Consumer
 
-class InventoryCopyingCommands : BaseCommand() {
+class InventoryCopyingCommands : BaseCommand()
+{
 
     @CommandAlias("cpinv|cpfrom")
     @CommandPermission("alchemist.essentials.cpinv")

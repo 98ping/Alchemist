@@ -11,12 +11,13 @@ import ltd.matrixstudios.alchemist.service.session.SessionService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class SessionCommands : BaseCommand() {
+class SessionCommands : BaseCommand()
+{
 
     @CommandAlias("sessions")
     @CommandCompletion("@gameprofile")
     @CommandPermission("alchemist.sessions")
-    fun sessions(player: Player, @Name("profile")profile: GameProfile)
+    fun sessions(player: Player, @Name("profile") profile: GameProfile)
     {
         if (!SessionService.cache.containsKey(profile.uuid))
         {

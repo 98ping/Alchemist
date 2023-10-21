@@ -14,13 +14,16 @@ import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class TagCustomizationButton(var tag: Tag) : Button() {
+class TagCustomizationButton(var tag: Tag) : Button()
+{
 
-    override fun getMaterial(player: Player): Material {
+    override fun getMaterial(player: Player): Material
+    {
         return Material.INK_SACK
     }
 
-    override fun getDescription(player: Player): MutableList<String>? {
+    override fun getDescription(player: Player): MutableList<String>
+    {
         val desc = arrayListOf<String>()
 
         desc.add(Chat.format("&7&m------------------------"))
@@ -37,50 +40,66 @@ class TagCustomizationButton(var tag: Tag) : Button() {
         return desc
     }
 
-    override fun getDisplayName(player: Player): String? {
+    override fun getDisplayName(player: Player): String
+    {
         return Chat.format(tag.menuName)
     }
 
-    override fun getData(player: Player): Short {
-         return AlchemistAPI.getWoolColor(tag.menuName).dyeData.toShort()
+    override fun getData(player: Player): Short
+    {
+        return AlchemistAPI.getWoolColor(tag.menuName).dyeData.toShort()
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType) {
-        when (type) {
-            ClickType.RIGHT -> {
+    override fun onClick(player: Player, slot: Int, type: ClickType)
+    {
+        when (type)
+        {
+            ClickType.RIGHT ->
+            {
                 prefixConversation(player)
             }
 
-            ClickType.MIDDLE -> {
+            ClickType.MIDDLE ->
+            {
                 menuNameConversation(player)
             }
 
-            ClickType.LEFT -> {
+            ClickType.LEFT ->
+            {
                 tag.purchasable = !tag.purchasable
-                player.sendMessage(Chat.format("&aUpdated the purchasable status of " + tag.id ))
+                player.sendMessage(Chat.format("&aUpdated the purchasable status of " + tag.id))
 
                 AsynchronousRedisSender.send(RefreshTagsPacket())
                 TagService.save(tag)
             }
 
-            else -> { return }
+            else ->
+            {
+                return
+            }
         }
     }
 
-    fun prefixConversation(player: Player) {
+    fun prefixConversation(player: Player)
+    {
         player.closeInventory()
         val factory =
             ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true).withPrefix(NullConversationPrefix())
-                .withFirstPrompt(object : StringPrompt() {
-                    override fun getPromptText(context: ConversationContext): String {
+                .withFirstPrompt(object : StringPrompt()
+                {
+                    override fun getPromptText(context: ConversationContext): String
+                    {
                         return Chat.format("&ePlease type a prefix change for this tag, or type &ccancel &eto cancel.")
                     }
 
-                    override fun acceptInput(context: ConversationContext, input: String): Prompt? {
-                        return if (input.equals("cancel", ignoreCase = true)) {
+                    override fun acceptInput(context: ConversationContext, input: String): Prompt?
+                    {
+                        return if (input.equals("cancel", ignoreCase = true))
+                        {
                             context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                             END_OF_CONVERSATION
-                        } else {
+                        } else
+                        {
 
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
                                 tag.prefix = input
@@ -97,20 +116,26 @@ class TagCustomizationButton(var tag: Tag) : Button() {
         player.beginConversation(con)
     }
 
-    fun menuNameConversation(player: Player) {
+    fun menuNameConversation(player: Player)
+    {
         player.closeInventory()
         val factory =
             ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true).withPrefix(NullConversationPrefix())
-                .withFirstPrompt(object : StringPrompt() {
-                    override fun getPromptText(context: ConversationContext): String {
+                .withFirstPrompt(object : StringPrompt()
+                {
+                    override fun getPromptText(context: ConversationContext): String
+                    {
                         return Chat.format("&ePlease type a menu name for this tag, or type &ccancel &eto cancel.")
                     }
 
-                    override fun acceptInput(context: ConversationContext, input: String): Prompt? {
-                        return if (input.equals("cancel", ignoreCase = true)) {
+                    override fun acceptInput(context: ConversationContext, input: String): Prompt?
+                    {
+                        return if (input.equals("cancel", ignoreCase = true))
+                        {
                             context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                             END_OF_CONVERSATION
-                        } else {
+                        } else
+                        {
 
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
                                 tag.menuName = input

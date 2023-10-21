@@ -4,21 +4,25 @@ import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-object StaffSuiteVisibilityHandler {
+object StaffSuiteVisibilityHandler
+{
 
-    fun onDisableVisbility(player: Player) {
+    fun onDisableVisbility(player: Player)
+    {
         Bukkit.getOnlinePlayers().forEach {
             it.showPlayer(player)
         }
 
     }
 
-    fun onEnableVisibility(player: Player) {
+    fun onEnableVisibility(player: Player)
+    {
         Bukkit.getOnlinePlayers().filter { !it.hasPermission("alchemist.staff") }.forEach { it.hidePlayer(player) }
 
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId)?.hasMetadata("seeOtherStaff") ?: return
 
-        if (profile) {
+        if (profile)
+        {
             Bukkit.getOnlinePlayers().filter {
                 it.hasPermission("alchemist.staff")
             }.forEach {

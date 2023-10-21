@@ -20,15 +20,18 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
+class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
             4 to SimpleActionButton(
                 Material.NETHER_STAR,
-                mutableListOf(" ",
+                mutableListOf(
+                    " ",
                     Chat.format("&7Click here to reset your active disguise."),
                     Chat.format("&7This will change all rank options back to their"),
                     Chat.format("&7original settings."),
@@ -43,7 +46,13 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
                 profile.rankDisguiseAttribute = null
 
                 ProfileGameService.save(profile)
-                player.sendMessage(Chat.format("&aYou have reset your rank disguise! Now looking like " + AlchemistAPI.getPlayerRankString(player.uniqueId)))
+                player.sendMessage(
+                    Chat.format(
+                        "&aYou have reset your rank disguise! Now looking like " + AlchemistAPI.getPlayerRankString(
+                            player.uniqueId
+                        )
+                    )
+                )
             },
             6 to Button.placeholder(),
             7 to Button.placeholder(),
@@ -68,11 +77,13 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
     }
 
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (rank in RankService.getRanksInOrder().filter { AlchemistAPI.getRankWeight(player.uniqueId) >= it.weight }) {
+        for (rank in RankService.getRanksInOrder().filter { AlchemistAPI.getRankWeight(player.uniqueId) >= it.weight })
+        {
             buttons[i++] = SkullButton(
                 Chat.mapChatColorToSkullTexture(if (rank.woolColor != null) rank.woolColor!! else rank.color),
                 generateRankButtonDesc(rank),
@@ -90,7 +101,8 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
         return buttons
     }
 
-    fun generateRankButtonDesc(rank: Rank) : MutableList<String> {
+    fun generateRankButtonDesc(rank: Rank): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&6&m---------------------------"))
         desc.add(Chat.format("&eName: &f" + rank.color + rank.displayName))
@@ -103,11 +115,13 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
         return desc
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Viewing Ranks"
     }
 
-    override fun getButtonPositions(): List<Int> {
+    override fun getButtonPositions(): List<Int>
+    {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -115,7 +129,8 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player) {
         )
     }
 
-    override fun getButtonsPerPage(): Int {
+    override fun getButtonsPerPage(): Int
+    {
         return 21
     }
 }

@@ -9,7 +9,8 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface BukkitPostLoginTask {
+interface BukkitPostLoginTask
+{
 
     fun run(player: Player)
 }

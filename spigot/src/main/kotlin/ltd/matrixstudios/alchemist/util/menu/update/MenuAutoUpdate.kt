@@ -6,7 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class MenuAutoUpdate : BukkitRunnable()
 {
-    override fun run() {
+    override fun run()
+    {
         for (paginated in MenuController.paginatedMenuMap.entries)
         {
             val player = Bukkit.getPlayer(paginated.key)

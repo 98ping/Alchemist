@@ -17,9 +17,12 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val rankListFilter: RankListFilter) : PaginatedMenu(36, player) {
+class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val rankListFilter: RankListFilter) :
+    PaginatedMenu(36, player)
+{
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -44,7 +47,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
             3 to SkullButton(
                 "ewogICJ0aW1lc3RhbXAiIDogMTY4NzkyNjU3ODkzMCwKICAicHJvZmlsZUlkIiA6ICIzOTg5OGFiODFmMjU0NmQxOGIyY2ExMTE1MDRkZGU1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICI4YjJjYTExMTUwNGRkZTUwIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2M4OTMwY2M1OTQ2OWU2M2Y4MzhjMTJmMjY4ZjMxMjJiMTllZjQxMTcwNmVkMzE5Mzc1YTc4MzI1OTE1OGVlNmYiCiAgICB9CiAgfQp9",
                 generateRankListFilterLore(),
-                "&eClick to switch &6Rank Filter").setBody { player, i, clickType ->
+                "&eClick to switch &6Rank Filter"
+            ).setBody { player, i, clickType ->
                 val values = RankListFilter.values()
                 val index = values.indexOf(rankListFilter)
                 val next = (index + 1)
@@ -62,23 +66,32 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
 
             5 to SkullButton(
                 "eyJ0aW1lc3RhbXAiOjE1NzEzMTYzMzY1MjgsInByb2ZpbGVJZCI6IjVkZTZlMTg0YWY4ZDQ5OGFiYmRlMDU1ZTUwNjUzMzE2IiwicHJvZmlsZU5hbWUiOiJBc3Nhc2luSmlhbmVyMjUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzlhNmUwYzE2ZGYwMTMzNDE4OGVhNjliNzVjN2M4Y2IxOGVmODZmMjZhMTVjYTk2YTJkYTI1MWVhZGQ5NDU1NTkifX19",
-                mutableListOf(" ",
+                mutableListOf(
+                    " ",
                     "&eClick to query every &6rank",
-                    " "),
-                "&eQuery &6Ranks").setBody { player, i, clickType ->
-                    InputPrompt()
-                        .withText(Chat.format("&eType any search query to be shown a list of ranks that match the search"))
-                        .acceptInput { s: String ->
-                            RankListMenu(player, ranks.filter { it.id.contains(s) }.toMutableList(), rankListFilter).updateMenu()
-                        }.start(player)
+                    " "
+                ),
+                "&eQuery &6Ranks"
+            ).setBody { player, i, clickType ->
+                InputPrompt()
+                    .withText(Chat.format("&eType any search query to be shown a list of ranks that match the search"))
+                    .acceptInput { s: String ->
+                        RankListMenu(
+                            player,
+                            ranks.filter { it.id.contains(s) }.toMutableList(),
+                            rankListFilter
+                        ).updateMenu()
+                    }.start(player)
             }
         )
     }
 
-    fun getRanksBasedOnFilter(filter: RankListFilter) : MutableCollection<Rank> {
+    fun getRanksBasedOnFilter(filter: RankListFilter): MutableCollection<Rank>
+    {
         val allRanks = RankService.ranks.values
 
-        return when (filter) {
+        return when (filter)
+        {
             RankListFilter.ALL -> allRanks
             RankListFilter.DEFAULT -> allRanks.filter { it.default }.toMutableList()
             RankListFilter.STAFF -> allRanks.filter { it.staff }.toMutableList()
@@ -86,11 +99,13 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         }
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (rank in ranks) {
+        for (rank in ranks)
+        {
             buttons[i++] = SkullButton(
                 Chat.mapChatColorToSkullTexture(if (rank.woolColor != null) rank.woolColor!! else rank.color),
                 generateRankButtonDesc(rank),
@@ -103,7 +118,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         return buttons
     }
 
-    fun generateRankListFilterLore() : MutableList<String> {
+    fun generateRankListFilterLore(): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(" ")
         for (filter in RankListFilter.values())
@@ -111,7 +127,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
             if (rankListFilter == filter)
             {
                 desc.add(Chat.format("&7- &a" + filter.displayName))
-            } else {
+            } else
+            {
                 desc.add(Chat.format("&7- &7" + filter.displayName))
             }
         }
@@ -122,7 +139,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         return desc
     }
 
-    fun generateRankButtonDesc(rank: Rank) : MutableList<String> {
+    fun generateRankButtonDesc(rank: Rank): MutableList<String>
+    {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&6&m-----------------------------"))
         desc.add(Chat.format("&ePriority: &6${rank.weight}"))
@@ -133,7 +151,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         desc.add(Chat.format("&eMongo Id: &6" + rank.id))
         desc.add(Chat.format("&ePermissions: &6" + rank.permissions.size))
         desc.add(Chat.format("&eParents: &6" + rank.parents.size))
-        if (rank.woolColor != null) {
+        if (rank.woolColor != null)
+        {
             desc.add(Chat.format("&eWool Color: &r" + rank.woolColor!! + "This"))
         }
         desc.add(Chat.format("&6&m-----------------------------"))
@@ -141,11 +160,13 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         return desc
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Viewing Ranks"
     }
 
-    override fun getButtonPositions(): List<Int> {
+    override fun getButtonPositions(): List<Int>
+    {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -153,7 +174,8 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         )
     }
 
-    override fun getButtonsPerPage(): Int {
+    override fun getButtonsPerPage(): Int
+    {
         return 21
     }
 }

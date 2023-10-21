@@ -9,10 +9,12 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
-class FrozenPlayerListener : Listener {
+class FrozenPlayerListener : Listener
+{
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    fun move(e: PlayerMoveEvent) {
+    fun move(e: PlayerMoveEvent)
+    {
         val player = e.player
 
         if (player.hasMetadata("frozen"))

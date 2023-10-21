@@ -1,6 +1,5 @@
 package ltd.matrixstudios.alchemist.broadcasts
 
-import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.broadcasts.model.BroadcastMessage
 import ltd.matrixstudios.alchemist.util.Chat
@@ -14,7 +13,8 @@ import org.bukkit.scheduler.BukkitRunnable
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BroadcastService {
+object BroadcastService
+{
 
     val messages = mutableListOf<BroadcastMessage>()
     var interval = 60
@@ -22,7 +22,8 @@ object BroadcastService {
     lateinit var runnable: BukkitRunnable
     var lastMessage: BroadcastMessage? = null
 
-    fun loadMessages() {
+    fun loadMessages()
+    {
         val section = "autobroadcast.messages"
 
         for (message in AlchemistSpigotPlugin.instance.config.getConfigurationSection(section).getKeys(true))
@@ -37,14 +38,17 @@ object BroadcastService {
 
         interval = AlchemistSpigotPlugin.instance.config.getInt("autobroadcast.interval")
 
-        runnable = object : BukkitRunnable() {
-            override fun run() {
+        runnable = object : BukkitRunnable()
+        {
+            override fun run()
+            {
 
                 if (messages.size == 0) return
 
                 if (messages.size == 1)
                 {
-                    for (line in messages[0].lines) {
+                    for (line in messages[0].lines)
+                    {
                         Bukkit.broadcastMessage(Chat.format(line))
                     }
 
@@ -57,14 +61,17 @@ object BroadcastService {
                 {
                     val selected = messages.random()
 
-                    for (line in selected.lines) {
+                    for (line in selected.lines)
+                    {
                         Bukkit.broadcastMessage(Chat.format(line))
                     }
-                } else {
+                } else
+                {
                     val excluding = messages.dropWhile { it.id == lastMessage!!.id }
                     val random = excluding.random()
 
-                    for (line in random.lines) {
+                    for (line in random.lines)
+                    {
                         Bukkit.broadcastMessage(Chat.format(line))
                     }
 

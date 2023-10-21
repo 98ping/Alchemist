@@ -2,15 +2,12 @@ package ltd.matrixstudios.alchemist.profiles
 
 import co.aikar.commands.ConditionFailedException
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
-import ltd.matrixstudios.alchemist.util.WebUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import java.util.*
@@ -27,23 +24,28 @@ import java.util.concurrent.CompletableFuture
 data class AsyncGameProfile(
     val name: String,
     val future: CompletableFuture<List<GameProfile>>
-) {
+)
+{
 
     fun use(
         sender: CommandSender,
         action: (GameProfile) -> Unit
-    ): CompletableFuture<Void> {
+    ): CompletableFuture<Void>
+    {
         val f = future.thenAccept { t ->
-            if (t.isEmpty()) {
+            if (t.isEmpty())
+            {
                 sender.sendMessage(Chat.format("&cA profile with the name &e$name &cwas not found"))
                 return@thenAccept
             }
 
             //todo: get dash to fix code
 
-            if (t.size > 1) {
+            if (t.size > 1)
+            {
                 sender.sendMessage(Chat.format("&cThere were multiple results to your request!"))
-                for (name in t) {
+                for (name in t)
+                {
                     val c = Component.text(Chat.format("&7- &e${name.username}"))
                         .hoverEvent(HoverEvent.showText(Component.text(Chat.format("&eClick to copy!"))))
                         .clickEvent(ClickEvent.suggestCommand(name.uuid.toString()))
@@ -63,13 +65,16 @@ data class AsyncGameProfile(
         return f
     }
 
-    companion object {
+    companion object
+    {
         fun name(
             name: String
-        ): AsyncGameProfile {
+        ): AsyncGameProfile
+        {
             val uuid: UUID? = findUUID(name)
 
-            return if (uuid != null) {
+            return if (uuid != null)
+            {
                 val profile = ProfileGameService.byId(uuid)
                     ?: throw ConditionFailedException("${ChatColor.RED}The uuid ${ChatColor.YELLOW}$uuid ${ChatColor.RED}does not have an active profile")
 
@@ -78,7 +83,8 @@ data class AsyncGameProfile(
                     profile.username,
                     CompletableFuture.completedFuture(Collections.singletonList(profile))
                 )
-            } else {
+            } else
+            {
                 AsyncGameProfile(
                     name,
                     ProfileGameService.byUsernameWithList(name)
@@ -86,12 +92,15 @@ data class AsyncGameProfile(
             }
         }
 
-        fun findUUID(string: String): UUID? {
+        fun findUUID(string: String): UUID?
+        {
             val uuid: UUID?
 
-            try {
+            try
+            {
                 uuid = UUID.fromString(string)
-            } catch (_: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException)
+            {
                 return null
             }
 

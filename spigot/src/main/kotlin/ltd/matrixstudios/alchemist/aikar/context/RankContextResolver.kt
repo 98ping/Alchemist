@@ -5,13 +5,16 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.contexts.ContextResolver
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import java.util.*
 
-class RankContextResolver : ContextResolver<Rank, BukkitCommandExecutionContext> {
+class RankContextResolver : ContextResolver<Rank, BukkitCommandExecutionContext>
+{
 
-    override fun getContext(c: BukkitCommandExecutionContext?): Rank? {
+    override fun getContext(c: BukkitCommandExecutionContext?): Rank?
+    {
         val firstArg = c!!.popFirstArg() ?: return null
 
-        val rank = RankService.byId(firstArg.toLowerCase())
+        val rank = RankService.byId(firstArg.lowercase(Locale.getDefault()))
             ?: throw InvalidCommandArgument("No rank by this name found")
 
         return rank
