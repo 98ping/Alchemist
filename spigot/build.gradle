@@ -37,6 +37,30 @@ dependencies {
     compileOnly fileTree(include: ['LunarClientAPI.jar', 'API-1.3.2.jar'], dir: 'lib')
 }
 
+publishing {
+    repositories {
+        maven {
+            name = "matrixMaven"
+            url = "https://maven.matrixstudios.ltd/public"
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            groupId = "ltd.matrixstudios"
+            artifactId = "alchemist"
+            version = "2.9"
+            from components.java
+        }
+    }
+}
+
+
+
 shadowJar {
     relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated.redis'
     relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated.kotlin'
