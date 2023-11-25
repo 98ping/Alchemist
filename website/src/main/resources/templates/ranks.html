@@ -74,7 +74,7 @@
                 <span class="nav-link">Navigation</span>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/panel">
               <span class="menu-icon">
                 <i class="mdi mdi-chart-bar"></i>
               </span>
@@ -109,7 +109,7 @@
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="pages/icons/mdi.html">
+                <a class="nav-link" href="/api/ranks">
               <span class="menu-icon">
                 <i class="mdi mdi-trophy-award"></i>
               </span>
@@ -399,9 +399,9 @@
                                             <td><label class="badge" th:style="@{'background: ' + ${rank.getHexCodeFromColorCode()}}" th:text="${rank.displayName}"></label></td>
                                             <td th:text="${rank.name}"></td>
                                             <td th:text="${rank.weight}"></td>
-                                            <td th:text="${rank.getRankScope().servers.size()}"></td>
-                                            <td th:text="'${rank.color}'"></td>
-                                            <td th:text="'${rank.prefix}'"></td>
+                                            <td th:text="${rank.getRankScope().global ? 'Global' : rank.getRankScope().servers.size()}"></td>
+                                            <td th:text="${rank.color}"></td>
+                                            <td th:text="${rank.prefix}"></td>
                                             <td th:text="${rank.parents.size()}"></td>
                                             <td th:text="${rank.permissions.size()}"></td>
                                         </tr>
