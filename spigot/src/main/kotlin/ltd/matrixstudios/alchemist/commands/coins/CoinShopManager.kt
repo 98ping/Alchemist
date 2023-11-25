@@ -108,7 +108,7 @@ object CoinShopManager
         }
     }
 
-    fun findCategory(id: String): CoinShopCategory? = categoryMap.getOrDefault(id.lowercase(Locale.getDefault()), null)
+    fun findCategory(id: String): CoinShopCategory? = categoryMap[id.lowercase(Locale.getDefault())]
 
     fun deleteCategory(item: CoinShopCategory)
     {

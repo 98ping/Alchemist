@@ -19,17 +19,19 @@ import javax.servlet.http.HttpServletRequest
  */
 @Controller
 class RankController @Autowired constructor(private val repository: RankRepository) {
+
     @RequestMapping(value = ["/api/ranks"], method = [RequestMethod.GET])
     fun getAllRanks(request: HttpServletRequest): ModelAndView
     {
         val modelAndView = ModelAndView("ranks")
 
-        val profile = request.session.getAttribute("profile") as AlchemistUser? ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "You must be logged in to view this page")
+        val profile = request.session.getAttribute("user") as AlchemistUser? ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "You must be logged in to view this page")
         if (!profile.hasPermission("alchemist.website.ranks")) throw ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to view this page.")
         val ranks = repository.findAll();
 
         modelAndView.addObject("section", "ranks")
         modelAndView.addObject("ranks", ranks)
+        modelAndView.addObject("user", profile)
         return modelAndView
     }
 }

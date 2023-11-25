@@ -1,5 +1,6 @@
 package ltd.matrixstudios.website.utils.security
 
+import ltd.matrixstudios.website.login.handling.AuthSuccessHandler
 import ltd.matrixstudios.website.user.loader.UserServicesComponent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -32,6 +33,9 @@ open class WebSecurity : WebSecurityConfigurerAdapter()
     @Autowired
     private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
+    @Autowired
+    var customizeAuthenticationSuccessHandler: AuthSuccessHandler? = null
+
     @Bean
     open fun constructUserDetails(): UserDetailsService
     {
@@ -56,13 +60,13 @@ open class WebSecurity : WebSecurityConfigurerAdapter()
             .authorizeRequests()
             .antMatchers("/**").permitAll()
             .anyRequest()
-            .authenticated().and().formLogin()
+            .authenticated().and().formLogin().successHandler(customizeAuthenticationSuccessHandler)
             .loginPage("/login").failureUrl("/login?error=true")
             .usernameParameter("username")
             .passwordParameter("password")
             .and().logout()
             .logoutRequestMatcher(AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/").addLogoutHandler { req, res, auth ->
+            .logoutSuccessUrl("/login").addLogoutHandler { req, res, auth ->
                 val cookie = Cookie("guest", "")
                 cookie.maxAge = 0
                 res.addCookie(cookie)

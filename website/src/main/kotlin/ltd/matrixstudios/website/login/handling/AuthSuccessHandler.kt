@@ -28,12 +28,18 @@ class AuthSuccessHandler : AuthenticationSuccessHandler
     {
         // set our response to OK status
         response.status = HttpServletResponse.SC_OK
-        response.sendRedirect(if (request.getAttribute("redirect") == null) "/" else request.getAttribute("redirect") as String)
         val user = UserServicesComponent.userService.findUserByName(authentication.name) ?: throw RuntimeException("Authentication not found")
 
         request.session.setAttribute("user", user)
+        println("Success! User is $user")
+        println("Username: " + user.username)
+        println("Nice UUID: " + user.getNiceUUID())
+        response.sendRedirect(if (request.getAttribute("redirect") == null) "/panel" else request.getAttribute("redirect") as String)
+
         // shouldn't null because we check this. If it does it is not
-        // out fault
-        request.session.setAttribute("profile", ProfileGameService.byId(user.minecraft_uuid))
+        // our fault. Also, do this later cuz we gotta figure out the mongo
+        // pool and such
+
+        //request.session.setAttribute("profile", ProfileGameService.byId(user.minecraft_uuid))
     }
 }

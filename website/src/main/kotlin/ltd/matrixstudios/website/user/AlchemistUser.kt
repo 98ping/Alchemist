@@ -20,4 +20,8 @@ data class AlchemistUser(
     fun hasPermission(permission: String) : Boolean {
         return permissions.contains(permission);
     }
+
+    fun getNiceUUID() : String {
+        return minecraft_uuid.toString().replace("-", "")
+    }
 }

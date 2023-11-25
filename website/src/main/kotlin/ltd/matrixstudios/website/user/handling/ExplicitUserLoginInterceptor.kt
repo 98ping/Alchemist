@@ -17,7 +17,7 @@ class ExplicitUserLoginInterceptor : HandlerInterceptorAdapter() {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val user = request.session.getAttribute("user") as AlchemistUser?
-        if (user != null) response.sendRedirect("/")
+        if (user != null) response.sendRedirect("/panel")
         return user == null
     }
 }
