@@ -1,0 +1,3 @@
+dependencies {
+    implementation fileTree(include: ['honey.jar'], dir: 'lib')
+}

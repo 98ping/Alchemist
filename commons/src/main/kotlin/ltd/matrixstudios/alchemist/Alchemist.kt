@@ -28,13 +28,16 @@ object Alchemist {
 
     var gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
 
-    fun start(mongoConnectionPool: MongoConnectionPool, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?) {
+    fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?) {
         this.MongoConnectionPool = mongoConnectionPool
 
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
-        RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
-        redisConnectionPort = redisPort
+        if (needsRedis)
+        {
+            RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
+            redisConnectionPort = redisPort
+        }
 
         UniqueServerService.loadAll()
         RankService.loadRanks()
@@ -43,6 +46,9 @@ object Alchemist {
 
         FilterService.loadIntoCache()
 
-        UUIDCache.loadAllFromRedis()
+        if (needsRedis)
+        {
+            UUIDCache.loadAllFromRedis()
+        }
     }
 }

@@ -66,6 +66,7 @@ class AlchemistBungee : Plugin() {
             }
 
             Alchemist.start(connectionPool,
+                true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),
                 (if (configuration.getString("redis.username") == "") null else configuration.getString("redis.username")),
@@ -82,6 +83,7 @@ class AlchemistBungee : Plugin() {
             }
 
             Alchemist.start(connectionPool,
+                true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),
                 (if (configuration.getString("redis.username") == "") null else configuration.getString("redis.username")),
@@ -95,6 +97,7 @@ class AlchemistBungee : Plugin() {
             }
 
             Alchemist.start(connectionPool,
+                true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),
                 (if (configuration.getString("redis.username") == "") null else configuration.getString("redis.username")),

@@ -4,6 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+
     <title>Alchemist Rank Solution</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../static/vendors/mdi/css/materialdesignicons.min.css"
@@ -379,25 +381,25 @@
                             <div class="card-body">
                                 <p class="card-title" th:text="'Editing the ' + ${rank.displayName} + ' rank (' + ${rank.id} + ')'"></p>
                                 <p class="card-description"> Input values to change them in Mongo.</p>
-                                <form class="forms-sample">
+                                <form class="forms-sample" th:action="@{'/api/change-rank/' + ${rank.id}}" method="post">
                                     <div class="form-group">
-                                        <label for="displayname">Display Name</label>
-                                        <input type="text" class="form-control" id="displayName"
+                                        <label th:for="displayname">Display Name</label>
+                                        <input type="text" th:id="displayName" th:name="displayName" class="form-control"
                                                th:placeholder="${rank.displayName}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="prefix">Prefix</label>
-                                        <input type="text" class="form-control" id="prefix"
+                                        <label th:for="prefix">Prefix</label>
+                                        <input type="text" th:id="prefix" th:name="prefix" class="form-control" id="prefix"
                                                th:placeholder="${rank.prefix}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="color">Color</label>
-                                        <input type="text" class="form-control" id="color"
+                                        <label th:for="color">Color</label>
+                                        <input type="text" th:id="color" th:name="color" class="form-control" id="color"
                                                th:placeholder="${rank.color}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="weight">Weight</label>
-                                        <input type="text" class="form-control" id="weight"
+                                        <label th:for="weight">Weight</label>
+                                        <input type="text" th:id="weight" th:name="weight" class="form-control" id="weight"
                                                th:placeholder="${rank.weight}">
                                     </div>
                                     <button type="submit" class="btn btn-primary me-2">Confirm Changes</button>

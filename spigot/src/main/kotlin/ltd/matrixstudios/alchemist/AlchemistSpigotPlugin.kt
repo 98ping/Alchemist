@@ -93,6 +93,7 @@ class AlchemistSpigotPlugin : JavaPlugin()
 
         Alchemist.start(
             connectionPool,
+            true,
             config.getString("redis.host"),
             config.getInt("redis.port"),
             (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
