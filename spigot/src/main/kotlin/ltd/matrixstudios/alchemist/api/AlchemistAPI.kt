@@ -108,7 +108,7 @@ object AlchemistAPI
         if (color.contains("&5")) return DyeColor.PURPLE
         if (color.contains("&6")) return DyeColor.ORANGE
         if (color.contains("&7")) return DyeColor.SILVER
-        if (color.contains("&8")) return DyeColor.GREEN
+        if (color.contains("&8")) return DyeColor.GRAY
         if (color.contains("&9")) return DyeColor.BLUE
         if (color.contains("&a")) return DyeColor.LIME
         if (color.contains("&b")) return DyeColor.LIGHT_BLUE
