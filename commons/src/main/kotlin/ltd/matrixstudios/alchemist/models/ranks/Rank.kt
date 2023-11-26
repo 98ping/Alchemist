@@ -33,10 +33,10 @@ class Rank(
 
         when (color) {
             "&c" -> {
-                return "#EF5230"
+                return "#eb4723"
             }
             "&4" -> {
-                return "#94270F"
+                return "#f50c18"
             }
             "&e" -> {
                 return "#FBE503"

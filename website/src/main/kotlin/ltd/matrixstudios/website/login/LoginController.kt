@@ -56,6 +56,7 @@ class LoginController
                 "This is not a valid MineCraft player!"
             )
         }
+
         if (bindingResult.hasErrors())
         {
             modelAndView.viewName = "register"
