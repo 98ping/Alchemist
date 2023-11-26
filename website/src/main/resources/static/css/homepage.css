@@ -8967,7 +8967,7 @@ progress {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1;
-  color: #212529;
+  color: rgb(176, 187, 197);
   background-color: #2A3038;
   background-clip: padding-box;
   border: 1px solid #2c2e33;
@@ -17356,7 +17356,7 @@ select.tt-query,
 select.tt-hint {
   padding: .4375rem .75rem;
   border: 0;
-  color: #4b5564; }
+  color: #aab2bd; }
   select.form-control:focus, select.asColorPicker-input:focus, .dataTables_wrapper select:focus,
   .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .select2-container--default select.select2-selection--single:focus, .select2-container--default .select2-selection--single select.select2-search__field:focus, select.typeahead:focus,
   select.tt-query:focus,

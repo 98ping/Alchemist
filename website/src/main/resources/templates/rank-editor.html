@@ -12,14 +12,13 @@
           th:href="@{/vendors/css/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../static/vendors/jvectormap/jquery-jvectormap.css"
-          th:href="@{/vendors/jvectormap/jquery-jvectormap.css}">
-    <link rel="stylesheet" href="../static/vendors/flag-icon-css/css/flag-icon.min.css"
-          th:href="@{/vendors/flag-icon-css/css/flag-icon.min.css}">
-    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.carousel.min.css"
-          th:href="@{/vendors/owl-carousel-2/owl.carousel.min.css}">
-    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.theme.default.min.css"
-          th:href="@{/vendors/owl-carousel-2/owl.theme.default.min.css}">
+    <link rel="stylesheet" href="../static/vendors/select2/select2.min.css"
+          th:href="@{/vendors/select2/select2.min.css}">
+    <link rel="stylesheet" href="../static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css"
+          th:href="@{/vendors/select2-bootstrap-theme/select2-bootstrap.min.css}">
+    <!-- Cool components that I wanna use -->
+    <link rel="stylesheet" th:href="@{/scss/components/_checkbox-radio.scss}">
+    <link rel="stylesheet" th:href="@{/scss/components/_forms.scss}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -375,39 +374,35 @@
                     </nav>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Listing Loaded Ranks</h4>
-                                <p class="card-description"> Click a rank to explore it in-depth.</p>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Display Name</th>
-                                            <th>Name</th>
-                                            <th>Weight</th>
-                                            <th>Scopes</th>
-                                            <th>Color</th>
-                                            <th>Prefix</th>
-                                            <th>Parents</th>
-                                            <th>Permissions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="rank : ${ranks}">
-                                            <td><label class="badge" th:style="@{'background: ' + ${rank.getHexCodeFromColorCode()}}" th:text="${rank.displayName}"></label></td>
-                                            <td th:text="${rank.name}"></td>
-                                            <td th:text="${rank.weight}"></td>
-                                            <td th:text="${rank.getRankScope().global ? 'Global' : rank.getRankScope().servers.size()}"></td>
-                                            <td th:text="${rank.color}"></td>
-                                            <td th:text="${rank.prefix}"></td>
-                                            <td th:text="${rank.parents.size()}"></td>
-                                            <td th:text="${rank.permissions.size()}"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <p class="card-title" th:text="'Editing the ' + ${rank.displayName} + ' rank (' + ${rank.id} + ')'"></p>
+                                <p class="card-description"> Input values to change them in Mongo.</p>
+                                <form class="forms-sample">
+                                    <div class="form-group">
+                                        <label for="displayname">Display Name</label>
+                                        <input type="text" class="form-control" id="displayName"
+                                               th:placeholder="${rank.displayName}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prefix">Prefix</label>
+                                        <input type="text" class="form-control" id="prefix"
+                                               th:placeholder="${rank.prefix}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="color">Color</label>
+                                        <input type="text" class="form-control" id="color"
+                                               th:placeholder="${rank.color}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weight">Weight</label>
+                                        <input type="text" class="form-control" id="weight"
+                                               th:placeholder="${rank.weight}">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary me-2">Confirm Changes</button>
+                                    <button class="btn btn-dark">Cancel</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -415,7 +410,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->

@@ -1,6 +1,8 @@
 package ltd.matrixstudios.website.landing
 
+import ltd.matrixstudios.website.ranks.RankRepository
 import ltd.matrixstudios.website.user.AlchemistUser
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletRequest
  * @website https://solo.to/redis
  */
 @Controller
-class LandingController {
+class LandingController @Autowired constructor(private val rankRepository: RankRepository) {
 
     @RequestMapping(value = ["/", "/home"], method = [RequestMethod.GET])
     fun onLandRequest(): ModelAndView = ModelAndView("login")
@@ -29,6 +31,7 @@ class LandingController {
         val profile = request.session.getAttribute("user") as AlchemistUser? ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "You must be logged in to view this page")
 
         modelAndView.addObject("user", profile)
+        modelAndView.addObject("rankSize", rankRepository.findAll().size)
         return modelAndView
     }
 }
