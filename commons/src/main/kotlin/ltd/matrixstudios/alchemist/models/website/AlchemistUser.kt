@@ -1,4 +1,4 @@
-package ltd.matrixstudios.website.user
+package ltd.matrixstudios.alchemist.models.website
 
 import java.util.UUID
 
@@ -14,7 +14,9 @@ data class AlchemistUser(
     var minecraft_uuid: UUID = UUID.randomUUID(),
     var username: String = "Guest",
     var password: String? = null,
+    var secret: String? = null,
     var administrator: Boolean = false,
+    var authenticated: Boolean = false,
     var permissions: MutableList<String> = mutableListOf()
 ) {
     fun hasPermission(permission: String) : Boolean {

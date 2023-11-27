@@ -1,18 +1,16 @@
 package ltd.matrixstudios.website.ranks
 
+import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.alchemist.service.ranks.RankService
-import ltd.matrixstudios.website.user.AlchemistUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.ModelAndView
 import java.lang.NumberFormatException
 import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
 
 /**
  * Class created on 11/24/2023

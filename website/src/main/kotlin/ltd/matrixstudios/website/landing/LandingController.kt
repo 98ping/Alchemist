@@ -1,7 +1,7 @@
 package ltd.matrixstudios.website.landing
 
+import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.website.ranks.RankRepository
-import ltd.matrixstudios.website.user.AlchemistUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller

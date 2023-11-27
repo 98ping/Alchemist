@@ -1,7 +1,7 @@
 package ltd.matrixstudios.website.user.service
 
-import ltd.matrixstudios.website.user.AlchemistUser
-import ltd.matrixstudios.website.user.repository.UserRepository
+import ltd.matrixstudios.alchemist.models.website.AlchemistUser
+import ltd.matrixstudios.alchemist.service.website.WebProfileService
 import ltd.matrixstudios.website.utils.mojang.MojangUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.GrantedAuthority
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 11/24/2023
@@ -22,21 +21,21 @@ import java.util.concurrent.CompletableFuture
  * @website https://solo.to/redis
  */
 @Service
-class UserService @Autowired constructor(private val userRepository: UserRepository) : UserDetailsService
+class UserService : UserDetailsService
 {
 
     @Autowired lateinit var encoder: BCryptPasswordEncoder
 
     fun findUserByName(name: String): AlchemistUser? {
-        return userRepository.findAll().firstOrNull { it.username == name }
+        return WebProfileService.handler.retrieveAll().firstOrNull { it.username == name }
     }
 
     fun findUserByUniqueId(uuid: UUID): AlchemistUser? {
-        return userRepository.findAll().firstOrNull { it.minecraft_uuid.toString() == uuid.toString() }
+        return WebProfileService.byId(uuid)
     }
 
-    fun save(user: AlchemistUser): AlchemistUser {
-        return userRepository.save(user)
+    fun save(user: AlchemistUser) {
+        WebProfileService.save(user)
     }
 
     /**
@@ -50,7 +49,7 @@ class UserService @Autowired constructor(private val userRepository: UserReposit
         user.minecraft_uuid = MojangUtils.fetchUUID(user.username)!!
         user.username = user.username
         user.password = encoder.encode(user.password)
-        userRepository.save(user)
+        save(user)
     }
 
     @Throws(UsernameNotFoundException::class)

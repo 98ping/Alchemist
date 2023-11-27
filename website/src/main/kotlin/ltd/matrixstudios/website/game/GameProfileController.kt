@@ -1,7 +1,7 @@
 package ltd.matrixstudios.website.game
 
+import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.website.user.AlchemistUser
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
@@ -24,6 +24,7 @@ class GameProfileController
             HttpStatus.FORBIDDEN,
             "You do not have permission to view this page."
         )
+
         // Limit results to 10 a page
         val page = 1
         val users = ProfileGameService.handler.retrieveAll().take(page * 10)

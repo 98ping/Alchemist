@@ -24,31 +24,6 @@ class PlayerAdminCommand : BaseCommand()
         help.showHelp()
     }
 
-    @Subcommand("create")
-    fun create(sender: CommandSender, @Name("username") name: String, @Name("uuid") uuid: String)
-    {
-        val found: UUID?
-
-        try
-        {
-            found = UUID.fromString(uuid)
-        } catch (e: IllegalArgumentException)
-        {
-            sender.sendMessage(Chat.format("&cThis UUID is invalid!"))
-            return
-        }
-
-        val profile = GameProfile(
-            found, name, name.lowercase(Locale.getDefault()),
-            JsonObject(), "0", arrayListOf(), arrayListOf(),
-            null, null, null, arrayListOf(),
-            System.currentTimeMillis(), null, null, 0, arrayListOf(), arrayListOf()
-        )
-
-        ProfileGameService.save(profile)
-        sender.sendMessage(Chat.format("&aCreated a fake profile with the name &f$name &awith uuid &f$uuid"))
-    }
-
     @Subcommand("info")
     @CommandCompletion("@gameprofile")
     fun info(player: Player, @Name("target") gameProfile: GameProfile)

@@ -6,6 +6,7 @@ import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.profiles.commands.auth.AuthCommands
 import ltd.matrixstudios.alchemist.profiles.commands.player.*
 import ltd.matrixstudios.alchemist.profiles.commands.sibling.SiblingCommands
+import ltd.matrixstudios.alchemist.profiles.commands.website.RegisterCommand
 import ltd.matrixstudios.alchemist.staff.commands.*
 import ltd.matrixstudios.alchemist.staff.requests.commands.ReportCommand
 import ltd.matrixstudios.alchemist.staff.requests.commands.RequestCommand
@@ -54,6 +55,8 @@ object ProfileModule : PluginModule
         list.add(StaffchatCommand())
         list.add(TimelineCommand())
         list.add(StaffLeaderboardCommand)
+
+        list.add(RegisterCommand)
 
         list.add(ReportCommand())
         list.add(RequestCommand())

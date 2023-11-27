@@ -30,7 +30,7 @@
                 <i class="fa-solid fa-user-lock"></i>
             </div>
             <div class="col-lg-12 login-title">
-                ALCHEMIST REGISTRATION
+                ALCHEMIST VERIFICATION
             </div>
 
             <div class="col-lg-12 login-form">
@@ -38,11 +38,15 @@
                     <form th:action="@{/register}" method="post">
                         <div class="form-group">
                             <label class="form-control-label">USERNAME</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <input type="text" class="form-control" required id="username" name="username">
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">PASSWORD</label>
-                            <input type="text" class="form-control" id="password" name="password">
+                            <input type="password" class="form-control" required id="password" name="password">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">SECRET KEY</label>
+                            <input type="text" class="form-control" required id="secret" name="secret">
                         </div>
 
                         <div class="col-lg-12 loginbttm">

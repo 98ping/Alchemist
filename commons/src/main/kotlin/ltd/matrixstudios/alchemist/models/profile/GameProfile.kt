@@ -45,6 +45,8 @@ data class GameProfile(
     var authStatus: AuthStatus? = null,
     var permissions: MutableList<String> = ArrayList(),
     var lastSeenAt: Long,
+    var websiteNeedsVerification: Boolean = false,
+    var websiteVerificationToken: String? = null,
     var skinDisguiseAttribute: SkinDisguiseAttribute? = null,
     var rankDisguiseAttribute: RankDisguiseAttribute? = null,
     var coins: Int = 0,

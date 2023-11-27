@@ -1,6 +1,5 @@
 package ltd.matrixstudios.website.user.loader
 
-import ltd.matrixstudios.website.user.repository.UserRepository
 import ltd.matrixstudios.website.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -15,7 +14,7 @@ import javax.annotation.PostConstruct
  * @website https://solo.to/redis
  */
 @Service
-class UserServicesComponent @Autowired constructor(val userRepository: UserRepository) {
+class UserServicesComponent {
 
     companion object
     {
@@ -25,6 +24,6 @@ class UserServicesComponent @Autowired constructor(val userRepository: UserRepos
     @PostConstruct
     fun postConstruct()
     {
-        userService = UserService(userRepository)
+        userService = UserService()
     }
 }

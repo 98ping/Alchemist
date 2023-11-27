@@ -1,6 +1,6 @@
 package ltd.matrixstudios.website.user.handling
 
-import ltd.matrixstudios.website.user.AlchemistUser
+import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 import javax.servlet.http.HttpServletRequest
