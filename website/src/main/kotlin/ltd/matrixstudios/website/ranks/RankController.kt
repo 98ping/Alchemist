@@ -84,6 +84,9 @@ class RankController @Autowired constructor(private val repository: RankReposito
         }
 
         val rank = rankOptional.get()
+
+        // we dont really need to do this because it is all admins editing the ranks
+        // but just in case we are gonna take extra steps
         val safeRef = ref
             .replace("<script>", "<script type=\"javascript/blocked\">")
             .replace("<div>", "<bdiv>")

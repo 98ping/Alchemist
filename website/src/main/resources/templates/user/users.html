@@ -4,8 +4,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-
     <title>Alchemist Rank Solution</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../static/vendors/mdi/css/materialdesignicons.min.css"
@@ -14,13 +12,14 @@
           th:href="@{/vendors/css/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../static/vendors/select2/select2.min.css"
-          th:href="@{/vendors/select2/select2.min.css}">
-    <link rel="stylesheet" href="../static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css"
-          th:href="@{/vendors/select2-bootstrap-theme/select2-bootstrap.min.css}">
-    <!-- Cool components that I wanna use -->
-    <link rel="stylesheet" th:href="@{/scss/components/_checkbox-radio.scss}">
-    <link rel="stylesheet" th:href="@{/scss/components/_forms.scss}">
+    <link rel="stylesheet" href="../static/vendors/jvectormap/jquery-jvectormap.css"
+          th:href="@{/vendors/jvectormap/jquery-jvectormap.css}">
+    <link rel="stylesheet" href="../static/vendors/flag-icon-css/css/flag-icon.min.css"
+          th:href="@{/vendors/flag-icon-css/css/flag-icon.min.css}">
+    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.carousel.min.css"
+          th:href="@{/vendors/owl-carousel-2/owl.carousel.min.css}">
+    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.theme.default.min.css"
+          th:href="@{/vendors/owl-carousel-2/owl.theme.default.min.css}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -180,6 +179,43 @@
                             <i class="mdi mdi-view-grid"></i>
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                            <div class="navbar-profile" th:if="${user} != null">
+                                <img class="img-xs rounded-circle" th:src="@{'https://visage.surgeplay.com/bust/48/' + ${user.getNiceUUID()} + '?overlay=true&scale=3'}">
+                                <p class="mb-0 d-none d-sm-block navbar-profile-name" th:text="${user.username}"></p>
+                                <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                             aria-labelledby="profileDropdown">
+                            <h6 class="p-3 mb-0">Profile</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Settings</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-logout text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Log out</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <p class="p-3 mb-0 text-center">Advanced settings</p>
+                        </div>
+                    </li>
                 </ul>
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
                         data-toggle="offcanvas">
@@ -195,40 +231,42 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/panel">Models</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Ranks</li>
+                            <li class="breadcrumb-item active" aria-current="page">Users</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 grid-margin stretch-card">
+                    <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <p class="card-title" th:text="'Editing the ' + ${rank.displayName} + ' rank (' + ${rank.id} + ')'"></p>
-                                <p class="card-description"> Input values to change them in Mongo.</p>
-                                <form class="forms-sample" th:action="@{'/api/change-rank/' + ${rank.id}}" method="post">
-                                    <div class="form-group">
-                                        <label th:for="displayname">Display Name</label>
-                                        <input type="text" th:id="displayName" th:name="displayName" class="form-control"
-                                               th:placeholder="${rank.displayName}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label th:for="prefix">Prefix</label>
-                                        <input type="text" th:id="prefix" th:name="prefix" class="form-control" id="prefix"
-                                               th:placeholder="${rank.prefix}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label th:for="color">Color</label>
-                                        <input type="text" th:id="color" th:name="color" class="form-control" id="color"
-                                               th:placeholder="${rank.color}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label th:for="weight">Weight</label>
-                                        <input type="text" th:id="weight" th:name="weight" class="form-control" id="weight"
-                                               th:placeholder="${rank.weight}">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary me-2">Confirm Changes</button>
-                                    <button class="btn btn-dark">Cancel</button>
-                                </form>
+                                <h4 class="card-title" th:text="'Listing All Profiles (Page ' + ${page} + ')'"></h4>
+                                <p class="card-description"> Click on a profile to view more data</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Icon</th>
+                                            <th>Username</th>
+                                            <th>Highest Rank</th>
+                                            <th>Extra Permissions</th>
+                                            <th>Last Login</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="profile : ${users}">
+                                            <td><img class="img-xs rounded-circle"
+                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}"></td>
+                                            <td th:text="${profile.username}"></td>
+                                            <td><label class="badge"
+                                                       th:style="@{'background: ' + ${profile.getHighestGlobalRank().getHexCodeFromColorCode()}}"
+                                                       th:text="${profile.getHighestGlobalRank().displayName}"></label>
+                                            </td>
+                                            <td th:text="${profile.permissions.size()}"></td>
+                                            <td th:text="'Never'"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -236,6 +274,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
