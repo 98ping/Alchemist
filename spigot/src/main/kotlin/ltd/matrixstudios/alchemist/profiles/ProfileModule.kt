@@ -56,7 +56,10 @@ object ProfileModule : PluginModule
         list.add(TimelineCommand())
         list.add(StaffLeaderboardCommand)
 
-        list.add(RegisterCommand)
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.websiteCommands"))
+        {
+            list.add(RegisterCommand)
+        }
 
         list.add(ReportCommand())
         list.add(RequestCommand())

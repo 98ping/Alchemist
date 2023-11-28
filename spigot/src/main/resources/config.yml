@@ -113,6 +113,7 @@ modules:
   lunarClientAPI: true
   # Disguise requires the DisguiseAPI plugin.
   disguise: true
+  websiteCommands: true
 
 staffmode:
   sendWelcomeMessage: true
