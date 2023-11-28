@@ -66,6 +66,13 @@ class AlchemistExpansion : PlaceholderExpansion()
                 return "&cNo"
             }
 
+            "coinTotal" -> {
+                return profile.coins.toString()
+            }
+
+            "totalFriends" -> {
+                return profile.friends.size.toString()
+            }
 
             "modModeStatus" ->
             {
