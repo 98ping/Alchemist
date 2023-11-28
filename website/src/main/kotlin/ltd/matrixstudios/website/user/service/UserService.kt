@@ -1,6 +1,8 @@
 package ltd.matrixstudios.website.user.service
 
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.website.AlchemistUser
+import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.website.WebProfileService
 import ltd.matrixstudios.website.utils.mojang.MojangUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 11/24/2023
@@ -32,6 +35,15 @@ class UserService : UserDetailsService
 
     fun findUserByUniqueId(uuid: UUID): AlchemistUser? {
         return WebProfileService.byId(uuid)
+    }
+
+    /**
+     * This is gonna be one incredibly intensive function
+     * because we need to transform their uuid. Yikes!
+     */
+    fun findProfileByNiceUUID(niceUUID: String) : GameProfile? {
+         return ProfileGameService.handler.retrieveAll()
+             .firstOrNull { it.uuid.toString().replace("-", "") == niceUUID }
     }
 
     fun save(user: AlchemistUser) {
