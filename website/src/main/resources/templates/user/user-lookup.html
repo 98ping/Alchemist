@@ -227,47 +227,36 @@
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="page-header">
-                    <h3 class="page-title"> Users </h3>
+                    <h3 class="page-title"> Viewing User </h3>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/panel">Models</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Users</li>
+                            <li class="breadcrumb-item" aria-current="page">Users</li>
+                            <li class="breadcrumb-item active" th:text="${target.username}" aria-current="page"></li>
                         </ol>
                     </nav>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title" th:text="'Listing All Profiles (Page ' + ${page} + ')'"></h4>
-                                <p class="card-description"> Click on a profile to view more data</p>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Icon</th>
-                                            <th>Username</th>
-                                            <th>Highest Rank</th>
-                                            <th>Extra Permissions</th>
-                                            <th>Last Login</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="profile : ${users}">
-                                            <td><img class="img-xs rounded-circle"
-                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}"></td>
-                                            <td th:text="${profile.username}"></td>
-                                            <td><label class="badge"
-                                                       th:style="@{'background: ' + ${profile.getHighestGlobalRank().getHexCodeFromColorCode()}}"
-                                                       th:text="${profile.getHighestGlobalRank().displayName}"></label>
-                                            </td>
-                                            <td th:text="${profile.permissions.size()}"></td>
-                                            <td th:text="'Never'"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card card-profile">
+                            <div class="card-header" th:style="'background: ' + ${target.isOnline() ? '#3CB152' : '#E53A52'} + ';'">
+                                <strong th:text="${target.isOnline() ? 'Online' : 'Offline'}"></strong>
+                                <div th:if="${target.isOnline()}" th:text="'Playing on Hub-01'"></div>
+                                <div th:if="${!target.isOnline()}">
+                                    Last seen
+                                    <time th:datetime="${target.lastSeenAt}" data-format="ago" data-toggle="tooltip"></time>
                                 </div>
                             </div>
+                            <div class="card-body">
+                                <div class="player-avatar">
+                                    <img th:src="@{'https://skins.mcstats.com/body/side/' + ${target.uuid.toString()} + '?overlay'}">
+                                </div>
+                                <div class="player-username">
+                                    <strong class="player-username" th:text="${target.username}"></strong>
+                                </div>
+                                <div class="player-rank" th:text="${target.getHighestGlobalRank().displayName}"></div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
