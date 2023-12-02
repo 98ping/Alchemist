@@ -24,6 +24,7 @@ import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.expirable.TagGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
+import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.session.SessionService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import org.bson.Document
@@ -252,6 +253,14 @@ data class GameProfile(
         return metadata.get("server").asString != "None"
     }
 
+    fun getNiceServerName() : String {
+        if (metadata.get("server") == null) return "Offline"
+        val id = metadata.get("server").asString
+        val server = UniqueServerService.byId(id) ?: return "Unknown"
+
+        return server.displayName
+    }
+
     fun supplyFriendsAsProfiles(): CompletableFuture<List<GameProfile>> {
         return CompletableFuture.supplyAsync {
             friends.map { ProfileGameService.byId(it) }.filter { Objects.nonNull(it) }.map { it!! }
@@ -264,6 +273,10 @@ data class GameProfile(
 
     fun getPunishments(type: PunishmentType): Collection<Punishment> {
         return getPunishments().filter { it.getGrantable() == type }
+    }
+
+    fun getExtraPermissions() : MutableList<String> {
+        return this.permissions
     }
 
     fun getPermissionsAsList(): MutableList<String> {
