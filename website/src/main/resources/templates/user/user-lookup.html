@@ -238,7 +238,7 @@
                     </nav>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 grid-margin stretch-card">
+                    <div class="col-lg-12 grid-margin">
                         <div class="card card-profile">
                             <div class="card-header"
                                  th:style="'background: ' + ${target.isOnline() ? '#3CB152' : '#E53A52'} + ';'">
@@ -262,31 +262,52 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div class="d-flex align-items-center align-self-start">
-                                            <h3 class="mb-0" th:text="${target.friends.size()}"></h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h6 class="text-muted font-weight-normal">Active Friends</h6>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12 col-sm-6 grid-margin stretch-card">
+                        <div class="card card-profile">
+                            <div class="card-header">
+                                <button type="button" class="btn btn-inverse-success btn-fw">General</button>
+                                <button type="button" class="btn btn-inverse-info btn-fw">Punishments</button>
+                                <button type="button" class="btn btn-inverse-info btn-fw">Grants</button>
+                                <button type="button" class="btn btn-inverse-info btn-fw">Tickets</button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-9">
-                                        <div class="d-flex align-items-center align-self-start">
-                                            <h3 class="mb-0" th:text="${target.getExtraPermissions().size()}"></h3>
-                                        </div>
-                                    </div>
+                                <h4 class="card-title" th:text="'Listing All Profiles (Page ' + ${page} + ')'"></h4>
+                                <p class="card-description"> Click on a profile to view more data</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Icon</th>
+                                            <th>Username</th>
+                                            <th>Highest Rank</th>
+                                            <th>Extra Permissions</th>
+                                            <th>Last Login</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="profile : ${users}">
+                                            <td><img class="img-xs rounded-circle"
+                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}">
+                                            </td>
+                                            <td th:text="${profile.username}"></td>
+                                            <td><label class="badge"
+                                                       th:style="@{'background: ' + ${profile.getHighestGlobalRank().getHexCodeFromColorCode()}}"
+                                                       th:text="${profile.getHighestGlobalRank().displayName}"></label>
+                                            </td>
+                                            <td th:text="${profile.getExtraPermissions().size()}"></td>
+                                            <td th:text="'Never'"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <h6 class="text-muted font-weight-normal">Permissions</h6>
                             </div>
                         </div>
                     </div>
@@ -294,6 +315,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 </div>

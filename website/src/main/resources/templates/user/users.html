@@ -261,7 +261,7 @@
                                                        th:style="@{'background: ' + ${profile.getHighestGlobalRank().getHexCodeFromColorCode()}}"
                                                        th:text="${profile.getHighestGlobalRank().displayName}"></label>
                                             </td>
-                                            <td th:text="${profile.permissions.size()}"></td>
+                                            <td th:text="${profile.getExtraPermissions().size()}"></td>
                                             <td th:text="'Never'"></td>
                                         </tr>
                                         </tbody>

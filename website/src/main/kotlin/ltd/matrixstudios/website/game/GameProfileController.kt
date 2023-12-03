@@ -1,5 +1,7 @@
 package ltd.matrixstudios.website.game
 
+import com.google.gson.JsonObject
+import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.website.user.loader.UserServicesComponent
@@ -60,7 +62,10 @@ class GameProfileController
                 "The user requested does not exist. Please ensure that the UUID is correct!"
             )
 
+        val decoyProfile = GameProfile(UUID.fromString("401202a3-0102-4ed8-979a-e5d4832c8a9b"), "itsjhalt", "itsjhalt", JsonObject(), "12", arrayListOf(), arrayListOf(), null, null, null, arrayListOf(), System.currentTimeMillis())
+
         modelAndView.addObject("target", found)
+        modelAndView.addObject("users", listOf(decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile))
         modelAndView.addObject("section", "userLookup")
 
         return modelAndView
