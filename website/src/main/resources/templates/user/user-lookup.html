@@ -271,6 +271,8 @@
                                 <button type="button" class="btn btn-inverse-info btn-fw">Punishments</button>
                                 <button type="button" class="btn btn-inverse-info btn-fw">Grants</button>
                                 <button type="button" class="btn btn-inverse-info btn-fw">Tickets</button>
+                                <button th:if="${target.getHighestGlobalRank().staff}" type="button" class="btn btn-inverse-info btn-fw">Staff History</button>
+                                <button th:if="${target.getHighestGlobalRank().staff}" type="button" class="btn btn-inverse-info btn-fw">Staff Performance</button>
                             </div>
                         </div>
                     </div>
@@ -279,7 +281,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title" th:text="'Listing All Profiles (Page ' + ${page} + ')'"></h4>
+                                <h4 class="card-title" th:text="'Listing Friends (Page ' + ${page} + ')'"></h4>
                                 <p class="card-description"> Click on a profile to view more data</p>
                                 <div class="table-responsive">
                                     <table class="table">
@@ -295,7 +297,8 @@
                                         <tbody>
                                         <tr th:each="profile : ${users}">
                                             <td><img class="img-xs rounded-circle"
-                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}">
+                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}"
+                                            >
                                             </td>
                                             <td th:text="${profile.username}"></td>
                                             <td><label class="badge"

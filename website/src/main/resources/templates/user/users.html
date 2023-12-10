@@ -255,8 +255,9 @@
                                         <tbody>
                                         <tr th:each="profile : ${users}">
                                             <td><img class="img-xs rounded-circle"
-                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}"></td>
-                                            <td th:text="${profile.username}"></td>
+                                                     th:src="@{'https://visage.surgeplay.com/bust/48/' + ${profile.uuid.toString().replace('-', '')} + '?overlay=true&scale=3'}"
+                                            ></td>
+                                            <td><a th:href="${'/api/users/lookup/' + profile.uuid.toString().replace('-', '')}" th:text="${profile.username}"></a></td>
                                             <td><label class="badge"
                                                        th:style="@{'background: ' + ${profile.getHighestGlobalRank().getHexCodeFromColorCode()}}"
                                                        th:text="${profile.getHighestGlobalRank().displayName}"></label>

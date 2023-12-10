@@ -65,6 +65,7 @@ class GameProfileController
         val decoyProfile = GameProfile(UUID.fromString("401202a3-0102-4ed8-979a-e5d4832c8a9b"), "itsjhalt", "itsjhalt", JsonObject(), "12", arrayListOf(), arrayListOf(), null, null, null, arrayListOf(), System.currentTimeMillis())
 
         modelAndView.addObject("target", found)
+        modelAndView.addObject("page", 1)
         modelAndView.addObject("users", listOf(decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile, decoyProfile))
         modelAndView.addObject("section", "userLookup")
 
