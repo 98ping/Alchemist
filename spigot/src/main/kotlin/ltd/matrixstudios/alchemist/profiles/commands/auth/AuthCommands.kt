@@ -98,7 +98,14 @@ class AuthCommands : BaseCommand()
             val authStatus = it.getAuthStatus()
 
             authStatus.lastAuthenticated = 0L
+
+            if (it.hasMetadata("needsAuthetication"))
+            {
+                it.metadata.remove("needsAuthetication")
+            }
+
             it.authStatus = authStatus
+
 
             ProfileGameService.saveSync(it)
             commandSender.sendMessage(Chat.format("&eYou have reset ${it.getRankDisplay()}'s &eauthentication."))
