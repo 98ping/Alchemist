@@ -93,7 +93,7 @@ object MessageHandler
         from.sendMessage(
             Chat.format(
                 STAFF_MESSAGE_FORMAT_TO
-                    .replace("<from>", from.getRankDisplay())
+                    .replace("<to>", to.getRankDisplay())
                     .replace("<message>", message)
             )
         )
