@@ -19,9 +19,12 @@ object ServerUpdateRunnable : BukkitRunnable()
         server.online = true
 
         UniqueServerService.handler.store(server.id, server)
+        UniqueServerService.servers[server.id] = server
 
-        for (mongoserver in UniqueServerService.getValues())
+        for (mongoserver in UniqueServerService.handler.retrieveAll())
         {
+            UniqueServerService.servers[mongoserver.id] = mongoserver
+
             if (mongoserver.online && System.currentTimeMillis()
                     .minus(mongoserver.lastHeartbeat) >= TimeUnit.MINUTES.toMillis(3)
             )
