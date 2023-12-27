@@ -10,6 +10,7 @@ import ltd.matrixstudios.alchemist.models.vouchers.VoucherTemplate
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.service.vouchers.VoucherService
 import ltd.matrixstudios.alchemist.util.Chat
+import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -84,8 +85,8 @@ class VoucherCommand : BaseCommand()
         val grant = VoucherGrant(
             UUID.randomUUID(),
             template,
-            false,
-            System.currentTimeMillis(),
+            true,
+            System.currentTimeMillis() + (TimeUtil.parseTime(duration) * 1000L),
             false,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             target.uuid

@@ -9,6 +9,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
+import java.util.*
 
 class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : PaginatedMenu(18, player)
 {
@@ -43,6 +44,10 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
             desc.add(Chat.format("&6&m-------------------------------------"))
             desc.add(Chat.format("&eFor: &f" + voucher.template.whatFor))
             desc.add(Chat.format("&eWill Expire: &f" + if (voucher.mustRedeemByTime) "&aYes" else "&cNo"))
+            if (voucher.mustRedeemByTime)
+            {
+                desc.add(Chat.format("&eExpires At: &f" + Date(voucher.redeemByDuration).toString()))
+            }
             desc.add(Chat.format("&eGiven By: &f" + AlchemistAPI.getRankWithPrefix(voucher.executedBy)))
             desc.add(Chat.format("&eCompleted: &f" + if (voucher.completed) "&aYes" else "&cNo"))
             desc.add(" ")
@@ -59,6 +64,10 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
 
         override fun getData(player: Player): Short
         {
+            if (System.currentTimeMillis() >= voucher.redeemByDuration) {
+                return 7
+            }
+
             if (voucher.completed)
             {
                 return 14
@@ -82,7 +91,7 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
                 player.sendMessage(Chat.format("&eYou have redeemed a ${voucher.template.whatFor} &evoucher!"))
             } else
             {
-                player.sendMessage(Chat.format("&cYou have already completed this voucher!"))
+                player.sendMessage(Chat.format("&cYou have already completed this voucher or it has expired!"))
             }
         }
 
