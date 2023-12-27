@@ -28,7 +28,7 @@ object DisguiseCommand : BaseCommand()
     fun reveal(sender: CommandSender, @Name("target") target: OnlinePlayer)
     {
         sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.player}&e:"))
+        sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.player.displayName}&e:"))
         val profile = target.player.getProfile()
 
         if (profile == null)
