@@ -86,7 +86,7 @@ class VoucherCommand : BaseCommand()
             UUID.randomUUID(),
             template,
             !duration.equals("perm", ignoreCase = true),
-            System.currentTimeMillis() + (TimeUtil.parseTime(duration) * 1000L),
+            if (!duration.equals("perm", ignoreCase = true)) System.currentTimeMillis().plus(TimeUtil.parseTime(duration) * 1000L) else Long.MAX_VALUE,
             false,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             target.uuid
