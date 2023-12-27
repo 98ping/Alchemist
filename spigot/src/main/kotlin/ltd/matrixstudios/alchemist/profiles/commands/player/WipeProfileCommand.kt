@@ -21,7 +21,7 @@ class WipeProfileCommand : BaseCommand()
     @CommandCompletion("@gameprofile")
     fun wipe(player: Player, @Name("target") profile: GameProfile)
     {
-        AsynchronousRedisSender.send(PlayerKickPacket(player.uniqueId, "&cYour profile is being wiped!"))
+        AsynchronousRedisSender.send(PlayerKickPacket(profile.uuid, "&cYour profile is being wiped!"))
 
         ProfileGameService.handler.deleteAsync(profile.uuid)
         ProfileGameService.cache.remove(profile.uuid)
