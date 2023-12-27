@@ -66,12 +66,12 @@ class AutomaticAuditSetting(val profile: GameProfile) : Button()
         if (hasMetadata)
         {
             profile.metadata.remove("toggleAudit")
-            player.sendMessage(Chat.format("&eYou have toggled your audit log on join &aon"))
+            player.sendMessage(Chat.format("&eYou have toggled your audit log on join &coff"))
             ProfileGameService.save(profile)
         } else
         {
             profile.metadata.addProperty("toggleAudit", true)
-            player.sendMessage(Chat.format("&eYou have toggled your audit log on join &coff"))
+            player.sendMessage(Chat.format("&eYou have toggled your audit log on join &aon"))
             ProfileGameService.save(profile)
         }
 
