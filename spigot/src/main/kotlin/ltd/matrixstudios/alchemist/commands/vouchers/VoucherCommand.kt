@@ -85,7 +85,7 @@ class VoucherCommand : BaseCommand()
         val grant = VoucherGrant(
             UUID.randomUUID(),
             template,
-            true,
+            !duration.equals("perm", ignoreCase = true),
             System.currentTimeMillis() + (TimeUtil.parseTime(duration) * 1000L),
             false,
             BukkitPunishmentFunctions.getSenderUUID(sender),
