@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.staff.alerts.StaffActionAlertPacket
 import ltd.matrixstudios.alchemist.util.Chat
@@ -27,7 +28,7 @@ class InventoryCopyingCommands : BaseCommand()
 
         sender.sendMessage(Chat.format(player.displayName + "&6's inventory has been applied to you."))
 
-        AsynchronousRedisSender.send(StaffActionAlertPacket("has copied ${online.player.name}'s current inventory", player.name))
+        AsynchronousRedisSender.send(StaffActionAlertPacket("has copied ${online.player.name}'s current inventory", player.name, Alchemist.globalServer.id))
     }
 
     @CommandAlias("cpto")
@@ -42,7 +43,7 @@ class InventoryCopyingCommands : BaseCommand()
         player.foodLevel = sender.foodLevel
         sender.activePotionEffects.forEach(player::addPotionEffect)
 
-        AsynchronousRedisSender.send(StaffActionAlertPacket("has given their inventory to ${online.player.name}", player.name))
+        AsynchronousRedisSender.send(StaffActionAlertPacket("has given their inventory to ${online.player.name}", player.name, Alchemist.globalServer.id))
 
         sender.sendMessage(Chat.format("&6Your inventory has been applied to &f" + player.displayName + "&6."))
     }
