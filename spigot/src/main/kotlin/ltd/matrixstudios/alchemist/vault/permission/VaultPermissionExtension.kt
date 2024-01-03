@@ -54,16 +54,15 @@ class VaultPermissionExtension : Permission()
         val profile = ProfileGameService.byUsernameWithList(p1!!.lowercase(Locale.getDefault())).join().firstOrNull()
             ?: return false
 
-        return profile.permissions.contains(p2)
+        return profile.getExtraPermissions(false).map { it.node }.contains(p2)
     }
 
     override fun playerAdd(p0: String?, p1: String?, p2: String?): Boolean
     {
-        val profile = ProfileGameService.byUsernameWithList(p1!!.lowercase(Locale.getDefault())).join().firstOrNull()
-        profile!!.permissions.add(p2!!)
+        val profile = ProfileGameService.byUsernameWithList(p1!!.lowercase(Locale.getDefault())).join().firstOrNull() ?: return false
         ProfileGameService.save(profile)
 
-        return true
+        return false
     }
 
     override fun playerRemove(p0: String?, p1: String?, p2: String?): Boolean
@@ -71,10 +70,9 @@ class VaultPermissionExtension : Permission()
         val profile = ProfileGameService.byUsernameWithList(p1!!.lowercase(Locale.getDefault())).join().firstOrNull()
             ?: return false
 
-        profile.permissions.remove(p2!!)
         ProfileGameService.save(profile)
 
-        return true
+        return false
     }
 
     override fun groupHas(p0: String?, p1: String?, p2: String?): Boolean
