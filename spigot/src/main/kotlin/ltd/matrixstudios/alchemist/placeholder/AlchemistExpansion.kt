@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.placeholder
 
 import ltd.matrixstudios.alchemist.models.ranks.Rank
+import ltd.matrixstudios.alchemist.profiles.getCurrentRank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
@@ -57,6 +58,11 @@ class AlchemistExpansion : PlaceholderExpansion()
 
 
                 return Chat.format(rank.color + rank.displayName)
+            }
+
+            "rankWeight" ->
+            {
+                return player.getCurrentRank().weight.toString()
             }
 
             "vanishStatus" ->

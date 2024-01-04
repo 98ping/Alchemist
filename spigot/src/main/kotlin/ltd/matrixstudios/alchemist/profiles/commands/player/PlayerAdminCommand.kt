@@ -38,6 +38,7 @@ class PlayerAdminCommand : BaseCommand()
         target.use(player) {
             player.sendMessage(Chat.format("&eName: &f" + it.username))
             player.sendMessage(Chat.format("&eRank Display: &f" + it.getRankDisplay()))
+            println(it.getCurrentRank().color + it.getCurrentRank().displayName)
         }.thenAccept {
             player.sendMessage(Chat.format("&aReached end of future"))
         }
