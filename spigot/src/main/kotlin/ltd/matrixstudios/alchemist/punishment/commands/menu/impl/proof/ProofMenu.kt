@@ -89,10 +89,10 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
                 desc.add(Chat.format("&eAdded At: &f" + Date(proofEntry.addedAt)))
                 desc.add(Chat.format("&eAdded By: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
                 desc.add(" ")
-                desc.add(Chat.format("&a&lLeft-Click &ato view the proof"))
+                desc.add(Chat.format("&aLeft-Click to view the proof"))
                 if (player.hasPermission("alchemist.punishments.proof.reviewer"))
                 {
-                    desc.add(Chat.format("&e&lRight-Click &eto review proof"))
+                    desc.add(Chat.format("&eRight-Click to review proof"))
                 }
                 desc.add(Chat.format("&6&m---------------------------------"))
             } else
@@ -111,11 +111,11 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
                 desc.add(" ")
                 if (player.hasPermission("alchemist.punishments.proof.elevation"))
                 {
-                    desc.add(Chat.format("&a&lLeft-Click &ato view the proof"))
+                    desc.add(Chat.format("&aLeft-Click to view the proof"))
 
                     if (player.hasPermission("alchemist.punishments.proof.reviewer"))
                     {
-                        desc.add(Chat.format("&e&lRight-Click &eto review proof"))
+                        desc.add(Chat.format("&eRight-Click to review proof"))
                     }
                 } else
                 {

@@ -27,9 +27,9 @@ class ProofInspectionMenu(val player: Player, val punishment: Punishment, val pr
     {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[3] = ProofInspectionButton(ProofEntry.ReviewStatus.ACCEPTED, punishment, proofEntry)
-        buttons[4] = ProofInspectionButton(ProofEntry.ReviewStatus.REPUNISHED, punishment, proofEntry)
-        buttons[5] = ProofInspectionButton(ProofEntry.ReviewStatus.REJECTED, punishment, proofEntry)
+        buttons[11] = ProofInspectionButton(ProofEntry.ReviewStatus.ACCEPTED, punishment, proofEntry)
+        buttons[12] = ProofInspectionButton(ProofEntry.ReviewStatus.REPUNISHED, punishment, proofEntry)
+        buttons[13] = ProofInspectionButton(ProofEntry.ReviewStatus.REJECTED, punishment, proofEntry)
 
         return buttons
     }
@@ -50,7 +50,7 @@ class ProofInspectionMenu(val player: Player, val punishment: Punishment, val pr
         override fun getDescription(player: Player): MutableList<String>?
         {
             return mutableListOf(
-                Chat.format("&a&lLeft-Click &ato set the proof status to ${outcome.displayName}")
+                Chat.format("&aLeft-Click to set the status to ${outcome.displayName}")
             )
         }
 
