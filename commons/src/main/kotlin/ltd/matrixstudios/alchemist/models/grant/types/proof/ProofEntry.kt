@@ -27,6 +27,6 @@ data class ProofEntry(
         val displayName: String
     )
     {
-        ACCEPTED("&aAccepted"), REPUNISHED("&eChange Punishment"), REJECTED("&cRejected")
+        ACCEPTED("&aAccepted"), REPUNISHED("&6Change Punishment"), REJECTED("&cRejected")
     }
 }
