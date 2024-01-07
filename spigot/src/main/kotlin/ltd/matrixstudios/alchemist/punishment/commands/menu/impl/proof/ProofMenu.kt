@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.GeneralPunishmentMenu
 import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.filter.PunishmentFilter
+import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.inspection.ProofInspectionMenu
 import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.sub.ProofSelectTypeMenu
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.util.Chat
@@ -60,7 +61,7 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
         var index = 0
         for (proof in punishment.proof)
         {
-            buttons[index++] = ProofButton(proof)
+            buttons[index++] = ProofButton(proof, punishment)
         }
 
         return buttons
@@ -71,7 +72,7 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
         return "Proof of: ${punishment.easyFindId}"
     }
 
-    class ProofButton(val proofEntry: ProofEntry) : Button()
+    class ProofButton(val proofEntry: ProofEntry, val punishment: Punishment) : Button()
     {
         override fun getMaterial(player: Player): Material
         {
@@ -83,28 +84,44 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
             val desc = mutableListOf<String>()
             if (!proofEntry.shouldBeConfidential)
             {
-                desc.add(Chat.format("&6&m---------------------"))
+                desc.add(Chat.format("&6&m---------------------------------"))
                 desc.add(Chat.format("&eType: " + proofEntry.type.displayName))
-                desc.add(Chat.format("&eAt: &f" + Date(proofEntry.addedAt)))
-                desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
+                desc.add(Chat.format("&eAdded At: &f" + Date(proofEntry.addedAt)))
+                desc.add(Chat.format("&eAdded By: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
                 desc.add(" ")
-                desc.add(Chat.format("&aClick to view link"))
-                desc.add(Chat.format("&6&m---------------------"))
+                desc.add(Chat.format("&a&lLeft-Click &ato view the proof"))
+                if (player.hasPermission("alchemist.punishments.proof.reviewer"))
+                {
+                    desc.add(Chat.format("&e&lRight-Click &eto review proof"))
+                }
+                desc.add(Chat.format("&6&m---------------------------------"))
             } else
             {
-                desc.add(Chat.format("&6&m---------------------"))
+                desc.add(Chat.format("&6&m---------------------------------"))
                 desc.add(Chat.format("&eType: &f" + proofEntry.type.displayName))
-                desc.add(Chat.format("&eAt: &f" + Date(proofEntry.addedAt)))
-                desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
-                desc.add(" ")
-                if (player.hasPermission("alchemist.punishments.proof"))
+                desc.add(Chat.format("&eAdded At: &f" + Date(proofEntry.addedAt)))
+                desc.add(Chat.format("&eAdded By: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
+                if (proofEntry.reviewStatus != null)
                 {
-                    desc.add(Chat.format("&aClick to view link"))
+                    desc.add(" ")
+                    desc.add(Chat.format("&eReviewed By: &f${AlchemistAPI.getRankDisplay(proofEntry.reviewer!!)}"))
+                    desc.add(Chat.format("&eReviewed At: &f${Date(proofEntry.reviewedAt!!)}"))
+                    desc.add(Chat.format("&eOutcome: &f${proofEntry.reviewStatus!!.displayName}"))
+                }
+                desc.add(" ")
+                if (player.hasPermission("alchemist.punishments.proof.elevation"))
+                {
+                    desc.add(Chat.format("&a&lLeft-Click &ato view the proof"))
+
+                    if (player.hasPermission("alchemist.punishments.proof.reviewer"))
+                    {
+                        desc.add(Chat.format("&e&lRight-Click &eto review proof"))
+                    }
                 } else
                 {
-                    desc.add(Chat.format("&cConfidential Proof"))
+                    desc.add(Chat.format("&c&lConfidential Proof"))
                 }
-                desc.add(Chat.format("&6&m---------------------"))
+                desc.add(Chat.format("&6&m---------------------------------"))
             }
 
             return desc
@@ -122,18 +139,25 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
 
         override fun onClick(player: Player, slot: Int, type: ClickType)
         {
-            if (!proofEntry.shouldBeConfidential)
+            if (type.isLeftClick)
             {
-                player.sendMessage(proofEntry.link)
-            } else
-            {
-                if (player.hasPermission("alchemist.punishments.proof"))
+                if (!proofEntry.shouldBeConfidential)
                 {
                     player.sendMessage(proofEntry.link)
+                } else
+                {
+                    if (player.hasPermission("alchemist.punishments.proof"))
+                    {
+                        player.sendMessage(proofEntry.link)
+                    }
+                }
+            } else
+            {
+                if (player.hasPermission("alchemist.punishments.proof.reviewer"))
+                {
+                    ProofInspectionMenu(player, punishment, proofEntry).openMenu()
                 }
             }
         }
-
-
     }
 }

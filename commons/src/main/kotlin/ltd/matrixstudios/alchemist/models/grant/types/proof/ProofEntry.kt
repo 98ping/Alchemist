@@ -8,7 +8,10 @@ data class ProofEntry(
     val type: ProofType,
     val addedAt: Long,
     val whoAdded: UUID,
-    val shouldBeConfidential: Boolean
+    val shouldBeConfidential: Boolean,
+    var reviewer: UUID? = null,
+    var reviewStatus: ReviewStatus? = null,
+    var reviewedAt: Long? = null
 ) {
 
     enum class ProofType(
@@ -17,6 +20,13 @@ data class ProofEntry(
     {
         VIDEO("&6Videos"),
         IMAGES("&6Images"),
-        STAFF_SUPERVISION("&6Staff Allowance")
+        STAFF_SUPERVISION("&6Classified")
+    }
+
+    enum class ReviewStatus(
+        val displayName: String
+    )
+    {
+        ACCEPTED("&aAccepted"), REPUNISHED("&eChange Punishment"), REJECTED("&cRejected")
     }
 }

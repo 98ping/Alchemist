@@ -43,7 +43,7 @@ class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val pro
                 .acceptInput {
                     val entry = ProofEntry(
                         it, proofType, System.currentTimeMillis(), profile.uuid,
-                        proofType == ProofEntry.ProofType.STAFF_SUPERVISION
+                        proofType == ProofEntry.ProofType.STAFF_SUPERVISION,
                     )
 
                     punishment.proof.add(entry)
