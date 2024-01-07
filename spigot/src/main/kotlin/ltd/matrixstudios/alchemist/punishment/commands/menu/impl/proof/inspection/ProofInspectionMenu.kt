@@ -27,9 +27,9 @@ class ProofInspectionMenu(val player: Player, val punishment: Punishment, val pr
     {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[11] = ProofInspectionButton(ProofEntry.ReviewStatus.ACCEPTED, punishment, proofEntry)
-        buttons[12] = ProofInspectionButton(ProofEntry.ReviewStatus.REPUNISHED, punishment, proofEntry)
-        buttons[13] = ProofInspectionButton(ProofEntry.ReviewStatus.REJECTED, punishment, proofEntry)
+        buttons[12] = ProofInspectionButton(ProofEntry.ReviewStatus.ACCEPTED, punishment, proofEntry)
+        buttons[13] = ProofInspectionButton(ProofEntry.ReviewStatus.REPUNISHED, punishment, proofEntry)
+        buttons[14] = ProofInspectionButton(ProofEntry.ReviewStatus.REJECTED, punishment, proofEntry)
 
         return buttons
     }
@@ -71,6 +71,7 @@ class ProofInspectionMenu(val player: Player, val punishment: Punishment, val pr
             proofEntry.reviewStatus = outcome
             proofEntry.reviewedAt = System.currentTimeMillis()
             proofEntry.reviewer = player.uniqueId
+
 
             punishment.proof.add(proofEntry)
             PunishmentService.save(punishment)
