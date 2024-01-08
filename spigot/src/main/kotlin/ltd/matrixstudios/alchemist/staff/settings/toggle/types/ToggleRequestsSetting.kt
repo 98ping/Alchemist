@@ -46,7 +46,7 @@ class ToggleRequestsSetting(val profile: GameProfile) : Button()
 
     override fun getData(player: Player): Short
     {
-        return if (profile.hasMetadata("toggleRequests")) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
+        return if (!profile.hasMetadata("toggleRequests")) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType)
