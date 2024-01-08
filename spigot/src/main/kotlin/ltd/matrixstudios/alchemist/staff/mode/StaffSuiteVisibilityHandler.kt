@@ -1,6 +1,9 @@
 package ltd.matrixstudios.alchemist.staff.mode
 
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.staff.alerts.StaffActionAlertPacket
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -12,6 +15,8 @@ object StaffSuiteVisibilityHandler
         Bukkit.getOnlinePlayers().forEach {
             it.showPlayer(player)
         }
+
+        AsynchronousRedisSender.send(StaffActionAlertPacket("has turned their vanish &coff", player.name, Alchemist.globalServer.id))
 
     }
 
@@ -28,6 +33,8 @@ object StaffSuiteVisibilityHandler
             }.forEach {
                 player.showPlayer(it)
             }
+
+            AsynchronousRedisSender.send(StaffActionAlertPacket("has turned their vanish &aon", player.name, Alchemist.globalServer.id))
         }
     }
 }

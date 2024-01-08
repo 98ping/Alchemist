@@ -4,6 +4,9 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
+import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.staff.alerts.StaffActionAlertPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -26,5 +29,6 @@ class WorldCommands : BaseCommand()
 
         player.teleport(Location(found, found.spawnLocation.x, found.spawnLocation.y, found.spawnLocation.z))
         player.sendMessage(Chat.format("&6You were teleported to the world &f${found.name}"))
+        AsynchronousRedisSender.send(StaffActionAlertPacket("has teleported to the world $worldId", player.name, Alchemist.globalServer.id))
     }
 }
