@@ -5,6 +5,7 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.staff.settings.toggle.menu.SettingsMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
+import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -14,7 +15,7 @@ class CanSeeOtherStaffSetting(val profile: GameProfile) : Button()
 
     override fun getMaterial(player: Player): Material
     {
-        return Material.INK_SACK
+        return Material.WOOL
     }
 
     override fun getDescription(player: Player): MutableList<String>
@@ -46,7 +47,7 @@ class CanSeeOtherStaffSetting(val profile: GameProfile) : Button()
 
     override fun getData(player: Player): Short
     {
-        return 10
+        return if (profile.hasMetadata("seeOtherStaff")) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
     override fun onClick(player: Player, slot: Int, type: ClickType)
