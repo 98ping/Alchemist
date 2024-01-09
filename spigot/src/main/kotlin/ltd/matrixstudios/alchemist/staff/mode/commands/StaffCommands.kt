@@ -2,7 +2,10 @@ package ltd.matrixstudios.alchemist.staff.mode.commands
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.*
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.staff.alerts.StaffActionAlertPacket
 import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
@@ -62,10 +65,12 @@ class StaffCommands : BaseCommand()
             {
                 StaffSuiteManager.removeStaffMode(player)
                 player.sendMessage(Chat.format("&cYou have left Staff Mode!"))
+                AsynchronousRedisSender.send(StaffActionAlertPacket("has unmodmoded", player.name, Alchemist.globalServer.id))
             } else
             {
                 StaffSuiteManager.setStaffMode(player)
                 player.sendMessage(Chat.format("&aYou have went into Staff Mode!"))
+                AsynchronousRedisSender.send(StaffActionAlertPacket("has modmoded", player.name, Alchemist.globalServer.id))
             }
         } else
         {
