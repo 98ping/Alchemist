@@ -15,9 +15,6 @@ object StaffSuiteVisibilityHandler
         Bukkit.getOnlinePlayers().forEach {
             it.showPlayer(player)
         }
-
-        AsynchronousRedisSender.send(StaffActionAlertPacket("has turned their vanish &coff", player.name, Alchemist.globalServer.id))
-
     }
 
     fun onEnableVisibility(player: Player)
@@ -33,8 +30,6 @@ object StaffSuiteVisibilityHandler
             }.forEach {
                 player.showPlayer(it)
             }
-
-            AsynchronousRedisSender.send(StaffActionAlertPacket("has turned their vanish &aon", player.name, Alchemist.globalServer.id))
         }
     }
 }
