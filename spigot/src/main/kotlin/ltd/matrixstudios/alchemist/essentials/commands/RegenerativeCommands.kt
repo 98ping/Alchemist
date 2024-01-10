@@ -39,12 +39,12 @@ class RegenerativeCommands : BaseCommand()
     {
         if (target == null)
         {
-            sender.foodLevel = 10
+            sender.foodLevel = 20
             sender.sendMessage(Chat.format("&6You have been fed!"))
             AsynchronousRedisSender.send(StaffActionAlertPacket("has fed themselves", sender.name, Alchemist.globalServer.id))
         } else
         {
-            target.player.foodLevel = 10
+            target.player.foodLevel = 20
             target.player.sendMessage(Chat.format("&6You have been fed!"))
             sender.sendMessage(Chat.format("&6You have fed ${target.player.displayName}"))
             AsynchronousRedisSender.send(StaffActionAlertPacket("has fed ${target.player.name}", sender.name, Alchemist.globalServer.id))
