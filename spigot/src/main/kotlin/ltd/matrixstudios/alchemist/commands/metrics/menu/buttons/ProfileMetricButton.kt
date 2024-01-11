@@ -19,39 +19,39 @@ class ProfileMetricButton : Button()
     override fun getDescription(player: Player): MutableList<String>
     {
         val desc = mutableListOf<String>()
-        desc.add(Chat.format("&7&m-------------------"))
+        desc.add(Chat.format("&7&m-------------------------------"))
         val average = MetricService.averageMS("Profile Service")
         if (average != Long.MAX_VALUE)
         {
-            desc.add(Chat.format("&eAverage ms/j: &c" + average + "ms"))
+            desc.add(Chat.format("&6&l｜ &fAverage ms/join: &e" + average + "ms"))
         } else
         {
-            desc.add(Chat.format("&eAverage ms/j: &cN/A"))
+            desc.add(Chat.format("&6&l｜ &fAverage ms/join: &eN/A"))
         }
         val all = MetricService.getLast10("Profile Service")
-        desc.add(Chat.format("&eQuartile Low: &c" + all.sortedBy { it.ms }.first().ms + "ms"))
-        desc.add(Chat.format("&eQuartile High: &c" + all.sortedByDescending { it.ms }.first().ms + "ms"))
+        desc.add(Chat.format("&6&l｜ &fFastest Time: &e" + all.sortedBy { it.ms }.first().ms + "ms"))
+        desc.add(Chat.format("&6&l｜ &fSlowest Time: &e" + all.sortedByDescending { it.ms }.first().ms + "ms"))
         desc.add(" ")
-        desc.add(Chat.format("&eLast 10 Entries"))
+        desc.add(Chat.format("&6Last 10 Entries&7:"))
         for (metric in all)
         {
-            desc.add(Chat.format("&7→ &e" + metric.ms + "ms"))
+            desc.add(Chat.format("&6&l｜ &f" + metric.ms + "ms"))
         }
         desc.add(" ")
         if (!all.isEmpty())
         {
             desc.add(
                 Chat.format(
-                    "&eLast Requested: &c" + TimeUtil.formatDuration(
-                        System.currentTimeMillis().minus(all.first().at)
+                    "&6&l｜ &fLast Requested: &e" + TimeUtil.formatDuration(
+                        System.currentTimeMillis().minus(all.last().at)
                     ) + " ago"
                 )
             )
         } else
         {
-            desc.add(Chat.format("&eLast Requested: &cNever!"))
+            desc.add(Chat.format("&6&l｜ &fLast Requested: &cNever"))
         }
-        desc.add(Chat.format("&7&m-------------------"))
+        desc.add(Chat.format("&7&m-------------------------------"))
 
         return desc
     }
