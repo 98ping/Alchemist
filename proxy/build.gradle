@@ -5,6 +5,5 @@
 dependencies {
     implementation project(":commons")
 
-    implementation fileTree(include: ['honey.jar'], dir: 'lib')
     compileOnly 'io.github.waterfallmc:waterfall-api:1.19-R0.1-SNAPSHOT'
 }

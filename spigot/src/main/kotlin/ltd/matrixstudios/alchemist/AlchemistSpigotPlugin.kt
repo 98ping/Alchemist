@@ -18,6 +18,7 @@ import ltd.matrixstudios.alchemist.profiles.commands.auth.listener.AuthListener
 import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
 import ltd.matrixstudios.alchemist.redis.LocalPacketPubSub
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
+import ltd.matrixstudios.alchemist.repository.AlchemistRepositoryService
 import ltd.matrixstudios.alchemist.servers.commands.task.ServerReleaseTask
 import ltd.matrixstudios.alchemist.servers.listener.ServerLockListener
 import ltd.matrixstudios.alchemist.servers.statistic.StatisticManager
@@ -35,6 +36,7 @@ import ltd.matrixstudios.alchemist.util.menu.update.MenuAutoUpdate
 import ltd.matrixstudios.alchemist.vault.VaultHookManager
 import ltd.matrixstudios.alchemist.webhook.WebhookService
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.concurrent.thread

@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
-    id 'org.jetbrains.kotlin.kapt' version '1.6.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'org.jetbrains.kotlin.kapt' version '1.8.21'
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'maven-publish'
 }
@@ -20,6 +20,7 @@ allprojects {
         maven { url "https://repo.aikar.co/content/groups/aikar/" }
         maven { url 'https://papermc.io/repo/repository/maven-public/' }
         maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+        maven { url "https://maven.matrixstudios.ltd/public" }
 
     }
 }
@@ -37,5 +38,10 @@ subprojects {
         compileOnly 'org.projectlombok:lombok:1.18.22'
         kapt 'org.projectlombok:lombok:1.18.22'
 
+        //apache
+        implementation 'org.apache.maven:maven-artifact:3.0.3'
+
+        // honey
+        implementation "ltd.matrixstudios:honey:1.0"
     }
 }

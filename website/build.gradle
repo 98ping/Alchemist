@@ -1,5 +1,8 @@
+import org.gradle.api.internal.artifacts.publish.ArchivePublishArtifact
+import org.gradle.api.internal.plugins.DefaultArtifactPublicationSet
+
 plugins {
-	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'org.springframework.boot' version '2.7.18'
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -15,11 +18,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation 'com.google.code.gson:gson:2.7'
-
-	//local files
-	compileOnly fileTree(include: ['honey.jar'], dir: 'lib')
 }
 
+
 springBoot {
-	mainClassName = 'ltd.matrixstudios.website.AlchemistWebApplication'
+	mainClass = 'ltd.matrixstudios.website.AlchemistWebApplication'
 }
