@@ -11,6 +11,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
 
 @CommandAlias("alchemist")
 class AlchemistCommand : BaseCommand()
@@ -50,8 +51,7 @@ class AlchemistCommand : BaseCommand()
 
     @Subcommand("checkversion")
     @CommandPermission("alchemist.version")
-    fun checkversion(sender: CommandSender)
-    {
+    fun checkversion(sender: CommandSender) = CompletableFuture.runAsync {
         val version = AlchemistSpigotPlugin.instance.description.version
 
         val newVersion = AlchemistRepositoryService.checkLatestJarFile(
@@ -61,16 +61,16 @@ class AlchemistCommand : BaseCommand()
         if (newVersion.first == AlchemistRepositoryService.ResponseStatus.CouldNotLoad)
         {
             sender.sendMessage(Chat.format("&cCould not load latest jar file because the repository did not respond."))
-            return
+            return@runAsync
         }
 
         if (newVersion.first == AlchemistRepositoryService.ResponseStatus.Latest)
         {
-            sender.sendMessage(Chat.format("&eYou are currently running the latest version of &6Alchemist &7(${version})"))
-            return
+            sender.sendMessage(Chat.format("&eYou are currently running the &alatest &eversion of &6Alchemist &7(&a${version}&7)"))
+            return@runAsync
         } else
         {
-            sender.sendMessage(Chat.format("&eA new version of &6Alchemist &eis now available! &7(${version} -> ${newVersion.second!!.name})"))
+            sender.sendMessage(Chat.format("&eA new version of &6Alchemist &eis now available! &7(&c${version} &7-> &a${newVersion.second!!.name}&7)"))
         }
     }
 
