@@ -34,8 +34,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7This change will affect display order and"),
                 Chat.format("&7server punishment/grant handling"),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.weight),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &e" + rank.weight),
+                " ",
+                Chat.format("&aClick to change rank weight!")
             ),
             "&eChange Priority", 0
         ).setBody { player, slot, clicktype ->
@@ -70,8 +71,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7differently than other ranks and given"),
                 Chat.format("&7more permission."),
                 " ",
-                Chat.format("&eCurrently: &f" + if (rank.staff) "&aTrue" else "&cFalse"),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &e" + if (rank.staff) "&aTrue" else "&cFalse"),
+                " ",
+                Chat.format("&aClick to change rank staff status!")
             ),
             "&eChange Staff Status", 0
         ).setBody { player, slot, clicktype ->
@@ -91,8 +93,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7This prefix will show in public chat"),
                 Chat.format("&7as well as some display parts of the server"),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.prefix),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &r" + rank.prefix),
+                " ",
+                Chat.format("&aClick to change rank prefix!")
             ),
             "&eChange Prefix", 0
         ).setBody { player, slot, clicktype ->
@@ -115,8 +118,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7This color will show in /list"),
                 Chat.format("&7and menu aspects."),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.color + "This"),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &e" + rank.color + "This"),
+                " ",
+                Chat.format("&aClick to change rank color!")
             ),
             "&eChange Color", 0
         ).setBody { player, slot, clicktype ->
@@ -140,8 +144,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7parts of the plugin use the display name"),
                 Chat.format("&7instead of just the regular rank id"),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.displayName),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &e" + rank.displayName),
+                " ",
+                Chat.format("&aClick to change rank display name!")
             ),
             "&eChange Display Name", 0
         ).setBody { player, slot, clicktype ->
@@ -166,8 +171,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7in rank-based menus."),
                 " ",
                 Chat.format("&cNormal color codes do not need this addition!"),
-                Chat.format("&eCurrently: &f" + rank.color + "This"),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &f" + rank.color + "This"),
+                " ",
+                Chat.format("&aClick to change rank wool color!")
             ),
             "&eChange Wool Color", 0
         ).setBody { player, slot, clicktype ->
@@ -191,8 +197,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 Chat.format("&7this rank command and features for anyone"),
                 Chat.format("&7with this rank granted."),
                 " ",
-                Chat.format("&eCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1) "" else "s"}"),
-                " "
+                Chat.format("&6&l｜ &fCurrently: &f" + rank.permissions.size + " Node${if (rank.permissions.size == 1) "" else "s"}"),
+                " ",
+                Chat.format("&aClick to change rank permissions!")
             ),
             "&eChange Permission", 0
         ).setBody { player, slot, clicktype ->
