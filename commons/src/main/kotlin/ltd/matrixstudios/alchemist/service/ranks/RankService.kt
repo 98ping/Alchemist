@@ -14,16 +14,17 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.ArrayList
 
 
-object RankService : GeneralizedService {
+object RankService : GeneralizedService
+{
 
     var handler = Alchemist.dataHandler.createStoreType<String, Rank>(DataStoreType.MONGO)
 
     var ranks = ConcurrentHashMap<String, Rank>()
 
-    var FALLBACK_RANK = Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
+    var FALLBACK_RANK =
+        Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
 
     var FALLBACK_GRANT = RankGrant(
         FALLBACK_RANK.id,
@@ -35,31 +36,36 @@ object RankService : GeneralizedService {
         GrantScope("Fallback Grant", mutableListOf(), true)
     )
 
-    fun loadRanks() {
+    fun loadRanks()
+    {
         //since there are only a limited amount of ranks we can just load on startup
         getValues().thenAccept {
-            for (rank in it) {
+            for (rank in it)
+            {
                 ranks[rank.id] = rank
             }
 
-            if (byId("default") == null && findFirstAvailableDefaultRank() == null) {
-                save(Rank(
-                    "default",
-                    "Default",
-                    "Default",
-                    1,
-                    ArrayList(),
-                    ArrayList(),
-                    "",
-                    "&7",
-                    staff = false,
-                    default = true)
+            if (byId("default") == null && findFirstAvailableDefaultRank() == null)
+            {
+                save(
+                    Rank(
+                        "default",
+                        "Default",
+                        "Default",
+                        1,
+                        ArrayList(),
+                        ArrayList(),
+                        "",
+                        "&7",
+                        staff = false,
+                        default = true
+                    )
                 )
             }
         }
     }
 
-    fun scanRank(rank: Rank) : CompletableFuture<Collection<GameProfile>>
+    fun scanRank(rank: Rank): CompletableFuture<Collection<GameProfile>>
     {
         return CompletableFuture.supplyAsync {
             val profiles = ProfileGameService.handler.retrieveAll()
@@ -77,11 +83,13 @@ object RankService : GeneralizedService {
         }
     }
 
-    fun getValues() : CompletableFuture<Collection<Rank>> {
+    fun getValues(): CompletableFuture<Collection<Rank>>
+    {
         return handler.retrieveAllAsync()
     }
 
-    fun save(rank: Rank) : CompletableFuture<Void> {
+    fun save(rank: Rank): CompletableFuture<Void>
+    {
         return CompletableFuture.runAsync {
             handler.store(rank.id, rank)
         }.thenAccept {
@@ -89,7 +97,8 @@ object RankService : GeneralizedService {
         }
     }
 
-    fun delete(rank: Rank) : CompletableFuture<Void> {
+    fun delete(rank: Rank): CompletableFuture<Void>
+    {
         ranks.remove(rank.id)
 
         return CompletableFuture.runAsync {
@@ -97,12 +106,12 @@ object RankService : GeneralizedService {
         }
     }
 
-    fun getAllRanksInOrder() : Collection<Rank>
+    fun getAllRanksInOrder(): Collection<Rank>
     {
         return ranks.values.sortedByDescending { it.weight }
     }
 
-    fun getRanksInOrder() : Collection<Rank>
+    fun getRanksInOrder(): Collection<Rank>
     {
         val final = mutableListOf<Rank>()
 
@@ -118,19 +127,22 @@ object RankService : GeneralizedService {
     }
 
 
-    fun findFirstAvailableDefaultRank() : Rank? {
+    fun findFirstAvailableDefaultRank(): Rank?
+    {
         return ranks.values.firstOrNull { it.default }
     }
 
-    fun byId(id: String) : Rank? {
-        if (ranks.containsKey(id)) {
+    fun byId(id: String): Rank?
+    {
+        if (ranks.containsKey(id))
+        {
             return ranks[id]
         }
 
         return null
     }
 
-    fun byIdAnyCase(id: String) : Rank?
+    fun byIdAnyCase(id: String): Rank?
     {
         for (rank in ranks.values)
         {

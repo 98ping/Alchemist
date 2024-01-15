@@ -8,6 +8,7 @@ import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
@@ -46,10 +47,11 @@ class RankEditorMenu(
                 42 to Button.placeholder(),
                 43 to Button.placeholder(),
                 44 to Button.placeholder(),
-                3 to SkullButton(
-                    "ewogICJ0aW1lc3RhbXAiIDogMTY4NzkyNjU3ODkzMCwKICAicHJvZmlsZUlkIiA6ICIzOTg5OGFiODFmMjU0NmQxOGIyY2ExMTE1MDRkZGU1MCIsCiAgInByb2ZpbGVOYW1lIiA6ICI4YjJjYTExMTUwNGRkZTUwIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2M4OTMwY2M1OTQ2OWU2M2Y4MzhjMTJmMjY4ZjMxMjJiMTllZjQxMTcwNmVkMzE5Mzc1YTc4MzI1OTE1OGVlNmYiCiAgICB9CiAgfQp9",
+                3 to SimpleActionButton(
+                    Material.HOPPER,
                     generateRankListFilterLore(),
-                    "&eClick to switch &6Rank Filter"
+                    "&eClick to switch Rank Filter",
+                    0
                 ).setBody { player, i, clickType ->
                     val values = RankListFilter.values()
                     val index = values.indexOf(rankListFilter)
@@ -58,22 +60,23 @@ class RankEditorMenu(
 
                     if (next > limit)
                     {
-                        RankListMenu(player, getRanksBasedOnFilter(values[0]), values[0]).updateMenu()
+                        RankEditorMenu(player, getRanksBasedOnFilter(values[0]).toList(), values[0]).updateMenu()
 
                         return@setBody
                     }
 
-                    RankListMenu(player, getRanksBasedOnFilter(values[next]), values[next]).updateMenu()
+                    RankEditorMenu(player, getRanksBasedOnFilter(values[next]).toList(), values[next]).updateMenu()
                 },
 
                 5 to SkullButton(
                     "eyJ0aW1lc3RhbXAiOjE1NzEzMTYzMzY1MjgsInByb2ZpbGVJZCI6IjVkZTZlMTg0YWY4ZDQ5OGFiYmRlMDU1ZTUwNjUzMzE2IiwicHJvZmlsZU5hbWUiOiJBc3Nhc2luSmlhbmVyMjUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzlhNmUwYzE2ZGYwMTMzNDE4OGVhNjliNzVjN2M4Y2IxOGVmODZmMjZhMTVjYTk2YTJkYTI1MWVhZGQ5NDU1NTkifX19",
                     mutableListOf(
-                        " ",
-                        "&eClick to query every &6rank",
-                        " "
+                        Chat.format("&7Type any search query to be shown"),
+                        Chat.format("&7a list of ranks that match the search"),
+                        "",
+                        Chat.format("&aClick to query!")
                     ),
-                    "&eQuery &6Ranks"
+                    "&eQuery Ranks"
                 ).setBody { player, i, clickType ->
                     InputPrompt()
                         .withText(Chat.format("&eType any search query to be shown a list of ranks that match the search"))
@@ -103,7 +106,7 @@ class RankEditorMenu(
 
     override fun getTitle(player: Player): String
     {
-        return Chat.format("&7[Editor] &eRanks")
+        return "Viewing all ranks..."
     }
 
     class RankButton(val player: Player, val rank: Rank) : Button()
@@ -163,10 +166,10 @@ class RankEditorMenu(
     {
         return when (filter)
         {
-            RankListFilter.ALL -> ranks
-            RankListFilter.DEFAULT -> ranks.filter { it.default }
-            RankListFilter.STAFF -> ranks.filter { it.staff }
-            RankListFilter.HAS_PARENTS -> ranks.filter { it.parents.isNotEmpty() }
+            RankListFilter.ALL -> RankService.ranks.values
+            RankListFilter.DEFAULT -> RankService.ranks.values.filter { it.default }
+            RankListFilter.STAFF -> RankService.ranks.values.filter { it.staff }
+            RankListFilter.HAS_PARENTS -> RankService.ranks.values.filter { it.parents.isNotEmpty() }
         }.toMutableList()
     }
 
@@ -178,10 +181,10 @@ class RankEditorMenu(
         {
             if (rankListFilter == filter)
             {
-                desc.add(Chat.format("&7- &a" + filter.displayName))
+                desc.add(Chat.format("&a&l｜ &f" + filter.displayName))
             } else
             {
-                desc.add(Chat.format("&7- &7" + filter.displayName))
+                desc.add(Chat.format("&c&l｜ &f" + filter.displayName))
             }
         }
         desc.add(" ")

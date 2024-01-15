@@ -5,16 +5,13 @@ import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.service.ranks.RankService
 import org.bson.Document
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.Executors
-import java.util.concurrent.ForkJoinPool
 
-object RankGrantService : ExpiringService<RankGrant>() {
+object RankGrantService : ExpiringService<RankGrant>()
+{
 
     var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(DataStoreType.MONGO)
 
@@ -26,16 +23,19 @@ object RankGrantService : ExpiringService<RankGrant>() {
     //default grant scope for use in models
     val global: GrantScope = GrantScope("Defaulted Grant Scope (Global)", mutableListOf(), true)
 
-    fun getValues(): CompletableFuture<Collection<RankGrant>> {
+    fun getValues(): CompletableFuture<Collection<RankGrant>>
+    {
         return handler.retrieveAllAsync()
     }
 
-    fun findExecutedBy(executor: UUID): MutableList<RankGrant> {
+    fun findExecutedBy(executor: UUID): MutableList<RankGrant>
+    {
         val filter = Document("executor", executor.toString())
         val documents = collection.find(filter)
         val finalGrants = mutableListOf<RankGrant>()
 
-        for (document in documents) {
+        for (document in documents)
+        {
             val obj = Alchemist.gson.fromJson(document.toJson(), RankGrant::class.java)
 
             finalGrants.add(obj)
@@ -44,13 +44,15 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return finalGrants
     }
 
-    fun findByRank(id: String): CompletableFuture<MutableList<RankGrant>> {
+    fun findByRank(id: String): CompletableFuture<MutableList<RankGrant>>
+    {
         return CompletableFuture.supplyAsync {
             val filter = Document("rankId", id)
             val documents = collection.find(filter).iterator()
             val finalized = mutableListOf<RankGrant>()
 
-            while (documents.hasNext()) {
+            while (documents.hasNext())
+            {
                 val next = documents.next()
                 val obj = Alchemist.gson.fromJson(next.toJson(), RankGrant::class.java)
 
@@ -61,29 +63,35 @@ object RankGrantService : ExpiringService<RankGrant>() {
         }
     }
 
-    fun getFromCache(uuid: UUID): Collection<RankGrant> {
-        return if (playerGrants.containsKey(uuid)) {
+    fun getFromCache(uuid: UUID): Collection<RankGrant>
+    {
+        return if (playerGrants.containsKey(uuid))
+        {
             playerGrants[uuid]!!
         } else findByTarget(uuid).get()
     }
 
-    fun recalculatePlayer(gameProfile: GameProfile) {
+    fun recalculatePlayer(gameProfile: GameProfile)
+    {
         findByTarget(gameProfile.uuid).thenApply { playerGrants[gameProfile.uuid] = it }
     }
 
-    fun recalculatePlayerSync(gameProfile: GameProfile) {
+    fun recalculatePlayerSync(gameProfile: GameProfile)
+    {
         val grants = findByTarget(gameProfile.uuid).get()
 
         playerGrants[gameProfile.uuid] = grants
     }
 
-    fun recalculateUUID(gameProfile: UUID) {
+    fun recalculateUUID(gameProfile: UUID)
+    {
         findByTarget(gameProfile).whenComplete { grants, e ->
             playerGrants[gameProfile] = grants
         }
     }
 
-    fun remove(grant: RankGrant) {
+    fun remove(grant: RankGrant)
+    {
         CompletableFuture.runAsync {
             handler.delete(grant.uuid)
         }.whenComplete { v, t ->
@@ -91,7 +99,8 @@ object RankGrantService : ExpiringService<RankGrant>() {
         }
     }
 
-    fun save(rankGrant: RankGrant): CompletableFuture<RankGrant> {
+    fun save(rankGrant: RankGrant): CompletableFuture<RankGrant>
+    {
         val future = CompletableFuture.supplyAsync {
             handler.store(rankGrant.uuid, rankGrant)
 
@@ -101,21 +110,23 @@ object RankGrantService : ExpiringService<RankGrant>() {
         return future
     }
 
-    fun saveSync(rankGrant: RankGrant) : CompletableFuture<RankGrant>
+    fun saveSync(rankGrant: RankGrant): CompletableFuture<RankGrant>
     {
         handler.store(rankGrant.uuid, rankGrant)
 
         return CompletableFuture.completedFuture(rankGrant)
     }
 
-    fun findByTarget(target: UUID): CompletableFuture<MutableList<RankGrant>> {
+    fun findByTarget(target: UUID): CompletableFuture<MutableList<RankGrant>>
+    {
         return CompletableFuture.supplyAsync {
             val sorted = collection.find(Document("target", target.toString()))
 
             val toReturn = mutableListOf<RankGrant>()
             val cursor = sorted.cursor()
 
-            while (cursor.hasNext()) {
+            while (cursor.hasNext())
+            {
                 val document = cursor.next()
                 val json = Alchemist.gson.fromJson(document.toJson(), RankGrant::class.java)
 
@@ -126,5 +137,7 @@ object RankGrantService : ExpiringService<RankGrant>() {
         }
     }
 
-    override fun clearOutModels() {}
+    override fun clearOutModels()
+    {
+    }
 }

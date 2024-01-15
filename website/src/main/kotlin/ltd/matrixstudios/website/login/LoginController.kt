@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.servlet.ModelAndView
-import javax.validation.Valid
 
 /**
  * Class created on 11/23/2023
@@ -35,7 +34,7 @@ class LoginController
     }
 
     @RequestMapping(value = ["/register"], method = [RequestMethod.POST])
-    fun createNewUser(form: @Valid AlchemistFormSubmission?, bindingResult: BindingResult): ModelAndView
+    fun createNewUser(form: AlchemistFormSubmission?, bindingResult: BindingResult): ModelAndView
     {
         val modelAndView = ModelAndView("register")
         val existing =  UserServicesComponent.userService.findUserByName(form!!.username)

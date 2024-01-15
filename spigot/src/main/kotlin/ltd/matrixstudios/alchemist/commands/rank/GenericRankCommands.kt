@@ -21,6 +21,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.collections.ArrayList
 
 @CommandAlias("rank")
 class GenericRankCommands : BaseCommand()
@@ -166,7 +167,11 @@ class GenericRankCommands : BaseCommand()
         RankService.save(rank)
         AsynchronousRedisSender.send(RefreshRankPacket())
 
-        sender.sendMessage(Chat.format("&aUpdated color of rank &f${oldColor + rank.displayName}&r &ato \"$newColor") + newColor + Chat.format("&r&a\"."))
+        sender.sendMessage(
+            Chat.format("&aUpdated color of rank &f${oldColor + rank.displayName}&r &ato \"$newColor") + newColor + Chat.format(
+                "&r&a\"."
+            )
+        )
     }
 
     @Subcommand("setweight|weight")
@@ -193,10 +198,15 @@ class GenericRankCommands : BaseCommand()
         val woolColor = AlchemistAPI.getWoolColorStrict(newWoolColor)
             ?: throw ConditionFailedException("The given wool color does not exist.")
 
-        sender.sendMessage(Chat.format("&aUpdated wool color of rank &r${rank.color + rank.displayName}&r &ato ${newWoolColor + woolColor.name
-            .lowercase()
-            .replace("_", " ")
-        }&r&a."))
+        sender.sendMessage(
+            Chat.format(
+                "&aUpdated wool color of rank &r${rank.color + rank.displayName}&r &ato ${
+                    newWoolColor + woolColor.name
+                        .lowercase()
+                        .replace("_", " ")
+                }&r&a."
+            )
+        )
     }
 
     @Subcommand("parent|inherit add")
@@ -204,7 +214,7 @@ class GenericRankCommands : BaseCommand()
     @Description("Add a parent to a rank")
     fun addRankParent(sender: CommandSender, @Name("rank") rank: Rank, @Name("parent") parentRank: Rank)
     {
-        if(rank.parents.contains(parentRank.id))
+        if (rank.parents.contains(parentRank.id))
         {
             throw ConditionFailedException("&cRank &f${parentRank.color + parentRank.displayName}&r &cis already a parent of rank &f${rank.color + rank.displayName}&r&c.")
         }
@@ -222,7 +232,7 @@ class GenericRankCommands : BaseCommand()
     @Description("Remove a parent from a rank")
     fun removeRankParent(sender: CommandSender, @Name("rank") rank: Rank, @Name("parent") parentRank: Rank)
     {
-        if(!rank.parents.contains(parentRank.id))
+        if (!rank.parents.contains(parentRank.id))
         {
             throw ConditionFailedException("&cRank &f${parentRank.color + parentRank.displayName}&r &cis not a parent of rank &f${rank.color + rank.displayName}&r&c.")
         }
@@ -242,7 +252,7 @@ class GenericRankCommands : BaseCommand()
     {
         val lowercasePermission = permission.lowercase()
 
-        if(rank.permissions.contains(lowercasePermission))
+        if (rank.permissions.contains(lowercasePermission))
         {
             throw ConditionFailedException("Rank &r${rank.color + rank.displayName}&r &calready has the permission &f$lowercasePermission&r&c.")
         }
@@ -262,7 +272,7 @@ class GenericRankCommands : BaseCommand()
     {
         val lowercasePermission = permission.lowercase()
 
-        if(!rank.permissions.contains(lowercasePermission))
+        if (!rank.permissions.contains(lowercasePermission))
         {
             throw ConditionFailedException("Rank &r${rank.color + rank.displayName}&r &cdoes not have the permission &f$lowercasePermission&r&c.")
         }
@@ -278,7 +288,11 @@ class GenericRankCommands : BaseCommand()
     @Subcommand("setdisplayname|displayname")
     @CommandPermission("rank.admin")
     @Description("Set the display name of a rank")
-    fun setRankDisplayName(sender: CommandSender, @Name("rank") rank: Rank, @Name("display name") newDisplayName: String)
+    fun setRankDisplayName(
+        sender: CommandSender,
+        @Name("rank") rank: Rank,
+        @Name("display name") newDisplayName: String
+    )
     {
         val oldDisplayName = rank.displayName
 
@@ -298,7 +312,7 @@ class GenericRankCommands : BaseCommand()
         RankService.save(rank)
         AsynchronousRedisSender.send(RefreshRankPacket())
 
-        sender.sendMessage(Chat.format("&aUpdated default state of rank &r${rank.color + rank.displayName}&r &ato ${if(newDefaultState) "&a&ltrue" else "&c&lfalse"}&r&a."))
+        sender.sendMessage(Chat.format("&aUpdated default state of rank &r${rank.color + rank.displayName}&r &ato ${if (newDefaultState) "&a&ltrue" else "&c&lfalse"}&r&a."))
     }
 
     @Subcommand("setstaff|staff")
@@ -310,7 +324,7 @@ class GenericRankCommands : BaseCommand()
         RankService.save(rank)
         AsynchronousRedisSender.send(RefreshRankPacket())
 
-        sender.sendMessage(Chat.format("&aUpdated staff state of rank &r${rank.color + rank.displayName}&r &ato ${if(newStaffState) "&a&ltrue" else "&c&lfalse"}&r&a."))
+        sender.sendMessage(Chat.format("&aUpdated staff state of rank &r${rank.color + rank.displayName}&r &ato ${if (newStaffState) "&a&ltrue" else "&c&lfalse"}&r&a."))
     }
 
     @Subcommand("setscope|scope")
@@ -318,7 +332,7 @@ class GenericRankCommands : BaseCommand()
     @CommandPermission("rank.admin")
     fun setRankScope(sender: CommandSender, @Name("rank") rank: Rank, @Name("scope") rankScope: RankScope)
     {
-        if(!rankScope.global && rankScope.servers.isEmpty())
+        if (!rankScope.global && rankScope.servers.isEmpty())
         {
             throw ConditionFailedException("There were no applicable scopes found in the given arguments.")
         }
@@ -327,65 +341,61 @@ class GenericRankCommands : BaseCommand()
         RankService.save(rank).thenAccept {
             AsynchronousRedisSender.send(RefreshRankPacket())
 
-            sender.sendMessage(Chat.format(
-                "&aUpdated scope of rank &r${rank.color + rank.displayName}&r &ato &f${
-                    if(rankScope.global)
-                    {
-                        "Global"
-                    } else
-                    {
-                        "${rankScope.servers.joinToString("&a, &f")} &7(${rankScope.servers.size} scopes total)"
-                    }
-                }&r&a."
-            ))
+            sender.sendMessage(
+                Chat.format(
+                    "&aUpdated scope of rank &r${rank.color + rank.displayName}&r &ato &f${
+                        if (rankScope.global)
+                        {
+                            "Global"
+                        } else
+                        {
+                            "${rankScope.servers.joinToString("&a, &f")} &7(${rankScope.servers.size} scopes total)"
+                        }
+                    }&r&a."
+                )
+            )
         }
     }
 
     @Subcommand("rename|rename-id")
     @Description("Change the ID of a rank")
     @CommandPermission("rank.admin")
-    fun renameRank(sender: CommandSender, @Name("rank") rank: Rank, @Name("new name") newID: String)
+    fun renameRank(sender: CommandSender, @Name("rank") rank: Rank, @Name("new name") @Single id: String)
     {
-        val existantRank = RankService.byIdAnyCase(newID)
+        val existentRank = RankService.byIdAnyCase(id)
 
-        if(existantRank != null)
+        if (existentRank != null)
         {
             throw ConditionFailedException("Rank &f${rank.color + rank.displayName}&r &calready exists with the given ID.")
         }
 
-        val oldID = rank.id
+        //rank logic
+        RankService.delete(rank)
+        val oldId = rank.id
+        sender.sendMessage(Chat.format("&eOutdated Identifier: &f$oldId"))
+        rank.id = id.lowercase(Locale.getDefault())
+        sender.sendMessage(Chat.format("&eNew Identifier: &f${id.lowercase(Locale.getDefault())}"))
 
-        RankService.delete(rank).whenComplete { _, _ ->
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
 
-            RankService.save(rank.apply {
-                id = newID.lowercase()
-                name = newID
-            })
-            AsynchronousRedisSender.send(RefreshRankPacket())
+        //grants
+        RankGrantService.findByRank(oldId).whenComplete { g, e ->
+            for (grant in g)
+            {
+                grant.rankId = id.lowercase(Locale.getDefault())
+                grant.rank = id.lowercase(Locale.getDefault())
 
-            RankGrantService.findByRank(oldID).whenComplete { rankGrants, _ ->
-
-                for(rankGrant in rankGrants)
+                //only if they are in the cache to prevent loading every single grant into this list
+                if (RankGrantService.playerGrants.containsKey(grant.target))
                 {
-                    rankGrant.rankId = newID.lowercase()
-                    rankGrant.rank = newID.lowercase()
-
-                    RankGrantService.save(rankGrant).whenComplete { _, _ ->
-
-                        if(RankGrantService.playerGrants.contains(rankGrant.target))
-                        {
-                            AsynchronousRedisSender.send(UpdateGrantCacheRequest(rankGrant.target))
-                        }
-
-                    }
-
+                    AsynchronousRedisSender.send(UpdateGrantCacheRequest(grant.target))
                 }
 
-                sender.sendMessage(Chat.format("&aSuccessfully changed ID of rank &r${rank.color + rank.displayName}&r &ato &f$newID&r &aand refactored ${rankGrants.size} grant${if(rankGrants.size == 1) "" else "s"}."))
+                RankGrantService.save(grant)
             }
 
+            sender.sendMessage(Chat.format("&aChanged the id of &f" + g.size + " &agrants"))
         }
-
     }
-
 }
