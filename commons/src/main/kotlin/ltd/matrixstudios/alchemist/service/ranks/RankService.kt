@@ -89,10 +89,10 @@ object RankService : GeneralizedService {
         }
     }
 
-    fun delete(rank: Rank) {
+    fun delete(rank: Rank) : CompletableFuture<Void> {
         ranks.remove(rank.id)
 
-        CompletableFuture.runAsync {
+        return CompletableFuture.runAsync {
             handler.delete(rank.id)
         }
     }

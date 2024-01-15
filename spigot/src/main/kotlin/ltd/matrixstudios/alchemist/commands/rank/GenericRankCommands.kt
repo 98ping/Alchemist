@@ -2,9 +2,10 @@ package ltd.matrixstudios.alchemist.commands.rank
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
+import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.*
-import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditor
-import ltd.matrixstudios.alchemist.commands.rank.menu.RankListMenu
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
+import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditorMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankScanMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.models.ranks.Rank
@@ -34,337 +35,357 @@ class GenericRankCommands : BaseCommand()
     }
 
     @Subcommand("scan")
-    @Description("Scan all available profiles to find people with a certain rank.")
+    @Description("Scan all available profiles to find people with a certain rank")
     @CommandPermission("rank.admin")
     fun scan(player: Player)
     {
         RankScanMenu(player).updateMenu()
     }
 
-    @Subcommand("setscope")
-    @Description("Set the servers that a rank will be visible and applicable on.")
-    @CommandPermission("rank.admin")
-    fun setscope(sender: CommandSender, @Name("rank") rank: Rank, @Name("scope") rankScope: RankScope)
-    {
-        rank.scope = rankScope
-        RankService.save(rank).thenAccept {
-            AsynchronousRedisSender.send(RefreshRankPacket())
-        }
-
-        sender.sendMessage(
-            Chat.format(
-                "&aUpdated the rank scope of " + rank.color + rank.displayName + " &ato &f" + if (rank.getRankScope().global)
-                    "Global" else rank.getRankScope().servers.joinToString(", ")
-            )
-        )
-    }
-
-    @Subcommand("rename-id")
-    @Description("Rename the id of a rank to a new one.")
-    @CommandPermission("rank.admin")
-    fun renameId(sender: CommandSender, @Name("rank") rankString: String, @Name("id") id: String)
-    {
-        val rank = RankService.byIdAnyCase(rankString)
-
-        if (rank == null)
-        {
-            sender.sendMessage(Chat.format("&cThis rank doesn't exist!"))
-            return
-        }
-
-        //rank logic
-        RankService.delete(rank)
-        val oldId = rank.id
-        sender.sendMessage(Chat.format("&eOld Id: &f$oldId"))
-        rank.id = id.lowercase(Locale.getDefault())
-        sender.sendMessage(Chat.format("&eNew Id: &f${id.lowercase(Locale.getDefault())}"))
-
-        RankService.save(rank)
-        AsynchronousRedisSender.send(RefreshRankPacket())
-
-        //grants
-        RankGrantService.findByRank(oldId).whenComplete { g, e ->
-            for (grant in g)
-            {
-                grant.rankId = id.lowercase(Locale.getDefault())
-                grant.rank = id.lowercase(Locale.getDefault())
-
-                //only if they are in the cache to prevent loading every single grant into this list
-                if (RankGrantService.playerGrants.containsKey(grant.target))
-                {
-                    AsynchronousRedisSender.send(UpdateGrantCacheRequest(grant.target))
-                }
-
-                RankGrantService.save(grant)
-            }
-
-            sender.sendMessage(Chat.format("&aChanged the id of &f" + g.size + " &agrants"))
-        }
-    }
-
-    @Subcommand("inheritance")
-    @Description("Add groups in which this rank will inherit all permisisons from.")
-    @CommandPermission("rank.admin")
-    fun inheritance(sender: CommandSender, @Name("name") name: String)
-    {
-        if (RankService.byId(name.lowercase(Locale.getDefault())) == null)
-        {
-            sender.sendMessage(Chat.format("&cThis rank doesn't exist"))
-            return
-        }
-
-        val rank = RankService.byId(name.lowercase(Locale.getDefault()))!!
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-        sender.sendMessage(Chat.format(rank.color + rank.displayName + " &eInheritance"))
-        sender.sendMessage(" ")
-        val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
-
-        for (rank2 in parents)
-        {
-            sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
-        }
-
-        sender.sendMessage(Chat.format("&7&m-------------------------"))
-    }
 
     @Subcommand("create")
-    @Description("Create a new rank.")
+    @Description("Create a new rank")
     @CommandPermission("rank.admin")
     fun create(sender: CommandSender, @Name("name") name: String)
     {
-        if (RankService.byId(name.lowercase(Locale.getDefault())) != null)
+        val existantRank = RankService.byIdAnyCase(name)
+        if (existantRank != null)
         {
-            sender.sendMessage(Chat.format("&cThis rank already exists"))
+            sender.sendMessage(Chat.format("&cRank &r${existantRank.color + existantRank.displayName}&r &calready exists."))
             return
         }
 
         val rank = Rank(name.lowercase(), name, name, 1, ArrayList(), ArrayList(), "", "&f", false)
 
         RankService.save(rank)
-
         AsynchronousRedisSender.send(RefreshRankPacket())
 
-        sender.sendMessage(Chat.format("&aCreated the &7$name &arank"))
-        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Added a new rank with the id &b$name"))
+        sender.sendMessage(Chat.format("&aRank &f$name&r &asuccessfully created."))
+        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Rank &f$name&r &3successfully &acreated&3."))
     }
 
-    @Subcommand("list")
-    @Description("Show a list of all loaded ranks.")
+    @Subcommand("list|editor")
+    @Description("View a list of ranks and edit them")
     @CommandPermission("rank.admin")
     fun list(sender: CommandSender)
     {
-        sender.sendMessage(Chat.format("&7&m--------------------------"))
-        sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.ranks.size + ")"))
-        for (rank in RankService.getAllRanksInOrder())
-        {
-            val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "] &7(" + rank.id + ")"
-
-            sender.sendMessage(Chat.format(message))
-        }
-        sender.sendMessage(Chat.format("&7&m--------------------------"))
         if (sender is Player)
         {
-            RankListMenu(sender, RankService.getRanksInOrder().toMutableList(), RankListFilter.ALL).updateMenu()
-        }
-    }
+            RankEditorMenu(sender, RankService.getRanksInOrder().toList(), RankListFilter.ALL).updateMenu()
+        } else
+        {
+            sender.sendMessage(Chat.format("&7&m--------------------------"))
+            sender.sendMessage(Chat.format("&eLoaded Ranks &7(" + RankService.ranks.size + ")"))
+            for (rank in RankService.getAllRanksInOrder())
+            {
+                val message = rank.color + rank.displayName + " &f[Priority: " + rank.weight + "] &7(" + rank.id + ")"
 
-    @Subcommand("editor")
-    @Description("Open the rank editor menu.")
-    @CommandPermission("rank.admin")
-    fun editor(player: Player)
-    {
-        RankEditor(player).updateMenu()
+                sender.sendMessage(Chat.format(message))
+            }
+            sender.sendMessage(Chat.format("&7&m--------------------------"))
+        }
     }
 
     @Subcommand("delete")
-    @Description("Delete a rank with a given name.")
+    @Description("Delete a rank with a given name")
     @CommandPermission("rank.admin")
-    fun delete(sender: CommandSender, @Name("rank") name: String)
+    fun delete(sender: CommandSender, @Name("rank") rank: Rank)
     {
-        if (RankService.byId(name.lowercase(Locale.getDefault())) == null)
-        {
-            sender.sendMessage(Chat.format("&cThis rank doesn't exist"))
-            return
+        RankService.delete(rank).whenComplete { _, _ ->
+            sender.sendMessage(Chat.format("&aRank &r${rank.color + rank.displayName}&r &asuccessfully deleted."))
+
+            AsynchronousRedisSender.send(RefreshRankPacket())
+            AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Rank &f${rank.color + rank.displayName}&r &3has been &cdeleted&3."))
         }
+    }
 
-        RankService.ranks.remove(name.lowercase(Locale.getDefault()))
-        RankService.handler.delete(name.lowercase(Locale.getDefault()))
+    /**
+     * Removed in favor of using the /rank list menu instead.
+     * Keeping the code in here in case 98ping wishes to revert back to the old system.
+     *
+     * @Subcommand("info")
+     * @Description("Show detailed information about a rank")
+     *     @CommandPermission("rank.admin")
+     *     fun info(sender: CommandSender, @Name("rank") rank: Rank)
+     *     {
+     *         sender.sendMessage(Chat.format("&7&m--------------------------"))
+     *         sender.sendMessage(Chat.format(rank.color + rank.displayName + " &7❘ &fInformation"))
+     *         sender.sendMessage(Chat.format("&7&m--------------------------"))
+     *         sender.sendMessage(Chat.format("&6Weight: &f" + rank.weight))
+     *         sender.sendMessage(Chat.format("&6Prefix: &f" + rank.prefix))
+     *         sender.sendMessage(Chat.format("&6Color: " + rank.color + "This"))
+     *         sender.sendMessage(Chat.format("&6Permissions: &f" + rank.permissions.toString()))
+     *         sender.sendMessage(Chat.format("&6Staff Rank: &f" + rank.staff))
+     *         sender.sendMessage(Chat.format("&6Default Rank: &f" + rank.default))
+     *         sender.sendMessage(
+     *             Chat.format(
+     *                 "&6Scopes: &f" + if (rank.getRankScope().global) "Global" else rank.getRankScope().servers.joinToString(
+     *                     ", "
+     *                 )
+     *             )
+     *         )
+     *         sender.sendMessage(" ")
+     *         sender.sendMessage(Chat.format("&6Parents &7(${rank.parents.size}):"))
+     *         val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
+     *
+     *         for (rank2 in parents)
+     *         {
+     *             sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
+     *         }
+     *         sender.sendMessage(Chat.format("&7&m--------------------------"))
+     *
+     *     @Subcommand("editor|list")
+     *     @Description("Open the rank editor menu")
+     *     @CommandPermission("rank.admin")
+     *     fun editor(player: Player)
+     *     {
+     *         RankEditor(player).updateMenu()
+     *     }
+     *
+     */
 
+    @Subcommand("setprefix|prefix")
+    @CommandPermission("rank.admin")
+    @Description("Set the prefix of a rank")
+    fun setRankPrefix(sender: CommandSender, @Name("rank") rank: Rank, @Name("prefix") newPrefix: String)
+    {
+        rank.prefix = newPrefix
+        RankService.save(rank)
         AsynchronousRedisSender.send(RefreshRankPacket())
-        sender.sendMessage(Chat.format("&cDeleted the rank &f$name"))
-        AsynchronousRedisSender.send(StaffAuditPacket("&b[Audit] &3Removed a rank with the id &b$name"))
+
+        sender.sendMessage(Chat.format("&aUpdated prefix of rank &f${rank.color + rank.displayName}&r &ato \"&r$newPrefix&r&a\"."))
     }
 
-    @Subcommand("info")
-    @Description("Show detailed information about a rank.")
+    @Subcommand("setcolor|color")
     @CommandPermission("rank.admin")
-    fun info(sender: CommandSender, @Name("rank") name: String)
+    @Description("Set the color of a rank")
+    fun setRankColor(sender: CommandSender, @Name("rank") rank: Rank, @Single @Name("color") newColor: String)
     {
-        if (RankService.byId(name.lowercase(Locale.getDefault())) == null)
-        {
-            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
-            return
-        }
+        val oldColor = rank.color
+        rank.color = newColor
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
 
-
-        val rank = RankService.byId(name.lowercase(Locale.getDefault()))!!
-
-        sender.sendMessage(Chat.format("&7&m--------------------------"))
-        sender.sendMessage(Chat.format(rank.color + rank.displayName + " &7❘ &fInformation"))
-        sender.sendMessage(Chat.format("&7&m--------------------------"))
-        sender.sendMessage(Chat.format("&6Weight: &f" + rank.weight))
-        sender.sendMessage(Chat.format("&6Prefix: &f" + rank.prefix))
-        sender.sendMessage(Chat.format("&6Color: " + rank.color + "This"))
-        sender.sendMessage(Chat.format("&6Permissions: &f" + rank.permissions.toString()))
-        sender.sendMessage(Chat.format("&6Staff Rank: &f" + rank.staff))
-        sender.sendMessage(Chat.format("&6Default Rank: &f" + rank.default))
-        sender.sendMessage(
-            Chat.format(
-                "&6Scopes: &f" + if (rank.getRankScope().global) "Global" else rank.getRankScope().servers.joinToString(
-                    ", "
-                )
-            )
-        )
-        sender.sendMessage(" ")
-        sender.sendMessage(Chat.format("&6Parents &7(${rank.parents.size}):"))
-        val parents = rank.parents.map { RankService.byId(it) }.filterNotNull()
-
-        for (rank2 in parents)
-        {
-            sender.sendMessage(Chat.format("&7• &r" + rank2.color + rank2.displayName))
-        }
-        sender.sendMessage(Chat.format("&7&m--------------------------"))
+        sender.sendMessage(Chat.format("&aUpdated color of rank &f${oldColor + rank.displayName}&r &ato \"$newColor") + newColor + Chat.format("&r&a\"."))
     }
 
-    @Subcommand("module")
-    @Description("Manually edit certain internal and external features of a rank.")
+    @Subcommand("setweight|weight")
     @CommandPermission("rank.admin")
-    fun module(
-        sender: CommandSender,
-        @Name("rank") name: String,
-        @Name("module") module: String,
-        @Name("argument") arg: String
-    )
+    @Description("Set the weight of a rank")
+    fun setRankWeight(sender: CommandSender, @Name("rank") rank: Rank, @Name("weight") newWeight: Int)
     {
-        if (RankService.byId(name.lowercase(Locale.getDefault())) == null)
+        rank.weight = newWeight
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        sender.sendMessage(Chat.format("&aUpdated weight of rank &f${rank.color + rank.displayName}&r &ato &f$newWeight&a."))
+    }
+
+    @Subcommand("setwoolcolor|woolcolor")
+    @CommandPermission("rank.admin")
+    @Description("Set the wool color of a rank")
+    fun setRankWoolColor(sender: CommandSender, @Name("rank") rank: Rank, @Name("wool color") newWoolColor: String)
+    {
+        rank.woolColor = newWoolColor
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        val woolColor = AlchemistAPI.getWoolColorStrict(newWoolColor)
+            ?: throw ConditionFailedException("The given wool color does not exist.")
+
+        sender.sendMessage(Chat.format("&aUpdated wool color of rank &r${rank.color + rank.displayName}&r &ato ${newWoolColor + woolColor.name
+            .lowercase()
+            .replace("_", " ")
+        }&r&a."))
+    }
+
+    @Subcommand("parent|inherit add")
+    @CommandPermission("rank.admin")
+    @Description("Add a parent to a rank")
+    fun addRankParent(sender: CommandSender, @Name("rank") rank: Rank, @Name("parent") parentRank: Rank)
+    {
+        if(rank.parents.contains(parentRank.id))
         {
-            sender.sendMessage(Chat.format("&cThis rank doesnt exist"))
-            return
+            throw ConditionFailedException("&cRank &f${parentRank.color + parentRank.displayName}&r &cis already a parent of rank &f${rank.color + rank.displayName}&r&c.")
         }
 
-        val rank = RankService.byId(name.lowercase(Locale.getDefault()))!!
+        rank.parents.add(parentRank.id)
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+        AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-        when (module)
+        sender.sendMessage(Chat.format("&aAdded parent &f${parentRank.color + parentRank.displayName}&r &ato rank &r${rank.color + rank.displayName}&r&a."))
+    }
+
+    @Subcommand("parent|inherit remove")
+    @CommandPermission("rank.admin")
+    @Description("Remove a parent from a rank")
+    fun removeRankParent(sender: CommandSender, @Name("rank") rank: Rank, @Name("parent") parentRank: Rank)
+    {
+        if(!rank.parents.contains(parentRank.id))
         {
-            "prefix" ->
-            {
-                rank.prefix = arg
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
+            throw ConditionFailedException("&cRank &f${parentRank.color + parentRank.displayName}&r &cis not a parent of rank &f${rank.color + rank.displayName}&r&c.")
+        }
 
-                sender.sendMessage(Chat.format("&aUpdated the prefix of &f" + rank.color + rank.displayName))
-            }
+        rank.parents.remove(parentRank.id)
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+        AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-            "color" ->
-            {
-                rank.color = arg
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
+        sender.sendMessage(Chat.format("&aRemoved parent &f${parentRank.color + parentRank.displayName}&r &afrom rank &f${rank.color + rank.displayName}&r&a."))
+    }
 
-                sender.sendMessage(Chat.format("&aUpdated the color of &f" + rank.color + rank.displayName))
-            }
+    @Subcommand("permission|perm add")
+    @CommandPermission("rank.admin")
+    @Description("Add a permission to a rank")
+    fun addRankPermission(sender: CommandSender, @Name("rank") rank: Rank, @Name("permission") permission: String)
+    {
+        val lowercasePermission = permission.lowercase()
 
-            "weight" ->
-            {
-                rank.weight = arg.toInt()
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
+        if(rank.permissions.contains(lowercasePermission))
+        {
+            throw ConditionFailedException("Rank &r${rank.color + rank.displayName}&r &calready has the permission &f$lowercasePermission&r&c.")
+        }
 
-                sender.sendMessage(Chat.format("&aUpdated the weight of &f" + rank.color + rank.displayName))
-            }
+        rank.permissions.add(lowercasePermission)
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+        AsynchronousRedisSender.send(PermissionUpdateAllPacket())
 
-            "woolcolor" ->
-            {
-                rank.woolColor = arg
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
+        sender.sendMessage(Chat.format("&aAdded permission &f$lowercasePermission&r &ato rank &r${rank.color + rank.displayName}&r&a."))
+    }
 
-                sender.sendMessage(Chat.format("&aUpdated the wool color of &f" + rank.color + rank.displayName))
-            }
+    @Subcommand("permission|perm remove")
+    @CommandPermission("rank.admin")
+    @Description("Remove a permission from a rank")
+    fun removeRankPermission(sender: CommandSender, @Name("rank") rank: Rank, @Name("permission") permission: String)
+    {
+        val lowercasePermission = permission.lowercase()
 
-            "parent" ->
-            {
-                if (rank.parents.contains(arg.lowercase(Locale.getDefault())) || rank.parents.contains(arg))
+        if(!rank.permissions.contains(lowercasePermission))
+        {
+            throw ConditionFailedException("Rank &r${rank.color + rank.displayName}&r &cdoes not have the permission &f$lowercasePermission&r&c.")
+        }
+
+        rank.permissions.remove(lowercasePermission)
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+        AsynchronousRedisSender.send(PermissionUpdateAllPacket())
+
+        sender.sendMessage(Chat.format("&aRemoved permission &f$lowercasePermission&r &afrom rank &r${rank.color + rank.displayName}&r&a."))
+    }
+
+    @Subcommand("setdisplayname|displayname")
+    @CommandPermission("rank.admin")
+    @Description("Set the display name of a rank")
+    fun setRankDisplayName(sender: CommandSender, @Name("rank") rank: Rank, @Name("display name") newDisplayName: String)
+    {
+        val oldDisplayName = rank.displayName
+
+        rank.displayName = newDisplayName
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        sender.sendMessage(Chat.format("&aUpdated display name of rank &f${rank.color + oldDisplayName}&r &ato \"&f$newDisplayName&r&a\"."))
+    }
+
+    @Subcommand("setdefault|default")
+    @CommandPermission("rank.admin")
+    @Description("Change whether a rank is the default rank")
+    fun setRankDefaultState(sender: CommandSender, @Name("rank") rank: Rank, @Name("state") newDefaultState: Boolean)
+    {
+        rank.default = newDefaultState
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        sender.sendMessage(Chat.format("&aUpdated default state of rank &r${rank.color + rank.displayName}&r &ato ${if(newDefaultState) "&a&ltrue" else "&c&lfalse"}&r&a."))
+    }
+
+    @Subcommand("setstaff|staff")
+    @CommandPermission("rank.admin")
+    @Description("Change whether a rank is a staff rank")
+    fun setRankStaffState(sender: CommandSender, @Name("rank") rank: Rank, @Name("state") newStaffState: Boolean)
+    {
+        rank.staff = newStaffState
+        RankService.save(rank)
+        AsynchronousRedisSender.send(RefreshRankPacket())
+
+        sender.sendMessage(Chat.format("&aUpdated staff state of rank &r${rank.color + rank.displayName}&r &ato ${if(newStaffState) "&a&ltrue" else "&c&lfalse"}&r&a."))
+    }
+
+    @Subcommand("setscope|scope")
+    @Description("Set the servers that a rank will be visible and applicable to")
+    @CommandPermission("rank.admin")
+    fun setRankScope(sender: CommandSender, @Name("rank") rank: Rank, @Name("scope") rankScope: RankScope)
+    {
+        if(!rankScope.global && rankScope.servers.isEmpty())
+        {
+            throw ConditionFailedException("There were no applicable scopes found in the given arguments.")
+        }
+
+        rank.scope = rankScope
+        RankService.save(rank).thenAccept {
+            AsynchronousRedisSender.send(RefreshRankPacket())
+
+            sender.sendMessage(Chat.format(
+                "&aUpdated scope of rank &r${rank.color + rank.displayName}&r &ato &f${
+                    if(rankScope.global)
+                    {
+                        "Global"
+                    } else
+                    {
+                        "${rankScope.servers.joinToString("&a, &f")} &7(${rankScope.servers.size} scopes total)"
+                    }
+                }&r&a."
+            ))
+        }
+    }
+
+    @Subcommand("rename|rename-id")
+    @Description("Change the ID of a rank")
+    @CommandPermission("rank.admin")
+    fun renameRank(sender: CommandSender, @Name("rank") rank: Rank, @Name("new name") newID: String)
+    {
+        val existantRank = RankService.byIdAnyCase(newID)
+
+        if(existantRank != null)
+        {
+            throw ConditionFailedException("Rank &f${rank.color + rank.displayName}&r &calready exists with the given ID.")
+        }
+
+        val oldID = rank.id
+
+        RankService.delete(rank).whenComplete { _, _ ->
+
+            RankService.save(rank.apply {
+                id = newID.lowercase()
+                name = newID
+            })
+            AsynchronousRedisSender.send(RefreshRankPacket())
+
+            RankGrantService.findByRank(oldID).whenComplete { rankGrants, _ ->
+
+                for(rankGrant in rankGrants)
                 {
-                    rank.parents.removeIf { it.equals(arg, ignoreCase = true) }
-                    sender.sendMessage(Chat.format("&cRemoved the parent &f$arg &cfrom the rank " + rank.color + rank.displayName))
-                } else
-                {
-                    rank.parents.add(arg.lowercase(Locale.getDefault()))
-                    sender.sendMessage(Chat.format("&aAdded the parent &f$arg &ato the rank " + rank.color + rank.displayName))
+                    rankGrant.rankId = newID.lowercase()
+                    rankGrant.rank = newID.lowercase()
+
+                    RankGrantService.save(rankGrant).whenComplete { _, _ ->
+
+                        if(RankGrantService.playerGrants.contains(rankGrant.target))
+                        {
+                            AsynchronousRedisSender.send(UpdateGrantCacheRequest(rankGrant.target))
+                        }
+
+                    }
+
                 }
 
-                RankService.save(rank)
-
-                AsynchronousRedisSender.send(PermissionUpdateAllPacket())
-                AsynchronousRedisSender.send(RefreshRankPacket())
-
-            }
-
-            "displayname" ->
-            {
-                rank.displayName = arg
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
-
-                sender.sendMessage(Chat.format("&aUpdated the display name of &f" + rank.color + rank.displayName))
-            }
-
-
-            "permission" ->
-            {
-                if (rank.permissions.contains(arg))
-                {
-                    rank.permissions.remove(arg)
-                    sender.sendMessage(Chat.format("&cRemoved the permission &f$arg &cfrom the rank " + rank.color + rank.displayName))
-                } else
-                {
-                    rank.permissions.add(arg)
-                    sender.sendMessage(Chat.format("&aAdded the permission &f$arg &ato the rank " + rank.color + rank.displayName))
-                }
-
-                RankService.save(rank)
-
-                AsynchronousRedisSender.send(PermissionUpdateAllPacket())
-                AsynchronousRedisSender.send(RefreshRankPacket())
-            }
-
-            "default" ->
-            {
-                rank.default = arg.toBoolean()
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
-
-                sender.sendMessage(Chat.format("&aUpdated the default status of &f" + rank.color + rank.displayName))
-            }
-
-
-            "staff" ->
-            {
-                rank.staff = arg.toBoolean()
-                RankService.save(rank)
-                AsynchronousRedisSender.send(RefreshRankPacket())
-
-                sender.sendMessage(Chat.format("&aUpdated the staff status of &f" + rank.color + rank.displayName))
-            }
-
-            else ->
-            {
-                sender.sendMessage(Chat.format("&cInvalid module type. Please select: permission, staff, default, parent, weight, color, prefix, woolcolor, or displayname."))
+                sender.sendMessage(Chat.format("&aSuccessfully changed ID of rank &r${rank.color + rank.displayName}&r &ato &f$newID&r &aand refactored ${rankGrants.size} grant${if(rankGrants.size == 1) "" else "s"}."))
             }
 
         }
 
-
     }
+
 }

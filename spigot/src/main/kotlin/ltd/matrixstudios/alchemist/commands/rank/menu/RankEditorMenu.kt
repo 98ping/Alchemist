@@ -1,24 +1,25 @@
 package ltd.matrixstudios.alchemist.commands.rank.menu
 
+import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
+import ltd.matrixstudios.alchemist.commands.rank.menu.sub.RankEditPropertiesMenu
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
+import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 
-/**
- * Class created on 6/27/2023
-
- * @author 98ping
- * @project Alchemist
- * @website https://solo.to/redis
- */
-class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val rankListFilter: RankListFilter) :
-    BorderedPaginatedMenu(player)
+class RankEditorMenu(
+    player: Player,
+    private val ranks: List<Rank>,
+    private val rankListFilter: RankListFilter
+) : BorderedPaginatedMenu(player)
 {
 
     override fun getHeaderItems(player: Player): MutableMap<Int, Button>
@@ -77,9 +78,9 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
                     InputPrompt()
                         .withText(Chat.format("&eType any search query to be shown a list of ranks that match the search"))
                         .acceptInput { s: String ->
-                            RankListMenu(
+                            RankEditorMenu(
                                 player,
-                                ranks.filter { it.id.contains(s) }.toMutableList(),
+                                ranks.filter { it.id.contains(s, ignoreCase = true) }.toMutableList(),
                                 rankListFilter
                             ).updateMenu()
                         }.start(player)
@@ -88,36 +89,85 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         }
     }
 
-    fun getRanksBasedOnFilter(filter: RankListFilter): MutableCollection<Rank>
-    {
-        val allRanks = RankService.ranks.values
-
-        return when (filter)
-        {
-            RankListFilter.ALL -> allRanks
-            RankListFilter.DEFAULT -> allRanks.filter { it.default }.toMutableList()
-            RankListFilter.STAFF -> allRanks.filter { it.staff }.toMutableList()
-            RankListFilter.HAS_PARENTS -> allRanks.filter { it.parents.isNotEmpty() }.toMutableList()
-        }
-    }
-
     override fun getPagesButtons(player: Player): MutableMap<Int, Button>
     {
         val buttons = mutableMapOf<Int, Button>()
-        var i = 0
+        var index = 0
 
         for (rank in ranks)
         {
-            buttons[i++] = SkullButton(
-                Chat.mapChatColorToSkullTexture(if (rank.woolColor != null) rank.woolColor!! else rank.color),
-                generateRankButtonDesc(rank),
-                "&r${rank.color}${rank.displayName}"
-            ).setBody { _, _, _ ->
-                RankEditorMenu(player, ranks.toMutableList(), RankListFilter.ALL).updateMenu()
-            }
+            buttons[index++] = RankButton(player, rank)
+        }
+        return buttons
+    }
+
+    override fun getTitle(player: Player): String
+    {
+        return Chat.format("&7[Editor] &eRanks")
+    }
+
+    class RankButton(val player: Player, val rank: Rank) : Button()
+    {
+        override fun getMaterial(player: Player): Material
+        {
+            return Material.INK_SACK
         }
 
-        return buttons
+        override fun getDescription(player: Player): MutableList<String>
+        {
+            val desc = mutableListOf<String>()
+            desc.add(Chat.format("&7&m---------------------"))
+            desc.add(Chat.format("&6Metadata:"))
+            desc.add(Chat.format("&6&l｜ &fPrefix: &e" + rank.prefix))
+            desc.add(Chat.format("&6&l｜ &fWeight: &e" + rank.weight))
+            desc.add(Chat.format("&6&l｜ &fColor: &r${rank.color}This"))
+            desc.add(Chat.format("&6&l｜ &fWool Color: &e${if (rank.woolColor == null) "&cNone" else "${rank.woolColor}This"}"))
+            desc.add(" ")
+            desc.add(Chat.format("&6Attachments:"))
+            desc.add(Chat.format("&6&l｜ &fPermissions: &e" + rank.permissions.size))
+            desc.add(Chat.format("&6&l｜ &fParents: &e" + rank.parents.size))
+            desc.add(" ")
+            desc.add(Chat.format("&6Display:"))
+            desc.add(Chat.format("&6&l｜ &fPlayer List: &f" + rank.color + player.name))
+            desc.add(Chat.format("&6&l｜ &fChat Format: &f" + rank.prefix + rank.color + player.name))
+            desc.add(" ")
+            desc.add(Chat.format("&a&lLeft-Click to edit this rank!"))
+            desc.add(Chat.format("&7&m---------------------"))
+
+            return desc
+        }
+
+        override fun getDisplayName(player: Player): String
+        {
+            return Chat.format(rank.color + rank.displayName)
+        }
+
+        override fun getData(player: Player): Short
+        {
+            if (rank.woolColor != null)
+            {
+                return AlchemistAPI.getWoolColor(rank.woolColor!!).dyeData.toShort()
+            }
+            return AlchemistAPI.getWoolColor(rank.color).dyeData.toShort()
+        }
+
+        override fun onClick(player: Player, slot: Int, type: ClickType)
+        {
+            RankEditPropertiesMenu(player, rank).openMenu()
+        }
+
+
+    }
+
+    private fun getRanksBasedOnFilter(filter: RankListFilter): MutableCollection<Rank>
+    {
+        return when (filter)
+        {
+            RankListFilter.ALL -> ranks
+            RankListFilter.DEFAULT -> ranks.filter { it.default }
+            RankListFilter.STAFF -> ranks.filter { it.staff }
+            RankListFilter.HAS_PARENTS -> ranks.filter { it.parents.isNotEmpty() }
+        }.toMutableList()
     }
 
     private fun generateRankListFilterLore(): MutableList<String>
@@ -141,47 +191,4 @@ class RankListMenu(val player: Player, val ranks: MutableCollection<Rank>, val r
         return desc
     }
 
-    private fun generateRankButtonDesc(rank: Rank): MutableList<String>
-    {
-        val desc = mutableListOf<String>()
-
-        desc.add(Chat.format("&7&m---------------------"))
-        desc.add(Chat.format("&6Metadata:"))
-        desc.add(Chat.format("&6&l｜ &fPrefix: &e" + rank.prefix))
-        desc.add(Chat.format("&6&l｜ &fWeight: &e" + rank.weight))
-        desc.add(Chat.format("&6&l｜ &fColor: &r${rank.color}This"))
-        desc.add(Chat.format("&6&l｜ &fWool Color: &e${if (rank.woolColor == null) "&cNone" else "${rank.woolColor}This"}"))
-        desc.add(" ")
-        desc.add(Chat.format("&6Attachments:"))
-        desc.add(Chat.format("&6&l｜ &fPermissions: &e" + rank.permissions.size))
-        desc.add(Chat.format("&6&l｜ &fParents: &e" + rank.parents.size))
-        desc.add(" ")
-        desc.add(Chat.format("&6Display:"))
-        desc.add(Chat.format("&6&l｜ &fPlayer List: &f" + rank.color + player.name))
-        desc.add(Chat.format("&6&l｜ &fChat Format: &f" + rank.prefix + rank.color + player.name))
-        desc.add(" ")
-        desc.add(Chat.format("&a&lLeft-Click to edit this rank!"))
-        desc.add(Chat.format("&7&m---------------------"))
-
-        return desc
-    }
-
-    override fun getTitle(player: Player): String
-    {
-        return "Viewing Ranks"
-    }
-
-    override fun getButtonPositions(): List<Int>
-    {
-        return listOf(
-            10, 11, 12, 13, 14, 15, 16,
-            19, 20, 21, 22, 23, 24, 25,
-            28, 29, 30, 31, 32, 33, 34
-        )
-    }
-
-    override fun getButtonsPerPage(): Int
-    {
-        return 21
-    }
 }

@@ -101,19 +101,41 @@ object AlchemistAPI
 
     fun getWoolColor(color: String): DyeColor
     {
-        if (color.contains("&1")) return DyeColor.BLUE
-        if (color.contains("&2")) return DyeColor.GREEN
-        if (color.contains("&3")) return DyeColor.CYAN
-        if (color.contains("&4")) return DyeColor.RED
-        if (color.contains("&5")) return DyeColor.PURPLE
-        if (color.contains("&6")) return DyeColor.ORANGE
-        if (color.contains("&7")) return DyeColor.SILVER
-        if (color.contains("&8")) return DyeColor.GRAY
-        if (color.contains("&9")) return DyeColor.BLUE
-        if (color.contains("&a")) return DyeColor.LIME
-        if (color.contains("&b")) return DyeColor.LIGHT_BLUE
-        if (color.contains("&c")) return DyeColor.RED
-        if (color.contains("&d")) return DyeColor.PINK
-        return if (color.contains("&e")) DyeColor.YELLOW else DyeColor.WHITE
+        return when {
+            color.contains("&1") || color.contains("&9") -> DyeColor.BLUE
+            color.contains("&2") -> DyeColor.GREEN
+            color.contains("&3") -> DyeColor.CYAN
+            color.contains("&4") || color.contains("&c") -> DyeColor.RED
+            color.contains("&5") -> DyeColor.PURPLE
+            color.contains("&6") -> DyeColor.ORANGE
+            color.contains("&7") -> DyeColor.SILVER
+            color.contains("&8") -> DyeColor.GRAY
+            color.contains("&a") -> DyeColor.LIME
+            color.contains("&b") -> DyeColor.LIGHT_BLUE
+            color.contains("&d") -> DyeColor.PINK
+            color.contains("&e") -> DyeColor.YELLOW
+            else -> DyeColor.WHITE
+        }
     }
+
+    fun getWoolColorStrict(color: String): DyeColor?
+    {
+        return when {
+            color.contains("&1") || color.contains("&9") -> DyeColor.BLUE
+            color.contains("&2") -> DyeColor.GREEN
+            color.contains("&3") -> DyeColor.CYAN
+            color.contains("&4") || color.contains("&c") -> DyeColor.RED
+            color.contains("&5") -> DyeColor.PURPLE
+            color.contains("&6") -> DyeColor.ORANGE
+            color.contains("&7") -> DyeColor.SILVER
+            color.contains("&8") -> DyeColor.GRAY
+            color.contains("&a") -> DyeColor.LIME
+            color.contains("&b") -> DyeColor.LIGHT_BLUE
+            color.contains("&d") -> DyeColor.PINK
+            color.contains("&e") -> DyeColor.YELLOW
+            color.contains("&f") -> DyeColor.WHITE
+            else -> null
+        }
+    }
+
 }
