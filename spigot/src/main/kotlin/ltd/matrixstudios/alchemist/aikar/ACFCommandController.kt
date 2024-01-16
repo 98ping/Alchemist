@@ -5,6 +5,7 @@ import co.aikar.commands.MessageType
 import co.aikar.commands.PaperCommandManager
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.aikar.context.*
+import ltd.matrixstudios.alchemist.broadcasts.commands.AutoBroadcastCommands
 import ltd.matrixstudios.alchemist.chatcolors.ChatColorLoader
 import ltd.matrixstudios.alchemist.chatcolors.commands.ChatColorCommands
 import ltd.matrixstudios.alchemist.commands.admin.AdminChatCommand
@@ -102,6 +103,7 @@ object ACFCommandController
 
             registerCommand(AdminPanelCommand())
             registerCommand(RedisCommand)
+            registerCommand(AutoBroadcastCommands)
 
             if (config.getBoolean("modules.vouchers"))
             {

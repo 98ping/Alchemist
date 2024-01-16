@@ -173,17 +173,7 @@ class AlchemistSpigotPlugin : JavaPlugin()
             "&e[Listeners] &fListeners loaded in &e" + System.currentTimeMillis().minus(listenerStart) + "ms"
         )
 
-        val broadcastStart = System.currentTimeMillis()
-
-        if (config.getBoolean("autobroadcast.enabled"))
-        {
-            BroadcastService.loadMessages()
-        }
-
-        Chat.sendConsoleMessage(
-            "&2[Broadcasts] &fAll permissions loaded in &9" + System.currentTimeMillis().minus(broadcastStart) + "ms"
-        )
-
+        BroadcastService.load()
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)

@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.broadcasts.model
 
+import ltd.matrixstudios.alchemist.broadcasts.condition.BroadcastCondition
+
 /**
  * Class created on 6/17/2023
 
@@ -9,5 +11,6 @@ package ltd.matrixstudios.alchemist.broadcasts.model
  */
 class BroadcastMessage(
     var id: String,
-    var lines: MutableList<String>
+    val lines: MutableList<String> = mutableListOf(),
+    val conditions: MutableList<BroadcastCondition> = mutableListOf()
 )
