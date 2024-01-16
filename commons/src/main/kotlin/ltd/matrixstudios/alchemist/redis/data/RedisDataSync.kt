@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.redis.data
 
+import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.redis.data.packet.RedisModelPopulationPacket
 import java.lang.reflect.Type
@@ -7,7 +8,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ForkJoinPool
 
 // thank u growlyx for the idea hes a great guy really
-abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
+abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class<V>)
 {
     abstract fun destination(): String
 
@@ -22,7 +23,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
                 jedis.hset(
                     destination(),
                     key(),
-                    RedisPacketManager.gson.toJson(value, type)
+                    RedisPacketManager.gson.toJson(value, clazz)
                 )
             }
         }.whenComplete { _, _ ->
@@ -37,7 +38,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
         RedisPacketManager.pool.resource.use { jedis ->
             val json = jedis.hget(destination(), key())
             println(json)
-            model = RedisPacketManager.gson.fromJson(json, type)
+            model = RedisPacketManager.gson.fromJson(json, clazz)
 
             println(model)
         }
@@ -52,7 +53,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
     fun sync()
     {
         val packet =
-            RedisModelPopulationPacket(identifier, RedisDataSyncService.dataSyncModels[identifier]!!.value as V)
+            RedisModelPopulationPacket(identifier, RedisPacketManager.gson.toJson(RedisDataSyncService.dataSyncModels[identifier]!!.value), clazz)
 
         ForkJoinPool.commonPool().execute {
             RedisPacketManager.pool.resource.use { jedis ->

@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BroadcastService : RedisDataSync<BroadcastContainer>("broadcast-service", object: TypeToken<BroadcastContainer>() {}.type)
+object BroadcastService : RedisDataSync<BroadcastContainer>("broadcast-service", BroadcastContainer::class.java)
 {
     override fun destination(): String = "alchemist:broadcast-service:"
 
