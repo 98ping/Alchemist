@@ -37,10 +37,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
 
         RedisPacketManager.pool.resource.use { jedis ->
             val json = jedis.hget(destination(), key())
-            println(json)
             model = RedisPacketManager.gson.fromJson(json, clazz)
-
-            println(model)
         }
 
         if (model != null)

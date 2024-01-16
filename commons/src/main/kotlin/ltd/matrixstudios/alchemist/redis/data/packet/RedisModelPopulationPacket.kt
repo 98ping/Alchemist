@@ -12,9 +12,6 @@ class RedisModelPopulationPacket<V>(
 {
     override fun action()
     {
-        println(clazz)
-        println(newModel)
-        println(RedisPacketManager.gson.fromJson(newModel, clazz))
         RedisDataSyncService.syncModel(id, RedisPacketManager.gson.fromJson(newModel, clazz))
     }
 }
