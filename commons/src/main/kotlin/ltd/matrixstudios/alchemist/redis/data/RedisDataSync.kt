@@ -36,20 +36,23 @@ abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
 
         RedisPacketManager.pool.resource.use { jedis ->
             val json = jedis.hget(destination(), key())
-
+            println(json)
             model = RedisPacketManager.gson.fromJson(json, type)
+
+            println(model)
         }
 
         if (model != null)
         {
-            cache(model as V)
+            RedisDataSyncService.syncModel(identifier, model)
             println("[data-sync] loaded redis data for sync service $identifier")
         }
     }
 
     fun sync()
     {
-        val packet = RedisModelPopulationPacket(identifier, RedisDataSyncService.dataSyncModels[identifier]!!.value as V)
+        val packet =
+            RedisModelPopulationPacket(identifier, RedisDataSyncService.dataSyncModels[identifier]!!.value as V)
 
         ForkJoinPool.commonPool().execute {
             RedisPacketManager.pool.resource.use { jedis ->
@@ -59,5 +62,15 @@ abstract class RedisDataSync<V>(private val identifier: String, val type: Type)
         }
     }
 
-    fun cached(): V? = RedisDataSyncService.dataSyncModels[identifier]?.value as V?
+    fun cached(): V?
+    {
+        return if (RedisDataSyncService.dataSyncModels[identifier] == null)
+        {
+            null
+        } else
+        {
+            RedisDataSyncService.dataSyncModels[identifier]!!.value!! as V
+        }
+
+    }
 }

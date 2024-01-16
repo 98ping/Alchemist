@@ -14,11 +14,13 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
     override fun getPagesButtons(player: Player): MutableMap<Int, Button>
     {
         val buttons = mutableMapOf<Int, Button>()
+        println(BroadcastService.cached())
         val cached = BroadcastService.cached()
 
         if (cached != null)
         {
-            cached.values.forEach {
+            println(cached.toString())
+            cached.broadcasts.values.forEach {
                 buttons[buttons.size] = BroadcastButton(it, buttons.size)
             }
         }

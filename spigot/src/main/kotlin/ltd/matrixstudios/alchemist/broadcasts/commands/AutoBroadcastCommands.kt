@@ -25,21 +25,21 @@ object AutoBroadcastCommands : BaseCommand()
         println(BroadcastService.cached())
         if (BroadcastService.cached() == null)
         {
-            BroadcastService.cache(mutableMapOf())
+            BroadcastService.cache(BroadcastContainer())
         }
 
         println(BroadcastService.cached())
 
         val cached = BroadcastService.cached()!!
 
-        if (cached[id] != null)
+        if (cached.getBroadcastMessage(id) != null)
         {
             throw ConditionFailedException(
                 "A broadcast with this id already exists"
             )
         } else
         {
-            cached[id] = BroadcastMessage(id)
+            cached.broadcasts[id] = BroadcastMessage(id)
 
             BroadcastService.cache(cached)
             sender.sendMessage(Chat.format("&aYou have just created a new auto-broadcast with the id &f${id}&a."))
