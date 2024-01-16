@@ -1,8 +1,5 @@
 package ltd.matrixstudios.alchemist.broadcasts.condition
 
-import org.bukkit.ChatColor
-
-
 data class BroadcastCondition(
     val logicGate: LogicGate,
     val condition: String,

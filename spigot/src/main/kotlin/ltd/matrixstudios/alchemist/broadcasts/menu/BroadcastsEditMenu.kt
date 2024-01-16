@@ -39,6 +39,7 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
         {
             val desc = mutableListOf<String>()
 
+            desc.add(Chat.format("&7Identifier: &f${broadcast.id}"))
             for (line in broadcast.lines)
             {
                 desc.add(Chat.format(line))
@@ -47,7 +48,7 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
             desc.add(Chat.format("&6Conditions"))
             if (broadcast.conditions.isEmpty())
             {
-                desc.add(Chat.format("&6&l｜ &cNone"))
+                desc.add(Chat.format("&c&l｜ &fNone"))
             } else
             {
                 for (condition in broadcast.conditions)
@@ -56,7 +57,8 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
                 }
             }
             desc.add(" ")
-            desc.add(Chat.format("&aClick to edit this auto-broadcast!"))
+            desc.add(Chat.format("&aLeft-Click to edit this auto-broadcast!"))
+            desc.add(Chat.format("&cRight-Click to delete this auto-broadcast!"))
 
             return desc
         }
@@ -73,7 +75,19 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
 
         override fun onClick(player: Player, slot: Int, type: ClickType)
         {
+            if (type.isRightClick)
+            {
+                val cached = BroadcastService.cached()
 
+                if (cached != null)
+                {
+                    cached.broadcasts.remove(broadcast.id)
+                    BroadcastService.cache(cached)
+                }
+
+                player.sendMessage(Chat.format("&cYou have just deleted the broadcast with the id &f${broadcast.id}&c."))
+                BroadcastsEditMenu(player).updateMenu()
+            }
         }
     }
 }

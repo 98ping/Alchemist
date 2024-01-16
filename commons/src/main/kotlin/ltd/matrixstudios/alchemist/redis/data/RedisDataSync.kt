@@ -1,9 +1,7 @@
 package ltd.matrixstudios.alchemist.redis.data
 
-import ltd.matrixstudios.alchemist.redis.RedisPacket
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.redis.data.packet.RedisModelPopulationPacket
-import java.lang.reflect.Type
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ForkJoinPool
 
@@ -43,6 +41,8 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
         if (model != null)
         {
             RedisDataSyncService.syncModel(identifier, model)
+            RedisDataSyncService.syncServices[identifier] = this
+
             println("[data-sync] loaded redis data for sync service $identifier")
         }
     }
@@ -50,7 +50,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
     fun sync()
     {
         val packet =
-            RedisModelPopulationPacket(identifier, RedisPacketManager.gson.toJson(RedisDataSyncService.dataSyncModels[identifier]!!.value), clazz)
+            RedisModelPopulationPacket(identifier)
 
         ForkJoinPool.commonPool().execute {
             RedisPacketManager.pool.resource.use { jedis ->
