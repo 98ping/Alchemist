@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.broadcasts.menu
 
+import ltd.matrixstudios.alchemist.broadcasts.menu.condition.ConditionEditorMenu
 import ltd.matrixstudios.alchemist.broadcasts.model.BroadcastMessage
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -53,7 +54,7 @@ class BroadcastEditSpecificsMenu(val player: Player, private val broadcast: Broa
                 Chat.format("&e&lEdit Conditions"),
                 0
             ).setBody { _, _, _ ->
-
+                ConditionEditorMenu(player, broadcast).updateMenu()
             }
         )
     }

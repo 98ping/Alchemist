@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 data class BroadcastCondition(
     val logicGate: LogicGate,
     val condition: String,
-    val reference: String
+    val reference: String? = null
 )
 {
 
