@@ -87,6 +87,9 @@ class BroadcastsEditMenu(val player: Player): BorderedPaginatedMenu(player)
 
                 player.sendMessage(Chat.format("&cYou have just deleted the broadcast with the id &f${broadcast.id}&c."))
                 BroadcastsEditMenu(player).updateMenu()
+            } else
+            {
+                BroadcastEditSpecificsMenu(player, broadcast).openMenu()
             }
         }
     }

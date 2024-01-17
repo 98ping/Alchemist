@@ -22,14 +22,11 @@ object AutoBroadcastCommands : BaseCommand()
     @Subcommand("create")
     fun onCreate(sender: CommandSender, @Name("id") id: String)
     {
-        println(BroadcastService.cached())
         if (BroadcastService.cached() == null)
         {
             BroadcastService.cache(BroadcastContainer())
         }
-
-        println(BroadcastService.cached())
-
+        
         val cached = BroadcastService.cached()!!
 
         if (cached.getBroadcastMessage(id) != null)
