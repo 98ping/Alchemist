@@ -173,7 +173,12 @@ class AlchemistSpigotPlugin : JavaPlugin()
             "&e[Listeners] &fListeners loaded in &e" + System.currentTimeMillis().minus(listenerStart) + "ms"
         )
 
-        BroadcastService.load()
+
+        if (config.getBoolean("autobroadcast.enabled"))
+        {
+            BroadcastService.load()
+            BroadcastService.startDispatchingBroadcasts()
+        }
 
         ClearOutExpirablesTask.runTaskTimerAsynchronously(this, 0L, 20L)
         ServerUpdateRunnable.runTaskTimerAsynchronously(this, 0L, 80L)

@@ -19,32 +19,87 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMessage) : PaginatedMenu(18, player) {
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
+class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMessage) : PaginatedMenu(18, player)
+{
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
+    {
         val buttons = mutableMapOf<Int, Button>()
 
-        broadcast.conditions.forEach {
+        broadcast.conditions.forEach { broadcastCondition ->
             buttons[buttons.size] = SimpleActionButton(
                 Material.WOOL,
                 mutableListOf(
-                    Chat.format("&7Condition: &f${it.condition}"),
-                    Chat.format("&7Reference: &f${it.reference ?: "&cNone"}"),
-                    Chat.format("&7Logic Gate: &f${it.logicGate.chatColor}${it.logicGate.displayName}"),
+                    Chat.format("&7Condition: &f${broadcastCondition.condition}"),
+                    Chat.format("&7Reference: &f${broadcastCondition.reference ?: "&cNone"}"),
+                    Chat.format("&7Logic Gate: &f${broadcastCondition.logicGate.chatColor}${broadcastCondition.logicGate.displayName}"),
                     "",
                     Chat.format("&2Left-Click to change condition"),
                     Chat.format("&aShift-Left-Click to change logic gate"),
                     Chat.format("&eShift-Right-Click to change reference condition"),
                     Chat.format("&cRight-Click to delete condition")
                 ),
-                Chat.format("&a&l${it.condition}"),
-                AlchemistAPI.getWoolColor(it.logicGate.chatColor).woolData.toShort()
-            )
+                Chat.format("&a&l${broadcastCondition.condition}"),
+                AlchemistAPI.getWoolColor(broadcastCondition.logicGate.chatColor).woolData.toShort()
+            ).setBody { _, _, clickType ->
+                if (clickType.isLeftClick)
+                {
+                    if (clickType.isShiftClick)
+                    {
+                        InputPrompt()
+                            .withText(
+                                Chat.format("&eEnter the logic gate that you want this condition to have. Currently there are &aAnd&e, &cNot&e, and &9Or&e.")
+                            ).acceptInput { input ->
+                                val gate: BroadcastCondition.LogicGate? = BroadcastCondition.LogicGate.values()
+                                    .firstOrNull { it.displayName.equals(input, ignoreCase = true) }
+
+                                if (gate == null)
+                                {
+                                    player.sendMessage(Chat.format("&cInvalid logic gate."))
+                                } else
+                                {
+                                    broadcast.conditions.remove(broadcastCondition)
+                                    broadcastCondition.logicGate = gate
+                                    broadcast.conditions.add(broadcastCondition)
+
+                                    broadcast.save()
+                                    player.sendMessage(Chat.format("&aYou have just changed the logic gate for this broadcast!"))
+
+                                    ConditionEditorMenu(player, broadcast).updateMenu()
+                                }
+                            }.start(player)
+                    } else
+                    {
+                        InputPrompt()
+                            .withText(Chat.format("&eEnter the condition that you want this broadcast to have..."))
+                            .acceptInput { input ->
+                                broadcast.conditions.remove(broadcastCondition)
+                                broadcastCondition.condition = input
+                                broadcast.conditions.add(broadcastCondition)
+
+                                broadcast.save()
+                                player.sendMessage(Chat.format("&aYou have just changed the condition for this broadcast!"))
+
+                                ConditionEditorMenu(player, broadcast).updateMenu()
+                            }.start(player)
+                    }
+                } else if (clickType.isRightClick)
+                {
+
+                    broadcast.conditions.remove(broadcastCondition)
+
+                    broadcast.save()
+                    player.sendMessage(Chat.format("&aYou have just deleted this broadcast condition!"))
+
+                    ConditionEditorMenu(player, broadcast).updateMenu()
+                }
+            }
         }
 
         return buttons
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
+    {
         return mutableMapOf(
             4 to SimpleActionButton(
                 Material.PAINTING,
@@ -70,7 +125,8 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
         )
     }
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         return "Editing Broadcast Conditions"
     }
 }

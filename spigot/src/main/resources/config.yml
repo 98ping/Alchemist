@@ -49,17 +49,6 @@ chat:
 autobroadcast:
   enabled: true
   interval: 60 #seconds
-  messages:
-    alchemist:
-      - " "
-      - "&8[&5&lGitHub&8] &8» &dAlchemist &f is available on &5GitHub!"
-      - "&fHead to &7github.com/98ping/Alchemist"
-      - " "
-    mcmarket:
-      - " "
-      - "&8[&9&lBuiltByBit&8] &8» &bAlchemist &f is available on &9BuiltByBit!"
-      - "&fHead to https://builtbybit.com/members/objectify.178715/"
-      - " "
 
 #theme info
 defaultTheme: "MMC"

@@ -7,6 +7,7 @@ import ltd.matrixstudios.alchemist.redis.data.RedisDataSync
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
+import java.util.concurrent.ThreadLocalRandom
 
 /**
  * Class created on 6/17/2023
@@ -21,4 +22,35 @@ object BroadcastService : RedisDataSync<BroadcastContainer>("broadcast-service",
 
     override fun key(): String = "all-broadcasts"
 
+    fun startDispatchingBroadcasts()
+    {
+        object : BukkitRunnable()
+        {
+            override fun run()
+            {
+                val cached = cached()
+                    ?: return
+
+                for (player in Bukkit.getOnlinePlayers())
+                {
+                    val possibleEntries = cached.broadcasts
+                        .filter { it.value.canBeSentToPlayer(player) }
+                        .map { it.value }
+
+                    if (possibleEntries.isNotEmpty())
+                    {
+                        val randomEntry = possibleEntries[ThreadLocalRandom.current().nextInt(0, possibleEntries.size)]
+
+                        randomEntry.lines.forEach {
+                            player.sendMessage(Chat.format(it))
+                        }
+                    }
+                }
+            }
+        }.runTaskTimerAsynchronously(
+            AlchemistSpigotPlugin.instance,
+            0L,
+            AlchemistSpigotPlugin.instance.config.getInt("autobroadcast.interval") * 20L
+        )
+    }
 }

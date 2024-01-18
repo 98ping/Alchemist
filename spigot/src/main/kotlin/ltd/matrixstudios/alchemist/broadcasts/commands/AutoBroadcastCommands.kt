@@ -1,11 +1,14 @@
 package ltd.matrixstudios.alchemist.broadcasts.commands
 
 import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.HelpCommand
 import co.aikar.commands.annotation.Name
 import co.aikar.commands.annotation.Subcommand
+import co.aikar.commands.annotation.Syntax
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastContainer
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.broadcasts.menu.BroadcastsEditMenu
@@ -18,6 +21,13 @@ import org.bukkit.entity.Player
 @CommandPermission("alchemist.autobroadcasts")
 object AutoBroadcastCommands : BaseCommand()
 {
+
+    @HelpCommand
+    @Syntax("[page]")
+    fun onHelp(command: CommandHelp)
+    {
+        command.showHelp()
+    }
 
     @Subcommand("create")
     fun onCreate(sender: CommandSender, @Name("id") id: String)

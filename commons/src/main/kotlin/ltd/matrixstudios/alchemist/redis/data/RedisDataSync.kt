@@ -42,8 +42,6 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
         {
             RedisDataSyncService.syncModel(identifier, model)
             RedisDataSyncService.syncServices[identifier] = this
-
-            println("[data-sync] loaded redis data for sync service $identifier")
         }
     }
 

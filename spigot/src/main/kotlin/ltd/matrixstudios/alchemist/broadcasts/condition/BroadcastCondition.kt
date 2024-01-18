@@ -3,8 +3,8 @@ package ltd.matrixstudios.alchemist.broadcasts.condition
 import org.bukkit.entity.Player
 
 data class BroadcastCondition(
-    val logicGate: LogicGate,
-    val condition: String,
+    var logicGate: LogicGate,
+    var condition: String,
     val reference: String? = null
 )
 {
