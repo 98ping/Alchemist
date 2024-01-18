@@ -167,12 +167,10 @@ class MenuListener : Listener
 
             if (click == ClickType.CREATIVE || click == ClickType.MIDDLE) event.isCancelled = true
 
-            if (click != ClickType.SHIFT_RIGHT && click != ClickType.SHIFT_LEFT)
+
+            if (menu.getAllButtons()[slot] != null)
             {
-                if (menu.getAllButtons()[slot] != null)
-                {
-                    menu.getAllButtons()[slot]!!.onClick(event.whoClicked as Player, slot, click)
-                }
+                menu.getAllButtons()[slot]!!.onClick(event.whoClicked as Player, slot, click)
             }
         }
     }

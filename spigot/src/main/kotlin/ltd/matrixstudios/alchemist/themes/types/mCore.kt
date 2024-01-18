@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 import java.util.*
 
 class mCore : Theme(
-    "mCore",
+    "mcore",
     "&amCore",
     mutableListOf(
         " ",
