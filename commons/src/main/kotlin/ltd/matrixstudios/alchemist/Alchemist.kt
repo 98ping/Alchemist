@@ -26,7 +26,9 @@ object Alchemist {
     lateinit var globalServer: UniqueServer
     var redisConnectionPort by Delegates.notNull<Int>()
 
-    var gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
+    var gson: Gson = GsonBuilder()
+        .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+        .serializeNulls().create()
 
     fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?)
     {
