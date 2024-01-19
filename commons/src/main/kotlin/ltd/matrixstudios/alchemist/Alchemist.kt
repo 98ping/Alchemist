@@ -16,7 +16,8 @@ import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import kotlin.properties.Delegates
 
-object Alchemist {
+object Alchemist
+{
 
     //connection
     lateinit var MongoConnectionPool: MongoConnectionPool
