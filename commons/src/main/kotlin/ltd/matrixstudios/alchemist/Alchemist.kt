@@ -28,7 +28,8 @@ object Alchemist {
 
     var gson: Gson = GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).serializeNulls().create()
 
-    fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?) {
+    fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?)
+    {
         this.MongoConnectionPool = mongoConnectionPool
 
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
