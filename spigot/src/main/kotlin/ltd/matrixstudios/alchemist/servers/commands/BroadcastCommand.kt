@@ -27,17 +27,17 @@ object BroadcastCommand : BaseCommand()
     {
         val newMessage = StringBuilder()
 
-        if (msg.contains("-p"))
+        if (msg.startsWith("-p"))
         {
             newMessage.append("&8[&4Alert&8] ")
         }
 
-        if (msg.contains("-s"))
+        if (msg.startsWith("-s"))
         {
             newMessage.append("&7(${Alchemist.globalServer.displayName}) ")
         }
 
-        newMessage.append(msg.replace("-s", "").replace("-p", ""))
+        newMessage.append(msg.removePrefix("-s").removePrefix("-p"))
 
         Bukkit.broadcastMessage(Chat.format(newMessage.toString()))
     }
