@@ -48,7 +48,6 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player)
     override fun getButtonPositions(): List<Int>
     {
         return listOf(
-            1, 3, 5, 7,
             10, 12, 14, 16,
             19, 21, 23, 25,
             28, 30, 32, 34
@@ -58,7 +57,10 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player)
     override fun getHeaderItems(player: Player): MutableMap<Int, Button>
     {
         return mutableMapOf(
+            0 to Button.placeholder(),
+            1 to Button.placeholder(),
             2 to Button.placeholder(),
+            3 to Button.placeholder(),
             4 to SimpleActionButton(
                 Material.NETHER_STAR,
                 mutableListOf(
@@ -85,7 +87,10 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player)
                     )
                 )
             },
+            5 to Button.placeholder(),
             6 to Button.placeholder(),
+            7 to Button.placeholder(),
+            8 to Button.placeholder(),
             9 to Button.placeholder(),
             11 to Button.placeholder(),
             13 to Button.placeholder(),
