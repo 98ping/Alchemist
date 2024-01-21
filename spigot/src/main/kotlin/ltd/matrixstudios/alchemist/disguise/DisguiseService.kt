@@ -47,7 +47,7 @@ object DisguiseService
         player.getProfile().apply {
             if (this != null)
             {
-                this.skinDisguiseAttribute = SkinDisguiseAttribute(name, System.currentTimeMillis(), name)
+                this.skinDisguiseAttribute = SkinDisguiseAttribute(name, System.currentTimeMillis(), name, skin.value, skin.signature)
 
                 player.displayName = this.skinDisguiseAttribute!!.customName
                 player.playerListName = player.displayName

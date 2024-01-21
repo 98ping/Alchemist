@@ -1,5 +1,7 @@
 package ltd.matrixstudios.alchemist.profiles.connection.postlog
 
+import ltd.matrixstudios.alchemist.disguise.DisguiseLoginTask
+import ltd.matrixstudios.alchemist.disguise.DisguiseModule
 import ltd.matrixstudios.alchemist.models.connection.ConnectionMethod
 import ltd.matrixstudios.alchemist.profiles.connection.postlog.tasks.*
 import org.bukkit.entity.Player
@@ -16,12 +18,17 @@ object BukkitPostLoginConnection : ConnectionMethod<Player>()
 
     fun getAllTasks(): List<BukkitPostLoginTask>
     {
-        return listOf(
+        return mutableListOf(
             LoadPermissions,
             SendStaffWelcome,
             CheckBanEvasion,
             SendLoadedProfileMessage,
-            EnsureTOTP
-        )
+            EnsureTOTP,
+        ).also {
+            if (DisguiseModule.getModularConfigOption())
+            {
+                it.add(DisguiseLoginTask)
+            }
+        }
     }
 }

@@ -95,7 +95,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                 0
             ).setBody { player, i, clickType ->
                 InputPrompt()
-                    .withText(Chat.format("&cType in a custom skin to disguies yourself as!"))
+                    .withText(Chat.format("&aType in a custom skin to disguise yourself as!"))
                     .acceptInput {
                         player.closeInventory()
                         val skin: Skin?
