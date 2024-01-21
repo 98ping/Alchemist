@@ -211,6 +211,8 @@ data class GameProfile(
         return false
     }
 
+    fun altHasAnyPunishment() = alternateAccountHasMute() || alternateAccountHasBan() || alternateAccountHasBlacklist()
+
     fun getFirstBlacklistFromAlts(): Punishment?
     {
         val alts = getAltAccounts().join()

@@ -58,35 +58,6 @@ object ProfileGameService : GeneralizedService {
         }
     }
 
-    fun ipReportLookup() : CompletableFuture<MutableList<GameProfile>>
-    {
-        return CompletableFuture.supplyAsync {
-            val ret = mutableListOf<GameProfile>()
-            val allProfiles = handler.retrieveAll()
-
-            for (profile in allProfiles)
-            {
-                for (alt in profile.getAltAccounts().join())
-                {
-                    if (alt.hasActivePunishment(PunishmentType.BLACKLIST)
-                        ||
-                        alt.hasActivePunishment(PunishmentType.BAN)
-                        ||
-                        alt.hasActivePunishment(PunishmentType.MUTE)
-                        )
-                    {
-                        if (!profile.hasActivePunishment(PunishmentType.BAN) && !profile.hasActivePunishment(PunishmentType.BLACKLIST))
-                        {
-                            ret.add(profile)
-                        }
-                    }
-                }
-            }
-
-            return@supplyAsync ret
-        }
-    }
-
     fun getHighestRank(uuid: UUID): Rank {
         val current = RankService.FALLBACK_RANK
         val profile = byId(uuid) ?: return current

@@ -5,13 +5,15 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.profiles.getProfile
 import ltd.matrixstudios.alchemist.util.Chat
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class IpReportCommand : BaseCommand()
 {
@@ -20,7 +22,7 @@ class IpReportCommand : BaseCommand()
     @CommandPermission("alchemist.ipreport")
     fun ipreport(sender: CommandSender)
     {
-        ProfileGameService.ipReportLookup().thenAccept {
+        loadIpReport().thenAccept {
             sender.sendMessage(Chat.format("&7[&f&oMuted Alt&7, &cBanned Alt&7, &4Blacklisted Alt&7]"))
             sender.sendMessage(Chat.format("&aEveryone's &ealts (&6${it.size}&e):"))
             val finalMessage = Component.text()
@@ -40,6 +42,11 @@ class IpReportCommand : BaseCommand()
 
             AlchemistSpigotPlugin.instance.audience.sender(sender).sendMessage(finalMessage)
         }
+    }
+
+    fun loadIpReport() = CompletableFuture.supplyAsync {
+        Bukkit.getOnlinePlayers().filter { it.getProfile()?.altHasAnyPunishment() ?: false }
+            .mapNotNull { it.getProfile() }
     }
 
     fun createHover(target: GameProfile): Component

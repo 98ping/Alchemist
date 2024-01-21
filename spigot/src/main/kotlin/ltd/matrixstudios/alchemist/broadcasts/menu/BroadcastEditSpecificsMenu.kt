@@ -62,6 +62,6 @@ class BroadcastEditSpecificsMenu(val player: Player, private val broadcast: Broa
     }
 
     override fun getTitle(player: Player): String {
-        return "Editing a Broadcast..."
+        return "Editing Broadcast..."
     }
 }

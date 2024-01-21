@@ -127,6 +127,6 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
 
     override fun getTitle(player: Player): String
     {
-        return "Editing Broadcast Conditions"
+        return "Editing Conditions..."
     }
 }
