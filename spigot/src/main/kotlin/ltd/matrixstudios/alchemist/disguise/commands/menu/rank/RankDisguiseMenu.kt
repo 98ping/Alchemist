@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class RankDisguiseMenu(val player: Player) : PaginatedMenu(36, player)
+class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
 {
 
     override fun getPagesButtons(player: Player): MutableMap<Int, Button>
