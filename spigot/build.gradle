@@ -54,7 +54,7 @@ publishing {
         maven(MavenPublication) {
             groupId = "ltd.matrixstudios"
             artifactId = "alchemist"
-            version = "2.11"
+            version = "2.12"
             from components.java
         }
     }
