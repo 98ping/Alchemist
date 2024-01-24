@@ -23,7 +23,7 @@ object HubCommand : BaseCommand()
         selectedServer = if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.loadBalance"))
         {
             available
-                .maxByOrNull { it.players.size }
+                .minByOrNull { it.players.size }
         } else
         {
             available.random()
