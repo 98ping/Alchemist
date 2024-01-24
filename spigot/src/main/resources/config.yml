@@ -18,6 +18,14 @@ redis:
   username: ""
   password: ""
 
+hubCommand:
+  enabled: true
+  loadBalance: true
+  connectedMessage: "&6You are joining the hub &f{hub}&6..."
+  priorities:
+    - "hub-01"
+    - "hub-02"
+
 #server information to identify the server
 server:
   id: "server1"

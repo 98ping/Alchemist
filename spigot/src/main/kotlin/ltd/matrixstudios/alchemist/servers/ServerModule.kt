@@ -3,11 +3,14 @@ package ltd.matrixstudios.alchemist.servers
 import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
+import ltd.matrixstudios.alchemist.aikar.ACFCommandController
+import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.models.server.software.ServerPlugin
 import ltd.matrixstudios.alchemist.models.server.software.ServerSoftware
 import ltd.matrixstudios.alchemist.module.PluginModule
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
+import ltd.matrixstudios.alchemist.servers.commands.HubCommand
 import ltd.matrixstudios.alchemist.servers.commands.ServerEnvironmentCommand
 import ltd.matrixstudios.alchemist.servers.commands.WhereAmICommand
 import ltd.matrixstudios.alchemist.servers.packets.ServerStatusChangePacket
@@ -105,6 +108,11 @@ object ServerModule : PluginModule
 
         commands.add(ServerEnvironmentCommand())
         commands.add(WhereAmICommand)
+
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.enabled"))
+        {
+            commands.add(HubCommand)
+        }
 
         return commands
     }
