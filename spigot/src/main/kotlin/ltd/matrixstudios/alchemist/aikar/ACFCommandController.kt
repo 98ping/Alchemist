@@ -92,6 +92,7 @@ object ACFCommandController
                 registerCommand(GrantsCommand)
                 registerCommand(CGrantCommand())
                 registerCommand(GrantConfigureCommand())
+                registerCommand(DiscordSyncCommand())
                 registerCommand(NonModelGrantCommand())
                 registerCommand(GrantHistoryCommand())
                 if (Bukkit.getServer().pluginManager.isPluginEnabled("LuckPerms"))
