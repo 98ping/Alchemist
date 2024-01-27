@@ -35,7 +35,7 @@ class DiscordSyncCommand : BaseCommand() {
 
     @Subcommand("check")
     @CommandCompletion("@gameprofile")
-    @CommandPermission("head")
+    @CommandPermission("alchemist.discordsync.check")
     fun check(sender: Player, @Name("target") gameProfile: GameProfile) {
         val syncCode = gameProfile.syncCode
 
@@ -48,7 +48,7 @@ class DiscordSyncCommand : BaseCommand() {
 
     @Subcommand("delete")
     @CommandCompletion("@players")
-    @CommandPermission("owner")
+    @CommandPermission("alchemist.discordsync.delete")
     fun delete(sender: Player, @Name("username") targetUsername: String) {
         val targetGameProfile = ProfileGameService.byId(sender.uniqueId)
         if (targetGameProfile != null) {
