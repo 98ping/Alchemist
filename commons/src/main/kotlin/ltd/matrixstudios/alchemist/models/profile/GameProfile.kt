@@ -49,6 +49,7 @@ data class GameProfile(
     var skinDisguiseAttribute: SkinDisguiseAttribute? = null,
     var rankDisguiseAttribute: RankDisguiseAttribute? = null,
     var coins: Int = 0,
+    var syncCode: String? = null,
     val notes: MutableList<ProfileNote> = ArrayList(),
     var siblings: MutableList<UUID> = ArrayList()
 )
