@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.disguise.commands.menu.rank
 
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
-import ltd.matrixstudios.alchemist.commands.rank.menu.scan.RankScanUserMenu
 import ltd.matrixstudios.alchemist.models.profile.disguise.RankDisguiseAttribute
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
