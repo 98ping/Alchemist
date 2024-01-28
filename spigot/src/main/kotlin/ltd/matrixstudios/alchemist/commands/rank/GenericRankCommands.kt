@@ -6,7 +6,6 @@ import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.rank.menu.RankEditorMenu
-import ltd.matrixstudios.alchemist.commands.rank.menu.RankScanMenu
 import ltd.matrixstudios.alchemist.commands.rank.menu.filter.RankListFilter
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.models.ranks.scope.RankScope
@@ -21,7 +20,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
-import kotlin.collections.ArrayList
 
 @CommandAlias("rank")
 class GenericRankCommands : BaseCommand()
@@ -38,9 +36,16 @@ class GenericRankCommands : BaseCommand()
     @Subcommand("scan")
     @Description("Scan all available profiles to find people with a certain rank")
     @CommandPermission("rank.admin")
-    fun scan(player: Player)
+    fun scan(player: Player, @Name("rank") rank: Rank)
     {
-        RankScanMenu(player).updateMenu()
+        player.sendMessage(Chat.format("&7Loading current rank scan..."))
+        RankService.scanRank(rank).thenAccept { profiles ->
+            player.sendMessage(
+                Chat.format("&eUsers with active " + rank.color + rank.displayName + " &erank (&6${profiles.size}&e): ${
+                    profiles.map { it.getCurrentRank().color + it.username }.joinToString { "&6," }
+                }")
+            )
+        }
     }
 
 
