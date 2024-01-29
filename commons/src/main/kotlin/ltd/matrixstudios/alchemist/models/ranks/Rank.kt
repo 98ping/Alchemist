@@ -19,7 +19,8 @@ class Rank(
     var staff: Boolean = false,
     var default: Boolean = false,
     var woolColor: String? = null,
-    var scope: RankScope? = null
+    var scope: RankScope? = null,
+    var discordRoleId: String? = null
 ) {
 
     fun getRankScope() : RankScope {
