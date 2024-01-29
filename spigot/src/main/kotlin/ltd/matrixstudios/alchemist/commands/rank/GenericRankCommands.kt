@@ -42,7 +42,7 @@ class GenericRankCommands : BaseCommand()
         RankService.scanRank(rank).thenAccept { profiles ->
             player.sendMessage(
                 Chat.format("&eUsers with active " + rank.color + rank.displayName + " &erank (&6${profiles.size}&e): ${
-                    profiles.joinToString { "${it.getCurrentRank().color + it.username}&6," }
+                    profiles.joinToString { "${it.getCurrentRank().color + it.username}&6" }
                 }")
             )
         }
