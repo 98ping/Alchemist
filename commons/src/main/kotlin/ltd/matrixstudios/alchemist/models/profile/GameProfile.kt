@@ -49,6 +49,7 @@ data class GameProfile(
     var skinDisguiseAttribute: SkinDisguiseAttribute? = null,
     var rankDisguiseAttribute: RankDisguiseAttribute? = null,
     var coins: Int = 0,
+    var rankCurrent: Rank? = null,
     var syncCode: String? = null,
     val notes: MutableList<ProfileNote> = ArrayList(),
     var siblings: MutableList<UUID> = ArrayList()
@@ -429,38 +430,31 @@ data class GameProfile(
         return filteredRank
     }
 
-    fun getCurrentRank(): Rank
-    {
+    fun getCurrentRank(): Rank {
         val currentGrant: Rank? = RankService.findFirstAvailableDefaultRank()
         val globalServer = Alchemist.globalServer
 
-
-        /*
-            Get a total collection of all active grants and then
-            we make a full collection of grants that are global (apply
-            on every server) and scope specific ranks. From here we can just
-            check which one comes out on top
-
-            Checks include:
-                - Duration is still valid
-                - Grant scope is global or applies on instance
-                - Rank scope is global or applies on instance
-
-            In the event that everything here fails, return fallback rank (Thanks Lunar.gg)
-         */
         val filteredRank = RankGrantService.getFromCache(uuid).filter {
             it.expirable.isActive()
                     && (it.verifyGrantScope().global || it.verifyGrantScope().appliesOn(globalServer))
-                    && (it.getGrantable().getRankScope().global || it.getGrantable().getRankScope()
-                .appliesOn(globalServer)
+                    && (it.getGrantable().getRankScope().global || it.getGrantable().getRankScope().appliesOn(globalServer)
                     )
         }.sortedByDescending { it.getGrantable().weight }.firstOrNull()
 
-        if (filteredRank == null || filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0))
-        {
-            return currentGrant ?: RankService.FALLBACK_RANK
+        if (filteredRank == null || filteredRank.getGrantable().weight < (currentGrant?.weight ?: 0)) {
+            rankCurrent = currentGrant ?: RankService.FALLBACK_RANK
+            return rankCurrent!!
         }
 
-        return filteredRank.getGrantable()
+        rankCurrent = filteredRank.getGrantable()
+        return rankCurrent!!
+    }
+
+    // Agregado para actualizar rankCurrent cuando sea necesario
+    fun updateCurrentRank() {
+        if (rankCurrent == null) {
+            rankCurrent = getCurrentRank()
+        }
     }
 }
+
