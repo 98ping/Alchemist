@@ -15,13 +15,13 @@ class DiscordSyncCommand : BaseCommand() {
     fun sync(sender: Player) {
 
         val gameProfile = ProfileGameService.byId(sender.uniqueId) ?: run {
-            sender.sendMessage("No se pudo encontrar el perfil del jugador.")
+            sender.sendMessage("Player profile could not be found.")
             return
         }
 
         val currentCode = gameProfile.syncCode
         if (currentCode != null) {
-            sender.sendMessage(Chat.format("&aEste es tu código del &c&lsync&a &f: $currentCode"))
+            sender.sendMessage(Chat.format("&aHere is your &c&lsync code&a &f: $currentCode"))
             return
         }
 
@@ -30,33 +30,33 @@ class DiscordSyncCommand : BaseCommand() {
         gameProfile.syncCode = uniqueCode
         ProfileGameService.save(gameProfile)
 
-        sender.sendMessage(Chat.format("&aEste es tu código del &c&lsync&a &f: $uniqueCode , &apara usarlo tienes que entrar al discord y seguir los pasos del canal SYNC."))
+        sender.sendMessage(Chat.format("&aThis is your &c&lsync&a &f code: $uniqueCode , &to use it you have to enter the discord and follow the steps of the SYNC channel."))
     }
 
     @Subcommand("check")
     @CommandCompletion("@gameprofile")
-    @CommandPermission("alchemist.discordsync.check")
+    @CommandPermission("head")
     fun check(sender: Player, @Name("target") gameProfile: GameProfile) {
         val syncCode = gameProfile.syncCode
 
         if (syncCode != null) {
-            sender.sendMessage("El código único de ${gameProfile.username} es: $syncCode")
+            sender.sendMessage("The unique code of ${gameProfile.username} is: $syncCode")
         } else {
-            sender.sendMessage("El jugador ${gameProfile.username} no tiene un código único ni DiscordTag.")
+            sender.sendMessage("The player ${gameProfile.username} does not have a unique code or DiscordTag..")
         }
     }
 
     @Subcommand("delete")
     @CommandCompletion("@players")
-    @CommandPermission("alchemist.discordsync.delete")
+    @CommandPermission("owner")
     fun delete(sender: Player, @Name("username") targetUsername: String) {
         val targetGameProfile = ProfileGameService.byId(sender.uniqueId)
         if (targetGameProfile != null) {
             targetGameProfile.syncCode = null
             ProfileGameService.save(targetGameProfile)
-            sender.sendMessage("Se ha borrado el código único de $targetUsername.")
+            sender.sendMessage("The unique code has been deleted from $targetUsername.")
         } else {
-            sender.sendMessage("No se encontró el perfil del jugador $targetUsername.")
+            sender.sendMessage("Player profile not found $targetUsername.")
         }
     }
 
