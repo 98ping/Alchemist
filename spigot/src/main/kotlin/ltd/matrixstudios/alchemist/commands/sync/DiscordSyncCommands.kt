@@ -49,22 +49,21 @@ object DiscordSyncCommands : BaseCommand()
     @Subcommand("delete")
     @CommandCompletion("@players")
     @CommandPermission("alchemist.sync.admin")
-    fun delete(sender: Player, @Name("username") targetUsername: String)
-    {
-        val targetGameProfile = ProfileGameService.byId(sender.uniqueId)
-            ?: throw ConditionFailedException("This player does not have a profile!")
+    fun delete(sender: Player, @Name("username") targetUsername: String) =
+        ProfileGameService.byUsernameWithList(targetUsername).thenAccept {
+            val targetGameProfile = it.firstOrNull()
+                ?: throw ConditionFailedException("No player by this name exists!")
 
+            targetGameProfile.syncCode = null
+            ProfileGameService.save(targetGameProfile)
+            sender.sendMessage(Chat.format("&aThe sync code has been deleted from &r${targetGameProfile.getRankDisplay()}&a."))
+        }
 
+}
 
-        targetGameProfile.syncCode = null
-        ProfileGameService.save(targetGameProfile)
-        sender.sendMessage(Chat.format("&aThe sync code has been deleted from &r${targetGameProfile.getRankDisplay()}&a."))
-    }
-
-    private fun generateUniqueCode(): String
-    {
-        val characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        val random = Random()
-        return (1..7).map { characters[random.nextInt(characters.length)] }.joinToString("")
-    }
+private fun generateUniqueCode(): String
+{
+    val characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    val random = Random()
+    return (1..7).map { characters[random.nextInt(characters.length)] }.joinToString("")
 }
