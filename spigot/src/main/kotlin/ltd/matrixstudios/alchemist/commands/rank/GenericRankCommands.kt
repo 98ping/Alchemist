@@ -92,6 +92,33 @@ class GenericRankCommands : BaseCommand()
         }
     }
 
+    @Subcommand("set-discord-id")
+    @Description("Set Discord role ID for a rank.")
+    @CommandPermission("rank.admin")
+    fun setDiscordId(sender: CommandSender, @Name("rank") foundRank: Rank, @Name("role ID") discordRoleId: String)
+    {
+        foundRank.discordRoleId = discordRoleId
+        RankService.save(foundRank)
+        sender.sendMessage(Chat.format("&aThe discord role of the rank has been set to &f$discordRoleId"))
+    }
+
+
+    @Subcommand("delete-discord-id")
+    @Description("Delete Discord role ID for a rank.")
+    @CommandPermission("rank.admin")
+    fun deleteDiscordId(sender: CommandSender, @Name("rank") foundRank: Rank)
+    {
+        if (foundRank.discordRoleId.isNullOrEmpty())
+        {
+            sender.sendMessage(Chat.format("&cThe rank ${foundRank.displayName} does not have a Discord role ID set."))
+            return
+        }
+        foundRank.discordRoleId = null
+        RankService.save(foundRank)
+
+        sender.sendMessage(Chat.format("&cThe discord role of the rank has been removed"))
+    }
+
     @Subcommand("delete")
     @Description("Delete a rank with a given name")
     @CommandPermission("rank.admin")

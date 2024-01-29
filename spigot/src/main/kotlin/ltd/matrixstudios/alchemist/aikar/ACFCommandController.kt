@@ -22,6 +22,7 @@ import ltd.matrixstudios.alchemist.commands.notes.PlayerNotesCommands
 import ltd.matrixstudios.alchemist.commands.party.PartyCommands
 import ltd.matrixstudios.alchemist.commands.rank.GenericRankCommands
 import ltd.matrixstudios.alchemist.commands.sessions.SessionCommands
+import ltd.matrixstudios.alchemist.commands.sync.DiscordSyncCommands
 import ltd.matrixstudios.alchemist.commands.tags.TagAdminCommand
 import ltd.matrixstudios.alchemist.commands.tags.TagCommand
 import ltd.matrixstudios.alchemist.commands.tags.grants.TagGrantCommand
@@ -143,6 +144,7 @@ object ACFCommandController
                 registerCommand(ChatColorCommands())
             }
 
+            registerCommand(DiscordSyncCommands)
             registerCommand(AuditCommand)
 
             registerCommand(AltsCommand())

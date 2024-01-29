@@ -50,7 +50,8 @@ data class GameProfile(
     var rankDisguiseAttribute: RankDisguiseAttribute? = null,
     var coins: Int = 0,
     val notes: MutableList<ProfileNote> = ArrayList(),
-    var siblings: MutableList<UUID> = ArrayList()
+    var siblings: MutableList<UUID> = ArrayList(),
+    var syncCode: String? = null,
 )
 {
 
