@@ -186,6 +186,43 @@ class GenericRankCommands : BaseCommand()
         sender.sendMessage(Chat.format("&aUpdated weight of rank &f${rank.color + rank.displayName}&r &ato &f$newWeight&a."))
     }
 
+    @Subcommand("discordid")
+    @Description("Set Discord role ID for a rank.")
+    @CommandPermission("rank.admin")
+    fun setDiscordId(sender: CommandSender, @Name("rank") rank: String, @Name("discord_role_ID") discordRoleId: String) {
+        val foundRank = RankService.byIdAnyCase(rank)
+
+        if (foundRank == null) {
+            sender.sendMessage(Chat.format("&cError specifying range &f$rank this range does not exist"))
+            return
+        }
+
+        foundRank.discordRoleId = discordRoleId
+        RankService.save(foundRank)
+        sender.sendMessage(Chat.format("&cThe id of the discord roles of the range has been configured. ${foundRank.displayName}: $discordRoleId"))
+    }
+
+
+    @Subcommand("deleteid")
+    @Description("Delete Discord role ID for a rank.")
+    @CommandPermission("rank.admin")
+    fun deleteDiscordId(sender: CommandSender, @Name("rank") rank: String) {
+        val foundRank = RankService.byIdAnyCase(rank)
+
+        if (foundRank == null) {
+            sender.sendMessage(Chat.format("&cError specifying range &f$rank; this range does not exist"))
+            return
+        }
+        if (foundRank.discordRoleId.isNullOrEmpty()) {
+            sender.sendMessage(Chat.format("&cThe ${foundRank.displayName} range does not have a Discord role ID set."))
+            return
+        }
+        foundRank.discordRoleId = null
+        RankService.save(foundRank)
+
+        sender.sendMessage(Chat.format("&cDiscord role ID has been removed for the ${foundRank.displayName} range."))
+    }
+
     @Subcommand("setwoolcolor|woolcolor")
     @CommandPermission("rank.admin")
     @Description("Set the wool color of a rank")
