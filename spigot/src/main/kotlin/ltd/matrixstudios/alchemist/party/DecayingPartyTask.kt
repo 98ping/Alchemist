@@ -8,7 +8,7 @@ class DecayingPartyTask : BukkitRunnable()
 
     override fun run()
     {
-        val parties = PartyService.handler.getAll().get()
+        val parties = PartyService.handler.retrieveAllAsync().get()
 
         for (party in parties)
         {
@@ -17,7 +17,7 @@ class DecayingPartyTask : BukkitRunnable()
 
             if (changed)
             {
-                PartyService.handler.insert(party.id, party)
+                PartyService.handler.store(party.id, party)
             }
 
         }

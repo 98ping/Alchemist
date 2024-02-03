@@ -40,7 +40,7 @@ class PartyCommands : BaseCommand()
                 true
             )
 
-            PartyService.handler.asynchronouslyInsert(
+            PartyService.handler.storeAsync(
                 toInsert.id, toInsert
             )
             PartyService.backingPartyCache[toInsert.id] = toInsert
@@ -73,7 +73,7 @@ class PartyCommands : BaseCommand()
                 )
             }
 
-            PartyService.handler.deleteAsynchronously(
+            PartyService.handler.deleteAsync(
                 party.id
             )
             PartyService.backingPartyCache.remove(party.id)
@@ -125,7 +125,7 @@ class PartyCommands : BaseCommand()
             player.sendMessage(Chat.format("&7[&dParties&7] &aYou have just sent a party invitation to ${gameProfile.getRankDisplay()}"))
 
             with(PartyService.handler) {
-                this.insert(currentParty.id, currentParty)
+                this.store(currentParty.id, currentParty)
                 PartyService.backingPartyCache[currentParty.id] = currentParty
             }
         }
@@ -171,7 +171,7 @@ class PartyCommands : BaseCommand()
             myParty.members[it.uuid] = PartyElevation.OFFICER
 
             with(PartyService.handler) {
-                this.insert(myParty.id, myParty)
+                this.store(myParty.id, myParty)
                 PartyService.backingPartyCache[myParty.id] = myParty
             }
 

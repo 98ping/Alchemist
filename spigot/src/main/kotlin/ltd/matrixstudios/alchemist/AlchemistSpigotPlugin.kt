@@ -64,42 +64,65 @@ class AlchemistSpigotPlugin : JavaPlugin()
         sendStartupMSG()
 
         val startMongo = System.currentTimeMillis()
+        val enabled = true
         val authEnabled = config.getBoolean("mongo.auth")
         val uri = config.getString("uri")
-        val connectionPool: MongoConnectionPool
 
-        if (uri != "")
+        var connectionPool: MongoConnectionPool? = null
+
+        if (enabled)
         {
-            connectionPool = URIMongoConnectionPool().apply {
-                this.databaseName = config.getString("mongo.database")
-                this.uri = uri
-            }
-        } else if (authEnabled)
-        {
-            connectionPool = AuthenticatedMongoConnectionPool().apply {
-                hostname = config.getString("mongo.host")
-                password = config.getString("mongo.password")
-                username = config.getString("mongo.username")
-                port = config.getInt("mongo.port")
-                databaseName = config.getString("mongo.database")
-                authDb = config.getString("mongo.authDB")
-            }
-        } else
-        {
-            connectionPool = NoAuthMongoConnectionPool().apply {
-                hostname = config.getString("mongo.host")
-                port = config.getInt("mongo.port")
-                databaseName = config.getString("mongo.database")
+            if (uri != "")
+            {
+                connectionPool = URIMongoConnectionPool().apply {
+                    this.databaseName = config.getString("mongo.database")
+                    this.uri = uri
+                }
+                Chat.sendConsoleMessage(
+                    "&a[Mongo] &fDetected URI authentication system on &aMongoDB"
+                )
+            } else if (authEnabled)
+            {
+                connectionPool = AuthenticatedMongoConnectionPool().apply {
+                    hostname = config.getString("mongo.host")
+                    password = config.getString("mongo.password")
+                    username = config.getString("mongo.username")
+                    port = config.getInt("mongo.port")
+                    databaseName = config.getString("mongo.database")
+                    authDb = config.getString("mongo.authDB")
+                }
+
+                Chat.sendConsoleMessage(
+                    "&a[Mongo] &fDetected generic authentication system on &aMongoDB"
+                )
+            } else
+            {
+                connectionPool = NoAuthMongoConnectionPool().apply {
+                    hostname = config.getString("mongo.host")
+                    port = config.getInt("mongo.port")
+                    databaseName = config.getString("mongo.database")
+                }
+
+                Chat.sendConsoleMessage(
+                    "&a[Mongo] &fDetected no authentication system on &aMongoDB"
+                )
             }
         }
 
         Alchemist.start(
-            connectionPool,
+            enabled,
+            connectionPool
+                ?: NoAuthMongoConnectionPool().apply {
+                    hostname = config.getString("mongo.host")
+                    port = config.getInt("mongo.port")
+                    databaseName = config.getString("mongo.database")
+                },
             true,
             config.getString("redis.host"),
             config.getInt("redis.port"),
             (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-            (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+            (if (config.getString("redis.password") == "") null else config.getString("redis.password")),
+            this.dataFolder.path
         )
 
         Chat.sendConsoleMessage(

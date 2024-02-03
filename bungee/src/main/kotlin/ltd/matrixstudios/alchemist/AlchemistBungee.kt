@@ -65,7 +65,7 @@ class AlchemistBungee : Plugin() {
                 this.uri = configuration.getString("uri")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),
@@ -82,7 +82,7 @@ class AlchemistBungee : Plugin() {
                 authDb = configuration.getString("mongo.authDB")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),
@@ -96,7 +96,7 @@ class AlchemistBungee : Plugin() {
                 databaseName = configuration.getString("mongo.database")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 configuration.getString("redis.host"),
                 configuration.getInt("redis.port"),

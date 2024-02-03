@@ -4,7 +4,11 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.LongSerializationPolicy
 import io.github.nosequel.data.DataHandler
+import io.github.nosequel.data.DataStoreType
+import io.github.nosequel.data.connection.flatfile.FlatfileConnectionPool
 import io.github.nosequel.data.connection.mongo.MongoConnectionPool
+import io.github.nosequel.data.store.StoreType
+import io.github.nosequel.data.store.type.MongoStoreType
 import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -27,15 +31,35 @@ object Alchemist
     lateinit var globalServer: UniqueServer
     var redisConnectionPort by Delegates.notNull<Int>()
 
+    // store type information
+    var usingMongo = false
+    var flatfileDirectory: String? = null
+
     var gson: Gson = GsonBuilder()
         .setLongSerializationPolicy(LongSerializationPolicy.STRING)
         .serializeNulls().create()
 
-    fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?)
+    fun start(
+        useMongo: Boolean,
+        mongoConnectionPool: MongoConnectionPool?,
+        needsRedis: Boolean,
+        redisHost: String,
+        redisPort: Int,
+        redisUsername: String?,
+        redisPassword: String?,
+        directory: String? = null
+    )
     {
-        this.MongoConnectionPool = mongoConnectionPool
+        if (useMongo)
+        {
+            this.MongoConnectionPool = mongoConnectionPool!!
+            this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
-        this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
+            usingMongo = true
+        } else
+        {
+            flatfileDirectory = directory
+        }
 
         if (needsRedis)
         {

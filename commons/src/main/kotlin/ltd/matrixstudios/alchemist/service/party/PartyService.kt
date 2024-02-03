@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 
 object PartyService : GeneralizedService {
 
-    var handler = MongoStorageCache.create<UUID, Party>("party")
+    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
     val backingPartyCache = mutableMapOf<UUID, Party>()
 
     fun getParty(uuid: UUID): CompletableFuture<Party?>
@@ -27,7 +27,7 @@ object PartyService : GeneralizedService {
             }
         }
 
-        return handler.getAll().thenApply { parties ->
+        return handler.retrieveAllAsync().thenApply { parties ->
             for (mongoParty in parties)
             {
                 if (mongoParty.members[uuid] != null

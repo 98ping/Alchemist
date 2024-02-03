@@ -42,6 +42,6 @@ subprojects {
         implementation 'org.apache.maven:maven-artifact:3.0.3'
 
         // honey
-        implementation "ltd.matrixstudios:honey:1.0"
+        implementation "ltd.matrixstudios:honey:1.0.0"
     }
 }
