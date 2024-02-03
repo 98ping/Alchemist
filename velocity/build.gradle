@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(":commons")
+
+    implementation 'com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4'
+    compileOnly 'com.velocitypowered:velocity-api:3.1.1'
+}
+
+shadowJar {
+    relocate "org.yaml", "ltd.matrixstudios.alchemist.config.yaml"
+}
