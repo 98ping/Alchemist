@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 
 object PartyService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(Alchemist.getDataStoreMethod())
     val backingPartyCache = mutableMapOf<UUID, Party>()
 
     fun getParty(uuid: UUID): CompletableFuture<Party?>

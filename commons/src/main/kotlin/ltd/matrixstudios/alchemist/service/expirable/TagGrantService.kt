@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 
 object TagGrantService : ExpiringService<TagGrant>() {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, TagGrant>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, TagGrant>(Alchemist.getDataStoreMethod())
 
 
     fun getValues(): CompletableFuture<Collection<TagGrant>> {

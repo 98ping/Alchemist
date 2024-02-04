@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object UniqueServerService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, UniqueServer>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<String, UniqueServer>(Alchemist.getDataStoreMethod())
 
     val servers = ConcurrentHashMap<String, UniqueServer>()
 

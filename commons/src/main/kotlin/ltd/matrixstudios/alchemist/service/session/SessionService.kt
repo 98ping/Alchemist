@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object SessionService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, Session>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<String, Session>(Alchemist.getDataStoreMethod())
     private val rawCollection = Alchemist.MongoConnectionPool.getCollection("session")
 
     var cache = ConcurrentHashMap<UUID, List<Session>>()

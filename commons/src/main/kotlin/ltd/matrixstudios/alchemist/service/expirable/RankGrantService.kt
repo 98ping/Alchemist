@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 object RankGrantService : ExpiringService<RankGrant>()
 {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(Alchemist.getDataStoreMethod())
 
     val collection =
         Alchemist.MongoConnectionPool.getCollection("rankgrant") //need this here because honey doesnt have a way to get raw collection

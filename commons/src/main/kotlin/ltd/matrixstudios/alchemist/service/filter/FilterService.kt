@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap
 object FilterService : GeneralizedService {
 
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(Alchemist.getDataStoreMethod())
     val collection = Alchemist.MongoConnectionPool.getCollection("filter")
 
     val cache = ConcurrentHashMap<String, Filter>()

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object PunishmentService : ExpiringService<Punishment>() {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Punishment>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, Punishment>(Alchemist.getDataStoreMethod())
 
     val collection = Alchemist.MongoConnectionPool.getCollection("punishment")
 

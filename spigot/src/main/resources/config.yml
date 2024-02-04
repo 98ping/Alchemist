@@ -1,5 +1,6 @@
 #all information for mongo. AuthDB is NOT the database you will use for documents to go into
 mongo:
+  enabled: true
   host: "127.0.0.1"
   port: 27017
   auth: false

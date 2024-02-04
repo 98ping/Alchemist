@@ -25,7 +25,7 @@ import java.util.stream.Collectors
 object ProfileGameService : GeneralizedService {
 
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, GameProfile>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, GameProfile>(Alchemist.getDataStoreMethod())
     //val test = MongoStorageCache.create<UUID, GameProfile>("gameprofile")
 
     val collection = Alchemist.MongoConnectionPool.getCollection("gameprofile")

@@ -25,6 +25,8 @@ object Alchemist
 
     //connection
     lateinit var MongoConnectionPool: MongoConnectionPool
+    lateinit var FlatFileConnectionPool: FlatfileConnectionPool
+
     lateinit var dataHandler: DataHandler
 
     //global properties
@@ -33,7 +35,6 @@ object Alchemist
 
     // store type information
     var usingMongo = false
-    var flatfileDirectory: String? = null
 
     var gson: Gson = GsonBuilder()
         .setLongSerializationPolicy(LongSerializationPolicy.STRING)
@@ -58,7 +59,12 @@ object Alchemist
             usingMongo = true
         } else
         {
-            flatfileDirectory = directory
+            this.MongoConnectionPool = mongoConnectionPool!!
+            this.FlatFileConnectionPool = FlatfileConnectionPool().apply {
+                this.directory = directory
+            }
+
+            this.dataHandler = DataHandler.withConnectionPool(MongoConnectionPool)
         }
 
         if (needsRedis)
@@ -77,6 +83,17 @@ object Alchemist
         if (needsRedis)
         {
             UUIDCache.loadAllFromRedis()
+        }
+    }
+    
+    fun getDataStoreMethod(): DataStoreType
+    {
+        return if (usingMongo)
+        {
+            DataStoreType.MONGO
+        } else
+        {
+            DataStoreType.FLATFILE
         }
     }
 }

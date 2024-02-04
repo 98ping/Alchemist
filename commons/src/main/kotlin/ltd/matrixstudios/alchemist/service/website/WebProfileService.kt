@@ -8,7 +8,7 @@ import org.bson.Document
 import java.util.*
 object WebProfileService : GeneralizedService
 {
-    var handler = Alchemist.dataHandler.createStoreType<UUID, AlchemistUser>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<UUID, AlchemistUser>(Alchemist.getDataStoreMethod())
     val collection = Alchemist.MongoConnectionPool.getCollection("alchemistuser")
 
     fun byId(uuid: UUID): AlchemistUser? {

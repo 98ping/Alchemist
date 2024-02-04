@@ -64,7 +64,8 @@ class AlchemistSpigotPlugin : JavaPlugin()
         sendStartupMSG()
 
         val startMongo = System.currentTimeMillis()
-        val enabled = true
+
+        val enabled = config.getBoolean("mongo.enabled")
         val authEnabled = config.getBoolean("mongo.auth")
         val uri = config.getString("uri")
 

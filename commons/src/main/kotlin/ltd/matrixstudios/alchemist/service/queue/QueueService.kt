@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 object QueueService : GeneralizedService {
 
     var cache = ConcurrentHashMap<String, QueueModel>()
-    val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(DataStoreType.MONGO)
+    val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(Alchemist.getDataStoreMethod())
 
     fun loadAllQueues() {
         cache.clear()

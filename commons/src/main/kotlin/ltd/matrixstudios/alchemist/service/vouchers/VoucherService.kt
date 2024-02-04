@@ -15,8 +15,8 @@ object VoucherService : GeneralizedService {
     val voucherGrants: ConcurrentHashMap<UUID, MutableList<VoucherGrant>> = ConcurrentHashMap()
     val voucherTemplates: ConcurrentHashMap<String, VoucherTemplate> = ConcurrentHashMap()
 
-    val handler = Alchemist.dataHandler.createStoreType<UUID, VoucherGrant>(DataStoreType.MONGO)
-    val handlerTemplates = Alchemist.dataHandler.createStoreType<String, VoucherTemplate>(DataStoreType.MONGO)
+    val handler = Alchemist.dataHandler.createStoreType<UUID, VoucherGrant>(Alchemist.getDataStoreMethod())
+    val handlerTemplates = Alchemist.dataHandler.createStoreType<String, VoucherTemplate>(Alchemist.getDataStoreMethod())
 
     val collection: MongoCollection<Document> = Alchemist.MongoConnectionPool.getCollection("vouchergrant")
 

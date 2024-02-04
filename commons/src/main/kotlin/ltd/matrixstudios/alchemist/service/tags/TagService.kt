@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object TagService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, Tag>(DataStoreType.MONGO)
+    var handler = Alchemist.dataHandler.createStoreType<String, Tag>(Alchemist.getDataStoreMethod())
     var cache = ConcurrentHashMap<String, Tag>()
 
     fun loadTags() {
