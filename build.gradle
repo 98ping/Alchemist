@@ -25,11 +25,6 @@ allprojects {
     }
 }
 
-compileKotlin {
-    kotlinOptions.javaParameters = true
-    kotlinOptions.jvmTarget = "1.8"
-}
-
 subprojects {
     apply plugin: "java"
     apply plugin: "org.jetbrains.kotlin.jvm"
@@ -49,5 +44,14 @@ subprojects {
 
         // honey
         implementation "ltd.matrixstudios:honey:1.0.0"
+    }
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    }
+
+    compileKotlin {
+        kotlinOptions.javaParameters = true
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
