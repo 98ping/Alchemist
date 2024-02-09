@@ -33,6 +33,7 @@ open class AlchemistWebApplication
 		}
 
 		Alchemist.start(
+			true,
 			connectionPool,
 			false,
 			"localhost",
