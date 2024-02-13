@@ -20,7 +20,7 @@ class AlchemistDiscordBot
         fun main(args: Array<String>) {
             instance = AlchemistDiscordBot()
 
-            instance.start("Nzk0ODAwOTIyMTk0MzQ2MDU1.GJTcaN.vgeCwLO9MZAjrP85aKGktIyBlwFz5MK27LP3yU")
+            instance.start("token")
         }
     }
 
