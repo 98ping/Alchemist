@@ -45,15 +45,18 @@ object SyncCommand : ListenerAdapter()
 
                         if (currentRoleId == null)
                         {
-                            event.reply("Your rank does not have a Discord role setup for it!")
+                            event.reply("Your rank does not have a Discord role setup for it!").setEphemeral(true)
+                                .queue()
                             return@thenAccept
                         }
 
-                        val discordRole = event.guild?.roles?.firstOrNull { role -> role.id.equals(currentRoleId, ignoreCase = true) }
+                        val discordRole =
+                            event.guild?.roles?.firstOrNull { role -> role.id.equals(currentRoleId, ignoreCase = true) }
 
                         if (discordRole == null)
                         {
-                            event.reply("Unable to find the linked role in the Discord server!")
+                            event.reply("Unable to find the linked role in the Discord server!").setEphemeral(true)
+                                .queue()
                             return@thenAccept
                         }
 
@@ -64,7 +67,7 @@ object SyncCommand : ListenerAdapter()
 
                             if (member == null)
                             {
-                                event.reply("You are not a member of this Discord server!")
+                                event.reply("You are not a member of this Discord server!").setEphemeral(true).queue()
                                 return@thenAccept
                             }
 
