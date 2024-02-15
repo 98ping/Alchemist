@@ -51,13 +51,13 @@ class AlchemistDiscordBot
             Commands.slash("sync", "Sync your in-game rank with your Discord rank.")
                 .addOption(
                     OptionType.STRING,
-                    "Username",
+                    "username",
                     "The username of the account that you synced on",
                     true
                 )
                 .addOption(
                     OptionType.STRING,
-                    "Sync Code",
+                    "sync-code",
                     "The code that you receive in-game when you execute the sync command",
                     true
                 )
