@@ -66,6 +66,12 @@ class ProfileJoinListener : Listener
             rank = profile.getCurrentRank()
         }
 
+        var nameString = profile.username
+
+        if (profile.skinDisguiseAttribute != null)
+        {
+            nameString = profile.skinDisguiseAttribute!!.customName
+        }
 
         //set format first
         val configFormat = AlchemistSpigotPlugin.instance.config.getString("chat.format")
@@ -73,7 +79,7 @@ class ProfileJoinListener : Listener
             configFormat
                 .replace("<prefix_string>", prefixString)
                 .replace("<rank_string>", rank.prefix)
-                .replace("<player_name>", profile.username)
+                .replace("<player_name>", nameString)
                 .replace("<color_string>", colorString)
                 .replace("<message>", "%2\$s")
         )
