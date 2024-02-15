@@ -89,7 +89,7 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
                 this.uri = config.getString("uri")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 config.getString("redis.host"),
                 config.getInt("redis.port"),
@@ -106,7 +106,7 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
                 authDb = config.getString("mongo.authDB")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 config.getString("redis.host"),
                 config.getInt("redis.port"),
@@ -120,7 +120,7 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
                 databaseName = config.getString("mongo.database")
             }
 
-            Alchemist.start(connectionPool,
+            Alchemist.start(true, connectionPool,
                 true,
                 config.getString("redis.host"),
                 config.getInt("redis.port"),
