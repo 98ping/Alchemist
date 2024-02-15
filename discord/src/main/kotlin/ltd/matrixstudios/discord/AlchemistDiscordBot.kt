@@ -1,6 +1,8 @@
 package ltd.matrixstudios.discord
 
 
+import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
+import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.discord.configuration.ConfigurationService
 import ltd.matrixstudios.discord.links.DownloadAlchemistCommand
 import ltd.matrixstudios.discord.sync.SyncCommand
@@ -49,6 +51,12 @@ class AlchemistDiscordBot
             Commands.slash("sync", "Sync your in-game rank with your Discord rank.")
                 .addOption(
                     OptionType.STRING,
+                    "Username",
+                    "The username of the account that you synced on",
+                    true
+                )
+                .addOption(
+                    OptionType.STRING,
                     "Sync Code",
                     "The code that you receive in-game when you execute the sync command",
                     true
@@ -58,6 +66,19 @@ class AlchemistDiscordBot
         commands.forEach {
             jda.addEventListener(it)
         }
+
+        Alchemist.start(
+            true,
+            URIMongoConnectionPool().apply {
+                this.uri = ConfigurationService.configuration.getMongoURI()
+                this.databaseName = "Alchemist"
+            },
+            false,
+            "127.0.0.1",
+            6739,
+            null,
+            null
+        )
 
         jda.awaitReady()
     }

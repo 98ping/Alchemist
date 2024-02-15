@@ -1,12 +1,9 @@
 package ltd.matrixstudios.discord.links
 
-import ltd.matrixstudios.discord.framework.DiscordCommand
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-
-@DiscordCommand(name = "download-alchemist", description = "Find out where you can download Alchemist!")
 object DownloadAlchemistCommand : ListenerAdapter()
 {
     @Override

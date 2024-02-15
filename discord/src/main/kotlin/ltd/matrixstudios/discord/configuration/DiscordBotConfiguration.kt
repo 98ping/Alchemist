@@ -10,4 +10,9 @@ interface DiscordBotConfiguration
     @EntryName("getSyncChannelId")
     @DefaultString("CHANNEL-ID")
     fun getSyncChannelId(): String
+
+    @Intrinsic
+    @EntryName("mongo-uri")
+    @DefaultString("mongodb://localhost:27017")
+    fun getMongoURI(): String
 }
