@@ -25,7 +25,7 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
     //apis
-    implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
+    implementation 'co.aikar:acf-paper:0.5.1-20240125.131356-33'
     implementation "net.kyori:adventure-platform-bukkit:4.3.0"
     compileOnly 'me.clip:placeholderapi:2.11.2'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
