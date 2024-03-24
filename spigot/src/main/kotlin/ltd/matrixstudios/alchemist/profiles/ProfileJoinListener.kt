@@ -213,26 +213,32 @@ class ProfileJoinListener : Listener
     {
         val player = event.player
 
-        val allCallbacks = mutableListOf<(Player) -> Unit>().also {
-            it.addAll(BukkitPostLoginConnection.allCallbacks + BukkitPostLoginConnection.allLazyCallbacks)
-        }
-
-        for (cback in allCallbacks)
+        if (!AlchemistSpigotPlugin.instance.config.getBoolean("debug.noJoinEvents"))
         {
-            cback.invoke(player)
+            val allCallbacks = mutableListOf<(Player) -> Unit>().also {
+                it.addAll(BukkitPostLoginConnection.allCallbacks + BukkitPostLoginConnection.allLazyCallbacks)
+            }
+
+            for (cback in allCallbacks)
+            {
+                cback.invoke(player)
+            }
         }
     }
 
     @EventHandler
     fun join(event: AsyncPlayerPreLoginEvent)
     {
-        val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
-            it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
-        }
-
-        for (cback in allCallbacks)
+        if (!AlchemistSpigotPlugin.instance.config.getBoolean("debug.noJoinEvents"))
         {
-            cback.invoke(event)
+            val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
+                it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
+            }
+
+            for (cback in allCallbacks)
+            {
+                cback.invoke(event)
+            }
         }
     }
 

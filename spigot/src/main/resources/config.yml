@@ -19,6 +19,9 @@ redis:
   username: ""
   password: ""
 
+debug:
+  noJoinEvents: false
+
 hubCommand:
   enabled: true
   loadBalance: true
