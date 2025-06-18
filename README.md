@@ -3,6 +3,8 @@ A swift and efficient rank core meant to work on all versions
 
 Made by 98ping, utilized projects from devrawr and aikiar
 
+*vifez was here lol*
+
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-2.9-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/badge/kotlin-1.6.10-blue.svg" />
