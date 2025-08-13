@@ -20,7 +20,6 @@ allprojects {
         maven { url "https://repo.aikar.co/content/groups/aikar/" }
         maven { url 'https://papermc.io/repo/repository/maven-public/' }
         maven { url 'https://hub.spigotmc.org/nexus/content/groups/public/' }
-        maven { url "https://maven.matrixstudios.ltd/public" }
     }
 }
 
@@ -42,7 +41,7 @@ subprojects {
         implementation 'org.apache.maven:maven-artifact:3.0.3'
 
         // honey
-        implementation "ltd.matrixstudios:honey:1.0.0"
+        implementation fileTree(include: ['honey.jar'], dir: 'lib')
     }
 
     java {
