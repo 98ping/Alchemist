@@ -70,7 +70,7 @@ class AlchemistDiscordBot
         Alchemist.start(
             true,
             URIMongoConnectionPool().apply {
-                this.uri = ConfigurationService.configuration.getMongoURI()
+                this.uri = "mongodb://localhost:27017"
                 this.databaseName = "Alchemist"
             },
             false,

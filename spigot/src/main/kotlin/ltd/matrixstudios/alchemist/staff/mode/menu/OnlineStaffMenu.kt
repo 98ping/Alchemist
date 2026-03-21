@@ -7,7 +7,7 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
+import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -74,7 +74,7 @@ class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player)
 
         override fun getButtonItem(player: Player): ItemStack
         {
-            val skull = SkullUtil.generate(this.player.name, "")
+            val skull = ItemStack(Material.SKULL_ITEM, 1, 3)
 
             return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList())
                 .name(Chat.format(AlchemistAPI.getRankDisplay(this.player.uniqueId))).build()

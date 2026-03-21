@@ -5,9 +5,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullButtonOnlyName
 import net.pinger.disguise.DisguiseAPI
 import net.pinger.disguise.exception.UserNotFoundException
 import net.pinger.disguise.skin.Skin
@@ -23,10 +21,10 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
 
         for (skin in DisguiseService.commonSkins.entries)
         {
-            buttons[i++] = SkullButton(
-                skin.value.value,
+            buttons[i++] = SimpleActionButton(
+                Material.SKULL_ITEM,
                 mutableListOf(),
-                Chat.format("&9${skin.key}'s Skin")
+                Chat.format("&9${skin.key}'s Skin"), 3
             ).setBody { player, i, clickType ->
                 player.closeInventory()
                 DisguiseService.setupDisguise(player, name, skin.value)
@@ -54,10 +52,11 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
     {
         return mutableMapOf(
             1 to Button.placeholder(),
-            2 to SkullButtonOnlyName(
-                player.name,
+            2 to SimpleActionButton(
+                Material.SKULL_ITEM,
+                mutableListOf(),
                 Chat.format("&aUse Your Current Skin"),
-                mutableListOf()
+                3
             ).setBody { player, i, clickType ->
                 player.closeInventory()
                 val skin = DisguiseAPI.getSkinManager().getFromMojang(player.name)
@@ -71,10 +70,11 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                 DisguiseService.setupDisguise(player, name, skin)
             },
             3 to Button.placeholder(),
-            6 to SkullButtonOnlyName(
-                name,
+            6 to SimpleActionButton(
+                Material.SKULL_ITEM,
+                mutableListOf(),
                 Chat.format("&9Use ${name}'s Skin"),
-                mutableListOf()
+                3
             ).setBody { player, i, clickType ->
                 player.closeInventory()
                 val skin = DisguiseAPI.getSkinManager().getFromMojang(player.name)

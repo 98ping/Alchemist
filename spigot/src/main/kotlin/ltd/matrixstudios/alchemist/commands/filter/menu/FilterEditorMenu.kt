@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -23,10 +23,10 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player)
     {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[4] = SkullButton(
-            "ewogICJ0aW1lc3RhbXAiIDogMTY1NjAyNzIyNzA4NiwKICAicHJvZmlsZUlkIiA6ICI4N2RiMmNjNWY4Y2I0MjI4YTU0OGRiMzJlM2Y0NmFmNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJZVG1hdGlhczEzbG9sIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzJhYjc1YzRhZTBmNmFmYTNkZmUyYmExODJlMTA5MzVmMDAwYmEzNTQ5YzUzMjI5OWY5YjUwMjUxM2U3Zjk5Y2UiCiAgICB9CiAgfQp9",
+        buttons[4] = SimpleActionButton(
+            Material.ITEM_FRAME,
             listOf(" ", Chat.format("&7Create a new filter")).toMutableList(),
-            "&aNew Filter"
+            "&aNew Filter", 0
         ).setBody { player, i, clickType ->
 
 

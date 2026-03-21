@@ -7,7 +7,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -42,7 +41,8 @@ class IgnoredPlayersMenu(val player: Player) : BorderedPaginatedMenu(player)
         override fun getButtonItem(player: Player): ItemStack
         {
             return ItemBuilder
-                .copyOf(SkullUtil.generate(profile.username, profile.getRankDisplay()))
+                .copyOf(ItemStack(Material.SKULL_ITEM, 1, 3))
+                .name(profile.getRankDisplay())
                 .setLore(getDescription(player).toList()).build()
         }
 

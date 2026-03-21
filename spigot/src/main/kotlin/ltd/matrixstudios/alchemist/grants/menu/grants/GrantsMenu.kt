@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.profiles.commands.player.WipeGrantsCommand
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -49,9 +49,9 @@ class GrantsMenu(
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
-            3 to SkullButton(
-                "eyJ0aW1lc3RhbXAiOjE1MTA5MzU0NTkwMTMsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2VlMWFjMzk4MmI4MTk5MzE1MmNhZDVmZWI1NmE3NWM4MzA3MmE1NjU1ZGMwNzEzN2ZkNjVkMWZmODk1MjI4MSJ9fX0=",
-                getFilterDesc(), Chat.format("&eFilter Grants")
+            3 to SimpleActionButton(
+                Material.HOPPER,
+                getFilterDesc(), Chat.format("&eFilter Grants"), 0
             ).setBody { player, i, clickType ->
                 val values = GrantFilter.values()
                 val index = values.indexOf(grantFilter)
@@ -90,8 +90,8 @@ class GrantsMenu(
                 ).updateMenu()
             },
             4 to Button.placeholder(),
-            5 to SkullButton(
-                "ewogICJ0aW1lc3RhbXAiIDogMTY1NzEzMDk3Nzg4NCwKICAicHJvZmlsZUlkIiA6ICI4N2RlZmVhMTQwMWQ0MzYxODFhNmNhOWI3ZGQ2ODg0MyIsCiAgInByb2ZpbGVOYW1lIiA6ICJTcGh5bnhpdHMiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGVjNjIxM2Y1ZGM4NmNkYjM2OWQ5NTEyN2Q3MmIwMGIwMzNlMGY5YWI1OTcwYTQ3NmRhZDdiZGRjOWZlOGYiCiAgICB9CiAgfQp9",
+            5 to SimpleActionButton(
+                Material.BARRIER,
                 mutableListOf(
                     " ",
                     Chat.format("&eClick to wipe every grant from"),
@@ -105,7 +105,7 @@ class GrantsMenu(
                         ).size + " &aentries"
                     ),
                     " "
-                ), Chat.format("&eWipe Grants")
+                ), Chat.format("&eWipe Grants"), 0
             ).setBody { player, i, clickType ->
                 if (player.hasPermission("alchemist.owner"))
                 {

@@ -5,7 +5,8 @@ import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu(player)
@@ -20,28 +21,28 @@ class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu
     {
         val buttons = mutableMapOf<Int, Button>()
 
-        buttons[3] = SkullButton(
-            "ewogICJ0aW1lc3RhbXAiIDogMTU5NDY4ODM2Njc4MCwKICAicHJvZmlsZUlkIiA6ICJiNzQ3OWJhZTI5YzQ0YjIzYmE1NjI4MzM3OGYwZTNjNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTeWxlZXgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzU2YThkYzM3OGJkMzRjODVlNzc3NTlkYTM1OWExOGMxOTUzNTAxNTJlMmY4MzI0NjYxMGFhYjhlYTRiZDg0ZSIKICAgIH0KICB9Cn0=",
+        buttons[3] = SimpleActionButton(
+            Material.WATCH,
             listOf(" ", Chat.format("&eClick to set your type to &6Video")).toMutableList(),
-            "&6Video"
+            "&6Video", 0
         ).setBody { player, i, clickType ->
             ProofInputLinkMenu(player, punishment, ProofEntry.ProofType.VIDEO).openMenu()
 
         }
 
-        buttons[4] = SkullButton(
-            "eyJ0aW1lc3RhbXAiOjE1NTA0NjU3NzQ1OTIsInByb2ZpbGVJZCI6IjkxZjA0ZmU5MGYzNjQzYjU4ZjIwZTMzNzVmODZkMzllIiwicHJvZmlsZU5hbWUiOiJTdG9ybVN0b3JteSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQ2MjVlOWE2MmUwNWI2ZGE0NjVlY2RjNGRjMDRiOWJmZjk0ZGNhNzVkYTA0ZTJkZjM2NzU5N2Y2ZGQ5YWZiMyJ9fX0=",
+        buttons[4] = SimpleActionButton(
+            Material.PAINTING,
             listOf(" ", Chat.format("&eClick to set your type to &6Image")).toMutableList(),
-            "&6Image"
+            "&6Image", 0
         ).setBody { player, i, clickType ->
             ProofInputLinkMenu(player, punishment, ProofEntry.ProofType.IMAGES).openMenu()
 
         }
 
-        buttons[5] = SkullButton(
-            "eyJ0aW1lc3RhbXAiOjE1NzIyMjkwMDE5MjgsInByb2ZpbGVJZCI6ImZkNjBmMzZmNTg2MTRmMTJiM2NkNDdjMmQ4NTUyOTlhIiwicHJvZmlsZU5hbWUiOiJSZWFkIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9kYzI4YzQ4MjcxMDU2MWIxMDdlYjgzMTc5ZGJlYjc0ZjJhMGNjNDFlZDQ5MGYzOWNkNGVkZmUwZTA0N2Q2ZjBjIn19fQ==",
+        buttons[5] = SimpleActionButton(
+            Material.PAPER,
             listOf(" ", Chat.format("&eClick to set your type to &6Classified")).toMutableList(),
-            "&6Classified"
+            "&6Classified", 0
         ).setBody { player, i, clickType ->
             ProofInputLinkMenu(player, punishment, ProofEntry.ProofType.STAFF_SUPERVISION).openMenu()
 

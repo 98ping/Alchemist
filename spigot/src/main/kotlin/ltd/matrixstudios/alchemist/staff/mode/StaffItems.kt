@@ -4,7 +4,6 @@ import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.serialize.type.ItemStackAdapter
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -64,7 +63,7 @@ object StaffItems
 
                 player.inventory.setItem(
                     6,
-                    ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build()
+                    ItemBuilder.copyOf(ItemStack(Material.SKULL_ITEM, 1, 3)).name("&bOnline Staff").build()
                 )
                 player.inventory.setItem(7, VANISH)
                 player.inventory.setItem(8, FREEZE)

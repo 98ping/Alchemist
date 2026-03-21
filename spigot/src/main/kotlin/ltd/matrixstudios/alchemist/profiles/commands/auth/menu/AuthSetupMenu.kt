@@ -8,7 +8,7 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
@@ -143,7 +143,7 @@ class AuthSetupMenu(val player: Player) : Menu(player)
 
         override fun getButtonItem(player: Player): ItemStack
         {
-            val skull = SkullUtil.generate(player.name, "")
+            val skull = ItemStack(Material.SKULL_ITEM, 1, 3)
 
             return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList())
                 .name(Chat.format("&6&lYour Profile")).build()

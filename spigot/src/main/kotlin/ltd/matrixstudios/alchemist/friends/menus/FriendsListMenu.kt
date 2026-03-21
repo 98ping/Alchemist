@@ -9,7 +9,6 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -97,7 +96,7 @@ class FriendsListMenu(val player: Player, val profile: GameProfile, val filter: 
         {
             val name = Chat.format(AlchemistAPI.getRankDisplay(profile.uuid))
             val desc = getDescription(player)
-            val skullItem = SkullUtil.generate(profile.username, name)
+            val skullItem = ItemStack(Material.SKULL_ITEM, 1, 3)
 
             return ItemBuilder.copyOf(skullItem).setLore(desc.toList()).name(name).build()
         }

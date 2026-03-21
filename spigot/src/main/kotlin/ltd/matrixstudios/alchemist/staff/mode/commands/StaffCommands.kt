@@ -10,8 +10,8 @@ import ltd.matrixstudios.alchemist.staff.mode.StaffItems
 import ltd.matrixstudios.alchemist.staff.mode.StaffSuiteManager
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class StaffCommands : BaseCommand()
@@ -42,7 +42,7 @@ class StaffCommands : BaseCommand()
 
         bukkitPlayer.inventory.setItem(
             6,
-            ItemBuilder.copyOf(SkullUtil.generate(player.name, "")).name("&bOnline Staff").build()
+            ItemBuilder.copyOf(ItemStack(Material.SKULL_ITEM, 1, 3)).name("&bOnline Staff").build()
         )
         bukkitPlayer.inventory.setItem(7, StaffItems.VANISH)
         bukkitPlayer.inventory.setItem(8, StaffItems.FREEZE)

@@ -9,7 +9,7 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.InputPrompt
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
+import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
 import org.bukkit.Material
@@ -68,15 +68,15 @@ class RankEditorMenu(
                     RankEditorMenu(player, getRanksBasedOnFilter(values[next]).toList(), values[next]).updateMenu()
                 },
 
-                5 to SkullButton(
-                    "eyJ0aW1lc3RhbXAiOjE1NzEzMTYzMzY1MjgsInByb2ZpbGVJZCI6IjVkZTZlMTg0YWY4ZDQ5OGFiYmRlMDU1ZTUwNjUzMzE2IiwicHJvZmlsZU5hbWUiOiJBc3Nhc2luSmlhbmVyMjUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzlhNmUwYzE2ZGYwMTMzNDE4OGVhNjliNzVjN2M4Y2IxOGVmODZmMjZhMTVjYTk2YTJkYTI1MWVhZGQ5NDU1NTkifX19",
+                5 to SimpleActionButton(
+                    Material.SIGN,
                     mutableListOf(
                         Chat.format("&7Type any search query to be shown"),
                         Chat.format("&7a list of ranks that match the search"),
                         "",
                         Chat.format("&aClick to query!")
                     ),
-                    "&eQuery Ranks"
+                    "&eQuery Ranks", 0
                 ).setBody { player, i, clickType ->
                     InputPrompt()
                         .withText(Chat.format("&eType any search query to be shown a list of ranks that match the search"))

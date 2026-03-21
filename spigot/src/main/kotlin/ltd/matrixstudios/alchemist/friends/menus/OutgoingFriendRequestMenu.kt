@@ -8,7 +8,6 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.type.BorderedPaginatedMenu
-import ltd.matrixstudios.alchemist.util.skull.SkullUtil
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -45,11 +44,9 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile, va
             if (profile != null)
             {
                 return ItemBuilder.copyOf(
-                    SkullUtil.generate(
-                        profile.username,
-                        Chat.format(profile.getCurrentRank().prefix + profile.getRankDisplay())
-                    )
-                ).setLore(getDescription(player).toList()).build()
+                    ItemStack(Material.SKULL_ITEM, 1, 3)
+                ).name(Chat.format(profile.getCurrentRank().prefix + profile.getRankDisplay()))
+                    .setLore(getDescription(player).toList()).build()
             }
 
             return ItemBuilder.of(Material.REDSTONE_BLOCK).name(Chat.format("&cProfile Not Found"))
