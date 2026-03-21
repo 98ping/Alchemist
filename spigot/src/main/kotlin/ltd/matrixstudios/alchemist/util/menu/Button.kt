@@ -42,9 +42,38 @@ abstract class Button
             return getButtonItem(player)!!
         }
 
-        val itemStack = ItemStack(getMaterial(player))
+        var material = getMaterial(player)
+        val data = getData(player)
 
-        itemStack.durability = getData(player)
+        val typeName = material.name
+        if (typeName == "WOOL" || typeName == "STAINED_GLASS_PANE" || typeName == "STAINED_GLASS" || typeName == "STAINED_CLAY" || typeName == "CARPET") {
+            try {
+                val dye = org.bukkit.DyeColor.getByWoolData(data.toByte())
+                if (dye != null) {
+                    val suffix = when (typeName) {
+                        "STAINED_GLASS_PANE" -> "_STAINED_GLASS_PANE"
+                        "STAINED_GLASS" -> "_STAINED_GLASS"
+                        "STAINED_CLAY" -> "_TERRACOTTA"
+                        "CARPET" -> "_CARPET"
+                        else -> "_WOOL"
+                    }
+                    val modernName = dye.name + suffix
+                    var modern: org.bukkit.Material? = null
+                    try {
+                        val method = org.bukkit.Material::class.java.getMethod("matchMaterial", String::class.java, Boolean::class.javaPrimitiveType)
+                        modern = method.invoke(null, modernName, false) as org.bukkit.Material?
+                    } catch (e: Exception) {}
+                    if (modern != null) {
+                        material = modern
+                    }
+                }
+            } catch (e: Exception) {}
+        }
+
+        val itemStack = ItemStack(material)
+        if (material == getMaterial(player)) {
+            itemStack.durability = data
+        }
 
         val itemMeta = itemStack.itemMeta
 

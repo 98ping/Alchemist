@@ -7,7 +7,6 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
-import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player

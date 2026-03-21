@@ -25,6 +25,32 @@ class ItemBuilder(private val item: ItemStack)
 
     fun data(data: Short): ItemBuilder
     {
+        val typeName = item.type.name
+        if (typeName == "WOOL" || typeName == "STAINED_GLASS_PANE" || typeName == "STAINED_GLASS" || typeName == "STAINED_CLAY" || typeName == "CARPET") {
+            try {
+                val dye = org.bukkit.DyeColor.getByWoolData(data.toByte())
+                if (dye != null) {
+                    val suffix = when (typeName) {
+                        "STAINED_GLASS_PANE" -> "_STAINED_GLASS_PANE"
+                        "STAINED_GLASS" -> "_STAINED_GLASS"
+                        "STAINED_CLAY" -> "_TERRACOTTA"
+                        "CARPET" -> "_CARPET"
+                        else -> "_WOOL"
+                    }
+                    val modernName = dye.name + suffix
+                    var modern: org.bukkit.Material? = null
+                    try {
+                        val method = org.bukkit.Material::class.java.getMethod("matchMaterial", String::class.java, Boolean::class.javaPrimitiveType)
+                        modern = method.invoke(null, modernName, false) as org.bukkit.Material?
+                    } catch (e: Exception) {}
+                    if (modern != null) {
+                        item.type = modern
+                        return this
+                    }
+                }
+            } catch (e: Exception) {}
+        }
+
         item.durability = data
         return this
     }

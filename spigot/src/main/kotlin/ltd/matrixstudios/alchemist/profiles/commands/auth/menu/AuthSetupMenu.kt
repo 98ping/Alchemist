@@ -8,7 +8,6 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.PlaceholderButton
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import ltd.matrixstudios.alchemist.util.totp.TOTPUtil
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.HoverEvent
