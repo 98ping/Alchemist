@@ -44,9 +44,11 @@ abstract class Button
 
         var material = getMaterial(player)
         val data = getData(player)
+        var useLegacyData = true
 
         val typeName = material.name
-        if (typeName == "WOOL" || typeName == "STAINED_GLASS_PANE" || typeName == "STAINED_GLASS" || typeName == "STAINED_CLAY" || typeName == "CARPET") {
+        if (typeName == "WOOL" || typeName == "STAINED_GLASS_PANE" || typeName == "STAINED_GLASS" || typeName == "STAINED_CLAY" || typeName == "CARPET")
+        {
             try {
                 val dye = org.bukkit.DyeColor.getByWoolData(data.toByte())
                 if (dye != null) {
@@ -58,25 +60,29 @@ abstract class Button
                         else -> "_WOOL"
                     }
                     val modernName = dye.name + suffix
-                    var modern: org.bukkit.Material? = null
+                    var modern: Material? = null
                     try {
-                        val method = org.bukkit.Material::class.java.getMethod("matchMaterial", String::class.java, Boolean::class.javaPrimitiveType)
-                        modern = method.invoke(null, modernName, false) as org.bukkit.Material?
+                        val method = Material::class.java.getMethod("matchMaterial", String::class.java, Boolean::class.javaPrimitiveType)
+                        modern = method.invoke(null, modernName, false) as Material?
                     } catch (e: Exception) {}
                     if (modern != null) {
                         material = modern
+                        useLegacyData = false
                     }
                 }
             } catch (e: Exception) {}
         }
 
         val itemStack = ItemStack(material)
-        if (material == getMaterial(player)) {
-            itemStack.durability = data
+
+        if (useLegacyData && data.toInt() != 0)
+        {
+            try {
+                itemStack.durability = data
+            } catch (e: Exception) { }
         }
 
         val itemMeta = itemStack.itemMeta
-
         itemMeta.displayName = getDisplayName(player)
         itemMeta.lore = getDescription(player)
         itemStack.itemMeta = itemMeta
