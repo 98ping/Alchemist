@@ -118,7 +118,7 @@ abstract class PaginatedMenu(
         {
             override fun getMaterial(player: Player): Material
             {
-                return Material.MELON
+                return Material.PAPER
             }
 
             override fun getDescription(player: Player): MutableList<String>?
@@ -168,7 +168,7 @@ abstract class PaginatedMenu(
         {
             override fun getMaterial(player: Player): Material
             {
-                return Material.MELON
+                return Material.PAPER
             }
 
             override fun getDescription(player: Player): MutableList<String>?
