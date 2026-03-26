@@ -46,7 +46,7 @@ abstract class Button
         val data = getData(player)
         var useLegacyData = true
 
-        val typeName = material.name
+        val typeName = material.toString()
         if (typeName == "WOOL" || typeName == "STAINED_GLASS_PANE" || typeName == "STAINED_GLASS" || typeName == "STAINED_CLAY" || typeName == "CARPET")
         {
             try {
