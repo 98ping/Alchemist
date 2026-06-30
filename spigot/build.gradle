@@ -24,6 +24,8 @@ dependencies {
     //bukkit
     compileOnly 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
+    implementation 'com.github.cryptomorin:XSeries:9.8.1'
+
     //apis
     implementation 'co.aikar:acf-paper:0.5.1-20240125.131356-33'
     implementation "net.kyori:adventure-platform-bukkit:4.3.0"
@@ -68,4 +70,5 @@ shadowJar {
     relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated.mongo'
     relocate 'org.bson', 'ltd.matrixstudios.alchemist.relocated.bson'
     relocate 'net.kyori', 'ltd.matrixstudios.alchemist.relocated.adventure'
+    relocate 'com.cryptomorin.xseries', 'ltd.matrixstudios.alchemist.relocated.xseries'
 }
