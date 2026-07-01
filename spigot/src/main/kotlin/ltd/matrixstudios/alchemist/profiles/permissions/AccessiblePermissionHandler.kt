@@ -54,10 +54,11 @@ object AccessiblePermissionHandler
 
     fun update(player: Player, perms: Map<String, Boolean>)
     {
-        permissionAttachmentMap.putIfAbsent(player.uniqueId, player.addAttachment(AlchemistSpigotPlugin.instance))
+        val attachment = permissionAttachmentMap.getOrPut(player.uniqueId) {
+            player.addAttachment(AlchemistSpigotPlugin.instance)
+        }
         try
         {
-            val attachment = permissionAttachmentMap[player.uniqueId]
             permissionField.set(attachment, perms)
             player.recalculatePermissions()
         } catch (e: IllegalAccessException)
