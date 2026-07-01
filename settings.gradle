@@ -1,8 +1,6 @@
 rootProject.name = 'Alchemist'
 include 'commons'
 include 'spigot'
-include 'bungee'
 include 'velocity'
 include 'website'
-include 'discord'
 
