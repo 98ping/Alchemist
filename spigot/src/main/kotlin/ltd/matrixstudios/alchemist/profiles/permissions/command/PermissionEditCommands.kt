@@ -8,6 +8,8 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.profile.permissions.ApplicablePermission
+import ltd.matrixstudios.alchemist.profiles.permissions.packet.PermissionUpdatePacket
+import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.PaginatedOutput
@@ -41,6 +43,7 @@ class PermissionEditCommands : BaseCommand()
         ))
 
         ProfileGameService.save(target)
+        AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
         sender.sendMessage(Chat.format("&aYou have added the permission &f$perm &ato the player &r${target.getRankDisplay()} &aon scopes &e$scope &aand for duration &e$duration&a."))
     }
 
@@ -67,7 +70,7 @@ class PermissionEditCommands : BaseCommand()
     @CommandPermission("alchemist.command.deletepermission")
     @CommandCompletion("@gameprofile")
     fun onDeletePermission(sender: CommandSender, @Name("target") target: GameProfile, @Name("node") node: String) {
-        if (target.getExtraPermissions(false).any { it.node.equals(node, ignoreCase = true) })
+        if (target.getExtraPermissions(false).none { it.node.equals(node, ignoreCase = true) })
         {
             throw ConditionFailedException("This target does not contain this permission!")
         }
@@ -81,6 +84,7 @@ class PermissionEditCommands : BaseCommand()
 
         target.additionalPermissions = perms
         ProfileGameService.save(target)
+        AsynchronousRedisSender.send(PermissionUpdatePacket(target.uuid))
         sender.sendMessage(Chat.format("&cYou have removed the permission node &f$node &cfrom the player &r${target.getRankDisplay()}&c."))
     }
 }
