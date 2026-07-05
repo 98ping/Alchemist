@@ -6,8 +6,10 @@ import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.connection.DisconnectEvent
 import com.velocitypowered.api.event.connection.LoginEvent
 import com.velocitypowered.api.event.connection.PostLoginEvent
+import com.velocitypowered.api.event.connection.PreLoginEvent
 import com.velocitypowered.api.event.permission.PermissionsSetupEvent
 import com.velocitypowered.api.event.player.ServerConnectedEvent
+import com.velocitypowered.api.event.proxy.ProxyPingEvent
 import com.velocitypowered.api.proxy.Player
 import ltd.matrixstudios.alchemist.AlchemistVelocity
 import ltd.matrixstudios.alchemist.lockdown.LockdownManager
@@ -16,6 +18,7 @@ import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.permission.AlchemistPermissionProvider
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
+import ltd.matrixstudios.alchemist.statistics.ConnectionStatisticsService
 import org.checkerframework.checker.units.qual.A
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -65,6 +68,8 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
     @Subscribe
     fun login(event: PostLoginEvent, continuation: Continuation) {
         val player = event.player
+
+        ConnectionStatisticsService.trackSuccessfulConnection()
 
         CompletableFuture.runAsync {
             val playerRank = ProfileGameService.byId(player.uniqueId)?.getHighestGlobalRank() ?: run {
@@ -116,13 +121,23 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
         CompletableFuture.runAsync {
             if (LockdownManager.serverIsOnLockdown()) {
                 if (LockdownManager.hasClearance(event.player)) {
-                    StaffMessagePacket("&b✓ &a" + event.player.username + " has clearance for " + event.player.currentServer.get().serverInfo.name).action()
+                    StaffMessagePacket("&b✓ &a" + event.player.username + " has clearance to join during lockdown").action()
                 } else {
                     event.player.disconnect(AlchemistVelocity.color("&cServer is on lockdown and you do not have clearance!"))
                 }
             }
             continuation.resume()
         }
+    }
+
+    @Subscribe
+    fun onServerListPing(event: ProxyPingEvent) {
+        ConnectionStatisticsService.trackServerListPing()
+    }
+
+    @Subscribe
+    fun onConnectionAttempt(event: PreLoginEvent) {
+        ConnectionStatisticsService.trackConnectionAttempt()
     }
 
 

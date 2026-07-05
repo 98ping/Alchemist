@@ -35,8 +35,6 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
         config.createOrLoad()
         config.addDefaults(
             mapOf(
-                "lockdown" to true,
-
                 "mongo.host" to "127.0.0.1",
                 "mongo.port" to 27017,
                 "mongo.authDB" to "admin",
