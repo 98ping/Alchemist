@@ -2,5 +2,4 @@ rootProject.name = 'Alchemist'
 include 'commons'
 include 'spigot'
 include 'velocity'
-include 'website'
 
