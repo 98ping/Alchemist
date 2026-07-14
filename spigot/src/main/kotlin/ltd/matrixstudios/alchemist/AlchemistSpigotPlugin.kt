@@ -13,6 +13,7 @@ import ltd.matrixstudios.alchemist.grants.GrantConfigurationService
 import ltd.matrixstudios.alchemist.module.PluginModuleHandler
 import ltd.matrixstudios.alchemist.network.listener.NetworkJoinAndLeaveListener
 import ltd.matrixstudios.alchemist.placeholder.AlchemistExpansion
+import ltd.matrixstudios.alchemist.profiles.EnsureProfileListener
 import ltd.matrixstudios.alchemist.profiles.ProfileJoinListener
 import ltd.matrixstudios.alchemist.profiles.commands.auth.listener.AuthListener
 import ltd.matrixstudios.alchemist.queue.BukkitQueueHandler
@@ -165,6 +166,7 @@ class AlchemistSpigotPlugin : JavaPlugin()
         )
 
         val listenerStart = System.currentTimeMillis()
+        server.pluginManager.registerEvents(EnsureProfileListener(), this)
         server.pluginManager.registerEvents(ProfileJoinListener(), this)
         server.pluginManager.registerEvents(MenuListener(), this)
 

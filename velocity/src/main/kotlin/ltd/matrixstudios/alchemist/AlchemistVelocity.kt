@@ -12,10 +12,12 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.listener.VelocityListener
+import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.simpleyaml.configuration.file.YamlFile
 import java.nio.file.Path
+import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 
@@ -59,6 +61,10 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
     @Subscribe(order = PostOrder.FIRST)
     fun initPlugin(event: ProxyInitializeEvent) {
         server.eventManager.register(this, VelocityListener(this))
+
+        server.scheduler.buildTask(this) {
+            UniqueServerService.loadAll()
+        }.repeat(5, TimeUnit.SECONDS).schedule()
     }
 
     @Subscribe

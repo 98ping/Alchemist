@@ -6,3 +6,4 @@ softdepend:
   - PlaceholderAPI
   - DisguiseAPI
   - Vault
+  - Clerk

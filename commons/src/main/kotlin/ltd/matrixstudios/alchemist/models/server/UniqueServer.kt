@@ -16,7 +16,8 @@ data class UniqueServer(
     var lockedWithRank: Boolean = false,
     var lockRank: String,
     var lastHeartbeat: Long,
-    var serverSoftware: ServerSoftware? = null
+    var serverSoftware: ServerSoftware? = null,
+    var fakePlayers: Int = 0
 ) {
     fun findServerSoftware() : ServerSoftware {
         if (serverSoftware != null) {

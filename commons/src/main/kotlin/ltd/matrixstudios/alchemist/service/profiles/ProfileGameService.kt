@@ -122,6 +122,21 @@ object ProfileGameService : GeneralizedService {
         handler.store(gameProfile.uuid, gameProfile)
     }
 
+    fun ensureProfile(uuid: UUID, username: String): GameProfile {
+        cache[uuid]?.let { return it }
+
+        val profile = loadProfile(uuid, username)
+        profile.lastSeenAt = System.currentTimeMillis()
+        profile.username = username
+        profile.lowercasedUsername = username.lowercase(Locale.getDefault())
+
+        UUIDCache.addToFirstCache(profile.uuid, profile.lowercasedUsername)
+        UUIDCache.addToSecondCache(profile.lowercasedUsername, profile.uuid)
+
+        cache[uuid] = profile
+        return profile
+    }
+
     fun loadProfile(uuid: UUID, username: String): GameProfile {
         val cached = cache[uuid] ?: handler.retrieve(uuid)
 
