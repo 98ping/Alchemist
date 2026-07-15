@@ -17,8 +17,8 @@ import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
 import ltd.matrixstudios.alchemist.permission.AlchemistPermissionProvider
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
+import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.statistics.ConnectionStatisticsService
 import org.checkerframework.checker.units.qual.A
 import java.util.concurrent.CompletableFuture
@@ -135,7 +135,7 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
     fun onServerListPing(event: ProxyPingEvent) {
         ConnectionStatisticsService.trackServerListPing()
 
-        val fakes = UniqueServerService.getValues().filter { it.online }.sumOf { it.fakePlayers }
+        val fakes = FakePlayerCountService.cachedTotal()
         if (fakes <= 0) return
 
         val currentOnline = event.ping.players.map { it.online }.orElse(plugin.server.playerCount)

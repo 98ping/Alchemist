@@ -12,6 +12,7 @@ import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
 import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.listener.VelocityListener
+import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
@@ -65,6 +66,15 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
         server.scheduler.buildTask(this) {
             UniqueServerService.loadAll()
         }.repeat(5, TimeUnit.SECONDS).schedule()
+
+        server.scheduler.buildTask(this) {
+            try
+            {
+                FakePlayerCountService.refreshTotal()
+            } catch (ignored: Throwable)
+            {
+            }
+        }.repeat(3, TimeUnit.SECONDS).schedule()
     }
 
     @Subscribe

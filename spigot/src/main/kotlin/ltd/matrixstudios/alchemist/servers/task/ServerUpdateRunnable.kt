@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.servers.task
 
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.integration.clerk.ClerkHook
+import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
@@ -19,6 +20,13 @@ object ServerUpdateRunnable : BukkitRunnable()
         server.lastHeartbeat = System.currentTimeMillis()
         server.online = true
         server.fakePlayers = ClerkHook.fakeCount()
+
+        try
+        {
+            FakePlayerCountService.publish(server.id, server.fakePlayers)
+        } catch (ignored: Throwable)
+        {
+        }
 
         UniqueServerService.handler.store(server.id, server)
         UniqueServerService.servers[server.id] = server
