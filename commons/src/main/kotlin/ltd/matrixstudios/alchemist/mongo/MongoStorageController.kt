@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.mongo
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
-import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.mongo.extensions.deserialize
@@ -27,7 +26,7 @@ class MongoStorageController<K, V>(
     collectionName: String,
     private val serialClass: Class<V>
 ) {
-    private var collection = Alchemist.MongoConnectionPool.getCollection(collectionName)
+    private var collection = MongoManager.getCollection(collectionName)
 
     fun retrieve(
         key: K

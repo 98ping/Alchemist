@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.service.tags
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.tags.Tag
 import ltd.matrixstudios.alchemist.service.GeneralizedService
@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object TagService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, Tag>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<String, Tag>("tag", Tag::class.java)
     var cache = ConcurrentHashMap<String, Tag>()
 
     fun loadTags() {

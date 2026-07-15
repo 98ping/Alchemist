@@ -4,7 +4,8 @@ import com.google.gson.JsonObject
 import com.mongodb.BasicDBObject
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
@@ -25,10 +26,10 @@ import java.util.stream.Collectors
 object ProfileGameService : GeneralizedService {
 
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, GameProfile>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<UUID, GameProfile>("gameprofile", GameProfile::class.java)
     //val test = MongoStorageCache.create<UUID, GameProfile>("gameprofile")
 
-    val collection = Alchemist.MongoConnectionPool.getCollection("gameprofile")
+    val collection = MongoManager.getCollection("gameprofile")
 
     var cache = ConcurrentHashMap<UUID, GameProfile?>()
 
@@ -78,7 +79,7 @@ object ProfileGameService : GeneralizedService {
             }
 
             // TODO: https://www.mongodb.com/docs/manual/core/index-case-insensitive/ :)
-            val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.toLowerCase()))
+            val mongoProfile = collection.find(Filters.eq("lowercasedUsername", name.lowercase()))
 
             for (d in mongoProfile) {
                 val prof = (Alchemist.gson.fromJson(d.toJson(), GameProfile::class.java))
@@ -144,7 +145,7 @@ object ProfileGameService : GeneralizedService {
             ?: GameProfile(
                 uuid,
                 username,
-                username.toLowerCase(),
+                username.lowercase(),
                 JsonObject(),
                 "",
                 arrayListOf(),

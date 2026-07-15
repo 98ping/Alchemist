@@ -4,6 +4,11 @@ dependencies {
     implementation 'com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4'
     compileOnly 'com.velocitypowered:velocity-api:3.1.1'
     kapt 'com.velocitypowered:velocity-api:3.1.1'
+    compileOnly 'org.apache.logging.log4j:log4j-core:2.19.0'
+}
+
+kapt {
+    includeCompileClasspath = false
 }
 
 shadowJar {

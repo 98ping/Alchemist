@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
 
 object TagGrantService : ExpiringService<TagGrant>() {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, TagGrant>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<UUID, TagGrant>("taggrant", TagGrant::class.java)
 
 
     fun getValues(): CompletableFuture<Collection<TagGrant>> {

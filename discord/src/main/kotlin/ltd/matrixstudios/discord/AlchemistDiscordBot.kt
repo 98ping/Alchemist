@@ -1,7 +1,6 @@
 package ltd.matrixstudios.discord
 
 
-import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.discord.configuration.ConfigurationService
 import ltd.matrixstudios.discord.links.DownloadAlchemistCommand
@@ -68,11 +67,8 @@ class AlchemistDiscordBot
         }
 
         Alchemist.start(
-            true,
-            URIMongoConnectionPool().apply {
-                this.uri = "mongodb://localhost:27017"
-                this.databaseName = "Alchemist"
-            },
+            "mongodb://localhost:27017",
+            "Alchemist",
             false,
             "127.0.0.1",
             6739,

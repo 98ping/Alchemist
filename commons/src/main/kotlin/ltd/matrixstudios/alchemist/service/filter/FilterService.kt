@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.service.filter
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.service.GeneralizedService
@@ -11,8 +12,8 @@ import java.util.concurrent.ConcurrentHashMap
 object FilterService : GeneralizedService {
 
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Filter>(Alchemist.getDataStoreMethod())
-    val collection = Alchemist.MongoConnectionPool.getCollection("filter")
+    var handler = MongoStore<UUID, Filter>("filter", Filter::class.java)
+    val collection = MongoManager.getCollection("filter")
 
     val cache = ConcurrentHashMap<String, Filter>()
 
@@ -45,7 +46,7 @@ object FilterService : GeneralizedService {
     {
         for (filter in cache.values)
         {
-            if (message.toLowerCase().contains(filter.word.toLowerCase()))
+            if (message.lowercase().contains(filter.word.lowercase()))
             {
                 return filter
             }

@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
-import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.metrics.menu.MetricsMenu
 import ltd.matrixstudios.alchemist.metric.Metric
@@ -27,7 +27,7 @@ class MetricCommand : BaseCommand()
         val startMs = System.currentTimeMillis()
         //sends a decoy mongo request to know its working. If this takes long asf its my fault
         //for not being able to code :shrug:
-        Alchemist.MongoConnectionPool.getCollection("gameprofile").find()
+        MongoManager.getCollection("gameprofile").find()
 
         MetricService.addMetric(
             "Heartbeat",

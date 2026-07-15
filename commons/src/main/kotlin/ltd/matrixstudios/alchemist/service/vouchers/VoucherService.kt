@@ -1,7 +1,8 @@
 package ltd.matrixstudios.alchemist.service.vouchers
 
 import com.mongodb.client.MongoCollection
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.vouchers.VoucherGrant
 import ltd.matrixstudios.alchemist.models.vouchers.VoucherTemplate
@@ -15,10 +16,10 @@ object VoucherService : GeneralizedService {
     val voucherGrants: ConcurrentHashMap<UUID, MutableList<VoucherGrant>> = ConcurrentHashMap()
     val voucherTemplates: ConcurrentHashMap<String, VoucherTemplate> = ConcurrentHashMap()
 
-    val handler = Alchemist.dataHandler.createStoreType<UUID, VoucherGrant>(Alchemist.getDataStoreMethod())
-    val handlerTemplates = Alchemist.dataHandler.createStoreType<String, VoucherTemplate>(Alchemist.getDataStoreMethod())
+    val handler = MongoStore<UUID, VoucherGrant>("vouchergrant", VoucherGrant::class.java)
+    val handlerTemplates = MongoStore<String, VoucherTemplate>("vouchertemplate", VoucherTemplate::class.java)
 
-    val collection: MongoCollection<Document> = Alchemist.MongoConnectionPool.getCollection("vouchergrant")
+    val collection: MongoCollection<Document> = MongoManager.getCollection("vouchergrant")
 
     fun loadVoucherGrants() {
         val items = handler.retrieveAllAsync().thenAccept { voucherCollection ->
