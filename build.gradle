@@ -41,8 +41,14 @@ subprojects {
         //apache
         implementation 'org.apache.maven:maven-artifact:3.0.3'
 
-        // honey
-        implementation fileTree(include: ['honey.jar'], dir: 'lib')
+        //mongo
+        implementation 'org.mongodb:mongodb-driver-legacy:4.11.1'
+
+        //redis
+        implementation 'redis.clients:jedis:5.2.0'
+
+        //gson
+        implementation 'com.google.code.gson:gson:2.10.1'
     }
 
     java {

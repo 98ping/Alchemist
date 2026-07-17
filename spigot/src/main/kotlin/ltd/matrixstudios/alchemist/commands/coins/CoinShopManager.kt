@@ -2,6 +2,7 @@ package ltd.matrixstudios.alchemist.commands.coins
 
 import com.mongodb.client.model.UpdateOptions
 import ltd.matrixstudios.alchemist.Alchemist
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.commands.coins.category.CoinShopCategory
 import ltd.matrixstudios.alchemist.commands.coins.item.CoinShopItem
 import ltd.matrixstudios.alchemist.commands.coins.transactions.Transaction
@@ -12,9 +13,9 @@ import java.util.concurrent.CompletableFuture
 
 object CoinShopManager
 {
-    val transactions = Alchemist.MongoConnectionPool.getCollection("coinShopTransactions")
-    val items = Alchemist.MongoConnectionPool.getCollection("coinShopItems")
-    val categories = Alchemist.MongoConnectionPool.getCollection("coinShopCategories")
+    val transactions = MongoManager.getCollection("coinShopTransactions")
+    val items = MongoManager.getCollection("coinShopItems")
+    val categories = MongoManager.getCollection("coinShopCategories")
 
     val itemMap: MutableMap<String, CoinShopItem> = mutableMapOf()
     val categoryMap: MutableMap<String, CoinShopCategory> = mutableMapOf()

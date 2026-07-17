@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.service.session
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.sessions.Session
@@ -12,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap
 
 object SessionService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, Session>(Alchemist.getDataStoreMethod())
-    private val rawCollection = Alchemist.MongoConnectionPool.getCollection("session")
+    var handler = MongoStore<String, Session>("session", Session::class.java)
+    private val rawCollection = MongoManager.getCollection("session")
 
     var cache = ConcurrentHashMap<UUID, List<Session>>()
 

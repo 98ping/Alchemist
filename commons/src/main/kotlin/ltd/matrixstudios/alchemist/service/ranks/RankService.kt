@@ -1,9 +1,7 @@
 package ltd.matrixstudios.alchemist.service.ranks
 
-import com.google.gson.reflect.TypeToken
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.flatfile.FlatfileUtilities
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -13,8 +11,6 @@ import ltd.matrixstudios.alchemist.punishments.actor.DefaultActor
 import ltd.matrixstudios.alchemist.punishments.actor.executor.Executor
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import java.io.File
-import java.lang.reflect.Type
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
@@ -23,13 +19,8 @@ import java.util.concurrent.ConcurrentHashMap
 object RankService : GeneralizedService
 {
 
-    var handler = Alchemist.dataHandler.createStoreType<String, Rank>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<String, Rank>("rank", Rank::class.java)
     var ranks = ConcurrentHashMap<String, Rank>()
-
-    // flatfile info
-    lateinit var jsonFile: File
-    private val type: Type = object : TypeToken<MutableList<Rank>>()
-    {}.type
 
     var FALLBACK_RANK =
         Rank("unknown", "Unknown", "Unknown", 1, arrayListOf(), arrayListOf(), "&f", "&f") //lunar.gg feature
@@ -46,11 +37,6 @@ object RankService : GeneralizedService
 
     fun loadRanks()
     {
-        if (!Alchemist.usingMongo)
-        {
-            jsonFile = File(Alchemist.FlatFileConnectionPool.directory, "ranks.json")
-        }
-
         //since there are only a limited amount of ranks we can just load on startup
         getValues().thenAccept {
             for (rank in it)
@@ -98,32 +84,15 @@ object RankService : GeneralizedService
 
     fun getValues(): CompletableFuture<Collection<Rank>>
     {
-        return if (Alchemist.usingMongo)
-        {
-            handler.retrieveAllAsync()
-        } else
-        {
-            CompletableFuture.completedFuture(
-                FlatfileUtilities.getAllEntries(jsonFile, type, mutableListOf())
-            )
-        }
+        return handler.retrieveAllAsync()
     }
 
     fun save(rank: Rank): CompletableFuture<Void>
     {
-        if (Alchemist.usingMongo)
-        {
-            return CompletableFuture.runAsync {
-                handler.store(rank.id, rank)
-            }.thenAccept {
-                ranks[rank.id] = rank
-            }
-        } else
-        {
+        return CompletableFuture.runAsync {
+            handler.store(rank.id, rank)
+        }.thenAccept {
             ranks[rank.id] = rank
-            FlatfileUtilities.writeToFile(jsonFile, ranks.values, type)
-
-            return CompletableFuture.completedFuture(null)
         }
     }
 

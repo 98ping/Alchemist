@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -13,9 +14,9 @@ import java.util.concurrent.ConcurrentHashMap
 
 object PunishmentService : ExpiringService<Punishment>() {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Punishment>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<UUID, Punishment>("punishment", Punishment::class.java)
 
-    val collection = Alchemist.MongoConnectionPool.getCollection("punishment")
+    val collection = MongoManager.getCollection("punishment")
 
     var grants = ConcurrentHashMap<UUID, MutableList<Punishment>>()
 

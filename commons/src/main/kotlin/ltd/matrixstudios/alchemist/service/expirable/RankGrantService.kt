@@ -1,6 +1,7 @@
 package ltd.matrixstudios.alchemist.service.expirable
 
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
+import ltd.matrixstudios.alchemist.mongo.MongoManager
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.grant.types.scope.GrantScope
@@ -13,10 +14,10 @@ import java.util.concurrent.ConcurrentHashMap
 object RankGrantService : ExpiringService<RankGrant>()
 {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, RankGrant>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<UUID, RankGrant>("rankgrant", RankGrant::class.java)
 
     val collection =
-        Alchemist.MongoConnectionPool.getCollection("rankgrant") //need this here because honey doesnt have a way to get raw collection
+        MongoManager.getCollection("rankgrant") //need this here because honey doesnt have a way to get raw collection
 
     var playerGrants = ConcurrentHashMap<UUID, MutableList<RankGrant>>()
 

@@ -1,7 +1,7 @@
 package ltd.matrixstudios.alchemist.service.queue
 
 import com.google.gson.reflect.TypeToken
-import io.github.nosequel.data.DataStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 object QueueService : GeneralizedService {
 
     var cache = ConcurrentHashMap<String, QueueModel>()
-    val handler = Alchemist.dataHandler.createStoreType<String, QueueModel>(Alchemist.getDataStoreMethod())
+    val handler = MongoStore<String, QueueModel>("queuemodel", QueueModel::class.java)
 
     fun loadAllQueues() {
         cache.clear()
@@ -37,9 +37,9 @@ object QueueService : GeneralizedService {
     }
 
     fun byId(id: String): CompletableFuture<QueueModel?> {
-        if (cache.containsKey(id.toLowerCase())) return CompletableFuture.completedFuture(cache[id.toLowerCase()])
+        if (cache.containsKey(id.lowercase())) return CompletableFuture.completedFuture(cache[id.lowercase()])
 
-        return handler.retrieveAsync(id.toLowerCase())
+        return handler.retrieveAsync(id.lowercase())
     }
 
     fun saveQueue(model: QueueModel) {

@@ -8,15 +8,16 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
-import io.github.nosequel.data.connection.mongo.AuthenticatedMongoConnectionPool
-import io.github.nosequel.data.connection.mongo.NoAuthMongoConnectionPool
-import io.github.nosequel.data.connection.mongo.URIMongoConnectionPool
 import ltd.matrixstudios.alchemist.listener.VelocityListener
 import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import org.apache.logging.log4j.Level
+import org.apache.logging.log4j.core.config.Configurator
 import org.simpleyaml.configuration.file.YamlFile
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
@@ -34,6 +35,8 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
 
     init {
         instance = this
+
+        Configurator.setLevel("org.mongodb.driver", Level.WARN)
 
         config.createOrLoad()
         config.addDefaults(
@@ -97,50 +100,31 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
 
     private fun setupDatabases() {
         val authEnabled = config.getBoolean("mongo.auth")
-        if (config.getString("uri") != "") {
-            val connectionPool = URIMongoConnectionPool().apply {
-                this.databaseName = config.getString("mongo.database")
-                this.uri = config.getString("uri")
-            }
+        val database = config.getString("mongo.database")
 
-            Alchemist.start(true, connectionPool,
-                true,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
+        val mongoUri = if (config.getString("uri") != "") {
+            config.getString("uri")
         } else if (authEnabled) {
-            val connectionPool = AuthenticatedMongoConnectionPool().apply {
-                hostname = config.getString("mongo.host")
-                password = config.getString("mongo.password")
-                username = config.getString("mongo.username")
-                port = config.getInt("mongo.port")
-                databaseName = config.getString("mongo.database")
-                authDb = config.getString("mongo.authDB")
-            }
+            val user = URLEncoder.encode(config.getString("mongo.username") ?: "", StandardCharsets.UTF_8.name())
+            val pass = URLEncoder.encode(config.getString("mongo.password") ?: "", StandardCharsets.UTF_8.name())
+            val host = config.getString("mongo.host")
+            val port = config.getInt("mongo.port")
+            val authDb = config.getString("mongo.authDB")
+            val authSource = if (authDb.isNullOrEmpty()) "admin" else authDb
 
-            Alchemist.start(true, connectionPool,
-                true,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
+            "mongodb://$user:$pass@$host:$port/?authSource=$authSource"
         } else {
-            val connectionPool = NoAuthMongoConnectionPool().apply {
-                hostname = config.getString("mongo.host")
-                port = config.getInt("mongo.port")
-                databaseName = config.getString("mongo.database")
-            }
-
-            Alchemist.start(true, connectionPool,
-                true,
-                config.getString("redis.host"),
-                config.getInt("redis.port"),
-                (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
-                (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
-            )
+            "mongodb://${config.getString("mongo.host")}:${config.getInt("mongo.port")}"
         }
+
+        Alchemist.start(
+            mongoUri,
+            database,
+            true,
+            config.getString("redis.host"),
+            config.getInt("redis.port"),
+            (if (config.getString("redis.username") == "") null else config.getString("redis.username")),
+            (if (config.getString("redis.password") == "") null else config.getString("redis.password"))
+        )
     }
 }

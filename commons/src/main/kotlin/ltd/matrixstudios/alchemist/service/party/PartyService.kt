@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.service.party
 
-import io.github.nosequel.data.DataStoreType
-import io.github.nosequel.data.store.type.MongoStoreType
+import ltd.matrixstudios.alchemist.mongo.MongoStore
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.filter.Filter
 import ltd.matrixstudios.alchemist.models.party.Party
@@ -12,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 
 object PartyService : GeneralizedService {
 
-    var handler = Alchemist.dataHandler.createStoreType<UUID, Party>(Alchemist.getDataStoreMethod())
+    var handler = MongoStore<UUID, Party>("party", Party::class.java)
     val backingPartyCache = mutableMapOf<UUID, Party>()
 
     fun getParty(uuid: UUID): CompletableFuture<Party?>

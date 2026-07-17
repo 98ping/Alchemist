@@ -36,6 +36,7 @@ dependencies {
     implementation "club.minnced:discord-webhooks:0.8.2"
     compileOnly 'net.luckperms:api:5.4'
     compileOnly 'com.mojang:authlib:1.5.21'
+    compileOnly 'org.apache.logging.log4j:log4j-core:2.19.0'
 
     //local files
     compileOnly fileTree(include: ['LunarClientAPI.jar', 'API-1.3.2.jar'], dir: 'lib')
