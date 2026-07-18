@@ -13,6 +13,23 @@ object ConnectionStatisticsService {
 
     fun trackSuccessfulConnection() = increment("successful")
 
+    fun fetchStatistics(): ConnectionStatistics {
+        return RedisPacketManager.pool.resource.use { jedis ->
+            val entries = jedis.hgetAll(STATISTICS_KEY) ?: emptyMap()
+            ConnectionStatistics(
+                pings = entries["pings"]?.toLongOrNull() ?: 0L,
+                attempts = entries["attempts"]?.toLongOrNull() ?: 0L,
+                successful = entries["successful"]?.toLongOrNull() ?: 0L
+            )
+        }
+    }
+
+    fun reset() {
+        RedisPacketManager.pool.resource.use { jedis ->
+            jedis.del(STATISTICS_KEY)
+        }
+    }
+
     private fun increment(field: String) {
         CompletableFuture.runAsync {
             RedisPacketManager.pool.resource.use { jedis ->
