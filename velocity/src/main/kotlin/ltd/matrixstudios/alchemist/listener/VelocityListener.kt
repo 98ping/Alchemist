@@ -23,6 +23,7 @@ import ltd.matrixstudios.alchemist.statistics.ConnectionStatisticsService
 import org.checkerframework.checker.units.qual.A
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
+import kotlin.jvm.optionals.getOrNull
 
 class VelocityListener(private val plugin: AlchemistVelocity) {
 
@@ -38,7 +39,7 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
 
             plugin.server.scheduler.buildTask(plugin) {
                 if (playerRank.staff && event.previousServer.isPresent) {
-                    StaffMessagePacket("&b[S] &r" + playerRank.color + event.player.username + " &3joined &b" + event.server.serverInfo.name + " &3from &b" + event.previousServer.get().serverInfo.name).action()
+                    StaffMessagePacket("&9[Staff] &r" + playerRank.color + event.player.username + " &bhas &ajoined &b" + event.server.serverInfo.name + " &7(from " + event.previousServer.get().serverInfo.name + ")").action()
                 }
             }.delay(100, TimeUnit.MILLISECONDS).schedule()
 
@@ -80,7 +81,7 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
 
             plugin.server.scheduler.buildTask(plugin) {
                 if (playerRank.staff) {
-                    StaffMessagePacket("&b[S] &r" + playerRank.color + player.username + " &3connected to the network").action()
+                    StaffMessagePacket("&9[Staff] &r" + playerRank.color + player.username + " &bhas &ajoined &bthe network").action()
                 }
             }.delay(100, TimeUnit.MILLISECONDS).schedule()
 
@@ -110,7 +111,7 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
 
             plugin.server.scheduler.buildTask(plugin) {
                 if (playerRank.staff) {
-                    StaffMessagePacket("&b[S] &r" + playerRank.color + player.username + " &3left the network").action()
+                    StaffMessagePacket("&9[Staff] &r" + playerRank.color + player.username + " &bhas &cleft &bthe network &7(from ${event.player.currentServer.getOrNull()?.serverInfo?.name ?: "Unknown"})").action()
                 }
             }.delay(100, TimeUnit.SECONDS).schedule()
             continuation.resume()
@@ -122,9 +123,9 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
         CompletableFuture.runAsync {
             if (LockdownManager.serverIsOnLockdown()) {
                 if (LockdownManager.hasClearance(event.player)) {
-                    StaffMessagePacket("&b✓ &a" + event.player.username + " has clearance to join during lockdown").action()
+                    StaffMessagePacket("&b&l✓ &a" + event.player.username + " has a good ticket to join during lockdown").action()
                 } else {
-                    event.player.disconnect(AlchemistVelocity.color("&cServer is on lockdown and you do not have clearance!"))
+                    event.player.disconnect(AlchemistVelocity.color("&cThe server is currently whitelisted!\nLearn more at &ediscord.kiranetwork.us"))
                 }
             }
             continuation.resume()

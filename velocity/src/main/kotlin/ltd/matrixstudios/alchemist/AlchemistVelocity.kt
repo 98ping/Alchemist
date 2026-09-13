@@ -9,6 +9,7 @@ import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import ltd.matrixstudios.alchemist.listener.VelocityListener
+import ltd.matrixstudios.alchemist.lockdown.LockdownCommand
 import ltd.matrixstudios.alchemist.statistics.ConnectionStatsCommand
 import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -72,6 +73,11 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
             .plugin(this)
             .build()
         server.commandManager.register(connectionStatsMeta, ConnectionStatsCommand())
+
+        val lockdownMeta = server.commandManager.metaBuilder("lockdown")
+            .plugin(this)
+            .build()
+        server.commandManager.register(lockdownMeta, LockdownCommand())
 
         server.scheduler.buildTask(this) {
             UniqueServerService.loadAll()
