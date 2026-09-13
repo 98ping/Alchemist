@@ -15,6 +15,7 @@ class AlchemistPermissionProvider(private val player: Player, private val profil
     }
 
     override fun getPermissionValue(permission: String): Tristate {
-        return profile.getPermissionsExclusivelyGlobal()[permission]?.let { Tristate.fromBoolean(it) } ?: Tristate.FALSE
+        val permissions = profile.getPermissionsExclusivelyGlobal()
+        return (permissions[permission] ?: permissions["%$permission"])?.let { Tristate.fromBoolean(it) } ?: Tristate.FALSE
     }
 }
