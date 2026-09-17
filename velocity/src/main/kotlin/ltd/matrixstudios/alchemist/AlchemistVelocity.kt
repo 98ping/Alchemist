@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import ltd.matrixstudios.alchemist.listener.VelocityListener
 import ltd.matrixstudios.alchemist.lockdown.LockdownCommand
+import ltd.matrixstudios.alchemist.lockdown.LockdownManager
 import ltd.matrixstudios.alchemist.statistics.ConnectionStatsCommand
 import ltd.matrixstudios.alchemist.service.fakeplayers.FakePlayerCountService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
@@ -90,6 +91,10 @@ class AlchemistVelocity @Inject constructor(val server: ProxyServer, val logger:
             } catch (ignored: Throwable)
             {
             }
+        }.repeat(3, TimeUnit.SECONDS).schedule()
+
+        server.scheduler.buildTask(this) {
+            LockdownManager.refreshCache()
         }.repeat(3, TimeUnit.SECONDS).schedule()
     }
 

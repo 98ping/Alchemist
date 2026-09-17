@@ -11,6 +11,7 @@ import com.velocitypowered.api.event.permission.PermissionsSetupEvent
 import com.velocitypowered.api.event.player.ServerConnectedEvent
 import com.velocitypowered.api.event.proxy.ProxyPingEvent
 import com.velocitypowered.api.proxy.Player
+import com.velocitypowered.api.proxy.server.ServerPing
 import ltd.matrixstudios.alchemist.AlchemistVelocity
 import ltd.matrixstudios.alchemist.lockdown.LockdownManager
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
@@ -135,6 +136,12 @@ class VelocityListener(private val plugin: AlchemistVelocity) {
     @Subscribe
     fun onServerListPing(event: ProxyPingEvent) {
         ConnectionStatisticsService.trackServerListPing()
+
+        if (LockdownManager.cachedServerIsOnLockdown()) {
+            event.ping = event.ping.asBuilder()
+                .version(ServerPing.Version(-1, "Whitelisted"))
+                .build()
+        }
 
         val fakes = FakePlayerCountService.cachedTotal()
         if (fakes <= 0) return
