@@ -1,5 +1,6 @@
 package ltd.matrixstudios.alchemist.queue.task
 
+import ltd.matrixstudios.alchemist.queue.QueueLeader
 import ltd.matrixstudios.alchemist.queue.packet.QueueRemovePlayerPacket
 import ltd.matrixstudios.alchemist.queue.packet.QueueSendPlayerPacket
 import ltd.matrixstudios.alchemist.queue.packet.QueueUpdatePacket
@@ -7,18 +8,13 @@ import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import ltd.matrixstudios.alchemist.service.queue.QueueService
 import org.bukkit.scheduler.BukkitRunnable
 
-/**
- * Class created on 7/12/2023
-
- * @author 98ping
- * @project Alchemist
- * @website https://solo.to/redis
- */
 class QueueSendTask : BukkitRunnable()
 {
 
     override fun run()
     {
+        if (!QueueLeader.claim()) return
+
         for (queue in QueueService.cache.values)
         {
             if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null)
